@@ -207,7 +207,7 @@ export default function AdminSettingsPage() {
                             <div className="flex justify-center mt-4">
                                  <Button onClick={handleUploadBanner}>
                                     <Upload className="mr-2 h-4 w-4" />
-                                    Upload Branding Photo
+                                    Upload Banner
                                 </Button>
                             </div>
                         </div>
