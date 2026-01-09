@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { PaintBrush, Image as ImageIcon, Upload, GitBranch } from 'lucide-react';
+import { Paintbrush, Image as ImageIcon, Upload, GitBranch } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ export default function AdminSettingsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <PaintBrush className="h-5 w-5 text-accent" />
+              <Paintbrush className="h-5 w-5 text-accent" />
               Theme & Branding
             </CardTitle>
              <CardDescription>
