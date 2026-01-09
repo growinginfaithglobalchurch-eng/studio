@@ -161,6 +161,33 @@ export const feedItems = [
   },
 ];
 
+export const events = [
+  {
+    id: 1,
+    title: 'Prophetic Encounter Night',
+    speaker: 'Prophetess Norah Tryson',
+    date: new Date(2024, 7, 15), // Note: Month is 0-indexed, so 7 is August
+    time: '7:00 PM - 9:00 PM EST',
+    isLive: false,
+  },
+  {
+    id: 2,
+    title: 'Kingdom Finance Workshop',
+    speaker: 'The Bondservant of Christ Joseph Tryson',
+    date: new Date(2024, 7, 22),
+    time: '10:00 AM - 1:00 PM EST',
+    isLive: false,
+  },
+   {
+    id: 3,
+    title: 'Sunday Worship Service',
+    speaker: 'Faith Connect Worship',
+    date: new Date(),
+    time: '11:00 AM EST',
+    isLive: true,
+  },
+];
+
 
 export const availableContent = [
   'Morning Manna: A New Day\'s Mercies',

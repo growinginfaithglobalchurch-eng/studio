@@ -27,6 +27,7 @@ import {
   Briefcase,
   Sparkles,
   Globe,
+  Calendar,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -46,6 +47,7 @@ const mainNav = [
   { href: '/resources', label: 'Resources', icon: <Library className="h-4 w-4" /> },
   { href: '/prayer', label: 'Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
   { href: '/live', label: 'Live Sessions', icon: <Clapperboard className="h-4 w-4" /> },
+  { href: '/events', label: 'Events', icon: <Calendar className="h-4 w-4" /> },
   { href: '/ministries', label: 'Activation', icon: <HandHelping className="h-4 w-4" /> },
   { href: '/giving', label: 'Giving', icon: <Gift className="h-4 w-4" /> },
   { href: '/launch-sermon', label: 'Launch Sermon', icon: <Sparkles className="h-4 w-4" /> },
