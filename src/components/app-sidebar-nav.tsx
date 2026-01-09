@@ -23,6 +23,7 @@ import {
   Wind,
   HeartPulse,
   Voicemail,
+  Swords,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -56,6 +57,7 @@ const communityNav = [
   { href: '/school-of-the-spirit', label: 'School of the Spirit', icon: <Wind className="h-4 w-4" /> },
   { href: '/school-of-healing', label: 'School of Healing', icon: <HeartPulse className="h-4 w-4" /> },
   { href: '/school-of-prophet', label: 'School of the Prophet', icon: <Voicemail className="h-4 w-4" /> },
+  { href: '/school-of-deliverance', label: 'School of Deliverance', icon: <Swords className="h-4 w-4" /> },
   { href: '/kids', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
 ]
 
