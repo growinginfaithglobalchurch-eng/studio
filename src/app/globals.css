@@ -22,8 +22,8 @@
     --muted: 220 20% 20%;
     --muted-foreground: 0 0% 60%;
 
-    --accent: 225 73% 57%; /* Deep Blue */
-    --accent-foreground: 0 0% 98%;
+    --accent: 45 100% 51%; /* Gold */
+    --accent-foreground: 220 40% 5%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -68,8 +68,8 @@
     --muted: 220 40% 95%;
     --muted-foreground: 220 20% 40%;
     
-    --accent: 225 73% 57%; /* Deep Blue */
-    --accent-foreground: 0 0% 98%;
+    --accent: 45 100% 51%; /* Gold */
+    --accent-foreground: 220 40% 5%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
