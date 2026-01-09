@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, MessageCircle, Users, User } from 'lucide-react';
+import { Home, MessageCircle, Users, User, Handshake } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/dashboard', icon: <Home className="h-5 w-5" />, label: 'Home' },
+  { href: '/connect', icon: <Handshake className="h-5 w-5" />, label: 'Connect' },
   { href: '/chat', icon: <MessageCircle className="h-5 w-5" />, label: 'Chat' },
-  { href: '/groups', icon: <Users className="h-5 w-5" />, label: 'Groups' },
   { href: '/profile', icon: <User className="h-5 w-5" />, label: 'Me' },
 ];
 

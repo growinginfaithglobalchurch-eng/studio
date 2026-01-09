@@ -1,30 +1,30 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, UserCheck, Clapperboard, ArrowRight } from 'lucide-react';
+import { BookOpen, Star, HandHelping, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-const connectionFeatures = [
+const engagementFeatures = [
   {
-    icon: <Users className="h-10 w-10 text-accent" />,
-    title: 'Faith Groups',
-    description: 'Join vibrant communities to share, learn, and grow with fellow believers.',
-    href: '/groups',
-    cta: 'Explore Groups',
+    icon: <BookOpen className="h-10 w-10 text-accent" />,
+    title: 'Daily Faith Practices',
+    description: 'Nourish your spirit with daily devotionals, prayer requests, and community worship.',
+    href: '/devotionals',
+    cta: 'Start Daily Practices',
   },
   {
-    icon: <UserCheck className="h-10 w-10 text-accent" />,
-    title: 'Mentorship Tracks',
-    description: 'Connect with seasoned leaders for personalized guidance and spiritual development.',
-    href: '/mentorship',
-    cta: 'Find a Mentor',
-  },
-  {
-    icon: <Clapperboard className="h-10 w-10 text-accent" />,
-    title: 'Live Sessions',
-    description: 'Participate in live worship, teachings, and interactive events with the global community.',
+    icon: <Star className="h-10 w-10 text-accent" />,
+    title: 'Learning Journeys',
+    description: 'Engage with courses, teachings, and live sessions to deepen your understanding.',
     href: '/live',
-    cta: 'Join Live',
+    cta: 'Begin Learning',
+  },
+  {
+    icon: <HandHelping className="h-10 w-10 text-accent" />,
+    title: 'Kingdom Service',
+    description: 'Discover your calling, connect with ministries, and find opportunities to serve.',
+    href: '/ministries',
+    cta: 'Find Your Place',
   },
 ];
 
@@ -32,13 +32,13 @@ export default function ConnectPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-headline font-bold">Community Connection</h1>
+        <h1 className="text-3xl font-headline font-bold">Activation & Engagement</h1>
         <p className="text-white">
-          Build relationships, find mentorship, and engage in live events.
+          Begin your journey of growth and purpose.
         </p>
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {connectionFeatures.map((feature) => (
+        {engagementFeatures.map((feature) => (
           <Card key={feature.title} className="flex flex-col">
             <CardHeader className="items-center text-center">
                 <div className="p-4 bg-muted rounded-full">
