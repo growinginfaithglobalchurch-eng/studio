@@ -37,7 +37,7 @@ export default function DashboardPage() {
 
       <Card>
         <CardHeader>
-             <h2 className="text-lg font-semibold tracking-tight text-foreground">Stories</h2>
+             <h2 className="text-lg font-semibold tracking-tight text-card-foreground">Stories</h2>
         </CardHeader>
         <CardContent>
             <ScrollArea className="w-full whitespace-nowrap">
@@ -56,7 +56,7 @@ export default function DashboardPage() {
                                 </div>
                             )}
                         </div>
-                        <p className="text-xs text-center text-foreground truncate w-full">{story.name}</p>
+                        <p className="text-xs text-center text-card-foreground truncate w-full">{story.name}</p>
                     </div>
                     </Link>
                 ))}
@@ -69,7 +69,7 @@ export default function DashboardPage() {
       <CreatePostForm />
 
       <div className="space-y-4">
-         <h2 className="text-lg font-semibold tracking-tight text-foreground">Community Feed</h2>
+         <h2 className="text-lg font-semibold tracking-tight text-card-foreground">Community Feed</h2>
         {feedItems.map((item, index) => (
          <React.Fragment key={item.id}>
             <Card>
@@ -83,17 +83,17 @@ export default function DashboardPage() {
                     </Link>
                     <div className="flex-grow">
                     <div className="flex items-center gap-2">
-                        <p className="text-sm">
-                        <Link href={item.href} className="font-semibold hover:underline text-foreground">{item.user}</Link>
-                        <span className="text-muted-foreground"> {item.content}</span>
+                        <p className="text-sm text-black">
+                        <Link href={item.href} className="font-semibold hover:underline text-card-foreground">{item.user}</Link>
+                        <span className="text-black/60"> {item.content}</span>
                         </p>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">{item.timestamp}</p>
+                    <p className="text-xs text-black/60 mt-1">{item.timestamp}</p>
                     </div>
                 </div>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-sm text-foreground/90">{item.details}</p>
+                    <p className="text-sm text-card-foreground/90">{item.details}</p>
                 </CardContent>
             </Card>
             {index < feedItems.length - 1 && <Separator />}
