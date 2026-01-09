@@ -80,7 +80,7 @@ export function CreatePostForm() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className={cn(
-                'border-0 border-b-2 rounded-none px-0 text-lg font-bold focus-visible:ring-0',
+                'border-0 border-b-2 rounded-none px-0 text-lg font-bold focus-visible:ring-0 text-white',
                 isBold && 'font-bold',
                 isItalic && 'italic',
                 isUnderlined && 'underline',
@@ -127,7 +127,7 @@ export function CreatePostForm() {
 
             <Textarea
               placeholder="What's on your mind?"
-              className="min-h-[120px]"
+              className="min-h-[120px] text-white"
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
@@ -135,6 +135,7 @@ export function CreatePostForm() {
                 placeholder="Categories (e.g. Faith, Encouragement, Testimony)" 
                 value={categories}
                 onChange={(e) => setCategories(e.target.value)}
+                className="text-white"
             />
 
             <div className="flex justify-between items-center">
