@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Gamepad2, BookText, Mic, Video, Calendar, MessageSquare, Shield } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Link from 'next/link';
 
 const kidsContent = {
     image: PlaceHolderImages.find(p => p.id === 'community-feature'),
@@ -52,7 +53,9 @@ export default function KidsConnectPage() {
           <div className="relative aspect-video w-full overflow-hidden rounded-lg">
              <Image src={kidsContent.image.imageUrl} alt={kidsContent.title} fill className="object-cover" data-ai-hint={kidsContent.image.imageHint}/>
              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-                <Button size="lg">Join the Fun!</Button>
+                <Button size="lg" asChild>
+                    <Link href="/signup">Join the Fun!</Link>
+                </Button>
              </div>
           </div>
       )}
