@@ -77,7 +77,15 @@
     color: hsl(var(--card-foreground));
   }
   
-  .dark .card * {
+  .dark .card p,
+  .dark .card div,
+  .dark .card span,
+  .dark .card h1,
+  .dark .card h2,
+  .dark .card h3,
+  .dark .card h4,
+  .dark .card h5,
+  .dark .card h6 {
     color: hsl(var(--card-foreground));
   }
 
