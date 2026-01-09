@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/sheet';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useRouter } from 'next/navigation';
+import { AppSidebarNav } from './app-sidebar-nav';
 
 export function AppHeader() {
   const router = useRouter();
@@ -47,6 +48,26 @@ export function AppHeader() {
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6 shrink-0">
       
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="shrink-0 md:hidden"
+          >
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">Toggle navigation menu</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="flex flex-col p-0">
+           <SheetHeader className="p-4 border-b">
+             <SheetTitle className="sr-only">Menu</SheetTitle>
+             <SheetDescription className="sr-only">Main navigation for the application.</SheetDescription>
+           </SheetHeader>
+          <AppSidebarNav />
+        </SheetContent>
+      </Sheet>
+
       <div className="w-full flex-1">
         <form onSubmit={handleSearch}>
           <div className="relative">
