@@ -138,28 +138,32 @@ export default function LandingPage() {
         </section>
 
         <section className="bg-secondary py-12 md:py-24">
-           <div className="container mx-auto grid items-center gap-12 px-4 md:grid-cols-2 md:px-6">
-             <div className="space-y-4">
-                <div className="inline-block rounded-lg bg-accent px-3 py-1 text-sm text-accent-foreground">Our Vision</div>
-               <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-                 Cultivating a Global Community of Empowered Believers
-               </h2>
-               <p className="text-muted-foreground md:text-xl/relaxed">
-                We exist to ignite and sustain a lifestyle of faith that produces lasting transformation in individuals, families, and nations—revealing God’s power, presence, and purpose in everyday life.
-               </p>
-             </div>
-             <div className="flex flex-col gap-6">
-                {values.map((value) => (
-                    <div key={value.title} className="flex items-start gap-4">
-                        {value.icon}
-                        <div>
-                            <h3 className="text-lg font-bold">{value.title}</h3>
-                            <p className="text-muted-foreground">{value.description}</p>
+          <div className="container px-4 md:px-6">
+            <Card className="p-8 md:p-12">
+              <div className="grid items-center gap-12 md:grid-cols-2">
+                <div className="space-y-4">
+                    <div className="inline-block rounded-lg bg-accent px-3 py-1 text-sm text-accent-foreground">Our Vision</div>
+                  <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
+                    Cultivating a Global Community of Empowered Believers
+                  </h2>
+                  <p className="text-muted-foreground md:text-xl/relaxed">
+                    We exist to ignite and sustain a lifestyle of faith that produces lasting transformation in individuals, families, and nations—revealing God’s power, presence, and purpose in everyday life.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-6">
+                    {values.map((value) => (
+                        <div key={value.title} className="flex items-start gap-4">
+                            {value.icon}
+                            <div>
+                                <h3 className="text-lg font-bold">{value.title}</h3>
+                                <p className="text-muted-foreground">{value.description}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
-             </div>
-           </div>
+                    ))}
+                </div>
+              </div>
+            </Card>
+          </div>
         </section>
 
         <section id="founders" className="py-12 md:py-24">
