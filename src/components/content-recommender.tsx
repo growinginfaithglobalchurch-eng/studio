@@ -29,7 +29,7 @@ export function ContentRecommender() {
             <CardTitle className="font-headline text-2xl text-accent font-bold">
               Recommended For You
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white">
               Based on your recent activity and prayer requests.
             </CardDescription>
           </div>
