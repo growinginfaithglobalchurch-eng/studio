@@ -13,7 +13,7 @@ export default function LivePage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-headline font-bold">Live & On-Demand</h1>
-        <p className="text-white">
+        <p className="text-muted-foreground">
           Join live events and catch up on past sessions.
         </p>
       </div>

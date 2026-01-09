@@ -1,4 +1,4 @@
-
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -59,31 +59,12 @@ const values = [
 ]
 
 
-export default function LandingPage() {
+export default function DashboardClientPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <Church className="h-8 w-8 text-accent" />
-            <span className="text-lg font-headline font-bold text-foreground">
-              Faith Connect Global
-            </span>
-          </Link>
-          <nav className="flex items-center gap-4">
-            <Button variant="ghost" asChild>
-              <Link href="/login">Log In</Link>
-            </Button>
-            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="/signup">Get Started</Link>
-            </Button>
-          </nav>
-        </div>
-      </header>
-
+    <div className="flex min-h-screen flex-col bg-background -m-4 lg:-m-6">
       <main className="flex-1">
         <section className="relative">
-          <div className="container px-0 md:px-6">
+          <div className="px-0 md:px-6">
             <AspectRatio ratio={16 / 9} className="relative">
               <Image
                 src={PlaceHolderImages.find(img => img.id === 'hero')?.imageUrl || ''}
@@ -93,7 +74,7 @@ export default function LandingPage() {
                 priority
                 data-ai-hint="worship congregation"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent md:bg-gradient-to-t md:from-background/30 md:to-transparent" />
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
                 <div className="container px-4 md:px-6">
                   <h1 className="font-headline text-4xl font-bold tracking-wide text-white sm:text-5xl md:text-6xl lg:text-7xl">
@@ -104,10 +85,10 @@ export default function LandingPage() {
                   </p>
                   <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                     <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                      <Link href="/signup">Join the Community</Link>
+                      <Link href="/profile">View Your Profile</Link>
                     </Button>
                     <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10">
-                      <Link href="/#features">Learn More</Link>
+                      <Link href="/connect">Connect with Others</Link>
                     </Button>
                   </div>
                 </div>
@@ -129,7 +110,7 @@ export default function LandingPage() {
             </div>
             <div className="grid gap-8 md:grid-cols-3">
               {features.map((feature, index) => (
-                <Card key={index} className="overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 bg-card">
+                <Card key={index} className="overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1">
                   <CardHeader className="flex flex-col items-center text-center p-6">
                     {feature.icon}
                     <CardTitle className="mt-4 font-headline font-bold">{feature.title}</CardTitle>
@@ -145,7 +126,7 @@ export default function LandingPage() {
 
         <section className="bg-secondary py-12 md:py-24">
           <div className="container px-4 md:px-6">
-            <Card className="p-8 md:p-12 bg-card">
+            <Card className="p-8 md:p-12">
               <div className="grid items-center gap-12 md:grid-cols-2">
                 <div className="space-y-4">
                     <div className="inline-block rounded-lg bg-accent px-3 py-1 text-sm text-accent-foreground">Our Vision</div>
@@ -180,7 +161,7 @@ export default function LandingPage() {
               </h2>
             </div>
             <div className="grid gap-10 md:grid-cols-2">
-                <Card className="flex flex-col items-center p-8 text-center bg-card">
+                <Card className="flex flex-col items-center p-8 text-center">
                     <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
                         <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl} alt="Joseph Tryson"/>
                         <AvatarFallback>JT</AvatarFallback>
@@ -188,7 +169,7 @@ export default function LandingPage() {
                     <h3 className="font-headline text-xl font-bold">The Bondservant of Christ, Joseph Tryson</h3>
                     <p className="mt-2 text-muted-foreground">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
                 </Card>
-                 <Card className="flex flex-col items-center p-8 text-center bg-card">
+                 <Card className="flex flex-col items-center p-8 text-center">
                     <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
                         <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-2')?.imageUrl} alt="Prophetess Norah Tryson"/>
                         <AvatarFallback>NT</AvatarFallback>
@@ -199,24 +180,7 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-
       </main>
-
-      <footer className="bg-secondary text-secondary-foreground">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Faith Connect Global. All Rights Reserved.
-          </p>
-          <nav className="flex gap-4">
-            <Link href="#" className="text-sm hover:underline text-muted-foreground">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-sm hover:underline text-muted-foreground">
-              Terms of Service
-            </Link>
-          </nav>
-        </div>
-      </footer>
     </div>
   );
 }

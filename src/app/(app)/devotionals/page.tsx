@@ -11,7 +11,7 @@ export default function DevotionalsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-headline font-bold">Daily Devotionals</h1>
-        <p className="text-white">
+        <p className="text-muted-foreground">
           Nourish your spirit with daily wisdom and encouragement.
         </p>
       </div>

@@ -43,7 +43,7 @@ export default function SearchPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-headline font-bold">Search Results</h1>
-        <p className="text-white">
+        <p className="text-muted-foreground">
           {query ? `Found ${totalResults} results for "${query}"` : 'Enter a term to search.'}
         </p>
       </div>

@@ -59,8 +59,8 @@ export function AppHeader() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="flex flex-col p-0">
-           <SheetHeader className="p-4 border-b">
+        <SheetContent side="left" className="flex flex-col p-0 bg-sidebar text-sidebar-foreground">
+           <SheetHeader className="p-4 border-b border-sidebar-border">
              <SheetTitle className="sr-only">Menu</SheetTitle>
              <SheetDescription className="sr-only">Main navigation for the application.</SheetDescription>
            </SheetHeader>
@@ -85,7 +85,7 @@ export function AppHeader() {
       {isLoggedIn ? (
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" className="rounded-full">
-            <Bell className="h-5 w-5 text-card-foreground" />
+            <Bell className="h-5 w-5" />
             <span className="sr-only">Notifications</span>
           </Button>
           <DropdownMenu>

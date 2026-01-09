@@ -30,7 +30,7 @@ export default function FeedsPage() {
     <div className="space-y-6 max-w-3xl mx-auto">
       <div>
         <h1 className="text-3xl font-headline font-bold">Feeds & Stories</h1>
-        <p className="text-white">
+        <p className="text-muted-foreground">
           Catch up on stories and see what's happening in the community.
         </p>
       </div>
@@ -51,7 +51,7 @@ export default function FeedsPage() {
                                 <AvatarFallback>{story.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                              {story.id === 'current-user' && (
-                                <div className="absolute -bottom-1 -right-1 bg-background rounded-full">
+                                <div className="absolute -bottom-1 -right-1 bg-card rounded-full">
                                     <PlusCircle className="h-6 w-6 text-primary"/>
                                 </div>
                             )}
@@ -113,8 +113,8 @@ export default function FeedsPage() {
                 <div className="flex-grow">
                   <div className="flex items-center gap-2">
                     {iconMap[item.type as keyof typeof iconMap] || iconMap.default}
-                    <p className="text-sm text-card-foreground">
-                      <Link href={item.href} className="font-semibold hover:underline text-card-foreground">{item.user}</Link> {item.content}
+                    <p className="text-sm">
+                      <Link href={item.href} className="font-semibold hover:underline">{item.user}</Link> {item.content}
                     </p>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">{item.timestamp}</p>
@@ -123,7 +123,7 @@ export default function FeedsPage() {
             </CardHeader>
             <CardContent className="p-4 pt-0 pl-16">
               <Card className="bg-secondary p-3">
-                 <p className="text-sm text-card-foreground line-clamp-3">{item.details}</p>
+                 <p className="text-sm line-clamp-3">{item.details}</p>
               </Card>
             </CardContent>
           </Card>

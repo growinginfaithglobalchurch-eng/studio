@@ -48,7 +48,7 @@ export function ContentRecommender() {
   }, []);
 
   return (
-    <Card className="bg-primary/5 border-primary/20 col-span-1 lg:col-span-2">
+    <Card className="bg-primary/5 border-primary/20 col-span-1 lg:col-span-1">
       <CardHeader>
         <div className="flex items-center gap-3">
           <Wand2 className="h-6 w-6 text-accent" />
@@ -56,7 +56,7 @@ export function ContentRecommender() {
             <CardTitle className="font-headline text-2xl text-accent font-bold">
               Your Personalized Faith Path
             </CardTitle>
-            <CardDescription className="text-white">
+            <CardDescription>
               AI-powered recommendations to guide your spiritual journey.
             </CardDescription>
           </div>
@@ -85,7 +85,7 @@ export function ContentRecommender() {
                   return (
                     <div
                       key={key}
-                      className="flex items-start gap-4 rounded-lg bg-card p-4 text-card-foreground"
+                      className="flex items-start gap-4 rounded-lg bg-card p-4"
                     >
                       <div className="flex-shrink-0">{categoryIcons[key]}</div>
                       <div className="flex-grow">
