@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -74,7 +75,7 @@ export default function DashboardClientPage() {
                 priority
                 data-ai-hint="worship congregation"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent md:bg-gradient-to-t md:from-background/30 md:to-transparent" />
+              
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
                 <div className="container px-4 md:px-6">
                   <h1 className="font-headline text-4xl font-bold tracking-wide text-white sm:text-5xl md:text-6xl lg:text-7xl">
