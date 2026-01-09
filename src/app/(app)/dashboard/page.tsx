@@ -37,10 +37,10 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-3xl font-headline font-bold">
-          Welcome back, Joseph!
+          Welcome, Child of God!
         </h1>
         <p className="text-white">
-          Here is your spiritual growth journey at a glance.
+          You are here for a purpose. Let's walk in it together.
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
