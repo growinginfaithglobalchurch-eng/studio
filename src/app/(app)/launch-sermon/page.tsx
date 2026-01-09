@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button }sfrom "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { ScrollText, Sparkles, Printer } from "lucide-react";
 
 export default function LaunchSermonPage() {
