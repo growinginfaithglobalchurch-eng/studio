@@ -239,6 +239,17 @@ export const mentorshipClasses = [
     }
 ];
 
+export const discipleship = {
+    personal: [
+        { id: 1, discipleId: 3, disciplerId: 1 },
+        { id: 2, discipleId: 4, disciplerId: 2 },
+    ],
+    general: [
+        { id: 1, title: 'Foundations of Discipleship', description: 'Weekly meeting covering the fundamentals of following Christ.'},
+        { id: 2, title: 'Marketplace Discipleship', description: 'Monthly cohort for professionals seeking to integrate faith and work.'},
+    ]
+};
+
 
 export const availableContent = [
   'Morning Manna: A New Day\'s Mercies',

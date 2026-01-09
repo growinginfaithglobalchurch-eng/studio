@@ -79,6 +79,7 @@ const adminNav = [
     { href: '/admin/conferences', label: 'Conferences', icon: <Calendar className="h-4 w-4" /> },
     { href: '/admin/courses', label: 'Courses', icon: <GraduationCap className="h-4 w-4" /> },
     { href: '/admin/mentorship', label: 'Mentorship', icon: <UserCheck className="h-4 w-4" /> },
+    { href: '/admin/discipleship', label: 'Discipleship', icon: <Users className="h-4 w-4" /> },
 ]
 
 export function AppSidebarNav() {
