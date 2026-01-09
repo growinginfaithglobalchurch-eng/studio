@@ -90,15 +90,7 @@
   }
 
   .dark .card .text-muted-foreground {
-    color: hsl(0 0% 40%);
-  }
-
-  .dark p {
-    color: white;
-  }
-  
-  .dark .card p {
-    color: hsl(var(--card-foreground)) !important;
+    color: hsl(0 0% 40%) !important;
   }
 }
 
