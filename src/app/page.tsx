@@ -11,10 +11,14 @@ import {
   Target,
   Gem,
   Rocket,
+  ShieldCheck,
+  BookMarked,
+  Eye,
+  UserCheck,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
@@ -55,6 +59,25 @@ const values = [
       icon: <Gem className="h-8 w-8 text-accent" />,
       title: "Our Purpose",
       description: "To make spiritual growth accessible, structured, and transformational for believers everywhere—turning faith into lifestyle and revelation into impact."
+    }
+]
+
+const leadershipPoints = [
+    {
+        icon: <ShieldCheck className="h-6 w-6 text-accent" />,
+        title: "Apostolic & Prophetic Foundation",
+    },
+    {
+        icon: <BookMarked className="h-6 w-6 text-accent" />,
+        title: "Doctrinal Depth & Revelatory Accuracy",
+    },
+    {
+        icon: <Eye className="h-6 w-6 text-accent" />,
+        title: "Spiritual Oversight & Vision Alignment",
+    },
+    {
+        icon: <UserCheck className="h-6 w-6 text-accent" />,
+        title: "Mandate to Raise a Mature End-Time Generation",
     }
 ]
 
@@ -171,8 +194,11 @@ export default function LandingPage() {
               <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
                 Meet the Founders
               </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                Founded by The Bondservant of Christ, Joseph Tryson, with Prophetess Norah Tryson.
+              </p>
             </div>
-            <div className="grid gap-10 md:grid-cols-2">
+            <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
                 <Card className="flex flex-col items-center p-8 text-center bg-card">
                     <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
                         <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl} alt="Joseph Tryson"/>
@@ -188,6 +214,22 @@ export default function LandingPage() {
                     </Avatar>
                     <h3 className="font-headline text-xl font-bold text-card-foreground">Prophetess Norah Tryson</h3>
                     <p className="mt-2 text-black/60">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
+                </Card>
+                <Card className="flex flex-col p-8 bg-card lg:col-span-2 lg:row-start-1 lg:col-start-3">
+                     <CardHeader className="p-0 text-center">
+                        <CardTitle className="font-headline text-xl font-bold text-card-foreground">Our Leadership Covering</CardTitle>
+                        <CardDescription className="mt-2">Their leadership provides:</CardDescription>
+                     </CardHeader>
+                     <CardContent className="mt-6">
+                        <ul className="space-y-4">
+                            {leadershipPoints.map((point) => (
+                                <li key={point.title} className="flex items-center gap-4">
+                                    {point.icon}
+                                    <span className="font-medium text-card-foreground">{point.title}</span>
+                                </li>
+                            ))}
+                        </ul>
+                     </CardContent>
                 </Card>
             </div>
           </div>
