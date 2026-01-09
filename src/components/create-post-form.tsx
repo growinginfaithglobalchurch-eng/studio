@@ -84,7 +84,7 @@ export function CreatePostForm() {
                 onValueChange={(value) => setFontStyle(value)}
                 defaultValue={fontStyle}
               >
-                <SelectTrigger className="w-[150px]">
+                <SelectTrigger className="w-[150px] text-foreground">
                   <SelectValue placeholder="Font Style" />
                 </SelectTrigger>
                 <SelectContent>
@@ -123,4 +123,3 @@ export function CreatePostForm() {
     </Card>
   );
 }
-
