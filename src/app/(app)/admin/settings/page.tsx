@@ -1,14 +1,51 @@
 
+'use client';
+
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Paintbrush, Image as ImageIcon, Upload, GitBranch, FileImage, Wallpaper } from 'lucide-react';
+import { Paintbrush, Image as ImageIcon, Upload, GitBranch, FileImage, Wallpaper, X } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 export default function AdminSettingsPage() {
+    const { toast } = useToast();
+    const [logoFile, setLogoFile] = useState<File | null>(null);
+    const [logoPreview, setLogoPreview] = useState<string | null>(null);
+
     const logos = PlaceHolderImages.filter(image => image.imageHint?.includes('logo')).slice(0, 3);
     const banners = PlaceHolderImages.filter(image => image.id.includes('hero') || image.id.includes('banner')).slice(0, 4);
+
+    const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setLogoFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setLogoPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleRemoveLogo = () => {
+        setLogoFile(null);
+        setLogoPreview(null);
+    };
+
+    const handleUploadLogo = () => {
+        if (!logoFile) return;
+        // Here you would typically upload the file to your backend/storage
+        toast({
+            title: "Logo Uploaded",
+            description: `${logoFile.name} has been uploaded successfully.`,
+        });
+        // You might want to clear the preview after upload or add the new logo to the list
+        handleRemoveLogo();
+    };
 
   return (
     <div className="space-y-8">
@@ -68,13 +105,35 @@ export default function AdminSettingsPage() {
                     ))}
                 </div>
                  <div className="flex items-center justify-center w-full">
-                    <label htmlFor="logo-dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-secondary">
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                            <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
-                            <p className="text-sm text-muted-foreground"><span className="font-semibold">Upload a Logo</span></p>
+                    {!logoPreview ? (
+                        <label htmlFor="logo-dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-secondary">
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                                <p className="text-sm text-muted-foreground"><span className="font-semibold">Upload a Logo</span></p>
+                            </div>
+                            <input id="logo-dropzone-file" type="file" className="hidden" onChange={handleLogoChange} accept="image/png, image/jpeg, image/svg+xml" />
+                        </label>
+                    ) : (
+                        <div className="w-full">
+                            <div className="relative w-full max-w-sm mx-auto h-32 rounded-lg border p-2">
+                                <Image src={logoPreview} alt="Logo preview" fill className="object-contain" />
+                                <Button
+                                    variant="destructive"
+                                    size="icon"
+                                    className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                                    onClick={handleRemoveLogo}
+                                >
+                                    <X className="h-4 w-4" />
+                                </Button>
+                            </div>
+                            <div className="flex justify-center mt-4">
+                                 <Button onClick={handleUploadLogo}>
+                                    <Upload className="mr-2 h-4 w-4" />
+                                    Upload Logo
+                                </Button>
+                            </div>
                         </div>
-                        <input id="logo-dropzone-file" type="file" className="hidden" />
-                    </label>
+                    )}
                 </div> 
             </div>
 
