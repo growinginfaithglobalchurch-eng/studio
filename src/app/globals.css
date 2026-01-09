@@ -11,7 +11,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 224 71% 4%;
     --primary: 45 90% 55%;
-    --primary-foreground: 240 10% 10%;
+    --primary-foreground: 0 0% 0%;
     --secondary: 210 40% 95%;
     --secondary-foreground: 224 71% 4%;
     --muted: 210 40% 95%;
@@ -46,13 +46,13 @@
     --popover: 224 71% 4%;
     --popover-foreground: 0 0% 98%;
     --primary: 45 90% 55%;
-    --primary-foreground: 240 10% 10%;
+    --primary-foreground: 0 0% 0%;
     --secondary: 210 40% 95%;
     --secondary-foreground: 224 71% 4%;
     --muted: 210 40% 95%;
     --muted-foreground: 0 0% 40%;
     --accent: 45 90% 55%;
-    --accent-foreground: 240 10% 10%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 40% 90%;
@@ -73,7 +73,11 @@
     --sidebar-ring: 45 100% 51%;
   }
 
-  .dark .card, .dark .card * {
+  .dark .card {
+    color: hsl(var(--card-foreground));
+  }
+  
+  .dark .card * {
     color: hsl(var(--card-foreground));
   }
 
