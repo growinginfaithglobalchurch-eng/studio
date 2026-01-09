@@ -9,6 +9,8 @@ import {
   Clapperboard,
   HeartHandshake,
   LayoutDashboard,
+  MessageSquarePlus,
+  PlusCircle,
   Settings,
   Users,
   User,
@@ -22,6 +24,9 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarSeparator,
 } from '@/components/ui/sidebar';
 
 const menuItems = [
@@ -80,6 +85,30 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="p-4 pt-0">
+         <SidebarGroup>
+            <SidebarGroupLabel>Quick Actions</SidebarGroupLabel>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <Link href="/prayer">
+                        <SidebarMenuButton size="sm">
+                            <PlusCircle />
+                            <span>Submit a Prayer</span>
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                    <Link href="/connect">
+                        <SidebarMenuButton size="sm">
+                            <MessageSquarePlus />
+                            <span>Start a Discussion</span>
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.href}>
