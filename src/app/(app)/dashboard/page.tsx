@@ -39,7 +39,7 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-headline font-bold">
           Welcome back, Joseph!
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-white">
           Here is your spiritual growth journey at a glance.
         </p>
       </div>
