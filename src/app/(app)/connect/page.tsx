@@ -10,7 +10,7 @@ export default function ConnectPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-headline font-bold">Connect with the Community</h1>
-        <p className="text-muted-foreground">
+        <p className="text-white">
           Find and build relationships with believers from across the world.
         </p>
       </div>
