@@ -93,7 +93,6 @@ export default function LandingPage() {
                 priority
                 data-ai-hint="worship congregation"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:rounded-lg" />
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
                 <div className="container px-4 md:px-6">
                   <h1 className="font-headline text-4xl font-bold tracking-wide text-white sm:text-5xl md:text-6xl lg:text-7xl">
@@ -106,7 +105,7 @@ export default function LandingPage() {
                     <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
                       <Link href="/dashboard">Join the Community</Link>
                     </Button>
-                    <Button size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10">
+                    <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
                       Learn More
                     </Button>
                   </div>
