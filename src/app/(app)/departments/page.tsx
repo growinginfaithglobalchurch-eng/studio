@@ -1,8 +1,26 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { departments } from "@/lib/data";
-import { Handshake, UserPlus } from "lucide-react";
+import { departments, Department } from "@/lib/data";
+import { Handshake, UserPlus, Music, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users, Briefcase } from "lucide-react";
+import React from "react";
+
+const iconMap: { [key: string]: React.ReactNode } = {
+  'Music': <Music className="h-6 w-6 text-accent" />,
+  'Handshake': <Handshake className="h-6 w-6 text-accent" />,
+  'Music2': <Music2 className="h-6 w-6 text-accent" />,
+  'Video': <Video className="h-6 w-6 text-accent" />,
+  'Heart': <Heart className="h-6 w-6 text-accent" />,
+  'Wrench': <Wrench className="h-6 w-6 text-accent" />,
+  'Briefcase': <Briefcase className="h-6 w-6 text-accent" />,
+  'DollarSign': <DollarSign className="h-6 w-6 text-accent" />,
+  'HeartHandshake': <HeartHandshake className="h-6 w-6 text-accent" />,
+  'Baby': <Baby className="h-6 w-6 text-accent" />,
+  'PenSquare': <PenSquare className="h-6 w-6 text-accent" />,
+  'Shield': <Shield className="h-6 w-6 text-accent" />,
+  'Users': <Users className="h-6 w-6 text-accent" />,
+};
+
 
 export default function DepartmentsPage() {
   return (
@@ -20,11 +38,11 @@ export default function DepartmentsPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {departments.map((dept) => (
+        {departments.map((dept: Department) => (
           <Card key={dept.name} className="flex flex-col">
             <CardHeader>
                 <div className="flex items-start gap-4">
-                    {dept.icon}
+                    {iconMap[dept.icon]}
                     <div>
                         <CardTitle className="font-headline text-xl">{dept.name}</CardTitle>
                         <CardDescription className="mt-1">{dept.description}</CardDescription>
