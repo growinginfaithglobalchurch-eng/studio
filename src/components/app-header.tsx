@@ -23,7 +23,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { AppSidebar } from './app-sidebar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useRouter } from 'next/navigation';
 
@@ -65,7 +64,7 @@ export function AppHeader() {
       {isLoggedIn ? (
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" className="rounded-full">
-            <Bell className="h-5 w-5 text-foreground" />
+            <Bell className="h-5 w-5 text-card-foreground" />
             <span className="sr-only">Notifications</span>
           </Button>
           <DropdownMenu>
