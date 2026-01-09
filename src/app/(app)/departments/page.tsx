@@ -5,7 +5,7 @@ import { departments, Department } from "@/lib/data";
 import { Handshake, UserPlus, Music, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users, Briefcase } from "lucide-react";
 import React from "react";
 
-const iconMap: { [key: string]: React.ReactNode } = {
+export const iconMap: { [key: string]: React.ReactNode } = {
   'Music': <Music className="h-6 w-6 text-accent" />,
   'Handshake': <Handshake className="h-6 w-6 text-accent" />,
   'Music2': <Music2 className="h-6 w-6 text-accent" />,

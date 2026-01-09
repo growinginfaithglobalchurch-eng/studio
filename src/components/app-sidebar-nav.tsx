@@ -83,6 +83,7 @@ const communityNav = [
 const adminNav = [
     { href: '/admin', label: 'Dashboard', icon: <Home className="h-4 w-4" /> },
     { href: '/admin/announcements', label: 'Announcements', icon: <Megaphone className="h-4 w-4" /> },
+    { href: '/admin/departments', label: 'Departments', icon: <Handshake className="h-4 w-4" /> },
     { href: '/admin/settings', label: 'Settings', icon: <Settings className="h-4 w-4" /> },
     { href: '/admin/roadmap', label: 'Roadmap', icon: <GraduationCap className="h-4 w-4" /> },
     { href: '/admin/global-expansion', label: 'Global Strategy', icon: <Globe className="h-4 w-4" /> },
