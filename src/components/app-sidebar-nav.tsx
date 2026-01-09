@@ -37,6 +37,7 @@ const communityNav = [
   { href: '/connect', label: 'Connect', icon: <Handshake className="h-4 w-4" /> },
   { href: '/groups', label: 'Groups', icon: <Users className="h-4 w-4" /> },
   { href: '/mentorship', label: 'Mentorship', icon: <User className="h-4 w-4" /> },
+  { href: '/friends', label: 'Friends', icon: <Users className="h-4 w-4" /> },
 ]
 
 export function AppSidebarNav() {
