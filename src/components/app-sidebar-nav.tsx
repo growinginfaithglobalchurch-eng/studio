@@ -49,8 +49,8 @@ export function AppSidebarNav() {
           key={item.href}
           href={item.href}
           className={cn(
-            'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-            pathname === item.href && 'bg-muted text-primary'
+            'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
+            pathname === item.href && 'bg-sidebar-muted text-sidebar-foreground'
           )}
         >
           {item.icon}
@@ -60,7 +60,7 @@ export function AppSidebarNav() {
 
       <Accordion type="multiple" defaultValue={['community']} className="w-full">
         <AccordionItem value="community" className="border-b-0">
-          <AccordionTrigger className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:no-underline [&[data-state=open]>svg]:rotate-180">
+          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180 hover:bg-sidebar-muted")}>
             <Users className="h-4 w-4" />
             Community
           </AccordionTrigger>
@@ -71,8 +71,8 @@ export function AppSidebarNav() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-                      pathname === item.href && 'bg-muted text-primary'
+                      'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
+                      pathname === item.href && 'bg-sidebar-muted text-sidebar-foreground'
                     )}
                   >
                     {item.icon}
@@ -87,8 +87,8 @@ export function AppSidebarNav() {
        <Link
           href="/profile"
           className={cn(
-            'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-            pathname === '/profile' && 'bg-muted text-primary'
+            'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
+            pathname === '/profile' && 'bg-sidebar-muted text-sidebar-foreground'
           )}
         >
           <User className="h-4 w-4" />
@@ -97,8 +97,8 @@ export function AppSidebarNav() {
         <Link
           href="/admin"
           className={cn(
-            'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-            pathname === '/admin' && 'bg-muted text-primary'
+            'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
+            pathname === '/admin' && 'bg-sidebar-muted text-sidebar-foreground'
           )}
         >
           <Shield className="h-4 w-4" />
