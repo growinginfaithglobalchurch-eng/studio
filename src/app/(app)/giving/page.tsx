@@ -51,7 +51,7 @@ export default function GivingPage() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {givingWays.map(way => (
-                    <Card key={way.title} className="flex flex-col text-center items-center p-6">
+                    <Card key={way.title} className="text-center flex flex-col items-center p-6">
                         <div className="bg-muted rounded-full p-4">
                             {way.icon}
                         </div>
@@ -62,7 +62,9 @@ export default function GivingPage() {
                              <p className="text-muted-foreground">{way.description}</p>
                         </CardContent>
                         <div className="p-6 pt-0">
-                            <Button>{way.cta}</Button>
+                            <Button asChild>
+                                <Link href="/signup">{way.cta}</Link>
+                            </Button>
                         </div>
                     </Card>
                 ))}
