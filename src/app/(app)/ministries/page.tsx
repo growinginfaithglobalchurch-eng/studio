@@ -1,9 +1,10 @@
 
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ministries } from '@/lib/data';
 import { HandHelping, Briefcase } from 'lucide-react';
+import Link from 'next/link';
 
 const opportunities = [
   {
@@ -51,6 +52,23 @@ export default function MinistriesPage() {
              </Card>
            ))}
        </div>
+
+        <Card>
+            <CardHeader className="flex flex-row items-center gap-4">
+                <Briefcase className="h-8 w-8 text-accent" />
+                <div>
+                    <CardTitle>Church & Ministry Integration</CardTitle>
+                    <CardDescription>
+                        We invite churches and other ministries to partner with us to advance the Kingdom. Let's collaborate on projects, events, and initiatives that bring transformation.
+                    </CardDescription>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <Button variant="outline" asChild>
+                    <Link href="/contact">Contact Us for Partnership</Link>
+                </Button>
+            </CardContent>
+        </Card>
 
       <div>
         <h2 className="text-2xl font-headline font-bold mb-4">Ministry Opportunities</h2>
