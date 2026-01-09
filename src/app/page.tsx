@@ -83,7 +83,7 @@ export default function LandingPage() {
       <main className="flex-1">
         <section className="relative">
           <div className="container px-0 md:px-6">
-            <AspectRatio ratio={1 / 1} className="relative">
+            <AspectRatio ratio={4 / 4} className="relative">
               <Image
                 src={PlaceHolderImages.find(img => img.id === 'hero')?.imageUrl || ''}
                 alt="Congregation worshipping"
@@ -121,7 +121,7 @@ export default function LandingPage() {
               <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
                 A Platform for Transformation
               </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              <p className="mx-auto mt-4 max-w-2xl text-foreground">
                 Everything you need to deepen your relationship with God and
                 connect with a global family of believers.
               </p>
