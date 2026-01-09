@@ -10,7 +10,7 @@ export default function AppLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="grid min-h-screen w-full md:grid-cols-[280px_1fr]">
+      <div className="grid min-h-screen w-full md:grid-cols-[auto_1fr]">
         <AppSidebar />
         <div className="flex flex-col">
           <AppHeader />

@@ -89,8 +89,10 @@ const menuItems = [
   }
 ];
 
-const topLevelNav = ['/dashboard', '/feeds', '/devotionals', '/prayer', '/live', '/ministries', '/profile', '/admin'];
+const topLevelNav = ['/dashboard', '/feeds', '/devotionals', '/prayer', '/live', '/ministries', '/profile'];
 const connectNav = ['/connect', '/groups', '/mentorship'];
+const adminNav = ['/admin'];
+
 
 const MainMenu = ({ items }: { items: typeof menuItems }) => {
     const pathname = usePathname();
@@ -150,7 +152,7 @@ export function AppSidebar() {
                     <Link href="/groups">
                         <SidebarMenuButton size="sm" className="w-full justify-start">
                             <MessageSquarePlus className="h-4 w-4" />
-                            <span>Join a Group</span>
+                            <span>Start a Discussion</span>
                         </SidebarMenuButton>
                     </Link>
                 </SidebarMenuItem>
@@ -166,6 +168,13 @@ export function AppSidebar() {
         <SidebarGroup>
             <SidebarGroupLabel>Community</SidebarGroupLabel>
             <MainMenu items={menuItems.filter(item => connectNav.includes(item.href))} />
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
+         <SidebarGroup>
+            <SidebarGroupLabel>Admin</SidebarGroupLabel>
+            <MainMenu items={menuItems.filter(item => adminNav.includes(item.href))} />
         </SidebarGroup>
 
       </SidebarContent>
