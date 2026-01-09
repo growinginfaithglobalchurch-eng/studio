@@ -95,6 +95,12 @@
       "description": "A church banner with a theme for the year.",
       "imageUrl": "https://images.unsplash.com/photo-1518065330252-b82751395914?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjaHVyY2glMjBiYW5uZXJ8ZW58MHx8fHwxNzY5MDM0MzYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "church banner"
+    },
+    {
+      "id": "welcome-onboarding",
+      "description": "A diverse group of people with arms around each other, smiling.",
+      "imageUrl": "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21tdW5pdHklMjBzbWlsaW5nfGVufDB8fHx8MTc3MDA2MTE1Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "community smiling"
     }
   ]
 }
