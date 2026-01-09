@@ -28,6 +28,7 @@ import {
   Sparkles,
   Globe,
   Calendar,
+  UserCheck,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -77,6 +78,7 @@ const adminNav = [
     { href: '/admin/global-expansion', label: 'Global Strategy', icon: <Globe className="h-4 w-4" /> },
     { href: '/admin/conferences', label: 'Conferences', icon: <Calendar className="h-4 w-4" /> },
     { href: '/admin/courses', label: 'Courses', icon: <GraduationCap className="h-4 w-4" /> },
+    { href: '/admin/mentorship', label: 'Mentorship', icon: <UserCheck className="h-4 w-4" /> },
 ]
 
 export function AppSidebarNav() {

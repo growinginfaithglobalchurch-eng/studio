@@ -224,6 +224,21 @@ export const courses = [
     }
 ];
 
+export const mentorshipClasses = [
+    {
+        id: 1,
+        title: 'Foundations of Faith Mentorship',
+        description: 'A 12-week program covering the core doctrines of Christianity, designed for new believers.',
+        mentorId: 1,
+    },
+    {
+        id: 2,
+        title: 'Prophetic Ministry Training',
+        description: 'Learn to hear the voice of God more clearly and operate in the prophetic gifts.',
+        mentorId: 2,
+    }
+];
+
 
 export const availableContent = [
   'Morning Manna: A New Day\'s Mercies',
