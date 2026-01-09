@@ -122,7 +122,7 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent className="p-4 pt-0 pl-16">
-              <Card className="bg-secondary p-3">
+              <Card className="bg-secondary p-3 border-accent">
                  <p className="text-sm line-clamp-3 text-secondary-foreground">{item.details}</p>
               </Card>
             </CardContent>
