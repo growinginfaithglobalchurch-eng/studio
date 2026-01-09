@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -17,6 +18,7 @@ import {
   GraduationCap,
   Library,
   Settings,
+  Baby,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -45,6 +47,7 @@ const communityNav = [
   { href: '/mentorship', label: 'Mentorship', icon: <User className="h-4 w-4" /> },
   { href: '/friends', label: 'Friends', icon: <Users className="h-4 w-4" /> },
   { href: '/courses', label: 'Courses', icon: <GraduationCap className="h-4 w-4" /> },
+  { href: '/kids', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
 ]
 
 const adminNav = [
