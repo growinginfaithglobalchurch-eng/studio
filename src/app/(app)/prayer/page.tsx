@@ -17,7 +17,7 @@ export default function PrayerPage() {
       <div className="md:col-span-1 flex flex-col gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="font-headline text-2xl flex items-center gap-2">
+            <CardTitle className="font-headline text-2xl flex items-center gap-2 font-bold">
               <Send className="h-6 w-6 text-accent" />
               Submit a Prayer Request
             </CardTitle>
@@ -36,7 +36,7 @@ export default function PrayerPage() {
       <div className="md:col-span-2">
         <Card className="h-full flex flex-col">
           <CardHeader>
-            <CardTitle className="font-headline text-2xl flex items-center gap-2">
+            <CardTitle className="font-headline text-2xl flex items-center gap-2 font-bold">
               <HeartHandshake className="h-6 w-6 text-accent" />
               Community Prayer Wall
             </CardTitle>

@@ -66,7 +66,7 @@ export default function LandingPage() {
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
             <Church className="h-8 w-8 text-accent" />
-            <span className="text-lg font-headline text-foreground">
+            <span className="text-lg font-headline font-bold text-foreground">
               Growing in Faith
             </span>
           </Link>
@@ -96,7 +96,7 @@ export default function LandingPage() {
               <div className="absolute inset-0 bg-primary/70 md:rounded-lg" />
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
                 <div className="container px-4 md:px-6">
-                  <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+                  <h1 className="font-headline text-4xl font-bold tracking-wide sm:text-5xl md:text-6xl lg:text-7xl">
                     Deeper Faith. Global Connection.
                   </h1>
                   <p className="mx-auto mt-6 max-w-3xl text-lg md:text-xl">
@@ -119,7 +119,7 @@ export default function LandingPage() {
         <section id="features" className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl sm:text-4xl text-foreground">
+              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
                 A Platform for Transformation
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-white">
@@ -132,7 +132,7 @@ export default function LandingPage() {
                 <Card key={index} className="overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 bg-card">
                   <CardHeader className="flex flex-col items-center text-center p-6">
                     {feature.icon}
-                    <CardTitle className="mt-4 font-headline">{feature.title}</CardTitle>
+                    <CardTitle className="mt-4 font-headline font-bold">{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center text-muted-foreground px-6 pb-6">
                     <p>{feature.description}</p>
@@ -149,7 +149,7 @@ export default function LandingPage() {
               <div className="grid items-center gap-12 md:grid-cols-2">
                 <div className="space-y-4">
                     <div className="inline-block rounded-lg bg-accent px-3 py-1 text-sm text-accent-foreground">Our Vision</div>
-                  <h2 className="font-headline text-3xl sm:text-4xl">
+                  <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl">
                     Cultivating a Global Community of Empowered Believers
                   </h2>
                   <p className="text-muted-foreground md:text-xl/relaxed">
@@ -175,7 +175,7 @@ export default function LandingPage() {
         <section id="founders" className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl sm:text-4xl">
+              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl">
                 Meet the Founders
               </h2>
             </div>
@@ -185,7 +185,7 @@ export default function LandingPage() {
                         <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl} alt="Joseph Tryson"/>
                         <AvatarFallback>JT</AvatarFallback>
                     </Avatar>
-                    <h3 className="font-headline text-xl">The Bondservant of Christ, Joseph Tryson</h3>
+                    <h3 className="font-headline text-xl font-bold">The Bondservant of Christ, Joseph Tryson</h3>
                     <p className="mt-2 text-muted-foreground">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
                 </Card>
                  <Card className="flex flex-col items-center p-8 text-center bg-card">
@@ -193,7 +193,7 @@ export default function LandingPage() {
                         <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-2')?.imageUrl} alt="Prophetess Norah Tryson"/>
                         <AvatarFallback>NT</AvatarFallback>
                     </Avatar>
-                    <h3 className="font-headline text-xl">Prophetess Norah Tryson</h3>
+                    <h3 className="font-headline text-xl font-bold">Prophetess Norah Tryson</h3>
                     <p className="mt-2 text-muted-foreground">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
                 </Card>
             </div>

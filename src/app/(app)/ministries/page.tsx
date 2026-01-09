@@ -8,7 +8,7 @@ export default function MinistriesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-headline">Partner Ministries</h1>
+        <h1 className="text-3xl font-headline font-bold">Partner Ministries</h1>
         <p className="text-muted-foreground">
           Discover and connect with churches and ministries from around the globe.
         </p>
@@ -28,7 +28,7 @@ export default function MinistriesPage() {
                   />
                 </div>
               )}
-              <CardTitle className="font-headline text-xl pt-4">{ministry.name}</CardTitle>
+              <CardTitle className="font-headline text-xl font-bold pt-4">{ministry.name}</CardTitle>
             </CardHeader>
             <CardContent className="min-h-[80px]">
               <p className="text-sm text-muted-foreground">{ministry.description}</p>

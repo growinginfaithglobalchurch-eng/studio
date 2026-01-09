@@ -10,7 +10,7 @@ export default function DevotionalsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-headline">Daily Devotionals</h1>
+        <h1 className="text-3xl font-headline font-bold">Daily Devotionals</h1>
         <p className="text-muted-foreground">
           Nourish your spirit with daily wisdom and encouragement.
         </p>
@@ -32,7 +32,7 @@ export default function DevotionalsPage() {
               )}
                <div className="p-6 pb-2">
                 <p className="text-sm text-muted-foreground">{devotional.date} &bull; {devotional.category}</p>
-                <CardTitle className="mt-1 font-headline text-xl">{devotional.title}</CardTitle>
+                <CardTitle className="mt-1 font-headline text-xl font-bold">{devotional.title}</CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">by {devotional.author}</p>
               </div>
             </CardHeader>

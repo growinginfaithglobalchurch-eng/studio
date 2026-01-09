@@ -12,7 +12,7 @@ export default function LivePage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-headline">Live & On-Demand</h1>
+        <h1 className="text-3xl font-headline font-bold">Live & On-Demand</h1>
         <p className="text-muted-foreground">
           Join live events and catch up on past sessions.
         </p>
@@ -26,7 +26,7 @@ export default function LivePage() {
                 <Clapperboard className="h-4 w-4" /> LIVE NOW
               </Badge>
               <div>
-                <CardTitle className="font-headline text-xl">{liveSessions.current.title}</CardTitle>
+                <CardTitle className="font-headline text-xl font-bold">{liveSessions.current.title}</CardTitle>
                 <p className="text-sm text-muted-foreground">{liveSessions.current.speaker}</p>
               </div>
             </CardHeader>
@@ -51,7 +51,7 @@ export default function LivePage() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-headline mb-4">On-Demand Replays</h2>
+        <h2 className="text-2xl font-headline font-bold mb-4">On-Demand Replays</h2>
          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {liveSessions.replays.map((replay) => (
               <Card key={replay.id} className="group overflow-hidden">

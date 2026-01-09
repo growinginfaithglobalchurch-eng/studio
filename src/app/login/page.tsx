@@ -13,11 +13,11 @@ export default function LoginPage() {
         <CardHeader className="text-center">
            <Link href="/" className="flex items-center justify-center gap-2 mb-4">
             <Church className="h-8 w-8 text-accent" />
-            <span className="text-xl text-foreground font-headline">
+            <span className="text-xl text-foreground font-headline font-bold">
               Growing in Faith
             </span>
           </Link>
-          <CardTitle className="text-2xl font-headline">Welcome Back</CardTitle>
+          <CardTitle className="text-2xl font-headline font-bold">Welcome Back</CardTitle>
           <CardDescription>Enter your email below to login to your account</CardDescription>
         </CardHeader>
         <CardContent>

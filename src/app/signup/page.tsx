@@ -13,11 +13,11 @@ export default function SignupPage() {
         <CardHeader className="text-center">
            <Link href="/" className="flex items-center justify-center gap-2 mb-4">
             <Church className="h-8 w-8 text-accent" />
-            <span className="text-xl text-foreground font-headline">
+            <span className="text-xl text-foreground font-headline font-bold">
               Growing in Faith
             </span>
           </Link>
-          <CardTitle className="text-2xl font-headline">Join the Community</CardTitle>
+          <CardTitle className="text-2xl font-headline font-bold">Join the Community</CardTitle>
           <CardDescription>Enter your information to create an account</CardDescription>
         </CardHeader>
         <CardContent>

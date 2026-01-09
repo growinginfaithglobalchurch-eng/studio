@@ -26,7 +26,7 @@ export function ContentRecommender() {
         <div className="flex items-center gap-3">
           <Wand2 className="h-6 w-6 text-accent" />
           <div>
-            <CardTitle className="font-headline text-2xl text-accent">
+            <CardTitle className="font-headline text-2xl text-accent font-bold">
               Recommended For You
             </CardTitle>
             <CardDescription>
