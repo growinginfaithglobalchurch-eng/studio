@@ -105,8 +105,8 @@ export default function LandingPage() {
                     <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
                       <Link href="/dashboard">Join the Community</Link>
                     </Button>
-                    <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                      Learn More
+                    <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10">
+                      <Link href="/#features">Learn More</Link>
                     </Button>
                   </div>
                 </div>
