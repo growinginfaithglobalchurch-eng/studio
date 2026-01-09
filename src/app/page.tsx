@@ -93,13 +93,13 @@ export default function LandingPage() {
                 priority
                 data-ai-hint="worship congregation"
               />
-              <div className="absolute inset-0 bg-primary/70 md:rounded-lg" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:rounded-lg" />
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
                 <div className="container px-4 md:px-6">
-                  <h1 className="font-headline text-4xl font-bold tracking-wide sm:text-5xl md:text-6xl lg:text-7xl">
+                  <h1 className="font-headline text-4xl font-bold tracking-wide text-white sm:text-5xl md:text-6xl lg:text-7xl">
                     Deeper Faith. Global Connection.
                   </h1>
-                  <p className="mx-auto mt-6 max-w-3xl text-lg md:text-xl">
+                  <p className="mx-auto mt-6 max-w-3xl text-lg text-white/90 md:text-xl">
                     An interactive spiritual ecosystem to grow in faith, access transformational resources, and live out your divine purpose.
                   </p>
                   <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
