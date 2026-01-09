@@ -1,6 +1,5 @@
 import { AppHeader } from '@/components/app-header';
 import { AppSidebar } from '@/components/app-sidebar';
-import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppBottomNav } from '@/components/app-bottom-nav';
 
 export default function AppLayout({
@@ -9,8 +8,7 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
-      <div className="grid min-h-screen w-full md:grid-cols-[auto_1fr]">
+      <div className="grid min-h-screen w-full md:grid-cols-[280px_1fr]">
         <AppSidebar />
         <div className="flex flex-col">
           <AppHeader />
@@ -20,6 +18,5 @@ export default function AppLayout({
         </div>
         <AppBottomNav />
       </div>
-    </SidebarProvider>
   );
 }

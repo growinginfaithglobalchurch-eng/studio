@@ -3,196 +3,147 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  BookOpen,
+  Book,
   Church,
-  Clapperboard,
-  HeartHandshake,
-  LayoutDashboard,
-  MessageSquarePlus,
-  PlusCircle,
-  Settings,
-  Users,
-  User,
+  Home,
+  MessageSquare,
+  Plus,
   Rss,
-  Shield,
-  UserCheck,
+  Users,
+  ChevronDown,
+  ChevronRight,
+  GraduationCap,
+  Sparkles,
+  PlusCircle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarSeparator,
-} from '@/components/ui/sidebar';
-
-const menuItems = [
-  {
-    href: '/dashboard',
-    icon: <LayoutDashboard className="h-5 w-5" />,
-    label: 'Home',
-  },
-  {
-    href: '/feeds',
-    icon: <Rss className="h-5 w-5" />,
-    label: 'Feeds',
-  },
-  {
-    href: '/devotionals',
-    icon: <BookOpen className="h-5 w-5" />,
-    label: 'Devotionals',
-  },
-  {
-    href: '/prayer',
-    icon: <HeartHandshake className="h-5 w-5" />,
-    label: 'Prayer Wall',
-  },
-  {
-    href: '/live',
-    icon: <Clapperboard className="h-5 w-5" />,
-    label: 'Live Sessions',
-  },
-  {
-    href: '/ministries',
-    icon: <Church className="h-5 w-5" />,
-    label: 'Ministries',
-  },
-  {
-    href: '/connect',
-    icon: <Users className="h-5 w-5" />,
-    label: 'Connect',
-  },
-  {
-    href: '/groups',
-    icon: <Users className="h-5 w-5" />,
-    label: 'Groups',
-  },
-  {
-    href: '/mentorship',
-    icon: <UserCheck className="h-5 w-5" />,
-    label: 'Mentorship',
-  },
-  {
-    href: '/profile',
-    icon: <User className="h-5 w-5" />,
-    label: 'Profile',
-  },
-  {
-    href: '/admin',
-    icon: <Shield className="h-5 w-5" />,
-    label: 'Admin',
-  }
-];
-
-const topLevelNav = ['/dashboard', '/feeds', '/devotionals', '/prayer', '/live', '/ministries', '/profile'];
-const connectNav = ['/connect', '/groups', '/mentorship'];
-const adminNav = ['/admin'];
-
-
-const MainMenu = ({ items }: { items: typeof menuItems }) => {
-    const pathname = usePathname();
-    return (
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.href}>
-              <Link href={item.href}>
-                <SidebarMenuButton
-                  isActive={pathname === item.href}
-                  className={cn(
-                    'w-full justify-start',
-                    pathname === item.href &&
-                      'bg-sidebar-accent text-sidebar-accent-foreground'
-                  )}
-                >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </SidebarMenuButton>
-              </Link>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-    )
-}
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
 
 export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="hidden md:flex md:flex-col md:border-r-0 bg-sidebar text-sidebar-foreground">
-      <SidebarHeader className="p-4">
-        <Link href="/dashboard" className="flex items-center gap-3">
+    <div className="hidden md:flex md:flex-col md:border-r bg-card text-card-foreground">
+      <div className="flex h-16 items-center border-b px-4 shrink-0">
+         <Link href="/dashboard" className="flex items-center gap-3">
           <Church className="h-8 w-8 text-accent" />
           <div className="flex flex-col">
-            <span className="font-headline text-lg text-sidebar-foreground font-bold">
+            <span className="font-headline text-lg text-foreground font-bold">
               Growing In Faith
             </span>
-             <span className="text-sm text-sidebar-foreground/70 -mt-1">Global Connect</span>
+             <span className="text-sm text-foreground/70 -mt-1">Global Connect</span>
           </div>
         </Link>
-      </SidebarHeader>
+      </div>
 
-      <SidebarContent className="p-4 pt-0">
-         <SidebarMenu>
-            <SidebarGroup>
-                <SidebarGroupLabel>Quick Actions</SidebarGroupLabel>
-                <SidebarMenuItem>
-                    <Link href="/prayer">
-                        <SidebarMenuButton size="sm" className="w-full justify-start">
-                            <PlusCircle className="h-4 w-4" />
-                            <span>Submit a Prayer</span>
-                        </SidebarMenuButton>
-                    </Link>
-                </SidebarMenuItem>
-                 <SidebarMenuItem>
-                    <Link href="/groups">
-                        <SidebarMenuButton size="sm" className="w-full justify-start">
-                            <MessageSquarePlus className="h-4 w-4" />
-                            <span>Start a Discussion</span>
-                        </SidebarMenuButton>
-                    </Link>
-                </SidebarMenuItem>
-            </SidebarGroup>
-        </SidebarMenu>
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <Button variant="outline" className="w-full justify-start">
+          <Plus className="mr-2 h-4 w-4" /> Create
+        </Button>
 
-        <SidebarSeparator />
+        <nav className="flex flex-col gap-1">
+            <Link
+                href="/chat"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+                <MessageSquare className="h-4 w-4" />
+                Chat with Cohost
+            </Link>
+            <Link
+                href="/feeds"
+                className={cn(
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-white transition-all hover:text-white',
+                pathname === '/feeds' ? 'bg-red-600' : 'bg-transparent'
+                )}
+            >
+                <Rss className="h-4 w-4" />
+                Feed
+            </Link>
+            <Link
+                href="/groups"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+                <Users className="h-4 w-4" />
+                Members
+            </Link>
+        </nav>
         
-        <MainMenu items={menuItems.filter(item => topLevelNav.includes(item.href))} />
+        <hr/>
 
-        <SidebarSeparator />
-
-        <SidebarGroup>
-            <SidebarGroupLabel>Community</SidebarGroupLabel>
-            <MainMenu items={menuItems.filter(item => connectNav.includes(item.href))} />
-        </SidebarGroup>
-
-        <SidebarSeparator />
-
-         <SidebarGroup>
-            <SidebarGroupLabel>Admin</SidebarGroupLabel>
-            <MainMenu items={menuItems.filter(item => adminNav.includes(item.href))} />
-        </SidebarGroup>
-
-      </SidebarContent>
-
-      <SidebarFooter className="p-4 mt-auto">
-         <SidebarMenu>
-            <SidebarMenuItem>
-              <Link href="#">
-                <SidebarMenuButton
-                  className="w-full justify-start"
-                >
-                  <Settings className="h-5 w-5" />
-                  <span>Settings</span>
-                </SidebarMenuButton>
+        <Accordion type="multiple" defaultValue={['general', 'courses']} className="w-full">
+          <AccordionItem value="general" className="border-b-0">
+            <AccordionTrigger className="py-2 hover:no-underline">
+                <span className="font-semibold text-muted-foreground">General</span>
+            </AccordionTrigger>
+            <AccordionContent className="pl-2">
+              <Link href="/dashboard" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                <div className="w-6 h-6 rounded bg-gray-200 text-gray-700 flex items-center justify-center text-xs font-bold">h</div>
+                Home
               </Link>
-            </SidebarMenuItem>
-         </SidebarMenu>
-      </SidebarFooter>
-    </Sidebar>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="courses" className="border-b-0">
+            <AccordionTrigger className="py-2 hover:no-underline">
+              <span className="font-semibold text-muted-foreground">Courses</span>
+            </AccordionTrigger>
+            <AccordionContent className="pl-2 space-y-1">
+              <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                 <div className="w-6 h-6 rounded bg-gray-200 text-gray-700 flex items-center justify-center text-xs font-bold">s</div>
+                School of Ministry
+              </Link>
+              <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                <Sparkles className="h-4 w-4" />
+                School Of Revelation
+              </Link>
+              <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                <div className="w-6 h-6 rounded bg-gray-200 text-gray-700 flex items-center justify-center text-xs font-bold">t</div>
+                The of the Spirit
+              </Link>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+        
+        <hr/>
+        
+        <nav className="flex flex-col gap-1">
+            <Link
+                href="/groups"
+                className="flex items-center justify-between rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+                <span className="font-semibold">Cell Groups</span>
+                <ChevronRight className="h-4 w-4" />
+            </Link>
+             <Link
+                href="#"
+                className="flex items-center justify-between rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+                <span className="font-semibold">Start Here</span>
+                <ChevronRight className="h-4 w-4" />
+            </Link>
+        </nav>
+        
+        <hr/>
+
+        <div className="space-y-2">
+            <button className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary w-full">
+                <PlusCircle className="h-4 w-4"/>
+                <span>Create a Space</span>
+            </button>
+            <button className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary w-full">
+                <PlusCircle className="h-4 w-4"/>
+                <span>Create a Collection</span>
+            </button>
+        </div>
+
+
+      </div>
+    </div>
   );
 }
