@@ -35,7 +35,7 @@ const mainNav = [
   { href: '/resources', label: 'Resources', icon: <Library className="h-4 w-4" /> },
   { href: '/prayer', label: 'Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
   { href: '/live', label: 'Live Sessions', icon: <Clapperboard className="h-4 w-4" /> },
-  { href: '/ministries', label: 'Ministries', icon: <HandHelping className="h-4 w-4" /> },
+  { href: '/ministries', label: 'Activation', icon: <HandHelping className="h-4 w-4" /> },
 ];
 
 const communityNav = [

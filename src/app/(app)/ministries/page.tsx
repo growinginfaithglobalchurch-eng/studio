@@ -3,41 +3,83 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ministries } from '@/lib/data';
+import { HandHelping, Briefcase } from 'lucide-react';
+
+const opportunities = [
+  {
+    icon: <Briefcase className="h-6 w-6 text-accent" />,
+    title: 'Discover Your Gifts & Calling',
+    description: 'Take assessments and get guidance to understand how God has uniquely wired you for impact.',
+    cta: 'Start Discovery',
+  },
+  {
+    icon: <Briefcase className="h-6 w-6 text-accent" />,
+    title: 'Evangelism & Outreach Teams',
+    description: 'Join local and global teams to share the Gospel and demonstrate God\'s love in practical ways.',
+    cta: 'Join a Team',
+  },
+];
 
 export default function MinistriesPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-headline font-bold">Partner Ministries</h1>
-        <p className="text-muted-foreground">
-          Discover and connect with churches and ministries from around the globe.
+        <div className="flex items-center gap-3 mb-2">
+            <HandHelping className="h-8 w-8 text-accent" />
+            <h1 className="text-3xl font-headline font-bold text-foreground">
+              Ministry & Assignment Activation
+            </h1>
+        </div>
+        <p className="text-muted-foreground max-w-2xl">
+          Helping believers move from learning to living out their divine purpose.
         </p>
       </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {ministries.map((ministry) => (
-          <Card key={ministry.id} className="text-center">
-            <CardHeader className="items-center">
-              {ministry.logo && (
-                <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-card">
-                  <Image
-                    src={ministry.logo.imageUrl}
-                    alt={`${ministry.name} logo`}
-                    fill
-                    className="object-contain"
-                    data-ai-hint={ministry.logo.imageHint}
-                  />
+
+       <div className="grid gap-6 md:grid-cols-2">
+           {opportunities.map((item) => (
+             <Card key={item.title}>
+                <CardHeader className="flex flex-row items-start gap-4">
+                    {item.icon}
+                    <div>
+                        <CardTitle>{item.title}</CardTitle>
+                        <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <Button variant="outline">{item.cta}</Button>
+                </CardContent>
+             </Card>
+           ))}
+       </div>
+
+      <div>
+        <h2 className="text-2xl font-headline font-bold mb-4">Ministry Opportunities</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {ministries.map((ministry) => (
+            <Card key={ministry.id} className="text-center flex flex-col">
+                <CardHeader className="items-center">
+                {ministry.logo && (
+                    <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-card">
+                    <Image
+                        src={ministry.logo.imageUrl}
+                        alt={`${ministry.name} logo`}
+                        fill
+                        className="object-contain"
+                        data-ai-hint={ministry.logo.imageHint}
+                    />
+                    </div>
+                )}
+                <CardTitle className="font-headline text-xl font-bold pt-4">{ministry.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                <p className="text-sm text-muted-foreground">{ministry.description}</p>
+                </CardContent>
+                <div className="p-6 pt-0">
+                <Button>Get Involved</Button>
                 </div>
-              )}
-              <CardTitle className="font-headline text-xl font-bold pt-4">{ministry.name}</CardTitle>
-            </CardHeader>
-            <CardContent className="min-h-[80px]">
-              <p className="text-sm text-muted-foreground">{ministry.description}</p>
-            </CardContent>
-            <div className="p-6 pt-0">
-              <Button>Learn More</Button>
-            </div>
-          </Card>
-        ))}
+            </Card>
+            ))}
+        </div>
       </div>
     </div>
   );
