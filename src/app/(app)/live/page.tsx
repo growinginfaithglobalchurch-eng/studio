@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,7 +41,7 @@ export default function LivePage() {
                     />
                   )}
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <PlayCircle className="h-16 w-16 text-white/80" />
+                    <PlayCircle className="h-16 w-16 text-accent/80" />
                   </div>
               </AspectRatio>
             </CardContent>
@@ -65,7 +66,7 @@ export default function LivePage() {
                         />
                      )}
                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <PlayCircle className="h-12 w-12 text-white/70 transition-all group-hover:text-white group-hover:scale-110" />
+                        <PlayCircle className="h-12 w-12 text-accent/70 transition-all group-hover:text-accent group-hover:scale-110" />
                      </div>
                   </AspectRatio>
                 </CardContent>

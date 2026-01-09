@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -18,19 +19,19 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const features = [
   {
-    icon: <BookOpen className="h-10 w-10 text-primary" />,
+    icon: <BookOpen className="h-10 w-10 text-accent" />,
     title: 'Deepen Spiritual Growth',
     description: 'Access teachings, devotionals, and interactive tools that nurture consistent spiritual maturity.',
     image: PlaceHolderImages.find(img => img.id === 'devotionals-feature'),
   },
   {
-    icon: <Users className="h-10 w-10 text-primary" />,
+    icon: <Users className="h-10 w-10 text-accent" />,
     title: 'Unite the Faithful',
     description: 'Build an engaged, supportive, and interactive faith community across geographical boundaries.',
     image: PlaceHolderImages.find(img => img.id === 'community-feature'),
   },
   {
-    icon: <Rocket className="h-10 w-10 text-primary" />,
+    icon: <Rocket className="h-10 w-10 text-accent" />,
     title: 'Equip for Kingdom Impact',
     description: 'Discover your gifts and calling in Christ and activate them in service and influence.',
     image: PlaceHolderImages.find(img => img.id === 'prayer-feature'),
@@ -62,7 +63,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
-            <Church className="h-8 w-8 text-primary" />
+            <Church className="h-8 w-8 text-accent" />
             <span className="text-lg font-bold text-foreground font-headline">
               Growing in Faith
             </span>

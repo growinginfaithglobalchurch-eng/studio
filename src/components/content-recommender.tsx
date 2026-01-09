@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
@@ -23,9 +24,9 @@ export function ContentRecommender() {
     <Card className="bg-primary/5 border-primary/20">
       <CardHeader>
         <div className="flex items-center gap-3">
-          <Wand2 className="h-6 w-6 text-primary" />
+          <Wand2 className="h-6 w-6 text-accent" />
           <div>
-            <CardTitle className="font-headline text-2xl text-primary">
+            <CardTitle className="font-headline text-2xl text-accent">
               Recommended For You
             </CardTitle>
             <CardDescription>

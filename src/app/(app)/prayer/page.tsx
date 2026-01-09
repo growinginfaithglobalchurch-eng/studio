@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,7 @@ export default function PrayerPage() {
         <Card>
           <CardHeader>
             <CardTitle className="font-headline text-2xl flex items-center gap-2">
-              <Send className="h-6 w-6 text-primary" />
+              <Send className="h-6 w-6 text-accent" />
               Submit a Prayer Request
             </CardTitle>
           </CardHeader>
@@ -35,7 +36,7 @@ export default function PrayerPage() {
         <Card className="h-full flex flex-col">
           <CardHeader>
             <CardTitle className="font-headline text-2xl flex items-center gap-2">
-              <HeartHandshake className="h-6 w-6 text-primary" />
+              <HeartHandshake className="h-6 w-6 text-accent" />
               Community Prayer Wall
             </CardTitle>
           </CardHeader>

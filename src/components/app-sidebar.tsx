@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -62,7 +63,7 @@ export function AppSidebar() {
     <Sidebar className="hidden md:flex md:flex-col md:border-r-0 bg-sidebar text-sidebar-foreground">
       <SidebarHeader className="p-4">
         <Link href="/dashboard" className="flex items-center gap-3">
-          <Church className="h-8 w-8 text-sidebar-primary" />
+          <Church className="h-8 w-8 text-accent" />
           <div className="flex flex-col">
             <span className="font-headline text-xl font-bold text-sidebar-foreground">
               Growing in Faith

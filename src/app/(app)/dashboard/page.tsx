@@ -1,3 +1,4 @@
+
 import { ContentRecommender } from '@/components/content-recommender';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -9,22 +10,22 @@ import {
 
 const stats = [
   {
-    icon: <BookOpen className="h-6 w-6 text-primary" />,
+    icon: <BookOpen className="h-6 w-6 text-accent" />,
     title: 'Devotionals Read',
     value: '12',
   },
   {
-    icon: <HeartHandshake className="h-6 w-6 text-primary" />,
+    icon: <HeartHandshake className="h-6 w-6 text-accent" />,
     title: 'Prayers Joined',
     value: '8',
   },
   {
-    icon: <Clapperboard className="h-6 w-6 text-primary" />,
+    icon: <Clapperboard className="h-6 w-6 text-accent" />,
     title: 'Sessions Watched',
     value: '5',
   },
   {
-    icon: <Users className="h-6 w-6 text-primary" />,
+    icon: <Users className="h-6 w-6 text-accent" />,
     title: 'New Connections',
     value: '3',
   },
