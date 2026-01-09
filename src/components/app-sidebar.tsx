@@ -65,9 +65,9 @@ export function AppSidebar() {
           <Church className="h-8 w-8 text-sidebar-primary" />
           <div className="flex flex-col">
             <span className="font-headline text-xl font-bold text-sidebar-foreground">
-              Faith Connect
+              Growing in Faith
             </span>
-             <span className="text-xs text-sidebar-foreground/70">Global</span>
+             <span className="text-xs text-sidebar-foreground/70">Global Connect</span>
           </div>
         </Link>
       </SidebarHeader>

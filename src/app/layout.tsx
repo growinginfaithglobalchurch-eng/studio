@@ -3,9 +3,9 @@ import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Faith Connect Global',
+  title: 'Growing in Faith Global Connect',
   description:
-    'A Kingdom-focused global digital platform connecting believers worldwide, offering Bible-based teachings, courses, prayer support, kids & youth ministry, and church/ministry integration.',
+    'A dynamic digital platform designed to bring believers into deeper connection with God, each other, and their divine purpose.',
 };
 
 export default function RootLayout({
