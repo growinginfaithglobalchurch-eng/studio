@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
 
 export default function AdminSettingsPage() {
     const { toast } = useToast();
@@ -19,6 +20,7 @@ export default function AdminSettingsPage() {
     const [bannerPreview, setBannerPreview] = useState<string | null>(null);
     const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
     const [backgroundPreview, setBackgroundPreview] = useState<string | null>(null);
+    const [primaryColor, setPrimaryColor] = useState('#FFD700'); // Default gold
 
     const logos = PlaceHolderImages.filter(image => image.imageHint?.includes('logo')).slice(0, 3);
     const banners = PlaceHolderImages.filter(image => image.id.includes('hero') || image.id.includes('banner')).slice(0, 4);
@@ -102,6 +104,46 @@ export default function AdminSettingsPage() {
         });
         handleRemoveBackground();
     };
+    
+    const handleThemeSave = () => {
+        // In a real app, this would trigger an API call to update the CSS variables
+        document.documentElement.style.setProperty('--primary', hexToHsl(primaryColor));
+         toast({
+            title: "Theme Updated",
+            description: "Your new theme colors have been applied.",
+        });
+    }
+
+    // Utility to convert hex to HSL string for CSS variables
+    function hexToHsl(hex: string): string {
+        let r = 0, g = 0, b = 0;
+        if (hex.length === 4) {
+            r = parseInt(hex[1] + hex[1], 16);
+            g = parseInt(hex[2] + hex[2], 16);
+            b = parseInt(hex[3] + hex[3], 16);
+        } else if (hex.length === 7) {
+            r = parseInt(hex.substring(1, 3), 16);
+            g = parseInt(hex.substring(3, 5), 16);
+            b = parseInt(hex.substring(5, 7), 16);
+        }
+        r /= 255; g /= 255; b /= 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h = 0, s = 0, l = (max + min) / 2;
+        if (max !== min) {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+        h = Math.round(h * 360);
+        s = Math.round(s * 100);
+        l = Math.round(l * 100);
+        return `${h} ${s}% ${l}%`;
+    }
 
   return (
     <div className="space-y-8">
@@ -123,10 +165,20 @@ export default function AdminSettingsPage() {
                 Customize the look and feel of your platform.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              Controls for logo, colors, and fonts will be here.
-            </p>
+          <CardContent className="space-y-4">
+            <div className="flex items-center gap-4">
+                <label className="text-sm font-medium">Primary Color</label>
+                <div className="relative">
+                    <Input 
+                        type="color" 
+                        value={primaryColor}
+                        onChange={(e) => setPrimaryColor(e.target.value)}
+                        className="p-1 h-10 w-14"
+                    />
+                </div>
+                 <span style={{ color: primaryColor }} className="font-mono">{primaryColor}</span>
+            </div>
+            <Button onClick={handleThemeSave}>Save Theme</Button>
           </CardContent>
         </Card>
 
