@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { CreatePostForm } from "@/components/create-post-form";
 import { StoryViewer } from '@/components/story-viewer';
 import { User } from '@/lib/types';
+import { AddStoryDialog } from '@/components/add-story-dialog';
 
 
 const iconMap = {
@@ -30,6 +31,7 @@ const stories: User[] = [
 
 export default function DashboardPage() {
   const [viewingStory, setViewingStory] = useState<User | null>(null);
+  const [addingStory, setAddingStory] = useState(false);
 
   useEffect(() => {
     if (viewingStory) {
@@ -42,6 +44,15 @@ export default function DashboardPage() {
       document.body.style.overflow = 'auto';
     };
   }, [viewingStory]);
+  
+  const handleStoryClick = (story: User) => {
+    if (story.id === 'current-user') {
+      setAddingStory(true);
+    } else {
+      setViewingStory(story);
+    }
+  };
+
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
@@ -51,6 +62,11 @@ export default function DashboardPage() {
           onClose={() => setViewingStory(null)} 
         />
       )}
+      
+      <AddStoryDialog 
+        open={addingStory}
+        onOpenChange={setAddingStory}
+      />
 
       <div>
         <h1 className="text-3xl font-headline font-bold text-foreground">Feeds & Stories</h1>
@@ -70,7 +86,7 @@ export default function DashboardPage() {
                     <button 
                         key={story.id} 
                         className="flex-shrink-0 focus:outline-none"
-                        onClick={() => setViewingStory(story)}
+                        onClick={() => handleStoryClick(story)}
                     >
                         <div className="flex flex-col items-center gap-2 w-20">
                             <div className="relative">
