@@ -6,11 +6,15 @@ import {
   Users,
   Clapperboard,
   Church,
+  Target,
+  Gem,
+  Rocket,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const features = [
   {
@@ -26,12 +30,31 @@ const features = [
     image: PlaceHolderImages.find(img => img.id === 'community-feature'),
   },
   {
-    icon: <HeartHandshake className="h-10 w-10 text-primary" />,
+    icon: <Rocket className="h-10 w-10 text-primary" />,
     title: 'Equip for Kingdom Impact',
     description: 'Discover your gifts and calling in Christ and activate them in service and influence.',
     image: PlaceHolderImages.find(img => img.id === 'prayer-feature'),
   },
 ];
+
+const values = [
+    {
+      icon: <Gem className="h-8 w-8 text-accent" />,
+      title: "Faith at the Center",
+      description: "Championing a lifestyle where faith is the foundation of every decision and action."
+    },
+    {
+      icon: <Users className="h-8 w-8 text-accent" />,
+      title: "Authentic Community",
+      description: "Fostering genuine connections and support among believers worldwide."
+    },
+    {
+      icon: <Rocket className="h-8 w-8 text-accent" />,
+      title: "Purpose-Driven Growth",
+      description: "Empowering every user to discover and walk in their God-given purpose and impact."
+    }
+]
+
 
 export default function LandingPage() {
   return (
@@ -72,7 +95,7 @@ export default function LandingPage() {
                 Deeper Faith. Global Connection.
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-lg md:text-xl">
-                A spiritual ecosystem to grow in faith, access transformational resources, and live out your divine purpose.
+                An interactive spiritual ecosystem to grow in faith, access transformational resources, and live out your divine purpose.
               </p>
               <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                 <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
@@ -99,7 +122,7 @@ export default function LandingPage() {
             </div>
             <div className="grid gap-8 md:grid-cols-3">
               {features.map((feature, index) => (
-                <Card key={index} className="overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1">
+                <Card key={index} className="overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 bg-card">
                   <CardHeader className="flex flex-col items-center text-center p-6">
                     {feature.icon}
                     <CardTitle className="mt-4 font-headline">{feature.title}</CardTitle>
@@ -113,34 +136,59 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="bg-card py-12 md:py-24">
-           <div className="container mx-auto grid items-center gap-6 px-4 md:grid-cols-2 md:px-6">
-             <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-                <Image 
-                  src={PlaceHolderImages.find(p => p.id === 'live-stream-feature')?.imageUrl || ''}
-                  alt="Live streaming session"
-                  layout="fill"
-                  objectFit="cover"
-                  data-ai-hint="pastor preaching"
-                />
-                <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-red-600 px-3 py-1 text-white">
-                  <Clapperboard className="h-4 w-4" />
-                  <span className="text-sm font-bold">LIVE</span>
-                </div>
-              </div>
+        <section className="bg-secondary py-12 md:py-24">
+           <div className="container mx-auto grid items-center gap-12 px-4 md:grid-cols-2 md:px-6">
              <div className="space-y-4">
+                <div className="inline-block rounded-lg bg-accent px-3 py-1 text-sm text-accent-foreground">Our Vision</div>
                <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-                 Live Sessions & On-Demand Media
+                 Cultivating a Global Community of Empowered Believers
                </h2>
                <p className="text-muted-foreground md:text-xl/relaxed">
-                 Tune into live teachings, prophetic sessions, and prayer meetings. Missed a session? Catch up anytime with our extensive on-demand media library.
+                We exist to ignite and sustain a lifestyle of faith that produces lasting transformation in individuals, families, and nations—revealing God’s power, presence, and purpose in everyday life.
                </p>
-               <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                 <Link href="/dashboard">Watch Now</Link>
-               </Button>
+             </div>
+             <div className="flex flex-col gap-6">
+                {values.map((value) => (
+                    <div key={value.title} className="flex items-start gap-4">
+                        {value.icon}
+                        <div>
+                            <h3 className="text-lg font-bold">{value.title}</h3>
+                            <p className="text-muted-foreground">{value.description}</p>
+                        </div>
+                    </div>
+                ))}
              </div>
            </div>
-         </section>
+        </section>
+
+        <section id="founders" className="py-12 md:py-24">
+          <div className="container px-4 md:px-6">
+            <div className="mb-12 text-center">
+              <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
+                Meet the Founders
+              </h2>
+            </div>
+            <div className="grid gap-10 md:grid-cols-2">
+                <Card className="flex flex-col items-center p-8 text-center bg-card">
+                    <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
+                        <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl} alt="Joseph Tryson"/>
+                        <AvatarFallback>JT</AvatarFallback>
+                    </Avatar>
+                    <h3 className="font-headline text-xl font-bold">The Bondservant of Christ, Joseph Tryson</h3>
+                    <p className="mt-2 text-muted-foreground">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
+                </Card>
+                 <Card className="flex flex-col items-center p-8 text-center bg-card">
+                    <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
+                        <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-2')?.imageUrl} alt="Prophetess Norah Tryson"/>
+                        <AvatarFallback>NT</AvatarFallback>
+                    </Avatar>
+                    <h3 className="font-headline text-xl font-bold">Prophetess Norah Tryson</h3>
+                    <p className="mt-2 text-muted-foreground">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
+                </Card>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       <footer className="bg-secondary text-secondary-foreground">
