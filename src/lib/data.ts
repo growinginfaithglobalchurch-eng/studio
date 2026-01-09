@@ -288,5 +288,14 @@ export const empowermentMeetings = [
     time: 'Various Times',
     type: 'Yearly',
     image: PlaceHolderImages.find(p => p.id === 'hero'),
+  },
+  {
+    id: 3,
+    title: 'Weekly Empowerment Meeting',
+    description: 'Join us every Saturday for a powerful time of prayer, teaching, and fellowship to strengthen your week.',
+    frequency: 'Every Saturday',
+    time: '10:00 AM EST',
+    type: 'Weekly',
+    image: PlaceHolderImages.find(p => p.id === 'community-feature'),
   }
 ];
