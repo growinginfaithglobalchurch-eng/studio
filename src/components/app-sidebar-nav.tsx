@@ -12,7 +12,8 @@ import {
   Shield,
   User,
   Users,
-  Rss
+  Rss,
+  TrendingUp,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -27,6 +28,7 @@ import { Button } from './ui/button';
 const mainNav = [
   { href: '/dashboard', label: 'Home', icon: <Home className="h-4 w-4" /> },
   { href: '/feeds', label: 'Feeds', icon: <Rss className="h-4 w-4" /> },
+  { href: '/growth-hub', label: 'Growth Hub', icon: <TrendingUp className="h-4 w-4" /> },
   { href: '/devotionals', label: 'Devotionals', icon: <BookOpen className="h-4 w-4" /> },
   { href: '/prayer', label: 'Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
   { href: '/live', label: 'Live Sessions', icon: <Clapperboard className="h-4 w-4" /> },
@@ -99,7 +101,7 @@ export function AppSidebarNav() {
           href="/admin"
           className={cn(
             'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
-            pathname === '/admin' && 'bg-sidebar-muted text-sidebar-foreground'
+            pathname.startsWith('/admin') && 'bg-sidebar-muted text-sidebar-foreground'
           )}
         >
           <Shield className="h-4 w-4" />
