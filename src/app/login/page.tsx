@@ -13,7 +13,7 @@ export default function LoginPage() {
         <CardHeader className="text-center">
            <Link href="/" className="flex items-center justify-center gap-2 mb-4">
             <Church className="h-8 w-8 text-accent" />
-            <span className="text-xl font-bold text-foreground font-headline">
+            <span className="text-xl text-foreground font-headline">
               Growing in Faith
             </span>
           </Link>

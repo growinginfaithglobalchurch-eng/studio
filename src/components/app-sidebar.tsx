@@ -65,7 +65,7 @@ export function AppSidebar() {
         <Link href="/dashboard" className="flex items-center gap-3">
           <Church className="h-8 w-8 text-accent" />
           <div className="flex flex-col">
-            <span className="font-headline text-xl font-bold text-sidebar-foreground">
+            <span className="font-headline text-xl text-sidebar-foreground">
               Growing in Faith
             </span>
              <span className="text-xs text-sidebar-foreground/70">Global Connect</span>
