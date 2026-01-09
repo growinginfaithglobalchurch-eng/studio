@@ -10,8 +10,6 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { CreatePostForm } from "@/components/create-post-form";
-import Image from 'next/image';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const iconMap = {
   PRAYER_REQUEST: <HeartHandshake className="h-5 w-5 text-accent" />,
@@ -27,27 +25,11 @@ const stories = [
 ];
 
 export default function DashboardPage() {
-  const bannerImage = PlaceHolderImages.find(p => p.id === 'feed-banner');
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
-      {bannerImage && (
-        <Card className="overflow-hidden">
-          <AspectRatio ratio={16 / 9} className="relative">
-            <Image
-              src={bannerImage.imageUrl}
-              alt={bannerImage.description}
-              fill
-              className="object-cover"
-              data-ai-hint={bannerImage.imageHint}
-              priority
-            />
-          </AspectRatio>
-        </Card>
-      )}
-      
       <div>
-        <h1 className="text-3xl font-headline font-bold text-foreground">Feeds &amp; Stories</h1>
+        <h1 className="text-3xl font-headline font-bold text-foreground">Feeds & Stories</h1>
         <p className="text-muted-foreground">
           Catch up on stories and see what's happening in the community.
         </p>
@@ -102,7 +84,7 @@ export default function DashboardPage() {
                     <div className="flex-grow">
                     <div className="flex items-center gap-2">
                         <p className="text-sm text-black">
-                        <Link href={item.href} className="font-semibold hover:underline text-black">{item.user}</Link>
+                        <Link href={item.href} className="font-semibold hover:underline text-card-foreground">{item.user}</Link>
                         <span className="text-black/60"> {item.content}</span>
                         </p>
                     </div>
@@ -111,7 +93,7 @@ export default function DashboardPage() {
                 </div>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-sm text-black/90">{item.details}</p>
+                    <p className="text-sm text-card-foreground/90">{item.details}</p>
                 </CardContent>
             </Card>
             {index < feedItems.length - 1 && <Separator />}
