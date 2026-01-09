@@ -1,0 +1,78 @@
+import Image from 'next/image';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { liveSessions } from '@/lib/data';
+import { Clapperboard, PlayCircle } from 'lucide-react';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Badge } from '@/components/ui/badge';
+
+export default function LivePage() {
+  return (
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight font-headline">Live & On-Demand</h1>
+        <p className="text-muted-foreground">
+          Join live events and catch up on past sessions.
+        </p>
+      </div>
+
+      <section>
+        <Card className="overflow-hidden">
+          <CardHeader className="flex flex-row items-center gap-4 bg-primary/10 p-4">
+            <Badge variant="destructive" className="flex items-center gap-2">
+              <Clapperboard className="h-4 w-4" /> LIVE NOW
+            </Badge>
+            <div>
+              <CardTitle className="font-headline text-xl">{liveSessions.current.title}</CardTitle>
+              <p className="text-sm text-muted-foreground">{liveSessions.current.speaker}</p>
+            </div>
+          </CardHeader>
+          <CardContent className="p-0">
+             <AspectRatio ratio={16 / 9}>
+              {/* In a real app, this would be a proper video player component */}
+              <iframe 
+                className="w-full h-full" 
+                src={liveSessions.current.videoUrl}
+                title="YouTube video player" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen>
+              </iframe>
+            </AspectRatio>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold tracking-tight font-headline mb-4">On-Demand Replays</h2>
+         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {liveSessions.replays.map((replay) => (
+              <Card key={replay.id} className="group overflow-hidden">
+                <CardContent className="p-0">
+                  <AspectRatio ratio={16/9} className="relative">
+                     {replay.image && (
+                        <Image
+                            src={replay.image.imageUrl}
+                            alt={replay.title}
+                            fill
+                            className="object-cover transition-transform group-hover:scale-105"
+                            data-ai-hint={replay.image.imageHint}
+                        />
+                     )}
+                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <PlayCircle className="h-12 w-12 text-white/70 transition-all group-hover:text-white group-hover:scale-110" />
+                     </div>
+                  </AspectRatio>
+                </CardContent>
+                <CardFooter className="p-4">
+                    <div>
+                        <h3 className="font-semibold leading-tight group-hover:text-primary">{replay.title}</h3>
+                        <p className="text-xs text-muted-foreground mt-1">{replay.speaker}</p>
+                    </div>
+                </CardFooter>
+              </Card>
+            ))}
+         </div>
+      </section>
+    </div>
+  );
+}
