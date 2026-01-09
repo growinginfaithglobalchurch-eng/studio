@@ -16,6 +16,7 @@ import {
   TrendingUp,
   GraduationCap,
   Library,
+  Settings,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -46,6 +47,12 @@ const communityNav = [
   { href: '/courses', label: 'Courses', icon: <GraduationCap className="h-4 w-4" /> },
 ]
 
+const adminNav = [
+    { href: '/admin', label: 'Dashboard', icon: <Home className="h-4 w-4" /> },
+    { href: '/admin/settings', label: 'Settings', icon: <Settings className="h-4 w-4" /> },
+    { href: '/admin/roadmap', label: 'Roadmap', icon: <GraduationCap className="h-4 w-4" /> },
+]
+
 export function AppSidebarNav() {
   const pathname = usePathname();
 
@@ -65,7 +72,7 @@ export function AppSidebarNav() {
         </Link>
       ))}
 
-      <Accordion type="multiple" defaultValue={['community']} className="w-full">
+      <Accordion type="multiple" defaultValue={['community', 'admin']} className="w-full">
         <AccordionItem value="community" className="border-b-0">
           <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180 hover:bg-sidebar-muted")}>
             <Users className="h-4 w-4" />
@@ -74,6 +81,31 @@ export function AppSidebarNav() {
           <AccordionContent className="pl-2">
             <div className="flex flex-col space-y-1">
               {communityNav.map((item) => (
+                 <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
+                      pathname === item.href && 'bg-sidebar-muted text-sidebar-foreground'
+                    )}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </Link>
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+         <AccordionItem value="admin" className="border-b-0">
+          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180 hover:bg-sidebar-muted",
+           (pathname.startsWith('/admin')) && 'bg-sidebar-muted text-sidebar-foreground'
+          )}>
+            <Shield className="h-4 w-4" />
+            Admin
+          </AccordionTrigger>
+          <AccordionContent className="pl-2">
+            <div className="flex flex-col space-y-1">
+              {adminNav.map((item) => (
                  <Link
                     key={item.href}
                     href={item.href}
@@ -101,16 +133,7 @@ export function AppSidebarNav() {
           <User className="h-4 w-4" />
           Profile
         </Link>
-        <Link
-          href="/admin"
-          className={cn(
-            'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
-            pathname.startsWith('/admin') && 'bg-sidebar-muted text-sidebar-foreground'
-          )}
-        >
-          <Shield className="h-4 w-4" />
-          Admin
-        </Link>
+       
     </nav>
   );
 }

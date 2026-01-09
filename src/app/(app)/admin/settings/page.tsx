@@ -1,8 +1,10 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { PaintBrush, Image as ImageIcon, Upload } from 'lucide-react';
+import { PaintBrush, Image as ImageIcon, Upload, GitBranch } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function AdminSettingsPage() {
     const uploadedImages = PlaceHolderImages.slice(0, 4);
@@ -72,6 +74,22 @@ export default function AdminSettingsPage() {
                     ))}
                 </div>
             </div>
+          </CardContent>
+        </Card>
+         <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <GitBranch className="h-5 w-5 text-accent" />
+              Platform Roadmap & Strategy
+            </CardTitle>
+             <CardDescription>
+                View the strategic roadmap for monetization, content, and features.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild>
+                <Link href="/admin/roadmap">View Roadmap</Link>
+            </Button>
           </CardContent>
         </Card>
       </div>
