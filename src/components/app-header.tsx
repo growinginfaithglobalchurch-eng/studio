@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Bell, Menu, Search, UserCircle } from 'lucide-react';
@@ -53,7 +54,7 @@ export function AppHeader() {
             <Input
               type="search"
               placeholder="Search content, members..."
-              className="w-full appearance-none bg-background pl-9 shadow-none md:w-2/3 lg:w-1/3 placeholder:text-white"
+              className="w-full appearance-none bg-background pl-9 shadow-none md:w-2/3 lg:w-1/3"
             />
           </div>
         </form>
@@ -62,7 +63,7 @@ export function AppHeader() {
       {isLoggedIn ? (
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" className="rounded-full">
-            <Bell className="h-5 w-5" />
+            <Bell className="h-5 w-5 text-foreground" />
             <span className="sr-only">Notifications</span>
           </Button>
           <DropdownMenu>
