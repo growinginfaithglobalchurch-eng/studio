@@ -77,6 +77,7 @@ export default function ProfilePage() {
                 id="faith-interests"
                 placeholder="e.g., Prophecy, Worship, Apologetics"
                 defaultValue={user.profile.faithInterests}
+                className="text-white"
               />
               <p className="text-xs text-muted-foreground">
                 Topics you're passionate about.
@@ -88,6 +89,7 @@ export default function ProfilePage() {
                 id="growth-goals"
                 placeholder="e.g., Read the Bible daily, Join a small group"
                 defaultValue={user.profile.growthGoals}
+                className="text-white"
               />
               <p className="text-xs text-muted-foreground">
                 What are you aiming for in your spiritual walk?
@@ -99,6 +101,7 @@ export default function ProfilePage() {
                 id="ministry-calling"
                 placeholder="e.g., Teaching, Missions, Youth"
                 defaultValue={user.profile.ministryCalling}
+                className="text-white"
               />
               <p className="text-xs text-muted-foreground">
                 How do you feel called to serve? (Optional)
@@ -111,7 +114,7 @@ export default function ProfilePage() {
               <Select
                 defaultValue={user.profile.spiritualMaturity}
               >
-                <SelectTrigger id="spiritual-maturity">
+                <SelectTrigger id="spiritual-maturity" className="text-white">
                   <SelectValue placeholder="Select your level" />
                 </SelectTrigger>
                 <SelectContent>
