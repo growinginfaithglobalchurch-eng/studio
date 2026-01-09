@@ -16,8 +16,8 @@ export default function ConnectPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-headline font-bold text-card-foreground">Connections</h1>
-        <p className="text-black/60">
+        <h1 className="text-3xl font-headline font-bold text-foreground">Connections</h1>
+        <p className="text-muted-foreground">
           Find and connect with other members of the community.
         </p>
       </div>
