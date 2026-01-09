@@ -50,7 +50,7 @@
     --secondary: 210 40% 95%;
     --secondary-foreground: 224 71% 4%;
     --muted: 210 40% 95%;
-    --muted-foreground: 0 0% 98%;
+    --muted-foreground: 0 0% 40%;
     --accent: 45 90% 55%;
     --accent-foreground: 240 10% 10%;
     --destructive: 0 63% 31%;
@@ -71,6 +71,10 @@
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 12%;
     --sidebar-ring: 45 100% 51%;
+  }
+
+  .dark .card, .dark .card * {
+    color: hsl(var(--card-foreground));
   }
 
   .dark .card .text-muted-foreground {
