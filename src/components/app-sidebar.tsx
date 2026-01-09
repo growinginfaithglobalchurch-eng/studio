@@ -32,37 +32,37 @@ import {
 const menuItems = [
   {
     href: '/dashboard',
-    icon: <LayoutDashboard />,
+    icon: <LayoutDashboard className="h-5 w-5" />,
     label: 'Dashboard',
   },
   {
     href: '/devotionals',
-    icon: <BookOpen />,
+    icon: <BookOpen className="h-5 w-5" />,
     label: 'Devotionals',
   },
   {
     href: '/prayer',
-    icon: <HeartHandshake />,
+    icon: <HeartHandshake className="h-5 w-5" />,
     label: 'Prayer Wall',
   },
   {
     href: '/live',
-    icon: <Clapperboard />,
+    icon: <Clapperboard className="h-5 w-5" />,
     label: 'Live Sessions',
   },
   {
     href: '/ministries',
-    icon: <Church />,
+    icon: <Church className="h-5 w-5" />,
     label: 'Ministries',
   },
   {
     href: '/connect',
-    icon: <Users />,
+    icon: <Users className="h-5 w-5" />,
     label: 'Connect',
   },
   {
     href: '/profile',
-    icon: <User />,
+    icon: <User className="h-5 w-5" />,
     label: 'Profile',
   },
 ];
@@ -85,27 +85,27 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="p-4 pt-0">
-         <SidebarGroup>
-            <SidebarGroupLabel>Quick Actions</SidebarGroupLabel>
-            <SidebarMenu>
+         <SidebarMenu>
+            <SidebarGroup>
+                <SidebarGroupLabel>Quick Actions</SidebarGroupLabel>
                 <SidebarMenuItem>
                     <Link href="/prayer">
-                        <SidebarMenuButton size="sm">
-                            <PlusCircle />
+                        <SidebarMenuButton size="sm" className="w-full justify-start">
+                            <PlusCircle className="h-4 w-4" />
                             <span>Submit a Prayer</span>
                         </SidebarMenuButton>
                     </Link>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                     <Link href="/connect">
-                        <SidebarMenuButton size="sm">
-                            <MessageSquarePlus />
+                        <SidebarMenuButton size="sm" className="w-full justify-start">
+                            <MessageSquarePlus className="h-4 w-4" />
                             <span>Start a Discussion</span>
                         </SidebarMenuButton>
                     </Link>
                 </SidebarMenuItem>
-            </SidebarMenu>
-        </SidebarGroup>
+            </SidebarGroup>
+        </SidebarMenu>
 
         <SidebarSeparator />
 
@@ -130,14 +130,14 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarContent>
 
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 mt-auto">
          <SidebarMenu>
             <SidebarMenuItem>
               <Link href="#">
                 <SidebarMenuButton
                   className="w-full justify-start"
                 >
-                  <Settings />
+                  <Settings className="h-5 w-5" />
                   <span>Settings</span>
                 </SidebarMenuButton>
               </Link>
