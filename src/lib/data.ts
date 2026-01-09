@@ -182,7 +182,7 @@ export const events = [
     id: 3,
     title: 'Sunday Worship Service',
     speaker: 'Faith Connect Worship',
-    date: new Date(),
+    date: new Date(2024, 7, 25),
     time: '11:00 AM EST',
     isLive: true,
   },
