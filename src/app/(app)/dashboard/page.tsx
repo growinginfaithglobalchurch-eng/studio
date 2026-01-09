@@ -29,15 +29,15 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       <div>
-        <h1 className="text-3xl font-headline font-bold">Feeds & Stories</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl font-headline font-bold text-foreground">Feeds & Stories</h1>
+        <p className="text-foreground/80">
           Catch up on stories and see what's happening in the community.
         </p>
       </div>
 
       <Card>
         <CardHeader>
-             <h2 className="text-lg font-semibold tracking-tight">Stories</h2>
+             <h2 className="text-lg font-semibold tracking-tight text-foreground">Stories</h2>
         </CardHeader>
         <CardContent>
             <ScrollArea className="w-full whitespace-nowrap">
@@ -56,7 +56,7 @@ export default function DashboardPage() {
                                 </div>
                             )}
                         </div>
-                        <p className="text-xs text-center text-muted-foreground truncate w-full">{story.name}</p>
+                        <p className="text-xs text-center text-foreground truncate w-full">{story.name}</p>
                     </div>
                     </Link>
                 ))}
@@ -75,7 +75,7 @@ export default function DashboardPage() {
               <AvatarFallback>U</AvatarFallback>
             </Avatar>
             <div className="flex-grow space-y-2">
-                <Textarea placeholder="What's on your mind?" className="bg-secondary" />
+                <Textarea placeholder="What's on your mind?" className="bg-secondary text-foreground" />
                 <div className="flex justify-between items-center">
                     <div className="flex gap-2">
                         <Button variant="ghost" size="icon">
@@ -99,7 +99,7 @@ export default function DashboardPage() {
 
 
       <div className="space-y-4">
-         <h2 className="text-lg font-semibold tracking-tight">Community Feed</h2>
+         <h2 className="text-lg font-semibold tracking-tight text-foreground">Community Feed</h2>
         {feedItems.map((item) => (
           <Card key={item.id}>
             <CardHeader className="p-4">
@@ -113,17 +113,17 @@ export default function DashboardPage() {
                 <div className="flex-grow">
                   <div className="flex items-center gap-2">
                     {iconMap[item.type as keyof typeof iconMap] || iconMap.default}
-                    <p className="text-sm">
-                      <Link href={item.href} className="font-semibold hover:underline">{item.user}</Link> {item.content}
+                    <p className="text-sm text-black">
+                      <Link href={item.href} className="font-semibold hover:underline text-black">{item.user}</Link> {item.content}
                     </p>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">{item.timestamp}</p>
+                  <p className="text-xs text-black/70 mt-1">{item.timestamp}</p>
                 </div>
               </div>
             </CardHeader>
             <CardContent className="p-4 pt-0 pl-16">
               <Card className="bg-secondary p-3">
-                 <p className="text-sm line-clamp-3">{item.details}</p>
+                 <p className="text-sm line-clamp-3 text-secondary-foreground">{item.details}</p>
               </Card>
             </CardContent>
           </Card>
