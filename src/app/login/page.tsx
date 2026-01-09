@@ -25,7 +25,7 @@ export default function LoginPage() {
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="m@example.com" required />
+              <Input id="email" type="email" placeholder="m@example.com" required className="text-white" />
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
@@ -34,7 +34,7 @@ export default function LoginPage() {
                   Forgot your password?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input id="password" type="password" required className="text-white" />
             </div>
             <Button type="submit" className="w-full" asChild>
                 <Link href="/dashboard">Login</Link>
