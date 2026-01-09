@@ -85,12 +85,12 @@ export function ContentRecommender() {
                   return (
                     <div
                       key={key}
-                      className="flex items-start gap-4 rounded-lg bg-card p-4"
+                      className="flex items-start gap-4 rounded-lg bg-card p-4 text-card-foreground"
                     >
                       <div className="flex-shrink-0">{categoryIcons[key]}</div>
                       <div className="flex-grow">
                          <p className="text-sm font-semibold text-accent">{categoryLabels[key]}</p>
-                        <p className="font-semibold text-md text-card-foreground">{item.title}</p>
+                        <p className="font-semibold text-md">{item.title}</p>
                         <p className="text-sm text-muted-foreground mt-1">
                           {item.reason}
                         </p>
