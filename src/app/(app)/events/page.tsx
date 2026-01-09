@@ -1,12 +1,13 @@
+
 'use client';
 
 import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays } from 'lucide-react';
+import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays, Zap } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
-import { communityUsers, events, conferences } from '@/lib/data';
+import { communityUsers, events, conferences, empowermentMeetings } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
@@ -60,6 +61,42 @@ export default function EventsPage() {
                 </Card>
             ))}
           </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-headline font-bold mb-4">Empowerment Meetings</h2>
+        <div className="grid gap-8 md:grid-cols-2">
+          {empowermentMeetings.map(meeting => (
+            <Card key={meeting.id} className="overflow-hidden">
+              {meeting.image && (
+                <div className="relative aspect-video w-full">
+                  <Image src={meeting.image.imageUrl} alt={meeting.title} fill className="object-cover" data-ai-hint={meeting.image.imageHint} />
+                </div>
+              )}
+              <CardHeader>
+                <Badge variant="secondary" className="w-fit mb-2">{meeting.type}</Badge>
+                <CardTitle className="font-headline text-xl">{meeting.title}</CardTitle>
+                <CardDescription>{meeting.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <CalendarDays className="h-4 w-4" />
+                  <span>{meeting.frequency}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Clock className="h-4 w-4" />
+                  <span>{meeting.time}</span>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button>
+                  <Zap className="mr-2 h-4 w-4" />
+                  Attend Meeting
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
       </section>
 
       <div className="grid gap-8 lg:grid-cols-3">

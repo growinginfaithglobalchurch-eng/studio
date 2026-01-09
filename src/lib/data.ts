@@ -261,3 +261,24 @@ export const availableContent = [
   'Faith that Moves Mountains',
   'Family & Faith: Building a Godly Home',
 ];
+
+export const empowermentMeetings = [
+  {
+    id: 1,
+    title: 'Monthly Empowerment Meeting',
+    description: 'A time of deep teaching, impartation, and prophetic ministry to empower you for the month ahead.',
+    frequency: 'First Sunday of Every Month',
+    time: '6:00 PM EST',
+    type: 'Monthly',
+    image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
+  },
+  {
+    id: 2,
+    title: 'Annual Global Empowerment Summit',
+    description: 'Our pinnacle event of the year, gathering believers from around the world for a week of intensive equipping and commissioning.',
+    frequency: 'December 1st - 7th, 2024',
+    time: 'Various Times',
+    type: 'Yearly',
+    image: PlaceHolderImages.find(p => p.id === 'hero'),
+  }
+];
