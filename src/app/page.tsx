@@ -132,10 +132,10 @@ export default function LandingPage() {
                 <Card key={index} className="overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 bg-card">
                   <CardHeader className="flex flex-col items-center text-center p-6">
                     {feature.icon}
-                    <CardTitle className="mt-4 font-headline font-bold">{feature.title}</CardTitle>
+                    <CardTitle className="mt-4 font-headline font-bold text-card-foreground">{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center px-6 pb-6">
-                    <p className="text-muted-foreground">{feature.description}</p>
+                    <p className="text-black/60">{feature.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -149,10 +149,10 @@ export default function LandingPage() {
               <div className="grid items-center gap-12 md:grid-cols-2">
                 <div className="space-y-4">
                     <div className="inline-block rounded-lg bg-accent px-3 py-1 text-sm text-accent-foreground">Our Vision</div>
-                  <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl">
+                  <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-card-foreground">
                     Cultivating a Global Community of Empowered Believers
                   </h2>
-                  <p className="text-muted-foreground md:text-xl/relaxed">
+                  <p className="text-black/60 md:text-xl/relaxed">
                     We exist to ignite and sustain a lifestyle of faith that produces lasting transformation in individuals, families, and nations—revealing God’s power, presence, and purpose in everyday life.
                   </p>
                 </div>
@@ -161,8 +161,8 @@ export default function LandingPage() {
                         <div key={value.title} className="flex items-start gap-4">
                             {value.icon}
                             <div>
-                                <h3 className="text-lg font-bold">{value.title}</h3>
-                                <p className="text-muted-foreground">{value.description}</p>
+                                <h3 className="text-lg font-bold text-card-foreground">{value.title}</h3>
+                                <p className="text-black/60">{value.description}</p>
                             </div>
                         </div>
                     ))}
@@ -175,7 +175,7 @@ export default function LandingPage() {
         <section id="founders" className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl">
+              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
                 Meet the Founders
               </h2>
             </div>
@@ -185,16 +185,16 @@ export default function LandingPage() {
                         <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl} alt="Joseph Tryson"/>
                         <AvatarFallback>JT</AvatarFallback>
                     </Avatar>
-                    <h3 className="font-headline text-xl font-bold">The Bondservant of Christ, Joseph Tryson</h3>
-                    <p className="mt-2 text-muted-foreground">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
+                    <h3 className="font-headline text-xl font-bold text-card-foreground">The Bondservant of Christ, Joseph Tryson</h3>
+                    <p className="mt-2 text-black/60">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
                 </Card>
                  <Card className="flex flex-col items-center p-8 text-center bg-card">
                     <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
                         <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-2')?.imageUrl} alt="Prophetess Norah Tryson"/>
                         <AvatarFallback>NT</AvatarFallback>
                     </Avatar>
-                    <h3 className="font-headline text-xl font-bold">Prophetess Norah Tryson</h3>
-                    <p className="mt-2 text-muted-foreground">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
+                    <h3 className="font-headline text-xl font-bold text-card-foreground">Prophetess Norah Tryson</h3>
+                    <p className="mt-2 text-black/60">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
                 </Card>
             </div>
           </div>
@@ -204,14 +204,14 @@ export default function LandingPage() {
 
       <footer className="bg-secondary text-secondary-foreground">
         <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-black/60">
             © {new Date().getFullYear()} Faith Connect Global. All Rights Reserved.
           </p>
           <nav className="flex gap-4">
-            <Link href="#" className="text-sm hover:underline text-muted-foreground">
+            <Link href="#" className="text-sm hover:underline text-black/60">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-sm hover:underline text-muted-foreground">
+            <Link href="#" className="text-sm hover:underline text-black/60">
               Terms of Service
             </Link>
           </nav>
