@@ -204,6 +204,14 @@ export const conferences = [
         dates: 'November 7-9, 2024',
         location: 'Online Only',
         image: PlaceHolderImages.find(p => p.id === 'live-replay-2'),
+    },
+    {
+        id: 3,
+        title: 'Annual Leadership Summit',
+        description: 'An intensive summit to equip and commission leaders for the new year.',
+        dates: 'January 15-17, 2025',
+        location: 'Online Only',
+        image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
     }
 ];
 
