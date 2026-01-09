@@ -72,6 +72,10 @@
     --sidebar-border: 233 30% 24%;
     --sidebar-ring: 45 100% 51%;
   }
+
+  .dark .card .text-muted-foreground {
+    color: hsl(0 0% 0%);
+  }
 }
 
 @layer base {
