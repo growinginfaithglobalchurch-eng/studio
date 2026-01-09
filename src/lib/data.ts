@@ -207,6 +207,23 @@ export const conferences = [
     }
 ];
 
+export const courses = [
+    {
+        id: 1,
+        title: 'Foundations of Faith',
+        description: 'Solidify your understanding of core biblical doctrines.',
+        category: 'Spiritual Growth',
+        image: PlaceHolderImages.find(p => p.id === 'devotional-2'),
+    },
+    {
+        id: 2,
+        title: 'Kingdom Leadership',
+        description: 'Develop your influence and lead with a servant\'s heart.',
+        category: 'Leadership',
+        image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
+    }
+];
+
 
 export const availableContent = [
   'Morning Manna: A New Day\'s Mercies',
