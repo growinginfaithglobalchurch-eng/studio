@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -14,6 +13,8 @@ import {
   Settings,
   Users,
   User,
+  Rss,
+  Shield,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -33,7 +34,12 @@ const menuItems = [
   {
     href: '/dashboard',
     icon: <LayoutDashboard className="h-5 w-5" />,
-    label: 'Dashboard',
+    label: 'Home',
+  },
+  {
+    href: '/feeds',
+    icon: <Rss className="h-5 w-5" />,
+    label: 'Feeds',
   },
   {
     href: '/devotionals',
@@ -65,6 +71,11 @@ const menuItems = [
     icon: <User className="h-5 w-5" />,
     label: 'Profile',
   },
+  {
+    href: '/admin',
+    icon: <Shield className="h-5 w-5" />,
+    label: 'Admin',
+  }
 ];
 
 export function AppSidebar() {
