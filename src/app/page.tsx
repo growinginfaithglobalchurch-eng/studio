@@ -75,7 +75,7 @@ export default function LandingPage() {
               <Link href="/login">Log In</Link>
             </Button>
             <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="/profile">Get Started</Link>
+              <Link href="/signup">Get Started</Link>
             </Button>
           </nav>
         </div>
@@ -104,7 +104,7 @@ export default function LandingPage() {
                   </p>
                   <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                     <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                      <Link href="/profile">Join the Community</Link>
+                      <Link href="/signup">Join the Community</Link>
                     </Button>
                     <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10">
                       <Link href="/#features">Learn More</Link>

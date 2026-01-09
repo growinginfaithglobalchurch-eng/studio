@@ -62,28 +62,9 @@ const values = [
 export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background -m-4 lg:-m-6">
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <Church className="h-8 w-8 text-accent" />
-            <span className="text-lg font-headline font-bold text-foreground">
-              Growing In Faith Global Connect
-            </span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" asChild>
-              <Link href="/login">Log In</Link>
-            </Button>
-            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="/profile">Get Started</Link>
-            </Button>
-          </nav>
-        </div>
-      </header>
-
       <main className="flex-1">
         <section className="relative">
-          <div className="container px-0 md:px-6">
+          <div className="px-0 md:px-6">
             <AspectRatio ratio={16 / 9} className="relative">
               <Image
                 src={PlaceHolderImages.find(img => img.id === 'hero')?.imageUrl || ''}
@@ -104,10 +85,10 @@ export default function LandingPage() {
                   </p>
                   <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                     <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                      <Link href="/profile">Join the Community</Link>
+                      <Link href="/profile">View Your Profile</Link>
                     </Button>
                     <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10">
-                      <Link href="/#features">Learn More</Link>
+                      <Link href="/connect">Connect with Others</Link>
                     </Button>
                   </div>
                 </div>
@@ -199,24 +180,7 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-
       </main>
-
-      <footer className="bg-secondary text-secondary-foreground">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
-          <p className="text-sm">
-            © {new Date().getFullYear()} Growing in Faith Global Connect. All Rights Reserved.
-          </p>
-          <nav className="flex gap-4">
-            <Link href="#" className="text-sm hover:underline">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-sm hover:underline">
-              Terms of Service
-            </Link>
-          </nav>
-        </div>
-      </footer>
     </div>
   );
 }

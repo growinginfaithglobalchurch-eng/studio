@@ -1,4 +1,5 @@
 
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -36,7 +37,7 @@ export default function LoginPage() {
               <Input id="password" type="password" required />
             </div>
             <Button type="submit" className="w-full" asChild>
-                <Link href="/profile">Login</Link>
+                <Link href="/dashboard">Login</Link>
             </Button>
             <Button variant="outline" className="w-full">
               Login with Google
