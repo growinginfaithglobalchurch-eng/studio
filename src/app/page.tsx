@@ -100,7 +100,7 @@ export default function LandingPage() {
                     Deeper Faith. Global Connection.
                   </h1>
                   <p className="mx-auto mt-6 max-w-3xl text-lg text-white/90 md:text-xl">
-                    An interactive spiritual ecosystem to grow in faith, access transformational resources, and live out your divine purpose.
+                    Connecting Faith. Activating Purpose. Impacting the World.
                   </p>
                   <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                     <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
