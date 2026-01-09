@@ -1,8 +1,9 @@
 
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { feedItems } from "@/lib/data";
-import { BookOpen, Handshake, HeartHandshake, Rss, Send } from "lucide-react";
+import { BookOpen, Handshake, HeartHandshake, Rss, Send, Image as ImageIcon, Video } from "lucide-react";
 import Link from 'next/link';
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Textarea } from "@/components/ui/textarea";
@@ -36,7 +37,17 @@ export default function FeedsPage() {
             </Avatar>
             <div className="flex-grow space-y-2">
                 <Textarea placeholder="What's on your mind?" className="bg-secondary" />
-                <div className="flex justify-end">
+                <div className="flex justify-between items-center">
+                    <div className="flex gap-2">
+                        <Button variant="ghost" size="icon">
+                            <ImageIcon className="h-5 w-5 text-accent" />
+                            <span className="sr-only">Add Photo</span>
+                        </Button>
+                        <Button variant="ghost" size="icon">
+                            <Video className="h-5 w-5 text-accent" />
+                            <span className="sr-only">Add Video</span>
+                        </Button>
+                    </div>
                     <Button>
                         <Send className="h-4 w-4 mr-2" />
                         Post
