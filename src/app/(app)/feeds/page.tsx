@@ -2,12 +2,13 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { feedItems } from "@/lib/data";
-import { BookOpen, Handshake, HeartHandshake, Rss, Send, Image as ImageIcon, Video } from "lucide-react";
+import { feedItems, communityUsers } from "@/lib/data";
+import { BookOpen, Handshake, HeartHandshake, Rss, Send, Image as ImageIcon, Video, PlusCircle } from "lucide-react";
 import Link from 'next/link';
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const iconMap = {
   PRAYER_REQUEST: <HeartHandshake className="h-5 w-5 text-accent" />,
@@ -16,17 +17,55 @@ const iconMap = {
   default: <Rss className="h-5 w-5 text-accent" />
 }
 
+// Mock data for stories, in a real app this would come from a backend
+const stories = [
+    { id: 'current-user', name: 'Your Story', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1') },
+    ...communityUsers.slice(1, 5).map(user => ({...user, name: user.name.split(' ')[0]}))
+];
+
 export default function FeedsPage() {
   const currentUserAvatar = PlaceHolderImages.find(p => p.id === 'avatar-1');
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       <div>
-        <h1 className="text-3xl font-headline font-bold">Community Feed</h1>
+        <h1 className="text-3xl font-headline font-bold">Feeds & Stories</h1>
         <p className="text-white">
-          See what's happening in the community right now.
+          Catch up on stories and see what's happening in the community.
         </p>
       </div>
+
+      <Card>
+        <CardHeader>
+             <h2 className="text-lg font-semibold tracking-tight">Stories</h2>
+        </CardHeader>
+        <CardContent>
+            <ScrollArea className="w-full whitespace-nowrap">
+                <div className="flex w-max space-x-4 pb-4">
+                {stories.map((story) => (
+                    <Link href="#" key={story.id} className="flex-shrink-0">
+                    <div className="flex flex-col items-center gap-2 w-20">
+                        <div className="relative">
+                            <Avatar className="h-16 w-16 border-2 border-accent">
+                                {story.avatar && <AvatarImage src={story.avatar.imageUrl} alt={story.name} data-ai-hint={story.avatar.imageHint} />}
+                                <AvatarFallback>{story.name.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                             {story.id === 'current-user' && (
+                                <div className="absolute -bottom-1 -right-1 bg-background rounded-full">
+                                    <PlusCircle className="h-6 w-6 text-primary"/>
+                                </div>
+                            )}
+                        </div>
+                        <p className="text-xs text-center text-muted-foreground truncate w-full">{story.name}</p>
+                    </div>
+                    </Link>
+                ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+        </CardContent>
+      </Card>
+
 
       <Card>
         <CardContent className="p-4">
@@ -60,6 +99,7 @@ export default function FeedsPage() {
 
 
       <div className="space-y-4">
+         <h2 className="text-lg font-semibold tracking-tight">Community Feed</h2>
         {feedItems.map((item) => (
           <Card key={item.id}>
             <CardHeader className="p-4">
