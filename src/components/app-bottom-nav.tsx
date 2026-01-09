@@ -24,7 +24,7 @@ export function AppBottomNav() {
             href={item.href}
             className={cn(
               'inline-flex flex-col items-center justify-center px-5 hover:bg-muted text-muted-foreground',
-              pathname === item.href && 'text-primary'
+              (pathname === item.href || (item.href === '/profile' && pathname.startsWith('/dashboard'))) && 'text-primary'
             )}
           >
             {item.icon}

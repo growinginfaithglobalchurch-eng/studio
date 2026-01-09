@@ -75,7 +75,7 @@ export default function LandingPage() {
               <Link href="/login">Log In</Link>
             </Button>
             <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="/dashboard">Get Started</Link>
+              <Link href="/profile">Get Started</Link>
             </Button>
           </nav>
         </div>
@@ -84,7 +84,7 @@ export default function LandingPage() {
       <main className="flex-1">
         <section className="relative">
           <div className="container px-0 md:px-6">
-            <AspectRatio ratio={4 / 4} className="relative">
+            <AspectRatio ratio={16 / 9} className="relative">
               <Image
                 src={PlaceHolderImages.find(img => img.id === 'hero')?.imageUrl || ''}
                 alt="Congregation worshipping"
@@ -93,6 +93,7 @@ export default function LandingPage() {
                 priority
                 data-ai-hint="worship congregation"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
                 <div className="container px-4 md:px-6">
                   <h1 className="font-headline text-4xl font-bold tracking-wide text-white sm:text-5xl md:text-6xl lg:text-7xl">
@@ -103,7 +104,7 @@ export default function LandingPage() {
                   </p>
                   <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                     <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                      <Link href="/dashboard">Join the Community</Link>
+                      <Link href="/profile">Join the Community</Link>
                     </Button>
                     <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10">
                       <Link href="/#features">Learn More</Link>

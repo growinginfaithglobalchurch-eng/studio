@@ -1,51 +1,53 @@
+'use client';
 
+import { ContentRecommender } from '@/components/content-recommender';
+import { SpiritualGrowthChart } from '@/components/spiritual-growth-chart';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  BookOpen,
+  HeartHandshake,
+  Users,
+  Clapperboard,
+} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
+
+const stats = [
+  {
+    icon: <BookOpen className="h-6 w-6 text-accent" />,
+    title: 'Devotionals Read',
+    value: '12',
+  },
+  {
+    icon: <HeartHandshake className="h-6 w-6 text-accent" />,
+    title: 'Prayers Joined',
+    value: '8',
+  },
+  {
+    icon: <Clapperboard className="h-6 w-6 text-accent" />,
+    title: 'Sessions Watched',
+    value: '5',
+  },
+  {
+    icon: <Users className="h-6 w-6 text-accent" />,
+    title: 'New Connections',
+    value: '3',
+  },
+];
 
 // In a real app, this would come from an auth context
 const user = {
   name: 'Joseph',
   email: 'joseph@faithconnect.com',
   avatar: PlaceHolderImages.find((p) => p.id === 'avatar-1'),
-  profile: {
-    faithInterests: 'Prophecy, Worship, Leadership',
-    growthGoals: 'Read the bible daily, Join a small group',
-    ministryCalling: 'Teaching',
-    spiritualMaturity: 'Mature Leader',
-  },
 };
+
 
 export default function ProfilePage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-headline font-bold">
-          Spiritual Profile
-        </h1>
-        <p className="text-white">
-          Tell us about your journey. This helps us personalize your experience.
-        </p>
-      </div>
-
+    <div className="flex flex-col gap-6">
       <Card>
         <CardHeader>
           <div className="flex items-center gap-4">
@@ -60,8 +62,8 @@ export default function ProfilePage() {
               </Avatar>
             )}
             <div>
-              <CardTitle className="text-2xl font-bold">{user.name}</CardTitle>
-              <CardDescription>{user.email}</CardDescription>
+              <h1 className="text-2xl font-bold">{user.name}</h1>
+              <p className="text-muted-foreground">{user.email}</p>
             </div>
             <Button variant="outline" size="icon" className="ml-auto">
               <Edit className="h-4 w-4 text-accent" />
@@ -69,75 +71,35 @@ export default function ProfilePage() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="faith-interests">Faith Interests</Label>
-              <Textarea
-                id="faith-interests"
-                placeholder="e.g., Prophecy, Worship, Apologetics"
-                defaultValue={user.profile.faithInterests}
-                className="text-white"
-              />
-              <p className="text-xs text-muted-foreground">
-                Topics you're passionate about.
-              </p>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="growth-goals">Growth Goals</Label>
-              <Textarea
-                id="growth-goals"
-                placeholder="e.g., Read the Bible daily, Join a small group"
-                defaultValue={user.profile.growthGoals}
-                className="text-white"
-              />
-              <p className="text-xs text-muted-foreground">
-                What are you aiming for in your spiritual walk?
-              </p>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="ministry-calling">Ministry Calling</Label>
-              <Input
-                id="ministry-calling"
-                placeholder="e.g., Teaching, Missions, Youth"
-                defaultValue={user.profile.ministryCalling}
-                className="text-white"
-              />
-              <p className="text-xs text-muted-foreground">
-                How do you feel called to serve? (Optional)
-              </p>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="spiritual-maturity">
-                Level of Spiritual Maturity
-              </Label>
-              <Select
-                defaultValue={user.profile.spiritualMaturity}
-              >
-                <SelectTrigger id="spiritual-maturity" className="text-white">
-                  <SelectValue placeholder="Select your level" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="New Believer">New Believer</SelectItem>
-                  <SelectItem value="Growing Disciple">
-                    Growing Disciple
-                  </SelectItem>
-                  <SelectItem value="Mature Leader">Mature Leader</SelectItem>
-                  <SelectItem value="Seasoned Saint">
-                    Seasoned Saint
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground">
-                This helps us recommend appropriate resources.
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <Button>Save Changes</Button>
-          </div>
-        </CardContent>
       </Card>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat, index) => (
+          <Card key={index} className="hover:bg-card/90 transition-colors">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                {stat.title}
+              </CardTitle>
+              {stat.icon}
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stat.value}</div>
+              <p className="text-xs text-muted-foreground">
+                in the last 30 days
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <SpiritualGrowthChart />
+        <ContentRecommender />
+      </div>
+
+      <div>
+        {/* Placeholder for more dashboard components like upcoming events, recent activity etc */}
+      </div>
     </div>
   );
 }
