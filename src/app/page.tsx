@@ -133,7 +133,7 @@ export default function LandingPage() {
                     {feature.icon}
                     <CardTitle className="mt-4 font-headline font-bold">{feature.title}</CardTitle>
                   </CardHeader>
-                  <CardContent className="text-center text-muted-foreground px-6 pb-6">
+                  <CardContent className="text-center px-6 pb-6">
                     <p>{feature.description}</p>
                   </CardContent>
                 </Card>
@@ -151,7 +151,7 @@ export default function LandingPage() {
                   <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl">
                     Cultivating a Global Community of Empowered Believers
                   </h2>
-                  <p className="text-muted-foreground md:text-xl/relaxed">
+                  <p className="md:text-xl/relaxed">
                     We exist to ignite and sustain a lifestyle of faith that produces lasting transformation in individuals, families, and nations—revealing God’s power, presence, and purpose in everyday life.
                   </p>
                 </div>
@@ -161,7 +161,7 @@ export default function LandingPage() {
                             {value.icon}
                             <div>
                                 <h3 className="text-lg font-bold">{value.title}</h3>
-                                <p className="text-muted-foreground">{value.description}</p>
+                                <p>{value.description}</p>
                             </div>
                         </div>
                     ))}
@@ -185,7 +185,7 @@ export default function LandingPage() {
                         <AvatarFallback>JT</AvatarFallback>
                     </Avatar>
                     <h3 className="font-headline text-xl font-bold">The Bondservant of Christ, Joseph Tryson</h3>
-                    <p className="mt-2 text-muted-foreground">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
+                    <p className="mt-2">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
                 </Card>
                  <Card className="flex flex-col items-center p-8 text-center bg-card">
                     <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
@@ -193,7 +193,7 @@ export default function LandingPage() {
                         <AvatarFallback>NT</AvatarFallback>
                     </Avatar>
                     <h3 className="font-headline text-xl font-bold">Prophetess Norah Tryson</h3>
-                    <p className="mt-2 text-muted-foreground">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
+                    <p className="mt-2">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
                 </Card>
             </div>
           </div>
