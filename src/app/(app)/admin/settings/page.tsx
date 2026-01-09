@@ -1,13 +1,14 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Paintbrush, Image as ImageIcon, Upload, GitBranch } from 'lucide-react';
+import { Paintbrush, Image as ImageIcon, Upload, GitBranch, FileImage, Wallpaper } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 export default function AdminSettingsPage() {
-    const uploadedImages = PlaceHolderImages.slice(0, 4);
+    const logos = PlaceHolderImages.filter(image => image.imageHint?.includes('logo')).slice(0, 3);
+    const banners = PlaceHolderImages.filter(image => image.id.includes('hero') || image.id.includes('banner')).slice(0, 4);
 
   return (
     <div className="space-y-8">
@@ -40,29 +41,51 @@ export default function AdminSettingsPage() {
            <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ImageIcon className="h-5 w-5 text-accent" />
-              Media & Branding
+              Media & Branding Assets
             </CardTitle>
             <CardDescription>
                 Manage logos, branding photos, banners, and background photos.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-             <div className="flex items-center justify-center w-full">
-                <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-secondary">
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <Upload className="w-8 h-8 mb-4 text-muted-foreground" />
-                        <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                        <p className="text-xs text-muted-foreground">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                    </div>
-                    <input id="dropzone-file" type="file" className="hidden" />
-                </label>
-            </div> 
-
+          <CardContent className="space-y-8">
+             
             <div>
-                <h3 className="text-lg font-medium text-foreground mb-4">Uploaded Assets</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    {uploadedImages.map((image) => (
-                        <div key={image.id} className="relative aspect-square rounded-md overflow-hidden border">
+                <h3 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
+                    <FileImage className="h-5 w-5" />
+                    Logos
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+                    {logos.map((image) => (
+                        <div key={image.id} className="relative aspect-square rounded-md overflow-hidden border bg-secondary/30 p-2">
+                             <Image
+                                src={image.imageUrl}
+                                alt={image.description}
+                                fill
+                                className="object-contain"
+                                data-ai-hint={image.imageHint}
+                            />
+                        </div>
+                    ))}
+                </div>
+                 <div className="flex items-center justify-center w-full">
+                    <label htmlFor="logo-dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-secondary">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                            <p className="text-sm text-muted-foreground"><span className="font-semibold">Upload a Logo</span></p>
+                        </div>
+                        <input id="logo-dropzone-file" type="file" className="hidden" />
+                    </label>
+                </div> 
+            </div>
+
+            <div className="border-t pt-8">
+                <h3 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
+                    <Wallpaper className="h-5 w-5" />
+                    Banners & Backgrounds
+                </h3>
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                    {banners.map((image) => (
+                        <div key={image.id} className="relative aspect-video rounded-md overflow-hidden border">
                              <Image
                                 src={image.imageUrl}
                                 alt={image.description}
@@ -73,6 +96,16 @@ export default function AdminSettingsPage() {
                         </div>
                     ))}
                 </div>
+                 <div className="flex items-center justify-center w-full">
+                    <label htmlFor="banner-dropzone-file" className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-secondary">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <Upload className="w-8 h-8 mb-4 text-muted-foreground" />
+                            <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                            <p className="text-xs text-muted-foreground">SVG, PNG, JPG (Recommended: 1920x1080)</p>
+                        </div>
+                        <input id="banner-dropzone-file" type="file" className="hidden" />
+                    </label>
+                </div> 
             </div>
           </CardContent>
         </Card>
