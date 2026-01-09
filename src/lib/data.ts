@@ -188,6 +188,25 @@ export const events = [
   },
 ];
 
+export const conferences = [
+    {
+        id: 1,
+        title: 'Global Impact Conference 2024',
+        description: 'A 3-day conference focused on equipping believers for global missions and marketplace ministry.',
+        dates: 'October 10-12, 2024',
+        location: 'Atlanta, GA & Online',
+        image: PlaceHolderImages.find(p => p.id === 'hero'),
+    },
+    {
+        id: 2,
+        title: 'Prophetic Summit: The Seer\'s Realm',
+        description: 'An immersive summit for prophets and prophetic people to go deeper in the seer dimension.',
+        dates: 'November 7-9, 2024',
+        location: 'Online Only',
+        image: PlaceHolderImages.find(p => p.id === 'live-replay-2'),
+    }
+];
+
 
 export const availableContent = [
   'Morning Manna: A New Day\'s Mercies',
