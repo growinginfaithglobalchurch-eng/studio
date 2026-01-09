@@ -42,19 +42,19 @@ const features = [
 
 const values = [
     {
-      icon: <Gem className="h-8 w-8 text-accent" />,
-      title: "Faith at the Center",
-      description: "Championing a lifestyle where faith is the foundation of every decision and action."
-    },
-    {
-      icon: <Users className="h-8 w-8 text-accent" />,
-      title: "Authentic Community",
-      description: "Fostering genuine connections and support among believers worldwide."
+      icon: <Target className="h-8 w-8 text-accent" />,
+      title: "Our Vision",
+      description: "To build a global digital altar where believers are raised, equipped, and released to live beyond limitations through faith in Christ."
     },
     {
       icon: <Rocket className="h-8 w-8 text-accent" />,
-      title: "Purpose-Driven Growth",
-      description: "Empowering every user to discover and walk in their God-given purpose and impact."
+      title: "Our Mission",
+      description: "To recruit, identify, equip, deploy, and sustain believers worldwide by providing a Spirit-led platform for growth, revelation, and kingdom impact."
+    },
+    {
+      icon: <Gem className="h-8 w-8 text-accent" />,
+      title: "Our Purpose",
+      description: "To make spiritual growth accessible, structured, and transformational for believers everywhere—turning faith into lifestyle and revelation into impact."
     }
 ]
 
@@ -145,30 +145,23 @@ export default function LandingPage() {
 
         <section className="bg-secondary py-12 md:py-24">
           <div className="container px-4 md:px-6">
-            <Card className="p-8 md:p-12 bg-card">
-              <div className="grid items-center gap-12 md:grid-cols-2">
-                <div className="space-y-4">
-                    <div className="inline-block rounded-lg bg-accent px-3 py-1 text-sm text-accent-foreground">Our Vision</div>
-                  <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-card-foreground">
-                    Cultivating a Global Community of Empowered Believers
+             <div className="mb-12 text-center">
+                 <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
+                    Our Core Convictions
                   </h2>
-                  <p className="text-black/60 md:text-xl/relaxed">
-                    We exist to ignite and sustain a lifestyle of faith that produces lasting transformation in individuals, families, and nations—revealing God’s power, presence, and purpose in everyday life.
+                   <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                    The heart behind our global digital altar.
                   </p>
-                </div>
-                <div className="flex flex-col gap-6">
-                    {values.map((value) => (
-                        <div key={value.title} className="flex items-start gap-4">
-                            {value.icon}
-                            <div>
-                                <h3 className="text-lg font-bold text-card-foreground">{value.title}</h3>
-                                <p className="text-black/60">{value.description}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-              </div>
-            </Card>
+             </div>
+            <div className="grid gap-8 md:grid-cols-3">
+                {values.map((value) => (
+                    <Card key={value.title} className="bg-card p-6 text-center flex flex-col items-center">
+                         {value.icon}
+                        <h3 className="text-xl font-bold text-card-foreground mt-4">{value.title}</h3>
+                        <p className="text-black/60 mt-2">{value.description}</p>
+                    </Card>
+                ))}
+            </div>
           </div>
         </section>
 
