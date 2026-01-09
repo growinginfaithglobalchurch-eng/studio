@@ -81,7 +81,7 @@ export default function GivingPage() {
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <Button variant="outline" asChild>
+                    <Button asChild>
                         <Link href="/contact">Contact Us for Partnership</Link>
                     </Button>
                 </CardContent>
