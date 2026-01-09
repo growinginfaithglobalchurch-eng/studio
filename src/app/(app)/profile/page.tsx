@@ -41,7 +41,7 @@ export default function ProfilePage() {
         <h1 className="text-3xl font-headline font-bold">
           Spiritual Profile
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-white">
           Tell us about your journey. This helps us personalize your experience.
         </p>
       </div>
