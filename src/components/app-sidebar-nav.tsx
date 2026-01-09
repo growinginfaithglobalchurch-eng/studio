@@ -26,6 +26,7 @@ import {
   Swords,
   Briefcase,
   Sparkles,
+  Globe,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -71,6 +72,7 @@ const adminNav = [
     { href: '/admin', label: 'Dashboard', icon: <Home className="h-4 w-4" /> },
     { href: '/admin/settings', label: 'Settings', icon: <Settings className="h-4 w-4" /> },
     { href: '/admin/roadmap', label: 'Roadmap', icon: <GraduationCap className="h-4 w-4" /> },
+    { href: '/admin/global-expansion', label: 'Global Strategy', icon: <Globe className="h-4 w-4" /> },
 ]
 
 export function AppSidebarNav() {
