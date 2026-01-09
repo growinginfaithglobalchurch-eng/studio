@@ -18,6 +18,9 @@ import { Input } from '@/components/ui/input';
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { AppSidebar } from './app-sidebar';
@@ -42,6 +45,12 @@ export function AppHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-[280px] bg-sidebar text-sidebar-foreground border-r-0">
+             <SheetHeader className="sr-only">
+              <SheetTitle>Navigation Menu</SheetTitle>
+              <SheetDescription>
+                A list of links to navigate the application.
+              </SheetDescription>
+            </SheetHeader>
             <AppSidebar />
           </SheetContent>
         </Sheet>
