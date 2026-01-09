@@ -91,7 +91,7 @@ export function AppSidebarNav() {
                     href={item.href}
                     className={cn(
                       'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
-                      pathname === item.href && 'bg-sidebar-muted text-sidebar-foreground'
+                      (pathname === item.href || (pathname === '/youth' && item.href === '/kids')) && 'bg-sidebar-muted text-sidebar-foreground'
                     )}
                   >
                     {item.icon}

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Baby, ShieldCheck, Gamepad2, Users } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Link from 'next/link';
 
 const kidsContent = {
     image: PlaceHolderImages.find(p => p.id === 'community-feature'),
@@ -99,7 +100,9 @@ export default function KidsAndYouthPage() {
             </ul>
           </CardContent>
            <div className="p-6 pt-0">
-             <Button>Explore Youth Connect</Button>
+             <Button asChild>
+                <Link href="/youth">Explore Youth Connect</Link>
+             </Button>
           </div>
         </Card>
       </div>
