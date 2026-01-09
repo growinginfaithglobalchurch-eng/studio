@@ -6,9 +6,9 @@ import { feedItems, communityUsers } from "@/lib/data";
 import { BookOpen, Handshake, HeartHandshake, Rss, Send, Image as ImageIcon, Video, PlusCircle } from "lucide-react";
 import Link from 'next/link';
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { CreatePostForm } from "@/components/create-post-form";
 
 const iconMap = {
   PRAYER_REQUEST: <HeartHandshake className="h-5 w-5 text-accent" />,
@@ -24,13 +24,12 @@ const stories = [
 ];
 
 export default function DashboardPage() {
-  const currentUserAvatar = PlaceHolderImages.find(p => p.id === 'avatar-1');
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       <div>
         <h1 className="text-3xl font-headline font-bold text-foreground">Feeds & Stories</h1>
-        <p className="text-foreground/80">
+        <p className="text-muted-foreground">
           Catch up on stories and see what's happening in the community.
         </p>
       </div>
@@ -66,67 +65,38 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
 
-
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex gap-4">
-            <Avatar className="h-10 w-10 border">
-              {currentUserAvatar && <AvatarImage src={currentUserAvatar.imageUrl} alt="You" data-ai-hint={currentUserAvatar.imageHint}/>}
-              <AvatarFallback>U</AvatarFallback>
-            </Avatar>
-            <div className="flex-grow space-y-2">
-                <Textarea placeholder="What's on your mind?" className="bg-secondary text-foreground" />
-                <div className="flex justify-between items-center">
-                    <div className="flex gap-2">
-                        <Button variant="ghost" size="icon">
-                            <ImageIcon className="h-5 w-5 text-accent" />
-                            <span className="sr-only">Add Photo</span>
-                        </Button>
-                        <Button variant="ghost" size="icon">
-                            <Video className="h-5 w-5 text-accent" />
-                            <span className="sr-only">Add Video</span>
-                        </Button>
-                    </div>
-                    <Button>
-                        <Send className="h-4 w-4 mr-2" />
-                        Post
-                    </Button>
-                </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
+      <CreatePostForm />
 
       <div className="space-y-4">
          <h2 className="text-lg font-semibold tracking-tight text-foreground">Community Feed</h2>
-        {feedItems.map((item) => (
-          <Card key={item.id}>
-            <CardHeader className="p-4">
-              <div className="flex items-start gap-4">
-                 <Link href={item.href}>
-                  <Avatar className="h-10 w-10 border">
-                    {item.avatar && <AvatarImage src={item.avatar.imageUrl} alt={item.user} data-ai-hint={item.avatar.imageHint}/>}
-                    <AvatarFallback>{item.user.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                 </Link>
-                <div className="flex-grow">
-                  <div className="flex items-center gap-2">
-                    {iconMap[item.type as keyof typeof iconMap] || iconMap.default}
-                    <p className="text-sm text-black">
-                      <Link href={item.href} className="font-semibold hover:underline text-black">{item.user}</Link> {item.content}
-                    </p>
-                  </div>
-                  <p className="text-xs text-black/70 mt-1">{item.timestamp}</p>
+        {feedItems.map((item, index) => (
+         <React.Fragment key={item.id}>
+            <Card>
+                <CardHeader>
+                <div className="flex items-start gap-4">
+                    <Link href={item.href}>
+                    <Avatar className="h-10 w-10 border">
+                        {item.avatar && <AvatarImage src={item.avatar.imageUrl} alt={item.user} data-ai-hint={item.avatar.imageHint}/>}
+                        <AvatarFallback>{item.user.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    </Link>
+                    <div className="flex-grow">
+                    <div className="flex items-center gap-2">
+                        <p className="text-sm">
+                        <Link href={item.href} className="font-semibold hover:underline text-foreground">{item.user}</Link>
+                        <span className="text-muted-foreground"> {item.content}</span>
+                        </p>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">{item.timestamp}</p>
+                    </div>
                 </div>
-              </div>
-            </CardHeader>
-            <CardContent className="p-4 pt-0 pl-16">
-              <Card className="bg-secondary p-3 border-accent">
-                 <p className="text-sm line-clamp-3 text-secondary-foreground">{item.details}</p>
-              </Card>
-            </CardContent>
-          </Card>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-sm text-foreground/90">{item.details}</p>
+                </CardContent>
+            </Card>
+            {index < feedItems.length - 1 && <Separator />}
+          </React.Fragment>
         ))}
       </div>
     </div>
