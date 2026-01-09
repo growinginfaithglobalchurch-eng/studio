@@ -47,25 +47,6 @@ export function AppHeader() {
 
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6 shrink-0">
-      <div className="flex md:hidden">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle navigation menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-[280px] bg-sidebar text-sidebar-foreground border-r-0">
-             <SheetHeader className="sr-only">
-              <SheetTitle>Mobile Menu</SheetTitle>
-              <SheetDescription>
-                Main navigation for the application.
-              </SheetDescription>
-            </SheetHeader>
-            <AppSidebar />
-          </SheetContent>
-        </Sheet>
-      </div>
       
       <div className="w-full flex-1">
         <form onSubmit={handleSearch}>
