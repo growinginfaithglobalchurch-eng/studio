@@ -64,7 +64,7 @@ export default function ProfilePage() {
               <CardDescription>{user.email}</CardDescription>
             </div>
             <Button variant="outline" size="icon" className="ml-auto">
-              <Edit className="h-4 w-4" />
+              <Edit className="h-4 w-4 text-accent" />
               <span className="sr-only">Edit Profile</span>
             </Button>
           </div>
