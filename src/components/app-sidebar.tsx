@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -38,7 +39,7 @@ export function AppSidebar() {
          <Link href="/dashboard" className="flex items-center gap-3">
           <Church className="h-8 w-8 text-accent" />
           <div className="flex flex-col">
-            <span className="font-headline text-lg text-foreground font-bold">
+            <span className="font-headline text-lg font-bold">
               Growing In Faith
             </span>
              <span className="text-sm text-foreground/70 -mt-1">Global Connect</span>
@@ -82,37 +83,33 @@ export function AppSidebar() {
             
             <hr/>
 
-            <Accordion type="multiple" defaultValue={['general', 'courses']} className="w-full">
+            <Accordion type="multiple" defaultValue={['general', 'community']} className="w-full">
               <AccordionItem value="general" className="border-b-0">
-                <AccordionTrigger className="py-2 hover:no-underline text-muted-foreground">
-                    <span className="font-semibold">General</span>
+                <AccordionTrigger className="py-2 hover:no-underline font-semibold text-muted-foreground">
+                    General
                 </AccordionTrigger>
-                <AccordionContent className="pl-2">
-                  <Link href="/dashboard" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/dashboard' || pathname.startsWith('/home') ? 'text-primary' : 'text-muted-foreground')}>
+                <AccordionContent className="pl-2 space-y-1">
+                  <Link href="/dashboard" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/dashboard' ? 'text-primary bg-muted' : 'text-muted-foreground')}>
                     <Home className="h-4 w-4" />
                     Home
                   </Link>
-                  <Link href="/feeds" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/feeds' ? 'text-primary' : 'text-muted-foreground')}>
-                    <Rss className="h-4 w-4" />
-                    Feeds
-                  </Link>
-                  <Link href="/devotionals" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/devotionals' ? 'text-primary' : 'text-muted-foreground')}>
+                  <Link href="/devotionals" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/devotionals' ? 'text-primary bg-muted' : 'text-muted-foreground')}>
                      <Sparkles className="h-4 w-4" />
                     Devotionals
                   </Link>
-                   <Link href="/prayer" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/prayer' ? 'text-primary' : 'text-muted-foreground')}>
+                   <Link href="/prayer" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/prayer' ? 'text-primary bg-muted' : 'text-muted-foreground')}>
                      <Sparkles className="h-4 w-4" />
                     Prayer Wall
                   </Link>
-                   <Link href="/live" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/live' ? 'text-primary' : 'text-muted-foreground')}>
+                   <Link href="/live" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/live' ? 'text-primary bg-muted' : 'text-muted-foreground')}>
                      <Sparkles className="h-4 w-4" />
                     Live Sessions
                   </Link>
-                   <Link href="/ministries" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/ministries' ? 'text-primary' : 'text-muted-foreground')}>
+                   <Link href="/ministries" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/ministries' ? 'text-primary bg-muted' : 'text-muted-foreground')}>
                      <Sparkles className="h-4 w-4" />
                     Ministries
                   </Link>
-                   <Link href="/profile" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/profile' ? 'text-primary' : 'text-muted-foreground')}>
+                   <Link href="/profile" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/profile' ? 'text-primary bg-muted' : 'text-muted-foreground')}>
                      <Sparkles className="h-4 w-4" />
                     Profile
                   </Link>
@@ -120,12 +117,12 @@ export function AppSidebar() {
               </AccordionItem>
 
               <AccordionItem value="courses" className="border-b-0">
-                <AccordionTrigger className="py-2 hover:no-underline text-muted-foreground">
-                  <span className="font-semibold">Courses</span>
+                <AccordionTrigger className="py-2 hover:no-underline font-semibold text-muted-foreground">
+                  Courses
                 </AccordionTrigger>
                 <AccordionContent className="pl-2 space-y-1">
                   <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted">
-                    <div className="w-6 h-6 rounded bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold">S</div>
+                    <div className="w-6 h-6 rounded bg-muted/50 text-muted-foreground flex items-center justify-center text-xs font-bold">S</div>
                     School of Ministry
                   </Link>
                   <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted">
@@ -133,26 +130,26 @@ export function AppSidebar() {
                     School Of Revelation
                   </Link>
                   <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted">
-                    <div className="w-6 h-6 rounded bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold">T</div>
+                    <div className="w-6 h-6 rounded bg-muted/50 text-muted-foreground flex items-center justify-center text-xs font-bold">T</div>
                     The of the Spirit
                   </Link>
                 </AccordionContent>
               </AccordionItem>
               
                <AccordionItem value="community" className="border-b-0">
-                <AccordionTrigger className="py-2 hover:no-underline text-muted-foreground">
-                    <span className="font-semibold">Community</span>
+                <AccordionTrigger className="py-2 hover:no-underline font-semibold text-muted-foreground">
+                    Community
                 </AccordionTrigger>
-                <AccordionContent className="pl-2">
-                  <Link href="/connect" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/connect' ? 'text-primary' : 'text-muted-foreground')}>
+                <AccordionContent className="pl-2 space-y-1">
+                  <Link href="/connect" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/connect' ? 'text-primary bg-muted' : 'text-muted-foreground')}>
                      <Users className="h-4 w-4" />
                     Connect
                   </Link>
-                  <Link href="/groups" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/groups' ? 'text-primary' : 'text-muted-foreground')}>
+                  <Link href="/groups" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/groups' ? 'text-primary bg-muted' : 'text-muted-foreground')}>
                      <Users className="h-4 w-4" />
                     Groups
                   </Link>
-                   <Link href="/mentorship" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/mentorship' ? 'text-primary' : 'text-muted-foreground')}>
+                   <Link href="/mentorship" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-muted", pathname === '/mentorship' ? 'text-primary bg-muted' : 'text-muted-foreground')}>
                      <Users className="h-4 w-4" />
                     Mentorship
                   </Link>
