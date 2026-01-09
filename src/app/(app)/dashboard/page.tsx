@@ -1,4 +1,6 @@
 
+'use client';
+
 import { ContentRecommender } from '@/components/content-recommender';
 import { SpiritualGrowthChart } from '@/components/spiritual-growth-chart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,12 +34,18 @@ const stats = [
   },
 ];
 
+// In a real app, this would come from an auth context
+const user = {
+  name: 'Joseph',
+};
+
+
 export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-3xl font-headline font-bold">
-          Welcome, Child of God!
+          Welcome Saint {user.name}!
         </h1>
         <p className="text-white">
           You are here for a purpose. Let's walk in it together.

@@ -25,6 +25,10 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 export function AppHeader() {
   // This would come from an auth context in a real app
   const isLoggedIn = true;
+  const user = {
+    name: 'Joseph',
+    email: 'joseph@faithconnect.com'
+  }
 
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6 shrink-0">
@@ -75,9 +79,9 @@ export function AppHeader() {
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">Joseph Tryson</p>
+                  <p className="text-sm font-medium leading-none">{user.name}</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    joseph@faithconnect.com
+                    {user.email}
                   </p>
                 </div>
               </DropdownMenuLabel>
