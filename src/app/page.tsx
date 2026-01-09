@@ -15,6 +15,10 @@ import {
   BookMarked,
   Eye,
   UserCheck,
+  Network,
+  Sparkles,
+  Swords,
+  Globe,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -61,6 +65,26 @@ const values = [
       description: "To make spiritual growth accessible, structured, and transformational for believers everywhere—turning faith into lifestyle and revelation into impact."
     }
 ]
+
+const inEssencePoints = [
+  {
+    icon: <Network className="h-8 w-8 text-accent" />,
+    title: 'A Digital Church Extension',
+  },
+  {
+    icon: <Sparkles className="h-8 w-8 text-accent" />,
+    title: 'A Faith Activation System',
+  },
+  {
+    icon: <Swords className="h-8 w-8 text-accent" />,
+    title: 'A Kingdom Training Ground',
+  },
+  {
+    icon: <Globe className="h-8 w-8 text-accent" />,
+    title: 'A Global Spiritual Family',
+  },
+];
+
 
 const leadershipPoints = [
     {
@@ -188,7 +212,36 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="founders" className="py-12 md:py-24">
+        <section className="py-12 md:py-24">
+          <div className="container px-4 md:px-6">
+            <div className="mb-12 text-center">
+              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
+                In Essence
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                Growing in Faith Global Connect is:
+              </p>
+            </div>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+              {inEssencePoints.map((point) => (
+                <Card
+                  key={point.title}
+                  className="bg-card p-6 text-center flex flex-col items-center"
+                >
+                  {point.icon}
+                  <h3 className="text-lg font-bold text-card-foreground mt-4">
+                    {point.title}
+                  </h3>
+                </Card>
+              ))}
+            </div>
+            <p className="mt-12 text-center text-lg max-w-4xl mx-auto text-muted-foreground">
+              It exists to transform non-existent realities into existence through faith, empowering believers to live fully in Christ and fulfill divine purpose on earth.
+            </p>
+          </div>
+        </section>
+
+        <section id="founders" className="py-12 md:py-24 bg-secondary">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
               <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
