@@ -23,7 +23,7 @@
     --muted-foreground: 0 0% 60%;
 
     --accent: 45 100% 51%; /* Gold */
-    --accent-foreground: 220 40% 5%;
+    --accent-foreground: 220 40% 10%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -69,7 +69,7 @@
     --muted-foreground: 0 0% 60%;
     
     --accent: 45 100% 51%; /* Gold */
-    --accent-foreground: 220 40% 5%;
+    --accent-foreground: 220 40% 10%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
