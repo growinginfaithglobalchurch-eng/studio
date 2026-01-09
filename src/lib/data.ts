@@ -166,7 +166,7 @@ export const events = [
     id: 1,
     title: 'Prophetic Encounter Night',
     speaker: 'Prophetess Norah Tryson',
-    date: new Date(2024, 7, 15), // Note: Month is 0-indexed, so 7 is August
+    date: new Date(2024, 8, 15), // Note: Month is 0-indexed, so 8 is September
     time: '7:00 PM - 9:00 PM EST',
     isLive: false,
   },
@@ -174,7 +174,7 @@ export const events = [
     id: 2,
     title: 'Kingdom Finance Workshop',
     speaker: 'The Bondservant of Christ Joseph Tryson',
-    date: new Date(2024, 7, 22),
+    date: new Date(2024, 8, 22),
     time: '10:00 AM - 1:00 PM EST',
     isLive: false,
   },
@@ -182,7 +182,7 @@ export const events = [
     id: 3,
     title: 'Sunday Worship Service',
     speaker: 'Faith Connect Worship',
-    date: new Date(2024, 7, 25),
+    date: new Date(2024, 8, 25),
     time: '11:00 AM EST',
     isLive: true,
   },
@@ -322,4 +322,39 @@ export const announcements = [
     date: '2024-07-27',
     category: 'Community Event',
   }
+];
+
+export const groups = [
+    {
+        id: 1,
+        name: 'Men of Valor',
+        description: 'A community of men dedicated to growing in faith, integrity, and leadership in their families and communities.',
+        image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
+        members: 128,
+        category: 'Men\'s Group',
+    },
+    {
+        id: 2,
+        name: 'Women of Wisdom',
+        description: 'Connecting women to build authentic friendships, study the Word, and encourage one another in their walk with Christ.',
+        image: PlaceHolderImages.find(p => p.id === 'devotional-3'),
+        members: 245,
+        category: 'Women\'s Group',
+    },
+    {
+        id: 3,
+        name: 'Marketplace Leaders',
+        description: 'For professionals and entrepreneurs seeking to apply biblical principles in their careers and businesses for Kingdom impact.',
+        image: PlaceHolderImages.find(p => p.id === 'community-feature'),
+        members: 89,
+        category: 'Career & Business',
+    },
+     {
+        id: 4,
+        name: 'Daily Devotional Readers',
+        description: 'A group to discuss the daily devotional, share insights, and encourage each other to apply the Word.',
+        image: PlaceHolderImages.find(p => p.id === 'devotionals-feature'),
+        members: 450,
+        category: 'Bible Study',
+    },
 ];
