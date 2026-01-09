@@ -299,3 +299,27 @@ export const empowermentMeetings = [
     image: PlaceHolderImages.find(p => p.id === 'community-feature'),
   }
 ];
+
+export const announcements = [
+  {
+    id: 1,
+    title: 'Platform Maintenance Scheduled',
+    content: 'Please be advised that the Faith Connect Global platform will be undergoing scheduled maintenance on Saturday, August 3rd, from 2:00 AM to 4:00 AM EST. During this time, the platform may be temporarily unavailable. We appreciate your understanding as we work to improve your experience.',
+    date: '2024-07-29',
+    category: 'Platform Update',
+  },
+  {
+    id: 2,
+    title: 'New Course Available: "The Seer\'s Realm"',
+    content: 'We are excited to launch a new advanced course in the School of the Prophet, "The Seer\'s Realm: Interpreting Visions & Dreams." Enroll today to deepen your understanding of symbolic revelation.',
+    date: '2024-07-28',
+    category: 'New Content',
+  },
+  {
+    id: 3,
+    title: 'Global Day of Prayer & Fasting',
+    content: 'Join us this Friday as we come together as a global community for a day of prayer and fasting. We will be interceding for revival in the nations. A live prayer session will be held at 12:00 PM EST.',
+    date: '2024-07-27',
+    category: 'Community Event',
+  }
+];

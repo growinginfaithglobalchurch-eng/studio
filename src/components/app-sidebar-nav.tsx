@@ -29,6 +29,7 @@ import {
   Globe,
   Calendar,
   UserCheck,
+  Megaphone,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -49,6 +50,7 @@ const mainNav = [
   { href: '/prayer', label: 'Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
   { href: '/live', label: 'Live Sessions', icon: <Clapperboard className="h-4 w-4" /> },
   { href: '/events', label: 'Events', icon: <Calendar className="h-4 w-4" /> },
+  { href: '/announcements', label: 'Announcements', icon: <Megaphone className="h-4 w-4" /> },
   { href: '/ministries', label: 'Activation', icon: <HandHelping className="h-4 w-4" /> },
   { href: '/giving', label: 'Giving', icon: <Gift className="h-4 w-4" /> },
   { href: '/launch-sermon', label: 'Launch Sermon', icon: <Sparkles className="h-4 w-4" /> },
@@ -75,6 +77,7 @@ const communityNav = [
 
 const adminNav = [
     { href: '/admin', label: 'Dashboard', icon: <Home className="h-4 w-4" /> },
+    { href: '/admin/announcements', label: 'Announcements', icon: <Megaphone className="h-4 w-4" /> },
     { href: '/admin/settings', label: 'Settings', icon: <Settings className="h-4 w-4" /> },
     { href: '/admin/roadmap', label: 'Roadmap', icon: <GraduationCap className="h-4 w-4" /> },
     { href: '/admin/global-expansion', label: 'Global Strategy', icon: <Globe className="h-4 w-4" /> },
