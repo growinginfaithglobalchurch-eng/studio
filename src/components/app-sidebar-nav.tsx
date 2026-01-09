@@ -25,6 +25,7 @@ import {
   Voicemail,
   Swords,
   Briefcase,
+  Sparkles,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -46,6 +47,7 @@ const mainNav = [
   { href: '/live', label: 'Live Sessions', icon: <Clapperboard className="h-4 w-4" /> },
   { href: '/ministries', label: 'Activation', icon: <HandHelping className="h-4 w-4" /> },
   { href: '/giving', label: 'Giving', icon: <Gift className="h-4 w-4" /> },
+  { href: '/launch-sermon', label: 'Launch Sermon', icon: <Sparkles className="h-4 w-4" /> },
 ];
 
 const communityNav = [
