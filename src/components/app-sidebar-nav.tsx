@@ -62,6 +62,7 @@ const communityNav = [
   { href: '/school-of-ministry', label: 'School of Ministry', icon: <Briefcase className="h-4 w-4" /> },
   { href: '/business-school', label: 'Business School', icon: <TrendingUp className="h-4 w-4" /> },
   { href: '/kids', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
+  { href: '/church-integration', label: 'Church Integration', icon: <Handshake className="h-4 w-4" /> },
 ]
 
 const adminNav = [
