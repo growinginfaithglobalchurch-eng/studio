@@ -71,10 +71,10 @@ export function AppSidebar() {
         <Link href="/dashboard" className="flex items-center gap-3">
           <Church className="h-8 w-8 text-accent" />
           <div className="flex flex-col">
-            <span className="font-headline text-xl text-sidebar-foreground font-bold">
-              Growing in Faith
+            <span className="font-headline text-lg text-sidebar-foreground font-bold">
+              Growing In Faith
             </span>
-             <span className="text-xs text-sidebar-foreground/70">Global Connect</span>
+             <span className="text-sm text-sidebar-foreground/70 -mt-1">Global Connect</span>
           </div>
         </Link>
       </SidebarHeader>

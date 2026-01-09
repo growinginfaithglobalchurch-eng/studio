@@ -67,7 +67,7 @@ export default function LandingPage() {
           <Link href="/" className="flex items-center gap-2">
             <Church className="h-8 w-8 text-accent" />
             <span className="text-lg font-headline font-bold text-foreground">
-              Growing in Faith
+              Growing In Faith Global Connect
             </span>
           </Link>
           <nav className="flex items-center gap-4">

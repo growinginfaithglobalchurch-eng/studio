@@ -14,7 +14,7 @@ export default function SignupPage() {
            <Link href="/" className="flex items-center justify-center gap-2 mb-4">
             <Church className="h-8 w-8 text-accent" />
             <span className="text-xl text-foreground font-headline font-bold">
-              Growing in Faith
+              Growing In Faith Global Connect
             </span>
           </Link>
           <CardTitle className="text-2xl font-headline font-bold">Join the Community</CardTitle>
