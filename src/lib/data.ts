@@ -1,4 +1,6 @@
+
 import { PlaceHolderImages } from './placeholder-images';
+import { User } from './types';
 
 export const devotionals = [
   {
@@ -90,16 +92,16 @@ export const ministries = [
   { id: 3, name: 'Women of Faith United', logo: PlaceHolderImages.find(p => p.id === 'ministry-logo-1'), description: 'A sisterhood dedicated to spiritual growth, mentorship, and community support.' },
 ];
 
-export const communityUsers = [
-  { id: 1, name: 'John Doe', location: 'Lagos, Nigeria', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1') },
-  { id: 2, name: 'Jane Smith', location: 'London, UK', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2') },
-  { id: 3, name: 'Carlos Garcia', location: 'São Paulo, Brazil', avatar: PlaceHolderImages.find(p => p.id === 'avatar-3') },
-  { id: 4, name: 'Aisha Khan', location: 'Mumbai, India', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2') },
-  { id: 5, name: 'Michael Chen', location: 'Sydney, Australia', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1') },
-  { id: 6, name: 'Maria Rodriguez', location: 'Mexico City, Mexico', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2') },
+export const communityUsers: User[] = [
+  { id: 1, name: 'John Doe', location: 'Lagos, Nigeria', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1')! },
+  { id: 2, name: 'Jane Smith', location: 'London, UK', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2')! },
+  { id: 3, name: 'Carlos Garcia', location: 'São Paulo, Brazil', avatar: PlaceHolderImages.find(p => p.id === 'avatar-3')! },
+  { id: 4, name: 'Aisha Khan', location: 'Mumbai, India', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2')! },
+  { id: 5, name: 'Michael Chen', location: 'Sydney, Australia', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1')! },
+  { id: 6, name: 'Maria Rodriguez', location: 'Mexico City, Mexico', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2')! },
 ];
 
-export const friends = [
+export const friends: User[] = [
   communityUsers[1],
   communityUsers[2],
   communityUsers[4],

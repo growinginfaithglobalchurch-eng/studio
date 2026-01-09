@@ -1,6 +1,7 @@
 
+'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { feedItems, communityUsers } from "@/lib/data";
@@ -10,6 +11,9 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { CreatePostForm } from "@/components/create-post-form";
+import { StoryViewer } from '@/components/story-viewer';
+import { User } from '@/lib/types';
+
 
 const iconMap = {
   PRAYER_REQUEST: <HeartHandshake className="h-5 w-5 text-accent" />,
@@ -19,15 +23,35 @@ const iconMap = {
 }
 
 // Mock data for stories, in a real app this would come from a backend
-const stories = [
-    { id: 'current-user', name: 'Your Story', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1') },
+const stories: User[] = [
+    { id: 'current-user', name: 'Your Story', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1')!, location: '' },
     ...communityUsers.slice(1, 5).map(user => ({...user, name: user.name.split(' ')[0]}))
 ];
 
 export default function DashboardPage() {
+  const [viewingStory, setViewingStory] = useState<User | null>(null);
+
+  useEffect(() => {
+    if (viewingStory) {
+      // Prevent body scroll when story viewer is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [viewingStory]);
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
+      {viewingStory && (
+        <StoryViewer 
+          user={viewingStory}
+          onClose={() => setViewingStory(null)} 
+        />
+      )}
+
       <div>
         <h1 className="text-3xl font-headline font-bold text-foreground">Feeds & Stories</h1>
         <p className="text-muted-foreground">
@@ -43,22 +67,26 @@ export default function DashboardPage() {
             <ScrollArea className="w-full whitespace-nowrap">
                 <div className="flex w-max space-x-4 pb-4">
                 {stories.map((story) => (
-                    <Link href="#" key={story.id} className="flex-shrink-0">
-                    <div className="flex flex-col items-center gap-2 w-20">
-                        <div className="relative">
-                            <Avatar className="h-16 w-16 border-2 border-accent">
-                                {story.avatar && <AvatarImage src={story.avatar.imageUrl} alt={story.name} data-ai-hint={story.avatar.imageHint} />}
-                                <AvatarFallback>{story.name.charAt(0)}</AvatarFallback>
-                            </Avatar>
-                             {story.id === 'current-user' && (
-                                <div className="absolute -bottom-1 -right-1 bg-card rounded-full">
-                                    <PlusCircle className="h-6 w-6 text-primary"/>
-                                </div>
-                            )}
+                    <button 
+                        key={story.id} 
+                        className="flex-shrink-0 focus:outline-none"
+                        onClick={() => setViewingStory(story)}
+                    >
+                        <div className="flex flex-col items-center gap-2 w-20">
+                            <div className="relative">
+                                <Avatar className="h-16 w-16 border-2 border-accent">
+                                    {story.avatar && <AvatarImage src={story.avatar.imageUrl} alt={story.name} data-ai-hint={story.avatar.imageHint} />}
+                                    <AvatarFallback>{story.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                 {story.id === 'current-user' && (
+                                    <div className="absolute -bottom-1 -right-1 bg-card rounded-full">
+                                        <PlusCircle className="h-6 w-6 text-primary"/>
+                                    </div>
+                                )}
+                            </div>
+                            <p className="text-xs text-center text-card-foreground truncate w-full">{story.name}</p>
                         </div>
-                        <p className="text-xs text-center text-card-foreground truncate w-full">{story.name}</p>
-                    </div>
-                    </Link>
+                    </button>
                 ))}
                 </div>
                 <ScrollBar orientation="horizontal" />
