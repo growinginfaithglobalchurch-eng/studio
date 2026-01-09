@@ -58,7 +58,7 @@ export default function PrayerPage() {
                         </div>
                         <p className="text-sm text-muted-foreground mt-1">{req.request}</p>
                         <div className="mt-2">
-                           <Button variant="outline" size="sm" className="gap-2">
+                           <Button size="sm" className="gap-2">
                              <HeartHandshake className="h-4 w-4" /> Pray ({req.prayedCount})
                            </Button>
                         </div>
