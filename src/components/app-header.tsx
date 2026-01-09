@@ -25,14 +25,25 @@ import {
 } from '@/components/ui/sheet';
 import { AppSidebar } from './app-sidebar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { useRouter } from 'next/navigation';
 
 export function AppHeader() {
+  const router = useRouter();
   // This would come from an auth context in a real app
   const isLoggedIn = true;
   const user = {
     name: 'Joseph',
     email: 'joseph@faithconnect.com'
   }
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const query = formData.get('search') as string;
+    if (query) {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
 
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6 shrink-0">
@@ -46,9 +57,9 @@ export function AppHeader() {
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-[280px] bg-sidebar text-sidebar-foreground border-r-0">
              <SheetHeader className="sr-only">
-              <SheetTitle>Navigation Menu</SheetTitle>
+              <SheetTitle>Mobile Menu</SheetTitle>
               <SheetDescription>
-                A list of links to navigate the application.
+                Main navigation for the application.
               </SheetDescription>
             </SheetHeader>
             <AppSidebar />
@@ -57,11 +68,12 @@ export function AppHeader() {
       </div>
       
       <div className="w-full flex-1">
-        <form>
+        <form onSubmit={handleSearch}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
+              name="search"
               placeholder="Search content, members..."
               className="w-full appearance-none bg-background pl-9 shadow-none md:w-2/3 lg:w-1/3"
             />
