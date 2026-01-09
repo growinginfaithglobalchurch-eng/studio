@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   Settings,
   Users,
+  User,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -53,6 +54,11 @@ const menuItems = [
     href: '/connect',
     icon: <Users />,
     label: 'Connect',
+  },
+  {
+    href: '/profile',
+    icon: <User />,
+    label: 'Profile',
   },
 ];
 
