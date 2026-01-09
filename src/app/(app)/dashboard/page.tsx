@@ -1,6 +1,6 @@
 
-
 import { ContentRecommender } from '@/components/content-recommender';
+import { SpiritualGrowthChart } from '@/components/spiritual-growth-chart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   BookOpen,
@@ -62,7 +62,8 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      <div className="grid gap-6">
+      <div className="grid gap-6 lg:grid-cols-2">
+        <SpiritualGrowthChart />
         <ContentRecommender />
       </div>
 
