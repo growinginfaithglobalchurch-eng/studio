@@ -99,6 +99,60 @@ export const communityUsers = [
   { id: 6, name: 'Maria Rodriguez', location: 'Mexico City, Mexico', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2') },
 ];
 
+export const feedItems = [
+  {
+    id: 1,
+    type: 'PRAYER_REQUEST',
+    user: prayerRequests[0].user,
+    avatar: prayerRequests[0].avatar,
+    content: 'posted a new prayer request.',
+    details: prayerRequests[0].request,
+    timestamp: prayerRequests[0].timestamp,
+    href: '/prayer'
+  },
+  {
+    id: 2,
+    type: 'NEW_DEVOTIONAL',
+    user: devotionals[0].author,
+    avatar: PlaceHolderImages.find(p => p.id === 'avatar-1'),
+    content: `published a new devotional: "${devotionals[0].title}"`,
+    details: devotionals[0].content.text,
+    timestamp: '10 hours ago',
+    href: '/devotionals'
+  },
+  {
+    id: 3,
+    type: 'PRAYER_REQUEST',
+    user: prayerRequests[1].user,
+    avatar: prayerRequests[1].avatar,
+    content: 'posted a new prayer request.',
+    details: prayerRequests[1].request,
+    timestamp: prayerRequests[1].timestamp,
+    href: '/prayer'
+  },
+  {
+    id: 4,
+    type: 'NEW_CONNECTION',
+    user: communityUsers[1].name,
+    avatar: communityUsers[1].avatar,
+    content: `connected with ${communityUsers[2].name}.`,
+    details: 'Welcome them to the community!',
+    timestamp: '18 hours ago',
+    href: '/connect'
+  },
+    {
+    id: 5,
+    type: 'NEW_DEVOTIONAL',
+    user: devotionals[1].author,
+    avatar: PlaceHolderImages.find(p => p.id === 'avatar-2'),
+    content: `published a new devotional: "${devotionals[1].title}"`,
+    details: devotionals[1].content.text,
+    timestamp: '1 day ago',
+    href: '/devotionals'
+  },
+];
+
+
 export const availableContent = [
   'Morning Manna: A New Day\'s Mercies',
   'The Path of Peace',
