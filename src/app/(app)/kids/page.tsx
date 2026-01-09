@@ -1,16 +1,15 @@
 
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Gamepad2, BookText, Mic, Video, Calendar, MessageSquare, Shield } from 'lucide-react';
+import { Gamepad2, BookText, Music, Video, Shield } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 
 const kidsContent = {
     image: PlaceHolderImages.find(p => p.id === 'community-feature'),
-    title: "Kids Connect (Ages 7-12)",
-    description: "A fun, safe, and interactive space for children to learn about God's love through stories, games, and activities.",
+    title: "Kids Connect (Ages 4-10)",
+    description: "A fun, safe, and interactive space for children to learn about God's love through stories, songs, and activities.",
 }
 
 const activities = [
@@ -20,19 +19,19 @@ const activities = [
         description: "Engaging, animated stories that bring the Bible to life for young hearts.",
     },
     {
-        icon: <MessageSquare className="h-6 w-6 text-accent" />,
-        title: "Creative Activities & Crafts",
-        description: "Fun, downloadable activities that reinforce biblical lessons.",
+        icon: <Music className="h-6 w-6 text-accent" />,
+        title: "Memory Verse Songs",
+        description: "Fun songs and videos to help kids hide God's Word in their hearts.",
     },
     {
         icon: <Video className="h-6 w-6 text-accent" />,
-        title: "Weekly Memory Verses",
-        description: "Fun songs and videos to help kids memorize God's Word.",
+        title: "Worship & Action Songs",
+        description: "Upbeat music to get kids moving and praising God.",
     },
     {
-        icon: <Calendar className="h-6 w-6 text-accent" />,
-        title: "Monitored Chat & Community",
-        description: "A safe space for kids to share what they've learned with friends.",
+        icon: <Gamepad2 className="h-6 w-6 text-accent" />,
+        title: "Creative Activities & Crafts",
+        description: "Fun, downloadable activities that reinforce biblical lessons.",
     }
 ]
 

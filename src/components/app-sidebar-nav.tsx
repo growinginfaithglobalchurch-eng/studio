@@ -30,6 +30,8 @@ import {
   Calendar,
   UserCheck,
   Megaphone,
+  School,
+  LayoutDashboard,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -71,7 +73,9 @@ const communityNav = [
   { href: '/school-of-deliverance', label: 'School of Deliverance', icon: <Swords className="h-4 w-4" /> },
   { href: '/school-of-ministry', label: 'School of Ministry', icon: <Briefcase className="h-4 w-4" /> },
   { href: '/business-school', label: 'Business School', icon: <TrendingUp className="h-4 w-4" /> },
-  { href: '/kids', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
+  { href: '/kids-and-youth', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
+  { href: '/pre-teens', label: 'Pre-Teens', icon: <School className="h-4 w-4" /> },
+  { href: '/parental-dashboard', label: 'Parental Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
   { href: '/church-integration', label: 'Church Integration', icon: <Handshake className="h-4 w-4" /> },
 ]
 
@@ -120,7 +124,7 @@ export function AppSidebarNav() {
                     href={item.href}
                     className={cn(
                       'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
-                      (pathname === item.href || (pathname === '/youth' && item.href === '/kids')) && 'bg-sidebar-muted text-sidebar-foreground'
+                      (pathname === item.href || (pathname === '/youth' && item.href === '/kids-and-youth') || (pathname === '/kids' && item.href === '/kids-and-youth')) && 'bg-sidebar-muted text-sidebar-foreground'
                     )}
                   >
                     {item.icon}

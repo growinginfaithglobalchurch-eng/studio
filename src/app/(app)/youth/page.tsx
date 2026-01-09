@@ -1,38 +1,37 @@
 
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, BookText, Mic, Video, Calendar, MessageSquare, Shield } from 'lucide-react';
+import { Users, Briefcase, MessageSquare, Video, Shield, UserCheck } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 
 const youthContent = {
     image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
-    title: "Youth Connect (Ages 13-18)",
-    description: "A dynamic community for teens to grow in their faith, tackle real-life questions, and connect with peers.",
+    title: "Youth Connect (Ages 14-24)",
+    description: "A dynamic community for teens and young adults to grow in their faith, discover their calling, and connect with purpose-driven peers.",
 }
 
 const activities = [
     {
-        icon: <BookText className="h-6 w-6 text-accent" />,
-        title: "Topical Bible Studies",
-        description: "Dive deep into relevant topics and discover what the Bible says about life's big questions.",
+        icon: <Briefcase className="h-6 w-6 text-accent" />,
+        title: "Leadership Training",
+        description: "Develop your leadership potential through practical training and ministry opportunities.",
     },
     {
-        icon: <MessageSquare className="h-6 w-6 text-accent" />,
+        icon: <UserCheck className="h-6 w-6 text-accent" />,
         title: "Mentorship Groups",
         description: "Connect with a mentor and a small group of peers for guidance and accountability.",
     },
     {
         icon: <Video className="h-6 w-6 text-accent" />,
-        title: "Live Q&A Sessions",
-        description: "Get your questions answered by pastors and youth leaders in a live, interactive setting.",
+        title: "Live Sessions & Q&A",
+        description: "Get your questions answered by pastors and leaders in a live, interactive setting.",
     },
     {
-        icon: <Calendar className="h-6 w-6 text-accent" />,
-        title: "Service & Mission Projects",
-        description: "Put your faith into action by serving the community and participating in mission trips.",
+        icon: <MessageSquare className="h-6 w-6 text-accent" />,
+        title: "Topical Discussions",
+        description: "Engage in relevant discussions about faith, culture, and real-life issues.",
     }
 ]
 
@@ -66,7 +65,7 @@ export default function YouthConnectPage() {
           <div>
             <CardTitle>A Safe Place to Connect</CardTitle>
             <CardDescription className="text-muted-foreground">
-                Youth Connect is a moderated and safe environment for teens to build healthy friendships and grow in their faith without fear.
+                Youth Connect is a moderated and safe environment for teens and young adults to build healthy friendships and grow in their faith without fear.
             </CardDescription>
           </div>
         </CardHeader>
