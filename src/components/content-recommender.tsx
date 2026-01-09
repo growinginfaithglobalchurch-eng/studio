@@ -90,7 +90,7 @@ export function ContentRecommender() {
                       <div className="flex-shrink-0">{categoryIcons[key]}</div>
                       <div className="flex-grow">
                          <p className="text-sm font-semibold text-accent">{categoryLabels[key]}</p>
-                        <p className="font-semibold text-md">{item.title}</p>
+                        <p className="font-semibold text-md text-card-foreground">{item.title}</p>
                         <p className="text-sm text-muted-foreground mt-1">
                           {item.reason}
                         </p>
