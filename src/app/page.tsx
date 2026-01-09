@@ -96,7 +96,7 @@ export default function LandingPage() {
               <div className="absolute inset-0 bg-primary/70 md:rounded-lg" />
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
                 <div className="container px-4 md:px-6">
-                  <h1 className="font-headline text-4xl tracking-normal sm:text-5xl md:text-6xl lg:text-7xl">
+                  <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
                     Deeper Faith. Global Connection.
                   </h1>
                   <p className="mx-auto mt-6 max-w-3xl text-lg md:text-xl">
@@ -119,7 +119,7 @@ export default function LandingPage() {
         <section id="features" className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl tracking-normal sm:text-4xl text-foreground">
+              <h2 className="font-headline text-3xl sm:text-4xl text-foreground">
                 A Platform for Transformation
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-white">
@@ -149,7 +149,7 @@ export default function LandingPage() {
               <div className="grid items-center gap-12 md:grid-cols-2">
                 <div className="space-y-4">
                     <div className="inline-block rounded-lg bg-accent px-3 py-1 text-sm text-accent-foreground">Our Vision</div>
-                  <h2 className="font-headline text-3xl tracking-normal sm:text-4xl">
+                  <h2 className="font-headline text-3xl sm:text-4xl">
                     Cultivating a Global Community of Empowered Believers
                   </h2>
                   <p className="text-muted-foreground md:text-xl/relaxed">
@@ -175,7 +175,7 @@ export default function LandingPage() {
         <section id="founders" className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl tracking-normal sm:text-4xl">
+              <h2 className="font-headline text-3xl sm:text-4xl">
                 Meet the Founders
               </h2>
             </div>

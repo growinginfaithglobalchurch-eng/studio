@@ -8,7 +8,7 @@ export default function MinistriesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl tracking-normal font-headline">Partner Ministries</h1>
+        <h1 className="text-3xl font-headline">Partner Ministries</h1>
         <p className="text-muted-foreground">
           Discover and connect with churches and ministries from around the globe.
         </p>
