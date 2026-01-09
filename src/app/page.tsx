@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const features = [
   {
@@ -80,33 +81,37 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section className="relative h-[60vh] md:h-[70vh]">
-          <Image
-            src={PlaceHolderImages.find(img => img.id === 'hero')?.imageUrl || ''}
-            alt="Congregation worshipping"
-            fill
-            className="object-cover"
-            priority
-            data-ai-hint="worship congregation"
-          />
-          <div className="absolute inset-0 bg-primary/70" />
-          <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
-            <div className="container px-4 md:px-6">
-              <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-                Deeper Faith. Global Connection.
-              </h1>
-              <p className="mx-auto mt-6 max-w-3xl text-lg md:text-xl">
-                An interactive spiritual ecosystem to grow in faith, access transformational resources, and live out your divine purpose.
-              </p>
-              <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                  <Link href="/dashboard">Join the Community</Link>
-                </Button>
-                <Button size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10">
-                  Learn More
-                </Button>
+        <section className="relative">
+          <div className="container px-0 md:px-6">
+            <AspectRatio ratio={1 / 1} className="relative">
+              <Image
+                src={PlaceHolderImages.find(img => img.id === 'hero')?.imageUrl || ''}
+                alt="Congregation worshipping"
+                fill
+                className="object-cover md:rounded-lg"
+                priority
+                data-ai-hint="worship congregation"
+              />
+              <div className="absolute inset-0 bg-primary/70 md:rounded-lg" />
+              <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
+                <div className="container px-4 md:px-6">
+                  <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                    Deeper Faith. Global Connection.
+                  </h1>
+                  <p className="mx-auto mt-6 max-w-3xl text-lg md:text-xl">
+                    An interactive spiritual ecosystem to grow in faith, access transformational resources, and live out your divine purpose.
+                  </p>
+                  <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+                    <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+                      <Link href="/dashboard">Join the Community</Link>
+                    </Button>
+                    <Button size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10">
+                      Learn More
+                    </Button>
+                  </div>
+                </div>
               </div>
-            </div>
+            </AspectRatio>
           </div>
         </section>
         
