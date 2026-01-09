@@ -80,7 +80,7 @@ export default function ConnectPage() {
                             <p className="text-sm text-muted-foreground">{user.location}</p>
                         </div>
                     </div>
-                     <Button variant="outline" className="mt-4 w-full">
+                     <Button className="mt-4 w-full">
                         <MessageSquare className="mr-2 h-4 w-4" />
                         Message
                       </Button>
