@@ -41,7 +41,7 @@
   .dark {
     --background: 228 18% 5%;
     --foreground: 0 0% 98%;
-    --card: 228 18% 12%;
+    --card: 240 30% 15%;
     --card-foreground: 0 0% 98%;
     --popover: 228 18% 5%;
     --popover-foreground: 0 0% 98%;
@@ -55,7 +55,7 @@
     --accent-foreground: 228 18% 5%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 228 18% 15%;
+    --border: 240 30% 20%;
     --input: 228 18% 15%;
     --ring: 43 93% 51%;
     --chart-1: 220 70% 50%;
