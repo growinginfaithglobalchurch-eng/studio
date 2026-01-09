@@ -26,8 +26,8 @@ export default function PrayerPage() {
             <p className="text-sm text-muted-foreground">
               Share your request with our global community. You can choose to post anonymously.
             </p>
-            <Input placeholder="Your Name (Optional)" />
-            <Textarea placeholder="Type your prayer request here..." className="min-h-[120px]" />
+            <Input placeholder="Your Name (Optional)" className="text-white" />
+            <Textarea placeholder="Type your prayer request here..." className="min-h-[120px] text-white" />
             <Button className="w-full">Submit Prayer</Button>
           </CardContent>
         </Card>
