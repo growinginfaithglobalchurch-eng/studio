@@ -14,6 +14,7 @@ import {
   Users,
   Rss,
   TrendingUp,
+  GraduationCap,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -40,6 +41,7 @@ const communityNav = [
   { href: '/groups', label: 'Groups', icon: <Users className="h-4 w-4" /> },
   { href: '/mentorship', label: 'Mentorship', icon: <User className="h-4 w-4" /> },
   { href: '/friends', label: 'Friends', icon: <Users className="h-4 w-4" /> },
+  { href: '/courses', label: 'Courses', icon: <GraduationCap className="h-4 w-4" /> },
 ]
 
 export function AppSidebarNav() {
