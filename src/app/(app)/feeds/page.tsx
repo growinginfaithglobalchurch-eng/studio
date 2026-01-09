@@ -1,9 +1,12 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { feedItems } from "@/lib/data";
-import { BookOpen, Handshake, HeartHandshake, Rss } from "lucide-react";
+import { BookOpen, Handshake, HeartHandshake, Rss, Send } from "lucide-react";
 import Link from 'next/link';
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 const iconMap = {
   PRAYER_REQUEST: <HeartHandshake className="h-5 w-5 text-accent" />,
@@ -13,6 +16,8 @@ const iconMap = {
 }
 
 export default function FeedsPage() {
+  const currentUserAvatar = PlaceHolderImages.find(p => p.id === 'avatar-1');
+
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       <div>
@@ -21,6 +26,27 @@ export default function FeedsPage() {
           See what's happening in the community right now.
         </p>
       </div>
+
+      <Card>
+        <CardContent className="p-4">
+          <div className="flex gap-4">
+            <Avatar className="h-10 w-10 border">
+              {currentUserAvatar && <AvatarImage src={currentUserAvatar.imageUrl} alt="You" data-ai-hint={currentUserAvatar.imageHint}/>}
+              <AvatarFallback>U</AvatarFallback>
+            </Avatar>
+            <div className="flex-grow space-y-2">
+                <Textarea placeholder="What's on your mind?" className="bg-secondary" />
+                <div className="flex justify-end">
+                    <Button>
+                        <Send className="h-4 w-4 mr-2" />
+                        Post
+                    </Button>
+                </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
 
       <div className="space-y-4">
         {feedItems.map((item) => (
@@ -46,7 +72,7 @@ export default function FeedsPage() {
             </CardHeader>
             <CardContent className="p-4 pt-0 pl-16">
               <Card className="bg-secondary p-3">
-                 <CardDescription className="text-sm text-card-foreground line-clamp-3">{item.details}</CardDescription>
+                 <p className="text-sm text-card-foreground line-clamp-3">{item.details}</p>
               </Card>
             </CardContent>
           </Card>
