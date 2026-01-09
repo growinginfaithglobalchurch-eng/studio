@@ -15,6 +15,7 @@ import {
   User,
   Rss,
   Shield,
+  UserCheck,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -67,6 +68,16 @@ const menuItems = [
     label: 'Connect',
   },
   {
+    href: '/groups',
+    icon: <Users className="h-5 w-5" />,
+    label: 'Groups',
+  },
+  {
+    href: '/mentorship',
+    icon: <UserCheck className="h-5 w-5" />,
+    label: 'Mentorship',
+  },
+  {
     href: '/profile',
     icon: <User className="h-5 w-5" />,
     label: 'Profile',
@@ -77,6 +88,34 @@ const menuItems = [
     label: 'Admin',
   }
 ];
+
+const topLevelNav = ['/dashboard', '/feeds', '/devotionals', '/prayer', '/live', '/ministries', '/profile', '/admin'];
+const connectNav = ['/connect', '/groups', '/mentorship'];
+
+const MainMenu = ({ items }: { items: typeof menuItems }) => {
+    const pathname = usePathname();
+    return (
+        <SidebarMenu>
+          {items.map((item) => (
+            <SidebarMenuItem key={item.href}>
+              <Link href={item.href}>
+                <SidebarMenuButton
+                  isActive={pathname === item.href}
+                  className={cn(
+                    'w-full justify-start',
+                    pathname === item.href &&
+                      'bg-sidebar-accent text-sidebar-accent-foreground'
+                  )}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </SidebarMenuButton>
+              </Link>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+    )
+}
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -107,11 +146,11 @@ export function AppSidebar() {
                         </SidebarMenuButton>
                     </Link>
                 </SidebarMenuItem>
-                <SidebarMenuItem>
-                    <Link href="/connect">
+                 <SidebarMenuItem>
+                    <Link href="/groups">
                         <SidebarMenuButton size="sm" className="w-full justify-start">
                             <MessageSquarePlus className="h-4 w-4" />
-                            <span>Start a Discussion</span>
+                            <span>Join a Group</span>
                         </SidebarMenuButton>
                     </Link>
                 </SidebarMenuItem>
@@ -119,26 +158,16 @@ export function AppSidebar() {
         </SidebarMenu>
 
         <SidebarSeparator />
+        
+        <MainMenu items={menuItems.filter(item => topLevelNav.includes(item.href))} />
 
-        <SidebarMenu>
-          {menuItems.map((item) => (
-            <SidebarMenuItem key={item.href}>
-              <Link href={item.href}>
-                <SidebarMenuButton
-                  isActive={pathname === item.href}
-                  className={cn(
-                    'w-full justify-start',
-                    pathname === item.href &&
-                      'bg-sidebar-accent text-sidebar-accent-foreground'
-                  )}
-                >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </SidebarMenuButton>
-              </Link>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
+        <SidebarSeparator />
+
+        <SidebarGroup>
+            <SidebarGroupLabel>Community</SidebarGroupLabel>
+            <MainMenu items={menuItems.filter(item => connectNav.includes(item.href))} />
+        </SidebarGroup>
+
       </SidebarContent>
 
       <SidebarFooter className="p-4 mt-auto">
