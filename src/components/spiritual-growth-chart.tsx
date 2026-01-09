@@ -56,7 +56,7 @@ export function SpiritualGrowthChart() {
               Your Growth Journey
             </CardTitle>
             <CardDescription className="text-white">
-              Your activity in the last 30 days.
+              Here is your spiritual growth journey at a glance.
             </CardDescription>
           </div>
         </div>
