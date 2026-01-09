@@ -182,7 +182,7 @@ export default function LandingPage() {
                     <CardTitle className="mt-4 font-headline font-bold text-card-foreground">{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center px-6 pb-6">
-                    <p className="text-black/60">{feature.description}</p>
+                    <p className="text-card-foreground">{feature.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -205,7 +205,7 @@ export default function LandingPage() {
                     <Card key={value.title} className="bg-card p-6 text-center flex flex-col items-center">
                          {value.icon}
                         <h3 className="text-xl font-bold text-card-foreground mt-4">{value.title}</h3>
-                        <p className="text-black/60 mt-2">{value.description}</p>
+                        <p className="text-card-foreground mt-2">{value.description}</p>
                     </Card>
                 ))}
             </div>
@@ -258,7 +258,7 @@ export default function LandingPage() {
                         <AvatarFallback>JT</AvatarFallback>
                     </Avatar>
                     <h3 className="font-headline text-xl font-bold text-card-foreground">The Bondservant of Christ, Joseph Tryson</h3>
-                    <p className="mt-2 text-black/60">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
+                    <p className="mt-2 text-card-foreground">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
                 </Card>
                  <Card className="flex flex-col items-center p-8 text-center bg-card">
                     <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
@@ -266,12 +266,12 @@ export default function LandingPage() {
                         <AvatarFallback>NT</AvatarFallback>
                     </Avatar>
                     <h3 className="font-headline text-xl font-bold text-card-foreground">Prophetess Norah Tryson</h3>
-                    <p className="mt-2 text-black/60">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
+                    <p className="mt-2 text-card-foreground">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
                 </Card>
                 <Card className="flex flex-col p-8 bg-card lg:col-span-2 lg:row-start-1 lg:col-start-3">
                      <CardHeader className="p-0 text-center">
                         <CardTitle className="font-headline text-xl font-bold text-card-foreground">Our Leadership Covering</CardTitle>
-                        <CardDescription className="mt-2">Their leadership provides:</CardDescription>
+                        <CardDescription className="mt-2 text-card-foreground">Their leadership provides:</CardDescription>
                      </CardHeader>
                      <CardContent className="mt-6">
                         <ul className="space-y-4">
@@ -292,14 +292,14 @@ export default function LandingPage() {
 
       <footer className="bg-secondary text-secondary-foreground">
         <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
-          <p className="text-sm text-black/60">
+          <p className="text-sm text-card-foreground">
             © {new Date().getFullYear()} Faith Connect Global. All Rights Reserved.
           </p>
           <nav className="flex gap-4">
-            <Link href="#" className="text-sm hover:underline text-black/60">
+            <Link href="#" className="text-sm hover:underline text-card-foreground">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-sm hover:underline text-black/60">
+            <Link href="#" className="text-sm hover:underline text-card-foreground">
               Terms of Service
             </Link>
           </nav>
