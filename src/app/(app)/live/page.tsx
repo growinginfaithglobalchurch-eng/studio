@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { liveSessions } from '@/lib/data';
 import { Clapperboard, PlayCircle } from 'lucide-react';
@@ -16,30 +17,35 @@ export default function LivePage() {
       </div>
 
       <section>
-        <Card className="overflow-hidden">
-          <CardHeader className="flex flex-row items-center gap-4 bg-primary/10 p-4">
-            <Badge variant="destructive" className="flex items-center gap-2">
-              <Clapperboard className="h-4 w-4" /> LIVE NOW
-            </Badge>
-            <div>
-              <CardTitle className="font-headline text-xl">{liveSessions.current.title}</CardTitle>
-              <p className="text-sm text-muted-foreground">{liveSessions.current.speaker}</p>
-            </div>
-          </CardHeader>
-          <CardContent className="p-0">
-             <AspectRatio ratio={16 / 9}>
-              {/* In a real app, this would be a proper video player component */}
-              <iframe 
-                className="w-full h-full" 
-                src={liveSessions.current.videoUrl}
-                title="YouTube video player" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen>
-              </iframe>
-            </AspectRatio>
-          </CardContent>
-        </Card>
+        <Link href="https://royallifetelevision.online.church/" target="_blank" rel="noopener noreferrer">
+          <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+            <CardHeader className="flex flex-row items-center gap-4 bg-primary/10 p-4">
+              <Badge variant="destructive" className="flex items-center gap-2">
+                <Clapperboard className="h-4 w-4" /> LIVE NOW
+              </Badge>
+              <div>
+                <CardTitle className="font-headline text-xl">{liveSessions.current.title}</CardTitle>
+                <p className="text-sm text-muted-foreground">{liveSessions.current.speaker}</p>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              <AspectRatio ratio={16 / 9}>
+                  {liveSessions.current.image && (
+                    <Image
+                        src={liveSessions.current.image.imageUrl}
+                        alt={liveSessions.current.title}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={liveSessions.current.image.imageHint}
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <PlayCircle className="h-16 w-16 text-white/80" />
+                  </div>
+              </AspectRatio>
+            </CardContent>
+          </Card>
+        </Link>
       </section>
 
       <section>

@@ -73,7 +73,8 @@ export const liveSessions = {
   current: {
     title: 'Kingdom-Driven Leadership: Activating Your Calling',
     speaker: 'The Bondservant of Christ Joseph Tryson',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1',
+    image: PlaceHolderImages.find(p => p.id === 'live-stream-feature'),
+    videoUrl: 'https://royallifetelevision.online.church/',
   },
   replays: [
     { id: 1, title: 'Understanding the Prophetic', speaker: 'Prophetess Norah Tryson', image: PlaceHolderImages.find(p => p.id === 'live-replay-1') },
