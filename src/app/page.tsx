@@ -244,7 +244,7 @@ export default function LandingPage() {
         <section id="founders" className="py-12 md:py-24 bg-secondary">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
+              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-black">
                 Meet the Founders
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
