@@ -98,7 +98,7 @@
   }
   
   .dark .card p {
-    color: hsl(var(--card-foreground));
+    color: hsl(var(--card-foreground)) !important;
   }
 }
 
