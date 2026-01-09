@@ -24,10 +24,16 @@ const RecommendContentInputSchema = z.object({
 });
 export type RecommendContentInput = z.infer<typeof RecommendContentInputSchema>;
 
+const RecommendedItemSchema = z.object({
+  title: z.string().describe('The title of the recommended content.'),
+  reason: z.string().describe('A brief reason why this content is recommended.'),
+});
+
 const RecommendContentOutputSchema = z.object({
-  recommendedContent: z
-    .string()
-    .describe('The recommended content based on user prayer requests and viewing habits.'),
+  devotional: RecommendedItemSchema.describe('A recommended devotional.'),
+  course: RecommendedItemSchema.describe('A recommended course or teaching series.'),
+  communityGroup: RecommendedItemSchema.describe('A recommended community group or ministry to connect with.'),
+  prayerFocus: RecommendedItemSchema.describe('A recommended area to focus on in prayer.'),
 });
 export type RecommendContentOutput = z.infer<typeof RecommendContentOutputSchema>;
 
@@ -41,13 +47,15 @@ const prompt = ai.definePrompt({
   name: 'recommendContentPrompt',
   input: {schema: RecommendContentInputSchema},
   output: {schema: RecommendContentOutputSchema},
-  prompt: `You are an AI assistant designed to recommend relevant ministry content to users based on their prayer requests and viewing habits.
+  prompt: `You are an AI assistant designed to recommend a personalized Faith Path for users based on their interests and activities.
 
   Given the user's prayer requests: {{{prayerRequests}}}
   And their viewing habits: {{{viewingHabits}}}
   And the available content: {{{availableContent}}}
 
-  Recommend the best content to the user, return only the content name.
+  Recommend one item for each of the following categories: Devotional, Course, Community Group, and Prayer Focus.
+  The recommendations should be from the "available content" list where appropriate.
+  For each recommendation, provide a title and a short, encouraging reason why it's a good fit for the user.
   `,
 });
 

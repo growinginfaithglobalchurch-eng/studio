@@ -17,6 +17,11 @@ export async function getRecommendedContent() {
   } catch (error) {
     console.error('AI recommendation failed:', error);
     // Return a default or fallback recommendation
-    return { recommendedContent: 'Faith that Moves Mountains' };
+    return {
+      devotional: { title: 'Faith that Moves Mountains', reason: 'To strengthen your faith in tough times.' },
+      course: { title: 'Kingdom-Driven Leadership', reason: 'To equip you for greater impact.' },
+      communityGroup: { title: 'Global Outreach Missions', reason: 'To connect with others who have a heart for service.' },
+      prayerFocus: { title: 'Pray for Wisdom and Guidance', reason: 'To seek God\'s direction in your decisions.' },
+    };
   }
 }
