@@ -89,6 +89,12 @@
       "description": "Profile picture of a person.",
       "imageUrl": "https://images.unsplash.com/photo-1484863137850-59afcfe05386?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBzbWlsaW5nfGVufDB8fHx8MTc2NzgzMzA0NXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person smiling"
+    },
+    {
+      "id": "feed-banner",
+      "description": "A church banner with a theme for the year.",
+      "imageUrl": "https://images.unsplash.com/photo-1518065330252-b82751395914?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjaHVyY2glMjBiYW5uZXJ8ZW58MHx8fHwxNzY5MDM0MzYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "church banner"
     }
   ]
 }
