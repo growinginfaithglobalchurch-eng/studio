@@ -5,8 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { communityUsers } from '@/lib/data';
-import { UserPlus, Users, UserCheck } from 'lucide-react';
+import { communityUsers, friends } from '@/lib/data';
+import { UserPlus, Users, UserCheck, MessageSquare } from 'lucide-react';
 
 export default function ConnectPage() {
   // Filter out the first user to simulate not seeing yourself in the list
@@ -66,10 +66,31 @@ export default function ConnectPage() {
             <CardHeader>
               <CardTitle>Your Friends</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                You haven&apos;t added any friends yet.
-              </p>
+            <CardContent className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {friends.length > 0 ? (
+                friends.map((user) => (
+                  <Card key={user.id} className="p-4">
+                    <div className="flex items-center gap-4">
+                        <Avatar>
+                           {user.avatar && <AvatarImage src={user.avatar.imageUrl} alt={user.name} data-ai-hint={user.avatar.imageHint} />}
+                           <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                            <h3 className="font-semibold">{user.name}</h3>
+                            <p className="text-sm text-muted-foreground">{user.location}</p>
+                        </div>
+                    </div>
+                     <Button variant="outline" className="mt-4 w-full">
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        Message
+                      </Button>
+                  </Card>
+                ))
+              ) : (
+                <p className="text-muted-foreground">
+                  You haven&apos;t added any friends yet.
+                </p>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

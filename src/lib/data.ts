@@ -99,6 +99,13 @@ export const communityUsers = [
   { id: 6, name: 'Maria Rodriguez', location: 'Mexico City, Mexico', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2') },
 ];
 
+export const friends = [
+  communityUsers[1],
+  communityUsers[2],
+  communityUsers[4],
+];
+
+
 export const feedItems = [
   {
     id: 1,
