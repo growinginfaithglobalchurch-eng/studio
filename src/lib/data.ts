@@ -1,6 +1,7 @@
 
 import { PlaceHolderImages } from './placeholder-images';
 import { User } from './types';
+import { Music, Handshake, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users } from 'lucide-react';
 
 export const devotionals = [
   {
@@ -181,8 +182,8 @@ export const events = [
    {
     id: 3,
     title: 'Sunday Worship Service',
+    date: new Date(2024, 7, 25),
     speaker: 'Faith Connect Worship',
-    date: new Date(2024, 8, 25),
     time: '11:00 AM EST',
     isLive: true,
   },
@@ -357,4 +358,23 @@ export const groups = [
         members: 450,
         category: 'Bible Study',
     },
+];
+
+export const departments = [
+  { name: 'Praise & Worship Department', description: 'Leading the congregation into the presence of God through music.', icon: <Music className="h-6 w-6 text-accent" /> },
+  { name: 'Ushering Department', description: 'Creating a welcoming and orderly environment for all services.', icon: <Handshake className="h-6 w-6 text-accent" /> },
+  { name: 'Music Department', description: 'Serving the house through instrumental and vocal music.', icon: <Music2 className="h-6 w-6 text-accent" /> },
+  { name: 'Media Department', description: 'Managing sound, video, and streaming to spread the gospel.', icon: <Video className="h-6 w-6 text-accent" /> },
+  { name: 'Hospitality Department', description: 'Welcoming guests and members with love and care.', icon: <Heart className="h-6 w-6 text-accent" /> },
+  { name: 'Sanctuary Maintenance Department', description: 'Ensuring the house of God is clean and well-maintained.', icon: <Wrench className="h-6 w-6 text-accent" /> },
+  { name: 'Administration Department', description: 'Overseeing the operational and administrative functions of the church.', icon: <Briefcase className="h-6 w-6 text-accent" /> },
+  { name: 'Treasury Department', description: 'Managing the church\'s finances with integrity and transparency.', icon: <DollarSign className="h-6 w-6 text-accent" /> },
+  { name: 'Intercessory Department', description: 'Standing in the gap through prayer for the church and the nations.', icon: <HeartHandshake className="h-6 w-6 text-accent" /> },
+  { name: 'Kids & Teens Department', description: 'Nurturing the next generation in the ways of the Lord.', icon: <Baby className="h-6 w-6 text-accent" /> },
+  { name: 'Secretarial Department', description: 'Providing administrative support to the pastoral team and ministries.', icon: <PenSquare className="h-6 w-6 text-accent" /> },
+  { name: 'Protocol Department', description: 'Assisting church leadership and special guests during services.', icon: <Shield className="h-6 w-6 text-accent" /> },
+  { name: 'Life Groups department', description: 'Fostering community and spiritual growth in small group settings.', icon: <Users className="h-6 w-6 text-accent" /> },
+  { name: 'Men\'s Department', description: 'Building strong men of faith, integrity, and purpose.', icon: <Users className="h-6 w-6 text-accent" /> },
+  { name: 'Ladies Department', description: 'Empowering women to walk in their God-given identity and purpose.', icon: <Users className="h-6 w-6 text-accent" /> },
+  { name: 'Programming Department', description: 'Developing and managing the church\'s digital platforms and tools.', icon: <Wrench className="h-6 w-6 text-accent" /> },
 ];

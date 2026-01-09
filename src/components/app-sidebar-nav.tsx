@@ -54,6 +54,7 @@ const mainNav = [
   { href: '/events', label: 'Events', icon: <Calendar className="h-4 w-4" /> },
   { href: '/announcements', label: 'Announcements', icon: <Megaphone className="h-4 w-4" /> },
   { href: '/ministries', label: 'Activation', icon: <HandHelping className="h-4 w-4" /> },
+  { href: '/departments', label: 'Departments', icon: <Handshake className="h-4 w-4" /> },
   { href: '/giving', label: 'Giving', icon: <Gift className="h-4 w-4" /> },
   { href: '/launch-sermon', label: 'Launch Sermon', icon: <Sparkles className="h-4 w-4" /> },
 ];
