@@ -17,7 +17,7 @@ export default function FeedsPage() {
     <div className="space-y-6 max-w-3xl mx-auto">
       <div>
         <h1 className="text-3xl font-headline font-bold">Community Feed</h1>
-        <p className="text-white">
+        <p className="text-muted-foreground">
           See what's happening in the community right now.
         </p>
       </div>
@@ -36,7 +36,7 @@ export default function FeedsPage() {
                 <div className="flex-grow">
                   <div className="flex items-center gap-2">
                     {iconMap[item.type as keyof typeof iconMap] || iconMap.default}
-                    <p className="text-sm">
+                    <p className="text-sm text-foreground">
                       <Link href={item.href} className="font-semibold hover:underline">{item.user}</Link> {item.content}
                     </p>
                   </div>
@@ -46,7 +46,7 @@ export default function FeedsPage() {
             </CardHeader>
             <CardContent className="p-4 pt-0 pl-16">
               <Card className="bg-secondary p-3">
-                 <CardDescription className="text-sm text-foreground line-clamp-3">{item.details}</CardDescription>
+                 <CardDescription className="text-sm text-foreground/80 line-clamp-3">{item.details}</CardDescription>
               </Card>
             </CardContent>
           </Card>
