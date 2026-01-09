@@ -96,6 +96,10 @@
   .dark p {
     color: white;
   }
+  
+  .dark .card p {
+    color: hsl(var(--card-foreground));
+  }
 }
 
 @layer base {
