@@ -21,6 +21,7 @@ import {
   Baby,
   Gift,
   Wind,
+  HeartPulse,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -52,6 +53,7 @@ const communityNav = [
   { href: '/courses', label: 'Courses', icon: <GraduationCap className="h-4 w-4" /> },
   { href: '/school-of-revelation', label: 'School of Revelation', icon: <GraduationCap className="h-4 w-4" /> },
   { href: '/school-of-the-spirit', label: 'School of the Spirit', icon: <Wind className="h-4 w-4" /> },
+  { href: '/school-of-healing', label: 'School of Healing', icon: <HeartPulse className="h-4 w-4" /> },
   { href: '/kids', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
 ]
 
