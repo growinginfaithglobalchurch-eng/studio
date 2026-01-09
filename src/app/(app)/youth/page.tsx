@@ -1,9 +1,11 @@
 
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Users, BookText, Mic, Video, Calendar, MessageSquare, Shield } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Link from 'next/link';
 
 const youthContent = {
     image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
@@ -51,7 +53,9 @@ export default function YouthConnectPage() {
           <div className="relative aspect-video w-full overflow-hidden rounded-lg">
              <Image src={youthContent.image.imageUrl} alt={youthContent.title} fill className="object-cover" data-ai-hint={youthContent.image.imageHint}/>
              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-                <Button size="lg">Join the Community</Button>
+                <Button size="lg" asChild>
+                    <Link href="/signup">Join the Community</Link>
+                </Button>
              </div>
           </div>
       )}

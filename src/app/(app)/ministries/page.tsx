@@ -93,7 +93,9 @@ export default function MinistriesPage() {
                 <p className="text-sm text-muted-foreground">{ministry.description}</p>
                 </CardContent>
                 <div className="p-6 pt-0">
-                <Button>Get Involved</Button>
+                  <Button asChild>
+                    <Link href="/signup">Get Involved</Link>
+                  </Button>
                 </div>
             </Card>
             ))}
