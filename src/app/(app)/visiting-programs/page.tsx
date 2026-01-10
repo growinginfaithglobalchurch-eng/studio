@@ -136,7 +136,7 @@ export default function VisitingProgramsPage() {
                      <Accordion type="single" collapsible className="w-full">
                         {programStructure.map(item => (
                             <AccordionItem value={item.value} key={item.value}>
-                                <AccordionTrigger className="text-lg font-headline hover:no-underline">
+                                <AccordionTrigger className="text-lg font-headline hover:no-underline p-4 hover:bg-muted/50 rounded-md">
                                     <div className="flex items-center gap-3">
                                         {item.icon} {item.title}
                                     </div>
