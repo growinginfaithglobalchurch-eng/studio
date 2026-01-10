@@ -1,4 +1,5 @@
 
+
 import { PlaceHolderImages } from './placeholder-images';
 import { User } from './types';
 import { Music, Handshake, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users } from 'lucide-react';
@@ -460,4 +461,30 @@ export const departments: Department[] = [
   { name: 'Programming Department', description: 'Developing and managing the church\'s digital platforms and tools.', icon: 'Wrench' },
 ];
 
+export const serviceElements = [
+    {
+        id: 1,
+        title: "1. The Atmosphere & Opening",
+        description: "Setting a spiritual atmosphere of worship, reverence, and expectation. This is where we welcome the presence of the Holy Spirit.",
+        details: "Opening Prayer, Praise & Worship, Prophetic Declarations"
+    },
+    {
+        id: 2,
+        title: "2. Revelation & The Word",
+        description: "The centerpiece of the service, where the Word of God is taught with clarity, revelation, and power.",
+        details: "Announcements & Welcome, Tithes & Offerings Teaching, The Sermon (Rhema Word)"
+    },
+    {
+        id: 3,
+        title: "3. Impartation & Ministry",
+        description: "The time for personal ministry, where the congregation receives from God through the laying on of hands, prophecy, and prayer.",
+        details: "Altar Call (Salvation, Rededication), Healing & Deliverance Ministry, Prophetic Ministry"
+    },
+    {
+        id: 4,
+        title: "4. Closing & Commissioning",
+        description: "Sending the church out into the world, empowered and equipped to demonstrate the Kingdom.",
+        details: "Closing Announcements, Benediction & Blessing, Fellowship"
+    }
+];
     
