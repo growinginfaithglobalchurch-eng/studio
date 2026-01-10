@@ -12,12 +12,14 @@ const opportunities = [
     title: 'Discover Your Gifts & Calling',
     description: 'Take assessments and get guidance to understand how God has uniquely wired you for impact.',
     cta: 'Start Discovery',
+    href: '/spiritual-gifts-assessment',
   },
   {
     icon: <Briefcase className="h-6 w-6 text-accent" />,
     title: 'Evangelism & Outreach Teams',
     description: 'Join local and global teams to share the Gospel and demonstrate God\'s love in practical ways.',
     cta: 'Join a Team',
+    href: '#',
   },
 ];
 
@@ -47,7 +49,9 @@ export default function MinistriesPage() {
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <Button variant="outline" className="text-white">{item.cta}</Button>
+                  <Button asChild variant="outline" className="text-white">
+                    <Link href={item.href}>{item.cta}</Link>
+                  </Button>
                 </CardContent>
              </Card>
            ))}
