@@ -5,11 +5,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays, Zap } from 'lucide-react';
+import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays, Zap, BookOpen } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
-import { communityUsers, events, conferences, empowermentMeetings } from '@/lib/data';
+import { communityUsers, events, conferences, empowermentMeetings, annualCalendar } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function EventsPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -27,6 +28,32 @@ export default function EventsPage() {
           Join our live events, view schedules, and register for upcoming sessions.
         </p>
       </div>
+
+      <section>
+        <h2 className="text-2xl font-headline font-bold mb-4">Annual Ministry Calendar</h2>
+        <Card>
+          <CardHeader>
+            <CardTitle>12-Month Ministry Blueprint</CardTitle>
+            <CardDescription>A complete overview of our yearly Kingdom system and flow.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full">
+              {annualCalendar.map((item) => (
+                <AccordionItem value={item.month} key={item.month}>
+                  <AccordionTrigger className="text-lg font-headline">{item.month}: <span className="ml-2 font-normal text-muted-foreground">{item.theme}</span></AccordionTrigger>
+                  <AccordionContent className="p-4 bg-secondary/30 rounded-md">
+                    <p className="font-semibold text-foreground">Purpose: <span className="font-normal text-muted-foreground">{item.purpose}</span></p>
+                    <h4 className="font-semibold text-foreground mt-4 mb-2">Key Activities:</h4>
+                    <ul className="list-disc pl-5 text-muted-foreground space-y-1">
+                      {item.activities.map(activity => <li key={activity}>{activity}</li>)}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </CardContent>
+        </Card>
+      </section>
       
       <section>
           <h2 className="text-2xl font-headline font-bold mb-4">Major Conferences</h2>
@@ -175,3 +202,5 @@ export default function EventsPage() {
     </div>
   );
 }
+
+    

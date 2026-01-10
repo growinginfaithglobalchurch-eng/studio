@@ -104,6 +104,7 @@ const adminNav = [
     { href: '/admin/mentorship', label: 'Mentorship', icon: <UserCheck className="h-4 w-4" /> },
     { href: '/admin/discipleship', label: 'Discipleship', icon: <Users className="h-4 w-4" /> },
     { href: '/admin/conferences', label: 'Conferences', icon: <Calendar className="h-4 w-4" /> },
+    { href: '/admin/events', label: 'Events', icon: <Calendar className="h-4 w-4" /> },
     { href: '/admin/global-expansion', label: 'Global Strategy', icon: <Globe className="h-4 w-4" /> },
     { href: '/admin/roadmap', label: 'Roadmap', icon: <GraduationCap className="h-4 w-4" /> },
     { href: '/admin/settings', label: 'Settings', icon: <Settings className="h-4 w-4" /> },
@@ -212,3 +213,5 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
     </nav>
   );
 }
+
+    

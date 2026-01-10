@@ -189,6 +189,81 @@ export const events = [
   },
 ];
 
+export const annualCalendar = [
+    {
+        month: 'January',
+        theme: 'Evangelism & Outreach Core',
+        purpose: 'Winning souls, territorial harvest, public witness of Christ.',
+        activities: ['Street evangelism', 'Community crusades', 'Prison & hospital outreaches', 'Market-place evangelism', 'Door-to-door missions', 'Water baptism services']
+    },
+    {
+        month: 'February',
+        theme: 'Foundational Spiritual Formation',
+        purpose: 'Establishing believers in Christ identity and supernatural encounters.',
+        activities: ['The Encounter Programs (Salvation, Deliverance, Spirit Infilling)', 'New Creations Course', 'School of the Spirit', 'Spiritual Maturity Course']
+    },
+    {
+        month: 'March',
+        theme: 'Leadership & Ministry Development',
+        purpose: 'Raising Kingdom leaders with vision and discipline.',
+        activities: ['Leadership Training Courses (Servant leadership, Vision alignment, Integrity & accountability, Kingdom governance)']
+    },
+    {
+        month: 'April',
+        theme: 'Mentorship System (Core Pillar)',
+        purpose: 'Life transfer, impartation, and guidance across all ministry expressions.',
+        activities: ['Pastoral Mentorship', 'Prophetic Mentorship', 'Apostolic Mentorship', 'Evangelical Mentorship', 'Leadership Mentorship']
+    },
+    {
+        month: 'May',
+        theme: 'Schools of Empowerment',
+        purpose: 'Equipping believers for practical ministry and supernatural operation.',
+        activities: ['School of Ministry', 'School of Revelation', 'School of Deliverance', 'School of Healing', 'Intercessory Ministry Training']
+    },
+    {
+        month: 'June',
+        theme: 'Generational & Demographic Ministries',
+        purpose: 'Addressing the needs of every age group for stability, purpose, and foundation.',
+        activities: ['Adult Ministry Focus', 'Youth Ministry Conferences', 'Kids & Teens Ministry VBS']
+    },
+    {
+        month: 'July',
+        theme: 'Identity & Purpose Formation',
+        purpose: 'Helping believers discover their divine design and assignment.',
+        activities: ['God\'s Workmanship Workshop (Purpose discovery, Gift identification, Destiny alignment)']
+    },
+    {
+        month: 'August',
+        theme: 'Conferences & Seminars',
+        purpose: 'Targeted impartation for every area of life.',
+        activities: ['Pastors & Leaders Conference', 'Single & Free Seminars', 'Dating & Relationship Seminars', 'Couples Conferences', 'Women\'s Conferences', 'Men\'s Seminars']
+    },
+    {
+        month: 'September',
+        theme: 'Monthly Empowerment Focus',
+        purpose: 'A dedicated month to emphasize impartation, activation, and spiritual renewal.',
+        activities: ['First Weekend Empowerment Meetings', 'Special Guest Ministers', 'Activation Services']
+    },
+    {
+        month: 'October',
+        theme: 'Discipleship System',
+        purpose: 'Producing grounded, mature followers of Christ.',
+        activities: ['Discipleship Program Launch', 'Discipleship & Leadership Forums']
+    },
+    {
+        month: 'November',
+        theme: 'Word & Community Life',
+        purpose: 'Deepening word depth and expanding community through small groups.',
+        activities: ['Intensive Bible Study Series', 'Life Groups Seminars & Launch', 'Bridge Events (Community Outreach)']
+    },
+    {
+        month: 'December',
+        theme: 'Counseling & Restoration',
+        purpose: 'Bringing healing and wholeness to individuals and families.',
+        activities: ['Marriage Counseling Workshops', 'Personal Counseling Availability', 'Trauma & Emotional Healing Seminars']
+    }
+];
+
 export const conferences = [
     {
         id: 1,
@@ -384,3 +459,5 @@ export const departments: Department[] = [
   { name: 'Ladies Department', description: 'Empowering women to walk in their God-given identity and purpose.', icon: 'Users' },
   { name: 'Programming Department', description: 'Developing and managing the church\'s digital platforms and tools.', icon: 'Wrench' },
 ];
+
+    
