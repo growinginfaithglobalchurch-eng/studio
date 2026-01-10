@@ -35,6 +35,7 @@ import {
   Bell,
   Store,
   Gavel,
+  BookMarked,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -49,6 +50,7 @@ import { Button } from './ui/button';
 const mainNav = [
   { href: '/feeds', label: 'Home', icon: <Home className="h-4 w-4" /> },
   { href: '/growth-hub', label: 'Growth Hub', icon: <TrendingUp className="h-4 w-4" /> },
+  { href: '/bible-reading-plan', label: 'Bible Plan', icon: <BookMarked className="h-4 w-4" /> },
   { href: '/devotionals', label: 'Devotionals', icon: <BookOpen className="h-4 w-4" /> },
   { href: '/resources', label: 'Resources', icon: <Library className="h-4 w-4" /> },
   { href: '/store', label: 'Store', icon: <Store className="h-4 w-4" /> },
