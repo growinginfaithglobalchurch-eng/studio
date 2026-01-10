@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -27,6 +29,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { useToast } from '@/hooks/use-toast';
 
 const courtsOfHeavenPillars = [
   {
@@ -107,9 +110,17 @@ const warfareTribes = [
 ];
 
 export default function SpiritWarfarePage() {
+  const { toast } = useToast();
   const heroImage = PlaceHolderImages.find(
     (p) => p.id === 'devotional-2'
   );
+
+  const handleChooseTribe = (tribeName: string) => {
+    toast({
+        title: "Tribe Selected!",
+        description: `You have joined the ${tribeName}. Your profile badge has been assigned.`
+    });
+  }
 
   return (
     <div className="space-y-8">
@@ -190,6 +201,8 @@ export default function SpiritWarfarePage() {
         <h2 className="text-2xl font-headline font-bold mb-4">
           Choosing Tribes of War
         </h2>
+        <p className="text-muted-foreground max-w-3xl mb-6">Select your Warfare Tribe to receive your Tribal Badge. This badge will appear on your profile and assignments, signifying your operational domain and building identity clarity, functional alignment, and coordinated warfare operations.</p>
+
         <div className="grid gap-8 md:grid-cols-3">
           {warfareTribes.map((tribe) => (
             <Card key={tribe.name} className="flex flex-col">
@@ -210,7 +223,7 @@ export default function SpiritWarfarePage() {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button variant="outline" className="w-full text-white">Choose {tribe.name}</Button>
+                <Button variant="outline" className="w-full text-white" onClick={() => handleChooseTribe(tribe.name)}>Choose {tribe.name}</Button>
               </CardFooter>
             </Card>
           ))}
@@ -221,35 +234,30 @@ export default function SpiritWarfarePage() {
                 <CardDescription>For strategic warfare commanders trained to operate across all realms: Air, Land, and Sea. This selection grants the "All Tribes Badge" for full-spectrum spiritual engagement.</CardDescription>
             </CardHeader>
             <CardContent>
-                <Button>Choose All Tribes</Button>
+                <Button onClick={() => handleChooseTribe('All Tribes')}>Choose All Tribes</Button>
             </CardContent>
         </Card>
       </div>
-
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-            <CardHeader>
-                <CardTitle className="font-headline flex items-center gap-2"><Badge className="h-6 w-6 text-accent" /> Tribal Badges</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p className="text-muted-foreground mb-4">Upon registration, each member selects a Warfare Tribe and receives a badge. This badge appears on profiles, in war rooms, and on assignments to build:</p>
-                <ul className="space-y-2 text-sm list-disc pl-5 text-muted-foreground">
-                    <li>Identity clarity</li>
-                    <li>Functional alignment</li>
-                    <li>Coordinated warfare operations</li>
-                </ul>
-            </CardContent>
-        </Card>
-        <Card>
+      
+       <div className="grid gap-6 md:grid-cols-2">
+         <Card>
             <CardHeader>
                 <CardTitle className="font-headline flex items-center gap-2"><Shield className="h-6 w-6 text-accent" /> The War Room</CardTitle>
             </CardHeader>
             <CardContent>
-                 <p className="text-muted-foreground mb-4">The strategic command center for live and scheduled prayer operations, targeted assignments, Courts of Heaven sessions, and emergency intercession alerts.</p>
+                 <p className="text-muted-foreground mb-4">The War Room is the strategic command center for live prayer operations, targeted assignments, and Courts of Heaven sessions. It is not noise; it is strategy, alignment, and execution.</p>
                  <Button variant="secondary">Enter the War Room</Button>
             </CardContent>
         </Card>
-      </div>
+        <Card>
+            <CardHeader>
+                <CardTitle className="font-headline flex items-center gap-2"><Badge className="h-6 w-6 text-accent" /> About Tribal Badges</CardTitle>
+            </CardHeader>
+            <CardContent>
+                 <p className="text-muted-foreground">Your badge appears on your profile and in discussions, helping to build identity, alignment, and coordinate warfare operations across the platform.</p>
+            </CardContent>
+        </Card>
+       </div>
       
        <Card className="text-center p-8 bg-secondary/30">
         <CardTitle className="font-headline text-2xl flex items-center justify-center gap-2"><Milestone className="h-6 w-6 text-accent"/> Walking in Christ’s Triumphal Procession</CardTitle>
