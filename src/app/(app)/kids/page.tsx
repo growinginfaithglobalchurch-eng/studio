@@ -1,10 +1,11 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Gamepad2, BookText, Music, Video, Shield } from 'lucide-react';
+import { Gamepad2, BookText, Music, Video, Shield, PlayCircle } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const kidsContent = {
     image: PlaceHolderImages.find(p => p.id === 'community-feature'),
@@ -34,6 +35,12 @@ const activities = [
         description: "Fun, downloadable activities that reinforce biblical lessons.",
     }
 ]
+
+const featuredActivity = {
+    title: "David and Goliath: Interactive Story",
+    description: "Join David as he bravely faces the giant! Tap on characters and objects to see what happens next.",
+    image: PlaceHolderImages.find(p => p.id === 'devotional-2')
+}
 
 export default function KidsConnectPage() {
   return (
@@ -70,6 +77,29 @@ export default function KidsConnectPage() {
           </div>
         </CardHeader>
       </Card>
+      
+      {featuredActivity && (
+          <Card className="overflow-hidden">
+            <CardHeader className="p-0">
+                <div className="bg-primary text-primary-foreground text-center py-2 font-bold">Today's Featured Activity</div>
+            </CardHeader>
+            <div className="grid md:grid-cols-2 items-center">
+                 {featuredActivity.image && (
+                    <AspectRatio ratio={16 / 9}>
+                        <Image src={featuredActivity.image.imageUrl} alt={featuredActivity.title} fill className="object-cover"/>
+                    </AspectRatio>
+                 )}
+                 <div className="p-6">
+                    <h3 className="text-xl font-bold font-headline">{featuredActivity.title}</h3>
+                    <p className="text-muted-foreground mt-2">{featuredActivity.description}</p>
+                    <Button className="mt-4">
+                        <PlayCircle className="mr-2 h-5 w-5" />
+                        Start Activity
+                    </Button>
+                 </div>
+            </div>
+          </Card>
+      )}
 
       <div>
         <h2 className="text-2xl font-headline font-bold mb-4">What You Can Do Here</h2>
