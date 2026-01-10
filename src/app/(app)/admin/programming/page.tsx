@@ -96,6 +96,17 @@ export default function AdminProgrammingPage() {
         setEditingId(null);
         toast({ title: 'Update Successful', description: 'The service element has been updated.' });
     };
+    
+    const parseDetails = (details: string) => {
+        return details.split('\n').map(line => {
+            const match = line.match(/(.+?)\s\((\d+)\s*mins\)\s*-\s*(.+)/);
+            if (match) {
+                return { activity: match[1].trim(), duration: match[2], leader: match[3].trim() };
+            }
+            return null;
+        }).filter(Boolean);
+    }
+
 
     return (
         <div className="space-y-8">
@@ -124,8 +135,8 @@ export default function AdminProgrammingPage() {
                             <Input id="description" name="description" value={newElement.description} onChange={handleInputChange} placeholder="e.g., Sending the church out into the world..." />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="details">Key Components (comma-separated)</Label>
-                            <Textarea id="details" name="details" value={newElement.details} onChange={handleInputChange} placeholder="e.g., Closing Announcements, Benediction & Blessing, Fellowship" />
+                            <Label htmlFor="details">Key Components</Label>
+                            <Textarea id="details" name="details" value={newElement.details} onChange={handleInputChange} placeholder={"Enter each component on a new line.\nFormat: Activity (Duration in mins) - Leader\ne.g., Opening Prayer (5 mins) - Pastor John"} rows={4} />
                         </div>
                         <div className="flex justify-end">
                             <Button type="submit">
@@ -158,8 +169,8 @@ export default function AdminProgrammingPage() {
                                         <Input id="edit-description" name="description" value={editedData.description} onChange={handleEditChange} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="edit-details">Key Components (comma-separated)</Label>
-                                        <Textarea id="edit-details" name="details" value={editedData.details} onChange={handleEditChange} />
+                                        <Label htmlFor="edit-details">Key Components</Label>
+                                        <Textarea id="edit-details" name="details" value={editedData.details} onChange={handleEditChange} rows={4} placeholder={"Format: Activity (Duration in mins) - Leader"}/>
                                     </div>
                                     <div className="flex gap-2">
                                         <Button size="sm" onClick={() => handleSaveEdit(item.id)}>
@@ -179,8 +190,13 @@ export default function AdminProgrammingPage() {
                                     </div>
                                     <div className="mt-4 pl-9">
                                         <h4 className="font-semibold text-foreground mb-2">Key Components:</h4>
-                                        <ul className="list-disc pl-5 text-muted-foreground space-y-1">
-                                        {item.details.split(',').map(detail => detail.trim()).map(d => <li key={d}>{d}</li>)}
+                                        <ul className="space-y-2">
+                                            {parseDetails(item.details).map((detail, index) => detail && (
+                                                <li key={index} className="flex justify-between text-muted-foreground text-sm">
+                                                    <span>{detail.activity} - <span className="font-semibold">{detail.leader}</span></span>
+                                                    <span className="font-mono text-xs bg-muted px-2 py-1 rounded-md">{detail.duration} mins</span>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                      <div className="flex gap-2 border-t pt-4 mt-4 pl-9">

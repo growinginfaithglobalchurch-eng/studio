@@ -5,33 +5,35 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { ClipboardList, Waves, Wind, Sparkles, HandCoins, UserPlus, BookOpen, Mic, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { serviceElements as initialServiceElements } from '@/lib/data';
 
-const serviceElements = [
-    {
-        icon: <Waves className="h-6 w-6 text-accent" />,
-        title: "1. The Atmosphere & Opening",
-        description: "Setting a spiritual atmosphere of worship, reverence, and expectation. This is where we welcome the presence of the Holy Spirit.",
-        details: ["Opening Prayer", "Praise & Worship", "Prophetic Declarations"]
-    },
-    {
-        icon: <Sparkles className="h-6 w-6 text-accent" />,
-        title: "2. Revelation & The Word",
-        description: "The centerpiece of the service, where the Word of God is taught with clarity, revelation, and power.",
-        details: ["Announcements & Welcome", "Tithes & Offerings Teaching", "The Sermon (Rhema Word)"]
-    },
-    {
-        icon: <Wind className="h-6 w-6 text-accent" />,
-        title: "3. Impartation & Ministry",
-        description: "The time for personal ministry, where the congregation receives from God through the laying on of hands, prophecy, and prayer.",
-        details: ["Altar Call (Salvation, Rededication)", "Healing & Deliverance Ministry", "Prophetic Ministry"]
-    },
-    {
-        icon: <Users className="h-6 w-6 text-accent" />,
-        title: "4. Closing & Commissioning",
-        description: "Sending the church out into the world, empowered and equipped to demonstrate the Kingdom.",
-        details: ["Closing Announcements", "Benediction & Blessing", "Fellowship"]
-    }
-];
+const serviceElements = initialServiceElements;
+
+const iconMap: { [key: string]: React.ReactNode } = {
+  "Atmosphere": <Waves className="h-6 w-6 text-accent" />,
+  "Revelation": <Sparkles className="h-6 w-6 text-accent" />,
+  "Impartation": <Wind className="h-6 w-6 text-accent" />,
+  "Commissioning": <Users className="h-6 w-6 text-accent" />,
+  "Default": <ClipboardList className="h-6 w-6 text-accent" />,
+};
+
+const getIcon = (title: string) => {
+    if (title.includes('Atmosphere')) return iconMap['Atmosphere'];
+    if (title.includes('Revelation')) return iconMap['Revelation'];
+    if (title.includes('Impartation')) return iconMap['Impartation'];
+    if (title.includes('Closing')) return iconMap['Commissioning'];
+    return iconMap['Default'];
+}
+
+const parseDetails = (details: string) => {
+    return details.split('\n').map(line => {
+        const match = line.match(/(.+?)\s\((\d+)\s*mins\)\s*-\s*(.+)/);
+        if (match) {
+            return { activity: match[1].trim(), duration: match[2], leader: match[3].trim() };
+        }
+        return null;
+    }).filter(Boolean);
+}
 
 export default function ServiceProgrammingPage() {
     const { toast } = useToast();
@@ -74,15 +76,20 @@ export default function ServiceProgrammingPage() {
                         <Card key={project.title}>
                             <CardHeader>
                                 <div className="flex items-center gap-3">
-                                    {project.icon}
+                                    {getIcon(project.title)}
                                     <CardTitle className="font-headline text-xl">{project.title}</CardTitle>
                                 </div>
                                 <CardDescription>{project.description}</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <h4 className="font-semibold mb-2 text-card-foreground">Key Components:</h4>
-                                <ul className="space-y-2 text-sm text-muted-foreground list-disc pl-5">
-                                    {project.details.map(detail => <li key={detail}>{detail}</li>)}
+                                <h4 className="font-semibold mb-3 text-card-foreground">Key Components:</h4>
+                                <ul className="space-y-2">
+                                    {parseDetails(project.details).map((detail, index) => detail && (
+                                        <li key={index} className="flex justify-between items-center text-muted-foreground text-sm p-2 bg-secondary/30 rounded-md">
+                                            <span>{detail.activity} - <span className="font-semibold text-foreground">{detail.leader}</span></span>
+                                            <span className="font-mono text-xs bg-muted px-2 py-1 rounded-md">{detail.duration} mins</span>
+                                        </li>
+                                    ))}
                                 </ul>
                             </CardContent>
                         </Card>

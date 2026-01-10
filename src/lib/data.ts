@@ -465,26 +465,33 @@ export const serviceElements = [
     {
         id: 1,
         title: "1. The Atmosphere & Opening",
-        description: "Setting a spiritual atmosphere of worship, reverence, and expectation. This is where we welcome the presence of the Holy Spirit.",
-        details: "Opening Prayer, Praise & Worship, Prophetic Declarations"
+        description: "Setting a spiritual atmosphere of worship, reverence, and expectation.",
+        details: `Opening Prayer (5 mins) - Pastor John
+Praise & Worship (25 mins) - Worship Team
+Prophetic Declarations (5 mins) - Prophetess Norah`
     },
     {
         id: 2,
         title: "2. Revelation & The Word",
-        description: "The centerpiece of the service, where the Word of God is taught with clarity, revelation, and power.",
-        details: "Announcements & Welcome, Tithes & Offerings Teaching, The Sermon (Rhema Word)"
+        description: "The centerpiece of the service, where the Word of God is taught with clarity and power.",
+        details: `Announcements & Welcome (5 mins) - MC
+Tithes & Offerings (10 mins) - Deacon Smith
+The Sermon (45 mins) - Joseph Tryson`
     },
     {
         id: 3,
         title: "3. Impartation & Ministry",
-        description: "The time for personal ministry, where the congregation receives from God through the laying on of hands, prophecy, and prayer.",
-        details: "Altar Call (Salvation, Rededication), Healing & Deliverance Ministry, Prophetic Ministry"
+        description: "The time for personal ministry, where the congregation receives from God.",
+        details: `Altar Call (10 mins) - Joseph Tryson
+Healing & Deliverance (15 mins) - Ministry Team`
     },
     {
         id: 4,
         title: "4. Closing & Commissioning",
-        description: "Sending the church out into the world, empowered and equipped to demonstrate the Kingdom.",
-        details: "Closing Announcements, Benediction & Blessing, Fellowship"
+        description: "Sending the church out into the world, empowered and equipped.",
+        details: `Closing Announcements (5 mins) - MC
+Benediction & Blessing (5 mins) - Joseph Tryson
+Fellowship (Ongoing) - All`
     }
 ];
     
