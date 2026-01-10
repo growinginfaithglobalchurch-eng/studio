@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Gamepad2, BookText, Music, Video, Shield, PlayCircle } from 'lucide-react';
 import Image from 'next/image';
@@ -21,21 +21,29 @@ const activities = [
         icon: <BookText className="h-6 w-6 text-accent" />,
         title: "Interactive Bible Stories",
         description: "Engaging, animated stories that bring the Bible to life for young hearts.",
+        href: "/bible-stories",
+        cta: "Start Reading"
     },
     {
         icon: <Music className="h-6 w-6 text-accent" />,
         title: "Memory Verse Songs",
         description: "Fun songs and videos to help kids hide God's Word in their hearts.",
+        href: "#",
+        cta: "Sing Along"
     },
     {
         icon: <Video className="h-6 w-6 text-accent" />,
         title: "Worship & Action Songs",
         description: "Upbeat music to get kids moving and praising God.",
+        href: "#",
+        cta: "Watch Now"
     },
     {
         icon: <Gamepad2 className="h-6 w-6 text-accent" />,
         title: "Creative Activities & Crafts",
         description: "Fun, downloadable activities that reinforce biblical lessons.",
+        href: "#",
+        cta: "Get Creative"
     }
 ]
 
@@ -117,7 +125,7 @@ export default function KidsConnectPage() {
         <h2 className="text-2xl font-headline font-bold mb-4">What You Can Do Here</h2>
         <div className="grid gap-6 md:grid-cols-2">
             {activities.map(activity => (
-                 <Card key={activity.title}>
+                 <Card key={activity.title} className="flex flex-col">
                     <CardHeader className="flex flex-row items-start gap-4">
                         {activity.icon}
                         <div>
@@ -125,6 +133,12 @@ export default function KidsConnectPage() {
                             <CardDescription className="mt-1">{activity.description}</CardDescription>
                         </div>
                     </CardHeader>
+                    <CardContent className="flex-grow" />
+                    <CardFooter>
+                        <Button asChild className="w-full" variant="outline">
+                            <Link href={activity.href}>{activity.cta}</Link>
+                        </Button>
+                    </CardFooter>
                  </Card>
             ))}
         </div>
