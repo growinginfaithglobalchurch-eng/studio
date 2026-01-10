@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Gamepad2, BookText, Music, Video, Shield, PlayCircle } from 'lucide-react';
@@ -6,6 +8,7 @@ import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { useToast } from '@/hooks/use-toast';
 
 const kidsContent = {
     image: PlaceHolderImages.find(p => p.id === 'community-feature'),
@@ -43,6 +46,15 @@ const featuredActivity = {
 }
 
 export default function KidsConnectPage() {
+    const { toast } = useToast();
+
+    const handleStartActivity = () => {
+        toast({
+            title: "Activity Starting!",
+            description: `The "${featuredActivity.title}" activity is now loading. Have fun!`,
+        });
+    };
+
   return (
     <div className="space-y-8">
       <div>
@@ -92,7 +104,7 @@ export default function KidsConnectPage() {
                  <div className="p-6">
                     <h3 className="text-xl font-bold font-headline">{featuredActivity.title}</h3>
                     <p className="text-muted-foreground mt-2">{featuredActivity.description}</p>
-                    <Button className="mt-4">
+                    <Button className="mt-4" onClick={handleStartActivity}>
                         <PlayCircle className="mr-2 h-5 w-5" />
                         Start Activity
                     </Button>
