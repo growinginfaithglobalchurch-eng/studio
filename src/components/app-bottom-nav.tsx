@@ -7,7 +7,7 @@ import { Home, MessageCircle, Users, User, Handshake } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/feeds', icon: <Home className="h-5 w-5" />, label: 'Home' },
+  { href: '/dashboard', icon: <Home className="h-5 w-5" />, label: 'Home' },
   { href: '/connect', icon: <Handshake className="h-5 w-5" />, label: 'Connect' },
   { href: '/chat', icon: <MessageCircle className="h-5 w-5" />, label: 'Chat' },
   { href: '/profile', icon: <User className="h-5 w-5" />, label: 'Me' },
@@ -25,7 +25,7 @@ export function AppBottomNav() {
             href={item.href}
             className={cn(
               'inline-flex flex-col items-center justify-center px-5 hover:bg-muted text-muted-foreground',
-              (pathname === item.href || (item.href === '/profile' && pathname.startsWith('/dashboard'))) && 'text-primary'
+              (pathname === item.href) && 'text-primary'
             )}
           >
             {item.icon}

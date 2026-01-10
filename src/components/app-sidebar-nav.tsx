@@ -48,7 +48,7 @@ import {
 import { Button } from './ui/button';
 
 const mainNav = [
-  { href: '/feeds', label: 'Home', icon: <Home className="h-4 w-4" /> },
+  { href: '/dashboard', label: 'Home', icon: <Home className="h-4 w-4" /> },
   { href: '/growth-hub', label: 'Growth Hub', icon: <TrendingUp className="h-4 w-4" /> },
   { href: '/bible-reading-plan', label: 'Bible Plan', icon: <BookMarked className="h-4 w-4" /> },
   { href: '/devotionals', label: 'Devotionals', icon: <BookOpen className="h-4 w-4" /> },
@@ -199,5 +199,3 @@ export function AppSidebarNav() {
     </nav>
   );
 }
-
-    
