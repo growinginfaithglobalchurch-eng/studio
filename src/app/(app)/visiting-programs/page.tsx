@@ -27,7 +27,7 @@ const visitorTypes = [
             "Information on local housing options.",
             "Structured daily and weekly schedules."
         ],
-        applyLink: "/contact?type=visiting-program"
+        applyLink: "/international-visitor-registration"
     },
     {
         icon: <Users className="h-8 w-8 text-accent" />,
@@ -38,7 +38,7 @@ const visitorTypes = [
             "Focused on deep community integration.",
             "Opportunities for ongoing mentorship."
         ],
-        applyLink: "/contact?type=visiting-program"
+        applyLink: "/local-visitor-registration"
     }
 ];
 
