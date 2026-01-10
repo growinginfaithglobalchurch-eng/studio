@@ -13,7 +13,7 @@ export function AppSidebar() {
             <span className="">Faith Connect</span>
           </Link>
         </div>
-        <div className="flex-1 py-2">
+        <div className="flex-1 py-2 overflow-y-auto">
           <AppSidebarNav />
         </div>
       </div>
