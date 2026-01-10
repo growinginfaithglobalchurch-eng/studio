@@ -47,7 +47,7 @@ export default function MinistriesPage() {
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <Button variant="outline">{item.cta}</Button>
+                    <Button variant="outline" className="text-white">{item.cta}</Button>
                 </CardContent>
              </Card>
            ))}
