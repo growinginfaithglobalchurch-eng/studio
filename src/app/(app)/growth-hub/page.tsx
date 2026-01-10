@@ -1,117 +1,106 @@
 
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Headphones, PenSquare, BookText, TrendingUp, Sparkles, AudioLines, Video } from "lucide-react";
-import { devotionals } from "@/lib/data";
-import Image from "next/image";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CheckSquare, Sunrise, BookOpen, UserCircle, MessageSquare, Shield, Sunset, Check } from "lucide-react";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
-const growthHubSections = [
+const dailyPractices = [
+  {
+    icon: <Sunrise className="h-6 w-6 text-accent" />,
+    title: "Morning Alignment & Declaration",
+    description: "Start your day by aligning your spirit with God's will and declaring His promises.",
+    href: "/devotionals",
+    cta: "Declare Now"
+  },
   {
     icon: <BookOpen className="h-6 w-6 text-accent" />,
-    title: "Bible Reading Plans & Studies",
-    description: "Engage with Scripture through structured reading plans and in-depth studies.",
-    cta: "Browse Plans",
-    href: "#"
+    title: "Word & Truth Intake",
+    description: "Engage with Scripture through the daily reading plan.",
+    href: "/bible-reading-plan",
+    cta: "Read Today's Word"
   },
   {
-    icon: <Headphones className="h-6 w-6 text-accent" />,
-    title: "Audio Teachings & Prophetic Insights",
-    description: "Listen to powerful sermons, teachings, and prophetic words on the go.",
-    cta: "Listen Now",
-    href: "#"
+    icon: <UserCircle className="h-6 w-6 text-accent" />,
+    title: "Identity Consciousness & Reflection",
+    description: "Reflect on who you are in Christ. Journal your thoughts and revelations.",
+    href: "#",
+    cta: "Journal"
   },
   {
-    icon: <PenSquare className="h-6 w-6 text-accent" />,
-    title: "Scripture-Based Reflections & Declarations",
-    description: "Journal your thoughts and speak life with powerful scriptural declarations.",
-    cta: "Start Reflecting",
-    href: "#"
+    icon: <MessageSquare className="h-6 w-6 text-accent" />,
+    title: "Kingdom Speech Tracking",
+    description: "Practice speaking life and aligning your words with God's truth.",
+    href: "#",
+    cta: "Log Speech"
+  },
+  {
+    icon: <Shield className="h-6 w-6 text-accent" />,
+    title: "Warfare Readiness Check",
+    description: "Assess your spiritual readiness and prepare for engagement.",
+    href: "/spirit-warfare",
+    cta: "Assess Readiness"
+  },
+  {
+    icon: <Sunset className="h-6 w-6 text-accent" />,
+    title: "Night Reflection & Review",
+    description: "Review your day, give thanks, and commit your night to the Lord.",
+    href: "#",
+    cta: "Review Day"
   }
 ];
 
-
 export default function FaithGrowthHubPage() {
-  const latestDevotional = devotionals[0];
+  const { toast } = useToast();
+
+  const handleComplete = (title: string) => {
+    toast({
+        title: "Practice Completed!",
+        description: `You've completed: ${title}.`
+    });
+    // In a real app, this would update user progress in Firebase.
+  };
 
   return (
     <div className="space-y-8">
       <div>
         <div className="flex items-center gap-3 mb-2">
-            <TrendingUp className="h-8 w-8 text-accent" />
-            <h1 className="text-3xl font-headline font-bold text-foreground">Faith Growth Hub</h1>
+            <CheckSquare className="h-8 w-8 text-accent" />
+            <h1 className="text-3xl font-headline font-bold text-foreground">Daily Kingdom Practices</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl">
           A structured spiritual growth center designed for believers at every level.
         </p>
       </div>
 
-      <Card className="bg-gradient-to-r from-primary/10 to-transparent">
+      <Card>
         <CardHeader>
-          <div className="flex items-center gap-3">
-             <Sparkles className="h-6 w-6 text-accent" />
-            <div>
-                 <CardTitle className="font-headline text-xl font-bold">Daily Focus: Faith Activations</CardTitle>
-                 <CardDescription>Start your day with a fresh word and practical activation.</CardDescription>
-            </div>
-          </div>
+            <CardTitle>Your Daily Checklist</CardTitle>
+            <CardDescription>Complete these practices daily to build a consistent spiritual lifestyle.</CardDescription>
         </CardHeader>
-        <CardContent>
-           <Card key={latestDevotional.id} className="flex flex-col md:flex-row">
-            <div className="md:w-1/3">
-                {latestDevotional.image && (
-                    <div className="relative aspect-video w-full h-full overflow-hidden rounded-t-lg md:rounded-l-lg md:rounded-t-none">
-                    <Image
-                        src={latestDevotional.image.imageUrl}
-                        alt={latestDevotional.title}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={latestDevotional.image.imageHint}
-                    />
+        <CardContent className="space-y-4">
+            {dailyPractices.map((practice) => (
+                <div key={practice.title} className="flex flex-col sm:flex-row items-start gap-4 p-4 rounded-lg border bg-card/50">
+                    <div className="flex-shrink-0">{practice.icon}</div>
+                    <div className="flex-grow">
+                        <h3 className="font-bold text-lg text-foreground">{practice.title}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">{practice.description}</p>
+                        <div className="mt-3 flex gap-2">
+                            <Button asChild variant="outline">
+                                <Link href={practice.href}>{practice.cta}</Link>
+                            </Button>
+                            <Button variant="ghost" onClick={() => handleComplete(practice.title)}>
+                                <Check className="mr-2 h-4 w-4" />
+                                Mark as Complete
+                            </Button>
+                        </div>
                     </div>
-                )}
-            </div>
-            <div className="flex flex-col md:w-2/3">
-                 <CardHeader>
-                    <p className="text-sm text-muted-foreground">{latestDevotional.date} &bull; {latestDevotional.category}</p>
-                    <CardTitle className="mt-1 font-headline text-xl font-bold">{latestDevotional.title}</CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">by {latestDevotional.author}</p>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                     <p className="text-sm text-muted-foreground line-clamp-3">
-                        {latestDevotional.content.text}
-                     </p>
-                </CardContent>
-                 <div className="p-6 pt-0">
-                    <Button asChild>
-                        <Link href="/devotionals">Continue Reading</Link>
-                    </Button>
                 </div>
-            </div>
-          </Card>
+            ))}
         </CardContent>
       </Card>
-
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {growthHubSections.map((section) => (
-          <Card key={section.title} className="flex flex-col">
-            <CardHeader className="flex flex-row items-start gap-4">
-              {section.icon}
-              <div className="flex-grow">
-                 <CardTitle>{section.title}</CardTitle>
-                 <CardDescription className="mt-1">{section.description}</CardDescription>
-              </div>
-            </CardHeader>
-            <CardContent className="flex-grow" />
-            <div className="p-6 pt-0">
-                <Button variant="outline" asChild>
-                    <Link href={section.href}>{section.cta}</Link>
-                </Button>
-            </div>
-          </Card>
-        ))}
-      </div>
     </div>
   );
 }
