@@ -145,11 +145,7 @@ export default function LandingPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
                 <div className="container px-4 md:px-6">
-                  <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                    <Button size="lg" asChild>
-                      <Link href="/dashboard">Explore More</Link>
-                    </Button>
-                  </div>
+                  
                 </div>
               </div>
             </AspectRatio>
