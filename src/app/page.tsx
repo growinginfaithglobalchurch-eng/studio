@@ -156,9 +156,6 @@ export default function LandingPage() {
                     An interactive spiritual ecosystem to grow in faith, access transformational resources, and live out your divine purpose.
                   </p>
                   <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                    <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                      <Link href="/signup">Get Started</Link>
-                    </Button>
                     <Button size="lg" variant="outline" asChild>
                       <Link href="/dashboard">Explore Platform</Link>
                     </Button>
