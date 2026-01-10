@@ -6,6 +6,8 @@ import { BookOpen, Scale, Shield, Users, AlertTriangle, CheckCircle, Handshake, 
 import React from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 const sections = [
     { 
@@ -84,6 +86,17 @@ const sections = [
 ];
 
 export default function WarRoomProtocolsPage() {
+    const router = useRouter();
+    const { toast } = useToast();
+
+    const handleAgree = () => {
+        toast({
+            title: "Agreement Confirmed",
+            description: "You have agreed to the War Room protocols. Welcome, soldier.",
+        });
+        router.push('/war-room');
+    };
+
     return (
         <div className="space-y-8">
             <div>
@@ -159,7 +172,7 @@ export default function WarRoomProtocolsPage() {
                     </p>
                 </CardContent>
                 <CardFooter>
-                    <Button>I Agree & Submit</Button>
+                    <Button onClick={handleAgree}>I Agree & Submit</Button>
                 </CardFooter>
              </Card>
 
