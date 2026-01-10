@@ -136,7 +136,7 @@ export default function SpiritWarfarePage() {
         </p>
       </div>
 
-       <Card className="bg-secondary/30">
+       <Card className="bg-card text-card-foreground">
         <CardHeader>
             <CardTitle>Definition & Foundational Teaching</CardTitle>
             <CardDescription>“For we wrestle not against flesh and blood, but against principalities, powers, rulers of darkness, and spiritual wickedness in high places.” (Ephesians 6:12)</CardDescription>
