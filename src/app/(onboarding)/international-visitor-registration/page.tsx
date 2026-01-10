@@ -36,11 +36,11 @@ export default function InternationalVisitorRegistrationPage() {
                     <div className="rounded-lg overflow-hidden">
                         <AspectRatio ratio={16 / 9}>
                             <Image
-                                src={"https://images.unsplash.com/photo-1528041401798-ffb747bd33a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkaXZlcnNlJTIwY29tbXVuaXR5fGVufDB8fHx8MTc2NzkyNzQwMnww&ixlib=rb-4.1.0&q=80&w=1080"}
+                                src={bannerImage.imageUrl}
                                 alt="International Visitors"
                                 fill
                                 className="object-cover"
-                                data-ai-hint={"diverse community"}
+                                data-ai-hint={bannerImage.imageHint}
                             />
                         </AspectRatio>
                     </div>
@@ -65,22 +65,22 @@ export default function InternationalVisitorRegistrationPage() {
                                     <h2 className="text-xl font-bold font-headline text-foreground">Personal Information</h2>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2"><Label htmlFor="fullName">Full Name</Label><Input id="fullName" required /></div>
+                                    <div className="space-y-2"><Label htmlFor="fullName">Full Name</Label><Input id="fullName" required className="text-white"/></div>
                                     <div className="space-y-2"><Label>Gender</Label><Select required><SelectTrigger><SelectValue placeholder="Select gender" /></SelectTrigger><SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem><SelectItem value="other">Other</SelectItem></SelectContent></Select></div>
-                                    <div className="space-y-2"><Label htmlFor="dob">Date of Birth</Label><Input id="dob" type="date" required /></div>
-                                    <div className="space-y-2"><Label htmlFor="nationality">Nationality</Label><Input id="nationality" required /></div>
-                                    <div className="space-y-2"><Label htmlFor="passportNumber">Passport Number</Label><Input id="passportNumber" required /></div>
-                                    <div className="space-y-2"><Label htmlFor="passportExpiry">Passport Expiry Date</Label><Input id="passportExpiry" type="date" required /></div>
-                                    <div className="space-y-2"><Label htmlFor="email">Email Address</Label><Input id="email" type="email" required /></div>
-                                    <div className="space-y-2"><Label htmlFor="phone">Phone Number</Label><Input id="phone" type="tel" required /></div>
+                                    <div className="space-y-2"><Label htmlFor="dob">Date of Birth</Label><Input id="dob" type="date" required className="text-white"/></div>
+                                    <div className="space-y-2"><Label htmlFor="nationality">Nationality</Label><Input id="nationality" required className="text-white"/></div>
+                                    <div className="space-y-2"><Label htmlFor="passportNumber">Passport Number</Label><Input id="passportNumber" required className="text-white"/></div>
+                                    <div className="space-y-2"><Label htmlFor="passportExpiry">Passport Expiry Date</Label><Input id="passportExpiry" type="date" required className="text-white"/></div>
+                                    <div className="space-y-2"><Label htmlFor="email">Email Address</Label><Input id="email" type="email" required className="text-white"/></div>
+                                    <div className="space-y-2"><Label htmlFor="phone">Phone Number</Label><Input id="phone" type="tel" required className="text-white"/></div>
                                 </div>
-                                <div className="space-y-2"><Label htmlFor="address">Full Address</Label><Textarea id="address" required /></div>
+                                <div className="space-y-2"><Label htmlFor="address">Full Address</Label><Textarea id="address" required className="text-white"/></div>
                                 <div className="space-y-4 rounded-lg border p-4">
                                     <h3 className="font-semibold text-foreground">Emergency Contact</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                        <div className="space-y-2"><Label htmlFor="emergencyName">Contact Name</Label><Input id="emergencyName" required /></div>
-                                        <div className="space-y-2"><Label htmlFor="emergencyRelationship">Relationship</Label><Input id="emergencyRelationship" required /></div>
-                                        <div className="space-y-2"><Label htmlFor="emergencyPhone">Contact Phone</Label><Input id="emergencyPhone" type="tel" required /></div>
+                                        <div className="space-y-2"><Label htmlFor="emergencyName">Contact Name</Label><Input id="emergencyName" required className="text-white"/></div>
+                                        <div className="space-y-2"><Label htmlFor="emergencyRelationship">Relationship</Label><Input id="emergencyRelationship" required className="text-white"/></div>
+                                        <div className="space-y-2"><Label htmlFor="emergencyPhone">Contact Phone</Label><Input id="emergencyPhone" type="tel" required className="text-white"/></div>
                                     </div>
                                 </div>
                             </section>
@@ -95,9 +95,9 @@ export default function InternationalVisitorRegistrationPage() {
                                     <Checkbox id="kingdomCitizen" />
                                     <Label htmlFor="kingdomCitizen">Are you a Kingdom Citizen?</Label>
                                 </div>
-                                <div className="space-y-2"><Label htmlFor="kingdomID">Kingdom ID (if applicable)</Label><Input id="kingdomID" /></div>
+                                <div className="space-y-2"><Label htmlFor="kingdomID">Kingdom ID (if applicable)</Label><Input id="kingdomID" className="text-white"/></div>
                                 <div className="space-y-2"><Label>Tribe Preference</Label><Select><SelectTrigger><SelectValue placeholder="Select tribe" /></SelectTrigger><SelectContent><SelectItem value="eagle">Eagle</SelectItem><SelectItem value="lion">Lion</SelectItem><SelectItem value="marine">Marine</SelectItem><SelectItem value="all">All Tribes</SelectItem></SelectContent></Select></div>
-                                <div className="space-y-2"><Label htmlFor="previousPrograms">Previous Programs Attended (comma-separated)</Label><Input id="previousPrograms" /></div>
+                                <div className="space-y-2"><Label htmlFor="previousPrograms">Previous Programs Attended (comma-separated)</Label><Input id="previousPrograms" className="text-white"/></div>
                             </section>
 
                             {/* Program Selection */}
@@ -109,12 +109,12 @@ export default function InternationalVisitorRegistrationPage() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2"><Label>Program Track</Label><Select required><SelectTrigger><SelectValue placeholder="Select track" /></SelectTrigger><SelectContent><SelectItem value="leadership">Leadership</SelectItem><SelectItem value="warrior">Warrior</SelectItem><SelectItem value="family-youth">Family & Youth</SelectItem></SelectContent></Select></div>
                                     <div className="space-y-2"><Label>Desired Duration</Label><Select required><SelectTrigger><SelectValue placeholder="Select duration" /></SelectTrigger><SelectContent><SelectItem value="7-14">7-14 days</SelectItem><SelectItem value="15-30">15-30 days</SelectItem><SelectItem value="30+">30+ days</SelectItem></SelectContent></Select></div>
-                                    <div className="space-y-2"><Label htmlFor="startDate">Preferred Start Date</Label><Input id="startDate" type="date" required /></div>
-                                    <div className="space-y-2"><Label htmlFor="endDate">Preferred End Date</Label><Input id="endDate" type="date" required /></div>
+                                    <div className="space-y-2"><Label htmlFor="startDate">Preferred Start Date</Label><Input id="startDate" type="date" required className="text-white"/></div>
+                                    <div className="space-y-2"><Label htmlFor="endDate">Preferred End Date</Label><Input id="endDate" type="date" required className="text-white"/></div>
                                     <div className="space-y-2"><Label>Mode of Participation</Label><Select required><SelectTrigger><SelectValue placeholder="Select mode" /></SelectTrigger><SelectContent><SelectItem value="physical">Physical</SelectItem><SelectItem value="virtual">Virtual</SelectItem></SelectContent></Select></div>
-                                    <div className="spacey-2"><Label>Primary Language</Label><Input defaultValue="English" /></div>
+                                    <div className="space-y-2"><Label>Primary Language</Label><Input defaultValue="English" className="text-white"/></div>
                                 </div>
-                                <div className="space-y-2"><Label htmlFor="dietaryRequirements">Dietary Requirements or Allergies</Label><Textarea id="dietaryRequirements" placeholder="e.g., Vegetarian, gluten-free" /></div>
+                                <div className="space-y-2"><Label htmlFor="dietaryRequirements">Dietary Requirements or Allergies</Label><Textarea id="dietaryRequirements" placeholder="e.g., Vegetarian, gluten-free" className="text-white"/></div>
                             </section>
 
                             {/* Document Upload */}
@@ -139,9 +139,9 @@ export default function InternationalVisitorRegistrationPage() {
                                 <div className="space-y-4">
                                     <div className="flex items-start space-x-2"><Checkbox id="kingdomProtocols" required /><div className="grid gap-1.5 leading-none"><Label htmlFor="kingdomProtocols">I agree to abide by all Kingdom Protocols.</Label></div></div>
                                     <div className="flex items-start space-x-2"><Checkbox id="mentorMonitoring" required /><div className="grid gap-1.5 leading-none"><Label htmlFor="mentorMonitoring">I consent to mentor monitoring and feedback.</Label></div></div>
-                                    <div className="flex items-start space-x-2"><Checkbox id="dailyFeedback" required /><div className="grid gap-1.5 leading-none"><Label htmlFor="dailyFeedback">I commit to providing daily feedback during the program.</Label></div></div>
+                                    <div className="flex items-start space-x-2"><Checkbox id="dailyFeedback" name="dailyFeedbackCommitment" required /><div className="grid gap-1.5 leading-none"><Label htmlFor="dailyFeedback">I commit to providing daily feedback during the program.</Label></div></div>
                                 </div>
-                                <div className="space-y-2"><Label>Mentor Preference</Label><RadioGroup defaultValue="auto" className="flex flex-col md:flex-row gap-4"><div className="flex items-center space-x-2"><RadioGroupItem value="auto" id="auto" /><Label htmlFor="auto">Automatic Assignment</Label></div><div className="flex items-center space-x-2"><RadioGroupItem value="request" id="request" /><Label htmlFor="request">Request a Specific Mentor</Label></div></RadioGroup></div>
+                                <div className="space-y-2"><Label>Mentor Preference</Label><RadioGroup name="mentorPreference" defaultValue="auto" className="flex flex-col md:flex-row gap-4"><div className="flex items-center space-x-2"><RadioGroupItem value="auto" id="auto" /><Label htmlFor="auto">Automatic Assignment</Label></div><div className="flex items-center space-x-2"><RadioGroupItem value="request" id="request" /><Label htmlFor="request">Request a Specific Mentor</Label></div></RadioGroup></div>
                             </section>
                             
                             <div className="flex justify-end pt-8">
@@ -154,5 +154,3 @@ export default function InternationalVisitorRegistrationPage() {
         </div>
     );
 }
-
-    
