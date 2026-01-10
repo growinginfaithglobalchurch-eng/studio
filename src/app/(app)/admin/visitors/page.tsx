@@ -119,6 +119,7 @@ export default function AdminVisitorsPage() {
                                 <TableHead>Progress</TableHead>
                                 <TableHead>Mentor</TableHead>
                                 <TableHead>Status</TableHead>
+                                <TableHead>War Room Access</TableHead>
                                 <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -137,18 +138,26 @@ export default function AdminVisitorsPage() {
                                     <TableCell>
                                         <Badge variant={getStatusVariant(visitor.status) as any}>{visitor.status}</Badge>
                                     </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            size="sm"
+                                            variant={visitor.warRoomAccess ? "secondary" : "default"}
+                                            onClick={() => handleApproveWarRoom(visitor.id)}
+                                            disabled={visitor.warRoomAccess}
+                                            className="w-40"
+                                        >
+                                            <Shield className="mr-2 h-4 w-4" />
+                                            {visitor.warRoomAccess ? 'Access Approved' : 'Approve War Room'}
+                                        </Button>
+                                    </TableCell>
                                     <TableCell className="text-right">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" size="sm">Actions</Button>
+                                                <Button variant="ghost" size="sm">Other Actions</Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent>
                                                 <DropdownMenuLabel>Manage Visitor</DropdownMenuLabel>
                                                 <DropdownMenuSeparator />
-                                                <DropdownMenuItem onClick={() => handleApproveWarRoom(visitor.id)} disabled={visitor.warRoomAccess}>
-                                                    <Shield className="mr-2 h-4 w-4" />
-                                                    {visitor.warRoomAccess ? 'Access Approved' : 'Approve War Room'}
-                                                </DropdownMenuItem>
                                                 <DropdownMenuItem onClick={() => handleViewParticipation(visitor.name)}>
                                                     <Eye className="mr-2 h-4 w-4" />
                                                     View Participation
