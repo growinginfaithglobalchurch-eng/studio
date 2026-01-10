@@ -92,7 +92,7 @@ export default function VisitingProgramsPage() {
             </Card>
             
             <div>
-                <h2 className="text-2xl font-headline font-bold text-center mb-6 text-black">Choose Your Program Type</h2>
+                <h2 className="text-2xl font-headline font-bold text-center mb-6 text-white">Choose Your Program Type</h2>
                 <div className="grid md:grid-cols-2 gap-8 items-start">
                     {visitorTypes.map(type => (
                         <Card key={type.title} className="flex flex-col h-full">
