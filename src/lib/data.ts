@@ -292,6 +292,22 @@ export const conferences = [
     }
 ];
 
+export const consecrationWeek = {
+    title: "Global Consecration Week",
+    description: "A dedicated week for the entire community to align with God through fasting, prayer, and focused study.",
+    dates: "August 1-7, 2024",
+    schedule: [
+        { day: "Day 1", theme: "Alignment & Repentance", points: [{title: "Focus on Personal Alignment", scripture: "Psalm 51:10"}, {title: "Corporate Repentance", scripture: "2 Chronicles 7:14"}] },
+        { day: "Day 2", theme: "Hearing God's Voice", points: [{title: "Cultivating a Listening Heart", scripture: "John 10:27"}, {title: "Discerning God's Will", scripture: "Romans 12:2"}] },
+        { day: "Day 3", theme: "Spiritual Warfare & Authority", points: [{title: "Putting on the Armor of God", scripture: "Ephesians 6:11"}, {title: "Exercising Delegated Authority", scripture: "Luke 10:19"}] },
+        { day: "Day 4", theme: "Family & Relationships", points: [{title: "Healing Family Lines", scripture: "Malachi 4:6"}, {title: "Covenant Relationships", scripture: "1 Samuel 18:3"}] },
+        { day: "Day 5", theme: "Kingdom Finance & Stewardship", points: [{title: "Honoring God with Firstfruits", scripture: "Proverbs 3:9-10"}, {title: "Breaking the Spirit of Mammon", scripture: "Matthew 6:24"}] },
+        { day: "Day 6", theme: "Health & Wholeness", points: [{title: "Divine Health Covenant", scripture: "Isaiah 53:5"}, {title: "Stewarding the Body as a Temple", scripture: "1 Corinthians 6:19-20"}] },
+        { day: "Day 7", theme: "Commissioning & Impartation", points: [{title: "Receiving a Fresh Anointing", scripture: "Acts 1:8"}, {title: "Go and Make Disciples", scripture: "Matthew 28:19"}] },
+    ]
+};
+
+
 export const courses = [
     {
         id: 1,

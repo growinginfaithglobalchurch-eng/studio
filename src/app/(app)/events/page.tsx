@@ -5,9 +5,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays, Zap, BookOpen, Edit, Save, Trash2 } from 'lucide-react';
+import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays, Zap, BookOpen, Edit, Save, Trash2, Cross, CheckCircle } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
-import { communityUsers, events, conferences, empowermentMeetings, annualCalendar } from '@/lib/data';
+import { communityUsers, events, conferences, empowermentMeetings, annualCalendar, consecrationWeek } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -48,6 +48,44 @@ export default function EventsPage() {
             </AspectRatio>
         </div>
       )}
+      
+      <section>
+        <h2 className="text-2xl font-headline font-bold mb-4">Consecration Week</h2>
+        <Card className="bg-secondary/30">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <Cross className="h-6 w-6 text-accent" />
+              <CardTitle className="font-headline text-2xl">{consecrationWeek.title}</CardTitle>
+            </div>
+            <CardDescription>{consecrationWeek.description}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              <span className="font-bold text-foreground">Dates:</span> {consecrationWeek.dates}
+            </p>
+            <Accordion type="single" collapsible className="w-full">
+              {consecrationWeek.schedule.map((day) => (
+                <AccordionItem value={day.day} key={day.day}>
+                  <AccordionTrigger className="text-lg font-semibold">{day.day}: <span className="ml-2 font-normal text-muted-foreground">{day.theme}</span></AccordionTrigger>
+                  <AccordionContent className="p-4 bg-card rounded-md">
+                    <ul className="space-y-2">
+                      {day.points.map((point, index) => (
+                        <li key={index} className="flex items-start gap-3">
+                          <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                          <div>
+                            <p className="font-semibold text-foreground">{point.title}</p>
+                            <p className="text-sm text-muted-foreground">{point.scripture}</p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </CardContent>
+        </Card>
+      </section>
 
       <section>
         <h2 className="text-2xl font-headline font-bold mb-4">Annual Ministry Calendar</h2>
