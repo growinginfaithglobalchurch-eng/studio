@@ -1,7 +1,8 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,12 +13,21 @@ import { useToast } from '@/hooks/use-toast';
 
 export default function ContactPage() {
     const { toast } = useToast();
+    const searchParams = useSearchParams();
+    const partnershipType = searchParams.get('type');
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         ministryName: '',
-        message: ''
+        message: '',
+        partnershipType: ''
     });
+
+    useEffect(() => {
+        const type = partnershipType === 'church' ? 'Partner Church' : partnershipType === 'ministry' ? 'Ministry Partner' : 'General';
+        setFormData(prev => ({...prev, partnershipType: type}));
+    }, [partnershipType]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -44,9 +54,16 @@ export default function ContactPage() {
             name: '',
             email: '',
             ministryName: '',
-            message: ''
+            message: '',
+            partnershipType: partnershipType === 'church' ? 'Partner Church' : partnershipType === 'ministry' ? 'Ministry Partner' : 'General'
         });
     };
+
+    const getTitle = () => {
+        if (partnershipType === 'church') return "Partner Church Inquiry";
+        if (partnershipType === 'ministry') return "Ministry Partner Inquiry";
+        return "Partnership Inquiry";
+    }
 
     return (
         <div className="space-y-8 max-w-3xl mx-auto">
@@ -62,13 +79,17 @@ export default function ContactPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Partnership Inquiry</CardTitle>
+                    <CardTitle>{getTitle()}</CardTitle>
                     <CardDescription>
                         Please fill out the form below and a member of our team will be in touch.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
+                         <div className="space-y-2">
+                            <Label htmlFor="partnershipType">Partnership Type</Label>
+                            <Input id="partnershipType" name="partnershipType" value={formData.partnershipType} readOnly className="text-white bg-secondary" />
+                        </div>
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <Label htmlFor="name">Your Name</Label>

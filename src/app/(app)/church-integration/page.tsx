@@ -1,4 +1,5 @@
 
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Handshake, Users, BookOpen, Globe } from "lucide-react";
@@ -10,6 +11,7 @@ const partnerModels = [
     {
         icon: <Users className="h-8 w-8 text-accent" />,
         title: "Partner Church Model",
+        type: "church",
         description: "Integrate the Faith Connect Global platform as your church's official digital campus. Provide your members with a rich ecosystem of resources, community, and growth tracks, all while maintaining your church's identity.",
         features: [
             "Co-branded platform experience.",
@@ -21,6 +23,7 @@ const partnerModels = [
     {
         icon: <BookOpen className="h-8 w-8 text-accent" />,
         title: "Ministry Partner Model",
+        type: "ministry",
         description: "For para-church ministries, itinerant speakers, and content creators. Share your resources with a global audience, host exclusive courses, and build a community around your unique message.",
         features: [
             "A dedicated channel on the platform.",
@@ -85,7 +88,7 @@ export default function ChurchIntegrationPage() {
                             </CardContent>
                             <div className="p-6 pt-0">
                                 <Button asChild>
-                                    <Link href="/contact">Inquire About Partnership</Link>
+                                    <Link href={`/contact?type=${model.type}`}>Inquire About Partnership</Link>
                                 </Button>
                             </div>
                         </Card>
