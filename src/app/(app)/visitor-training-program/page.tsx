@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Shield, BookOpen, Handshake, Users, Globe, Target } from "lucide-react";
+import { CheckCircle, Shield, BookOpen, Handshake, Users, Globe, Target, ClipboardCheck } from "lucide-react";
 import Link from "next/link";
 import {
   Accordion,
@@ -238,6 +238,21 @@ export default function VisitorTrainingProgramPage() {
                 </Accordion>
             </div>
 
+            <Card className="bg-secondary/30">
+                <CardHeader>
+                    <CardTitle className="font-headline text-2xl text-white flex items-center gap-3">
+                        <ClipboardCheck className="h-6 w-6 text-accent" />
+                        Mandatory Pre-Arrival Training
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-white mb-4">This training covers our core values, Kingdom protocols, and prepares you for a powerful time of immersion. Details will be provided upon acceptance.</p>
+                     <Button asChild>
+                        <Link href="/visitor-training-program">View Training Curriculum</Link>
+                    </Button>
+                </CardContent>
+            </Card>
+            
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-black">
