@@ -47,7 +47,7 @@ import {
 import { Button } from './ui/button';
 
 const mainNav = [
-  { href: '/dashboard', label: 'Home', icon: <Home className="h-4 w-4" /> },
+  { href: '/feeds', label: 'Home', icon: <Home className="h-4 w-4" /> },
   { href: '/feeds', label: 'Feeds', icon: <Rss className="h-4 w-4" /> },
   { href: '/growth-hub', label: 'Growth Hub', icon: <TrendingUp className="h-4 w-4" /> },
   { href: '/devotionals', label: 'Devotionals', icon: <BookOpen className="h-4 w-4" /> },

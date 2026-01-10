@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -6,7 +7,7 @@ import { Home, MessageCircle, Users, User, Handshake } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/dashboard', icon: <Home className="h-5 w-5" />, label: 'Home' },
+  { href: '/feeds', icon: <Home className="h-5 w-5" />, label: 'Home' },
   { href: '/connect', icon: <Handshake className="h-5 w-5" />, label: 'Connect' },
   { href: '/chat', icon: <MessageCircle className="h-5 w-5" />, label: 'Chat' },
   { href: '/profile', icon: <User className="h-5 w-5" />, label: 'Me' },
