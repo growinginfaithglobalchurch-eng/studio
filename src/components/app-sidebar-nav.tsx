@@ -48,7 +48,6 @@ import { Button } from './ui/button';
 
 const mainNav = [
   { href: '/feeds', label: 'Home', icon: <Home className="h-4 w-4" /> },
-  { href: '/feeds', label: 'Feeds', icon: <Rss className="h-4 w-4" /> },
   { href: '/growth-hub', label: 'Growth Hub', icon: <TrendingUp className="h-4 w-4" /> },
   { href: '/devotionals', label: 'Devotionals', icon: <BookOpen className="h-4 w-4" /> },
   { href: '/resources', label: 'Resources', icon: <Library className="h-4 w-4" /> },
@@ -110,7 +109,7 @@ export function AppSidebarNav() {
     <nav className="grid items-start gap-2 px-4 text-sm font-medium">
       {mainNav.map((item) => (
         <Link
-          key={item.href}
+          key={item.label}
           href={item.href}
           className={cn(
             'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
