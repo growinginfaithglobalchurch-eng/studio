@@ -75,6 +75,7 @@ const communityNav = [
 
 const equippingNav = [
     { href: '/courses', label: 'All Courses', icon: <GraduationCap className="h-4 w-4" /> },
+    { href: '/bible-school', label: 'Bible School', icon: <School className="h-4 w-4" /> },
     { href: '/school-of-revelation', label: 'School of Revelation', icon: <Sparkles className="h-4 w-4" /> },
     { href: '/school-of-the-spirit', label: 'School of the Spirit', icon: <Wind className="h-4 w-4" /> },
     { href: '/school-of-healing', label: 'School of Healing', icon: <HeartPulse className="h-4 w-4" /> },
