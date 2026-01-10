@@ -120,19 +120,20 @@ export default function AdminEventsPage() {
                     {annualCalendar.map((item) => (
                         <AccordionItem value={item.month} key={item.month}>
                         <AccordionTrigger className="text-lg font-headline hover:no-underline">
-                            <div className="flex justify-between items-center w-full pr-4">
-                                <span>{item.month}: <span className="ml-2 font-normal text-muted-foreground">{item.theme}</span></span>
-                                <Button variant="destructive" size="sm" onClick={(e) => { e.stopPropagation(); handleDeleteMonth(item.month); }}>
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                            </div>
+                           <span>{item.month}: <span className="ml-2 font-normal text-muted-foreground">{item.theme}</span></span>
                         </AccordionTrigger>
-                        <AccordionContent className="p-4 bg-secondary/30 rounded-md">
-                            <p className="font-semibold text-foreground">Purpose: <span className="font-normal text-muted-foreground">{item.purpose}</span></p>
-                            <h4 className="font-semibold text-foreground mt-4 mb-2">Key Activities:</h4>
-                            <ul className="list-disc pl-5 text-muted-foreground space-y-1">
-                            {item.activities.map(activity => <li key={activity}>{activity}</li>)}
-                            </ul>
+                        <AccordionContent className="p-4 bg-secondary/30 rounded-md space-y-4">
+                            <div>
+                                <p className="font-semibold text-foreground">Purpose: <span className="font-normal text-muted-foreground">{item.purpose}</span></p>
+                                <h4 className="font-semibold text-foreground mt-4 mb-2">Key Activities:</h4>
+                                <ul className="list-disc pl-5 text-muted-foreground space-y-1">
+                                {item.activities.map(activity => <li key={activity}>{activity}</li>)}
+                                </ul>
+                            </div>
+                             <Button variant="destructive" size="sm" onClick={() => handleDeleteMonth(item.month)}>
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Delete {item.month}
+                            </Button>
                         </AccordionContent>
                         </AccordionItem>
                     ))}
@@ -143,5 +144,3 @@ export default function AdminEventsPage() {
         </div>
     );
 }
-
-    
