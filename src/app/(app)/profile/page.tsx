@@ -25,6 +25,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { tribeIcons } from '@/components/profile-icons';
+import { cn } from '@/lib/utils';
 
 // Mock data based on the new User model
 const user = {
