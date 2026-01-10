@@ -11,7 +11,9 @@ import { useToast } from "@/hooks/use-toast";
 
 const familyGroup = {
     groupId: "FG-2024-AB789",
-    members: communityUsers.slice(0, 4), // Mock data: first 4 users are a family
+    fatherId: 1,
+    motherId: 2,
+    childrenIds: [3, 4],
     familyPractices: {
         prayerMoments: true,
         scriptureDiscussion: false,
@@ -37,6 +39,16 @@ export default function FamilyHubPage() {
         });
         // In a real app, you'd update this state in Firebase
     };
+    
+    const father = communityUsers.find(u => u.id === familyGroup.fatherId);
+    const mother = communityUsers.find(u => u.id === familyGroup.motherId);
+    const children = familyGroup.childrenIds.map(id => communityUsers.find(u => u.id === id)).filter(Boolean);
+
+    const familyMembers = [
+        ...(father ? [{ ...father, role: 'Father' }] : []),
+        ...(mother ? [{ ...mother, role: 'Mother' }] : []),
+        ...children.map(child => ({ ...child!, role: 'Child' }))
+    ];
 
 
     return (
@@ -104,7 +116,7 @@ export default function FamilyHubPage() {
                             <CardTitle>Family Members</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            {familyGroup.members.map((member, index) => (
+                            {familyMembers.map((member) => (
                                 <div key={member.id} className="flex items-center gap-3">
                                     <Avatar>
                                         {member.avatar && <AvatarImage src={member.avatar.imageUrl} alt={member.name} />}
@@ -112,7 +124,7 @@ export default function FamilyHubPage() {
                                     </Avatar>
                                     <div>
                                         <p className="font-semibold text-foreground">{member.name}</p>
-                                        <p className="text-xs text-muted-foreground">{index === 0 ? 'Father' : index === 1 ? 'Mother' : 'Child'} (ID: {member.id})</p>
+                                        <p className="text-xs text-muted-foreground">{member.role} (ID: {member.id})</p>
                                     </div>
                                 </div>
                             ))}
