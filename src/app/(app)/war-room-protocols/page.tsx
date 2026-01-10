@@ -34,7 +34,7 @@ const sections = [
         ]
     },
     { 
-        title: "War Room Code of Conduct", -
+        title: "War Room Code of Conduct",
         icon: <Handshake className="h-6 w-6 text-accent" />,
         subSections: [
             {
