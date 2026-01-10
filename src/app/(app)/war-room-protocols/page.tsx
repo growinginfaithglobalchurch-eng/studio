@@ -1,10 +1,11 @@
 
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, Scale, Shield, Users, AlertTriangle, CheckCircle, Handshake, Info, XCircle } from 'lucide-react';
 import React from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 
 const sections = [
     { 
@@ -157,6 +158,9 @@ export default function WarRoomProtocolsPage() {
                         “I acknowledge that I enter the War Room under the authority of Jesus Christ. I submit to order, discipline, and leadership. I renounce fear, pride, and disorder. I engage from victory, not struggle. I walk in Christ’s triumphal procession.”
                     </p>
                 </CardContent>
+                <CardFooter>
+                    <Button>I Agree & Submit</Button>
+                </CardFooter>
              </Card>
 
         </div>
