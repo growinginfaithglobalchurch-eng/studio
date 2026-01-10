@@ -1,3 +1,4 @@
+
 import type { ImagePlaceholder } from './placeholder-images';
 
 export type UserProfile = {
@@ -67,6 +68,14 @@ export type KidsProfile = {
   guardianApproved: boolean;
   ageGroup: string;
   dailyPracticeCompletion: number; // Assuming percentage
+  streakCount: number;
+};
+
+export type FamilyPractices = {
+    prayerMoments: boolean;
+    scriptureDiscussion: boolean;
+    blessingDeclarations: boolean;
+    monthlyFocus: string;
 };
 
 // This replaces the previous simple User type
@@ -82,6 +91,7 @@ export type User = {
   growthMetrics: GrowthMetrics;
   familyGroup?: {
     members: string[];
+    familyPractices: FamilyPractices;
     unityScore: 'Active' | 'Inactive';
   };
   kidsProfile?: KidsProfile;
