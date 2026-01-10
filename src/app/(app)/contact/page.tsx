@@ -72,20 +72,20 @@ export default function ContactPage() {
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <Label htmlFor="name">Your Name</Label>
-                                <Input id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="John Doe" required />
+                                <Input id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="John Doe" required className="text-white" />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email">Your Email</Label>
-                                <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="you@example.com" required />
+                                <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="you@example.com" required className="text-white" />
                             </div>
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="ministryName">Church / Ministry Name (if applicable)</Label>
-                            <Input id="ministryName" name="ministryName" value={formData.ministryName} onChange={handleInputChange} placeholder="e.g., Grace Chapel" />
+                            <Input id="ministryName" name="ministryName" value={formData.ministryName} onChange={handleInputChange} placeholder="e.g., Grace Chapel" className="text-white" />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="message">Message</Label>
-                            <Textarea id="message" name="message" value={formData.message} onChange={handleInputChange} placeholder="Tell us a little about your ministry and how you'd like to partner with us..." required />
+                            <Textarea id="message" name="message" value={formData.message} onChange={handleInputChange} placeholder="Tell us a little about your ministry and how you'd like to partner with us..." required className="text-white" />
                         </div>
                         <div className="flex justify-end">
                             <Button type="submit">
