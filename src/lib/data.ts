@@ -2,7 +2,7 @@
 
 import { PlaceHolderImages } from './placeholder-images';
 import { User } from './types';
-import { Music, Handshake, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users } from 'lucide-react';
+import { Music, Handshake, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users, Briefcase } from 'lucide-react';
 
 export const devotionals = [
   {
@@ -293,9 +293,13 @@ export const conferences = [
 ];
 
 export const consecrationWeek = {
+    type: "Consecration Week",
     title: "Global Consecration Week",
-    description: "A dedicated week for the entire community to align with God through fasting, prayer, and focused study.",
-    dates: "August 1-7, 2024",
+    description: "Daily focus on alignment, fasting, prayer",
+    startDate: new Date("2024-08-01T00:00:00"),
+    endDate: new Date("2024-08-07T23:59:59"),
+    global: true,
+    assignedUsers: [],
     schedule: [
         { day: "Day 1", theme: "Alignment & Repentance", points: [{title: "Focus on Personal Alignment", scripture: "Psalm 51:10"}, {title: "Corporate Repentance", scripture: "2 Chronicles 7:14"}] },
         { day: "Day 2", theme: "Hearing God's Voice", points: [{title: "Cultivating a Listening Heart", scripture: "John 10:27"}, {title: "Discerning God's Will", scripture: "Romans 12:2"}] },

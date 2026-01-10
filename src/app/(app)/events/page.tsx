@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState } from 'react';
@@ -13,12 +14,22 @@ import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { format } from 'date-fns';
 
 export default function EventsPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   const featuredSpeakers = communityUsers.slice(0, 4);
   const bannerImage = PlaceHolderImages.find(img => img.id === 'hero');
+  
+  const formatDateRange = (start: Date, end: Date) => {
+    const startMonth = format(start, 'MMMM');
+    const endMonth = format(end, 'MMMM');
+    if (startMonth === endMonth) {
+      return `${startMonth} ${format(start, 'do')} - ${format(end, 'do')}, ${format(start, 'yyyy')}`;
+    }
+    return `${format(start, 'MMMM do')} - ${format(end, 'MMMM do')}, ${format(start, 'yyyy')}`;
+  };
 
   return (
     <div className="space-y-8">
@@ -61,7 +72,7 @@ export default function EventsPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground mb-4">
-              <span className="font-bold text-foreground">Dates:</span> {consecrationWeek.dates}
+              <span className="font-bold text-foreground">Dates:</span> {formatDateRange(consecrationWeek.startDate, consecrationWeek.endDate)}
             </p>
             <Accordion type="single" collapsible className="w-full">
               {consecrationWeek.schedule.map((day) => (
