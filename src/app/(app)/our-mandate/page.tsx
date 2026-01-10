@@ -2,8 +2,10 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { CheckCircle, Shield, BookOpen, Handshake, Users, Globe, Target, Rocket, Eye, Wind, Languages, BookMarked, Quote } from "lucide-react";
+import { CheckCircle, Shield, Eye, Target, Rocket, Wind, Languages, BookMarked, Quote } from "lucide-react";
+import Image from "next/image";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 const benedictionPoints = [
     "Immortality, death impossible",
@@ -25,6 +27,8 @@ const languagePoints = [
 ];
 
 export default function OurMandatePage() {
+    const bannerImage = PlaceHolderImages.find(p => p.id === 'hero');
+
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
             <div>
@@ -36,6 +40,20 @@ export default function OurMandatePage() {
                     Foundational training for all visitors, members, and leaders of Growing In Faith Global Church.
                 </p>
             </div>
+
+            {bannerImage && (
+                 <div className="relative w-full rounded-lg overflow-hidden">
+                    <AspectRatio ratio={16 / 9}>
+                            <Image
+                                src={bannerImage.imageUrl}
+                                alt="Our Mandate"
+                                fill
+                                className="object-cover"
+                                data-ai-hint={bannerImage.imageHint}
+                            />
+                    </AspectRatio>
+                </div>
+            )}
 
             <Card>
                 <CardHeader>
