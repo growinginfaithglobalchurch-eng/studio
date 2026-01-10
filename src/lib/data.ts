@@ -494,4 +494,31 @@ Benediction & Blessing (5 mins) - Joseph Tryson
 Fellowship (Ongoing) - All`
     }
 ];
+
+export const globalDirectives = [
+    {
+        title: "Economic Stability",
+        description: "Pray against spirits of inflation and economic collapse. Decree wisdom for global financial leaders and the release of Kingdom-based economic solutions.",
+        scripture: "Deuteronomy 8:18"
+    },
+    {
+        title: "Governmental Righteousness",
+        description: "Intercede for national leaders, praying for righteous governance, the exposure of corruption, and the alignment of nations with God's purposes.",
+        scripture: "Proverbs 14:34"
+    },
+    {
+        title: "Global Revival & Harvest",
+        description: "Contend for a global outpouring of the Holy Spirit, the salvation of souls, and the advancement of the Gospel in unreached areas.",
+        scripture: "Acts 2:17"
+    }
+];
+
+export const regionalTowers = [
+    { region: "North America", focus: "Spiritual awakening and repentance.", leader: "Watchman John" },
+    { region: "Europe", focus: "Re-evangelization and contending against ancient idolatrous spirits.", leader: "Watchman Maria" },
+    { region: "Asia", focus: "Protection for the persecuted church and open doors for the Gospel.", leader: "Watchman Daniel" },
+    { region: "Africa", focus: "Breaking cycles of poverty and corruption; raising righteous leaders.", leader: "Watchman Esther" },
+    { region: "South America", focus: "Unity in the body of Christ and deliverance from political instability.", leader: "Watchman Carlos" },
+    { region: "Oceania", focus: "Revival among indigenous peoples and a new wave of missionaries.", leader: "Watchman Sarah" },
+];
     
