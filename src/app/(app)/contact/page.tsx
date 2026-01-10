@@ -14,27 +14,37 @@ import { useToast } from '@/hooks/use-toast';
 export default function ContactPage() {
     const { toast } = useToast();
     const searchParams = useSearchParams();
-    const partnershipType = searchParams.get('type');
+    const inquiryTypeParam = searchParams.get('type');
 
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         ministryName: '',
         message: '',
-        partnershipType: ''
+        inquiryType: ''
     });
 
     useEffect(() => {
-        let type = 'General';
-        if (partnershipType === 'church') {
-            type = 'Partner Church';
-        } else if (partnershipType === 'ministry') {
-            type = 'Ministry Partner';
-        } else if (partnershipType === 'visiting-program') {
-            type = 'Visiting Program Application';
+        let type = 'General Inquiry';
+        switch (inquiryTypeParam) {
+            case 'church':
+                type = 'Partner Church Inquiry';
+                break;
+            case 'ministry':
+                type = 'Ministry Partner Inquiry';
+                break;
+            case 'visiting-program':
+                type = 'Visiting Program Application';
+                break;
+            case 'local-visitor-support':
+                type = 'Local Visitor Support';
+                break;
+            case 'international-visitor-support':
+                type = 'International Visitor Support';
+                break;
         }
-        setFormData(prev => ({...prev, partnershipType: type}));
-    }, [partnershipType]);
+        setFormData(prev => ({...prev, inquiryType: type}));
+    }, [inquiryTypeParam]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -57,29 +67,25 @@ export default function ContactPage() {
             description: 'Thank you for your inquiry. Our team will get back to you shortly.',
         });
         
-        let type = 'General';
-        if (partnershipType === 'church') {
-            type = 'Partner Church';
-        } else if (partnershipType === 'ministry') {
-            type = 'Ministry Partner';
-        } else if (partnershipType === 'visiting-program') {
-            type = 'Visiting Program Application';
-        }
-
-        setFormData({
+        // Reset form but keep inquiry type
+        setFormData(prev => ({
             name: '',
             email: '',
             ministryName: '',
             message: '',
-            partnershipType: type
-        });
+            inquiryType: prev.inquiryType
+        }));
     };
 
     const getTitle = () => {
-        if (partnershipType === 'church') return "Partner Church Inquiry";
-        if (partnershipType === 'ministry') return "Ministry Partner Inquiry";
-        if (partnershipType === 'visiting-program') return "Visiting Program Application";
-        return "Partnership Inquiry";
+        switch (inquiryTypeParam) {
+            case 'church': return "Partner Church Inquiry";
+            case 'ministry': return "Ministry Partner Inquiry";
+            case 'visiting-program': return "Visiting Program Application";
+            case 'local-visitor-support': return "Local Visitor Support";
+            case 'international-visitor-support': return "International Visitor Support";
+            default: return "Contact Us";
+        }
     }
 
     return (
@@ -87,7 +93,7 @@ export default function ContactPage() {
             <div>
                 <div className="flex items-center gap-3 mb-2">
                     <Handshake className="h-8 w-8 text-accent" />
-                    <h1 className="text-3xl font-headline font-bold text-foreground">Contact Us</h1>
+                    <h1 className="text-3xl font-headline font-bold text-foreground">{getTitle()}</h1>
                 </div>
                 <p className="text-muted-foreground">
                     We're excited to explore how we can partner together to advance the Kingdom.
@@ -96,7 +102,7 @@ export default function ContactPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>{getTitle()}</CardTitle>
+                    <CardTitle>{formData.inquiryType}</CardTitle>
                     <CardDescription>
                         Please fill out the form below and a member of our team will be in touch.
                     </CardDescription>
@@ -104,8 +110,8 @@ export default function ContactPage() {
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
                          <div className="space-y-2">
-                            <Label htmlFor="partnershipType">Inquiry Type</Label>
-                            <Input id="partnershipType" name="partnershipType" value={formData.partnershipType} readOnly className="text-white bg-secondary" />
+                            <Label htmlFor="inquiryType">Inquiry Type</Label>
+                            <Input id="inquiryType" name="inquiryType" value={formData.inquiryType} readOnly className="bg-secondary" />
                         </div>
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="space-y-2">
