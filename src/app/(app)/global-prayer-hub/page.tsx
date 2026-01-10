@@ -57,9 +57,9 @@ export default function GlobalPrayerHubPage() {
                 </p>
             </div>
             
-             <Card className="bg-secondary/30">
+             <Card className="bg-card">
                 <CardHeader>
-                    <CardTitle className="font-headline text-2xl text-foreground flex items-center gap-3">
+                    <CardTitle className="font-headline text-2xl text-card-foreground flex items-center gap-3">
                         <Eye className="h-6 w-6 text-accent" />
                         The Mandate of the Watcher
                     </CardTitle>
