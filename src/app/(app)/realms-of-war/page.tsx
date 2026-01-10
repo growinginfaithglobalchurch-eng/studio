@@ -1,10 +1,15 @@
 
-'use client';
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card';
 import { Feather, Crown, Anchor, Swords } from 'lucide-react';
+import Link from 'next/link';
 
 const realmsOfWar = [
   {
@@ -16,7 +21,8 @@ const realmsOfWar = [
         "Atmospheric Cleansing: Using worship and praise to shift the spiritual environment and displace demonic presence.",
         "Binding and Loosing (Matthew 18:18): Using your delegated authority to forbid demonic activity and permit heavenly influence.",
         "Discerning and Dismantling Strongholds: Identifying and pulling down ungodly patterns of thinking in a region or culture."
-    ]
+    ],
+    href: '/prophetic-prayer/air-forces',
   },
   {
     icon: <Crown className="h-10 w-10 text-accent" />,
@@ -27,7 +33,8 @@ const realmsOfWar = [
         "Strategic Intercession for Leaders (1 Timothy 2:1-2): Praying specifically for those in authority to create peace and open doors for the Gospel.",
         "Issuing Heavenly Decrees: Making legal proclamations based on God's Word to establish His will in the earthly realm.",
         "Occupying Gates of Influence: Believers taking their place in key sectors of society (business, arts, government) to bring Kingdom influence."
-    ]
+    ],
+    href: '/prophetic-prayer/land-forces',
   },
   {
     icon: <Anchor className="h-10 w-10 text-accent" />,
@@ -38,20 +45,12 @@ const realmsOfWar = [
         "Utilizing the Blood of Jesus: Applying the power of Christ's blood to nullify ancient, ungodly covenants and curses.",
         "Deep Deliverance Ministry: Addressing deep-rooted demonic oppression that causes cyclical problems.",
         "Uprooting Evil Altars: Spiritually dismantling demonic altars that give the enemy influence over a family or region."
-    ]
+    ],
+    href: '/prophetic-prayer/marine-forces',
   },
 ];
 
 export default function RealmsOfWarPage() {
-  const { toast } = useToast();
-
-  const handleActivatePrayer = (realm: string) => {
-    toast({
-        title: `${realm} Prayer Activated`,
-        description: `You have engaged in warfare for the ${realm}.`,
-    });
-  };
-
   return (
     <div className="space-y-8">
       <div>
@@ -82,8 +81,8 @@ export default function RealmsOfWarPage() {
               </div>
             </CardContent>
             <CardFooter>
-                <Button onClick={() => handleActivatePrayer(realm.title)}>
-                    Activate {realm.title.split(' ')[1]} Prayer
+                <Button asChild>
+                  <Link href={realm.href}>View Prophetic Prayer Points</Link>
                 </Button>
             </CardFooter>
           </Card>
