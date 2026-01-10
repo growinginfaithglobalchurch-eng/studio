@@ -100,13 +100,18 @@ export default function VisitingProgramsPage() {
             </Card>
 
             <div className="grid md:grid-cols-2 gap-8">
-                <Card>
+                <Card className="flex flex-col">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2"><Plane className="h-5 w-5 text-accent"/> International Visitors</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="flex-grow">
                         <p className="text-muted-foreground">From other countries seeking Kingdom exposure, participating virtually or physically. Access to translation support, housing info, and guided experiences.</p>
                     </CardContent>
+                    <div className="p-6 pt-0">
+                         <Button asChild>
+                            <Link href="/contact?type=visiting-program">Apply Now</Link>
+                        </Button>
+                    </div>
                 </Card>
                  <Card>
                     <CardHeader>
