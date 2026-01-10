@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Bell, Menu, Search, UserCircle } from 'lucide-react';
+import { Bell, Menu, Search, UserCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -67,6 +67,17 @@ export function AppHeader() {
           <AppSidebarNav />
         </SheetContent>
       </Sheet>
+
+      <div className="flex items-center gap-2">
+        <Button variant="outline" size="icon" onClick={() => router.back()}>
+          <ArrowLeft className="h-4 w-4" />
+          <span className="sr-only">Go back</span>
+        </Button>
+        <Button variant="outline" size="icon" onClick={() => router.forward()}>
+          <ArrowRight className="h-4 w-4" />
+          <span className="sr-only">Go forward</span>
+        </Button>
+      </div>
 
       <div className="w-full flex-1">
         <form onSubmit={handleSearch}>
