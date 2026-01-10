@@ -179,24 +179,28 @@ export default function SpiritWarfarePage() {
         </Card>
       </Link>
 
-      <div>
-        <div className="inline-block rounded-lg bg-accent/10 px-3 py-1 text-sm font-semibold text-accent border border-accent/20 w-fit mb-2">Section 2 & 3</div>
-        <h2 className="text-2xl font-headline font-bold mb-4">Knowing Your Domain: Identity Before Authority</h2>
-        <p className="text-muted-foreground max-w-3xl mb-6">There are three primary realms of spiritual warfare. Authority is activated only when identity is established. Every believer must understand where they function best.</p>
-        <div className="grid gap-6 md:grid-cols-3">
-          {realmsOfWar.map((pillar) => (
-            <Card key={pillar.title}>
-              <CardHeader className="flex flex-row items-center gap-4">
-                {pillar.icon}
-                <CardTitle className="font-headline">{pillar.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{pillar.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+      <Link href="/realms-of-war" className="block hover:opacity-90 transition-opacity">
+        <Card className="bg-card text-card-foreground overflow-hidden">
+          <div className="p-6">
+            <div className="inline-block rounded-lg bg-accent/10 px-3 py-1 text-sm font-semibold text-accent border border-accent/20 w-fit mb-2">Section 2 & 3</div>
+            <h2 className="text-2xl font-headline font-bold mb-4">Knowing Your Domain: Identity Before Authority</h2>
+            <p className="text-muted-foreground max-w-3xl mb-6">There are three primary realms of spiritual warfare. Authority is activated only when identity is established. Every believer must understand where they function best.</p>
+            <div className="grid gap-6 md:grid-cols-3">
+              {realmsOfWar.map((pillar) => (
+                <Card key={pillar.title}>
+                  <CardHeader className="flex flex-row items-center gap-4">
+                    {pillar.icon}
+                    <CardTitle className="font-headline">{pillar.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{pillar.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </Card>
+      </Link>
 
       <div>
         <div className="inline-block rounded-lg bg-accent/10 px-3 py-1 text-sm font-semibold text-accent border border-accent/20 w-fit mb-2">Section 4</div>
@@ -263,7 +267,7 @@ export default function SpiritWarfarePage() {
         </Card>
        </div>
       
-       <Card className="text-center p-8 bg-secondary/30">
+       <Card className="text-center p-8 bg-card text-card-foreground">
         <CardTitle className="font-headline text-2xl flex items-center justify-center gap-2"><Milestone className="h-6 w-6 text-accent"/> Walking in Christ’s Triumphal Procession</CardTitle>
         <CardDescription className="mt-2 mb-4 text-lg">
           “Now thanks be unto God, who always leads us in triumph in Christ.” (2 Corinthians 2:14)
