@@ -75,6 +75,7 @@ const communityNav = [
   { href: '/church-integration', label: 'Church Integration', icon: <Handshake className="h-4 w-4" /> },
   { href: '/our-mandate', label: 'Our Mandate', icon: <BookMarked className="h-4 w-4" /> },
   { href: '/programming', label: 'Service Programming', icon: <ClipboardList className="h-4 w-4" /> },
+  { href: '/life-group-training', label: 'Life Group Training', icon: <Users className="h-4 w-4" /> },
 ];
 
 const equippingNav = [
@@ -110,6 +111,7 @@ const adminNav = [
     { href: '/admin/conferences', label: 'Conferences', icon: <Calendar className="h-4 w-4" /> },
     { href: '/admin/events', label: 'Events', icon: <Calendar className="h-4 w-4" /> },
     { href: '/admin/programming', label: 'Programming', icon: <ClipboardList className="h-4 w-4" /> },
+    { href: '/admin/life-groups', label: 'Life Groups', icon: <Users className="h-4 w-4" /> },
     { href: '/admin/global-expansion', label: 'Global Strategy', icon: <Globe className="h-4 w-4" /> },
     { href: '/admin/roadmap', label: 'Roadmap', icon: <GraduationCap className="h-4 w-4" /> },
     { href: '/admin/settings', label: 'Settings', icon: <Settings className="h-4 w-4" /> },
@@ -218,5 +220,3 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
     </nav>
   );
 }
-
-    
