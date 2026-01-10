@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Users, Shield, Eye, BarChart, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, Shield, Eye, BarChart, Settings, CheckCircle, Flame } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { communityUsers } from '@/lib/data';
 import {
@@ -15,8 +15,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
 
-const children = communityUsers.slice(2, 5).map(u => ({ ...u, name: `${u.name} (Child)`}));
+const children = communityUsers.slice(2, 5).map((u, i) => ({ 
+    ...u, 
+    name: `${u.name} (Child)`,
+    guardianApproved: i % 2 === 0,
+    dailyPracticeCompletion: [85, 60, 95][i],
+    streakCount: [14, 5, 32][i]
+}));
 
 const activityFeed = [
     { id: 1, childId: 3, activity: 'Completed the "David and Goliath" lesson.', timestamp: '2 hours ago' },
@@ -79,7 +86,7 @@ export default function ParentalDashboardPage() {
                     </CardHeader>
                     <CardContent>
                         <ul className="space-y-4">
-                            {childsActivity.map(item => (
+                            {childsActivity.length > 0 ? childsActivity.map(item => (
                                 <li key={item.id} className="flex items-center gap-4">
                                     <div className="bg-muted p-2 rounded-full">
                                         <Eye className="h-4 w-4 text-accent"/>
@@ -89,7 +96,7 @@ export default function ParentalDashboardPage() {
                                         <p className="text-xs text-muted-foreground">{item.timestamp}</p>
                                     </div>
                                 </li>
-                            ))}
+                            )) : <p className="text-sm text-muted-foreground">No recent activity to show.</p>}
                         </ul>
                     </CardContent>
                 </Card>
@@ -120,19 +127,23 @@ export default function ParentalDashboardPage() {
                             <AvatarFallback>{selectedChild.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <CardTitle className="pt-2">{selectedChild.name}</CardTitle>
+                        {selectedChild.guardianApproved && (
+                             <Badge variant="secondary" className="bg-green-500/20 border-green-500/50 text-green-400">
+                                <CheckCircle className="mr-1 h-3 w-3" />
+                                Guardian Approved
+                            </Badge>
+                        )}
                     </CardHeader>
                     <CardContent className="text-center">
-                        <p className="text-sm text-muted-foreground mb-4">Course Progress</p>
-                        <div className="space-y-3">
-                             <div>
-                                <p className="text-xs font-semibold">Old Testament Heroes</p>
-                                <Progress value={75} className="mt-1 h-2"/>
-                            </div>
-                             <div>
-                                <p className="text-xs font-semibold">The Life of Jesus</p>
-                                <Progress value={40} className="mt-1 h-2"/>
-                            </div>
+                        <div className="mb-4">
+                            <p className="text-sm text-muted-foreground mb-1">Daily Practice Completion</p>
+                            <Progress value={selectedChild.dailyPracticeCompletion} className="h-2"/>
+                            <p className="text-xs font-bold text-foreground mt-1">{selectedChild.dailyPracticeCompletion}%</p>
                         </div>
+                         <div className="flex items-center justify-center gap-2">
+                            <Flame className="h-5 w-5 text-accent"/>
+                            <p className="text-lg font-bold">{selectedChild.streakCount} Day Streak</p>
+                         </div>
                     </CardContent>
                 </Card>
             </div>
