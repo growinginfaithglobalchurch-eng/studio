@@ -124,8 +124,3 @@ export default function WarRoomPage() {
     </div>
   )
 }
-
-const Countdown = () => {
-    // In a real app, this would be a functioning countdown timer.
-    return <span className="text-sm font-mono text-destructive">Ends in: 45:23</span>
-}
