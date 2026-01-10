@@ -62,7 +62,7 @@ export default function DepartmentsPage() {
                         View
                     </Link>
                 </Button>
-                <Button className="w-full" variant="outline">
+                <Button className="w-full text-white" variant="outline">
                     <UserPlus className="mr-2 h-4 w-4" />
                     Join 
                 </Button>
