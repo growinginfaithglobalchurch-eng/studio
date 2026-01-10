@@ -60,8 +60,8 @@ export function AppHeader() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="flex flex-col p-0 bg-sidebar text-sidebar-foreground">
-           <SheetHeader className="p-4 border-b border-sidebar-border shrink-0">
+        <SheetContent side="left" className="flex flex-col p-0 bg-card text-card-foreground">
+           <SheetHeader className="p-4 border-b border-border shrink-0">
              <SheetTitle className="sr-only">Menu</SheetTitle>
              <SheetDescription className="sr-only">Main navigation for the application.</SheetDescription>
            </SheetHeader>
@@ -100,7 +100,7 @@ export function AppHeader() {
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" className="rounded-full" asChild>
             <Link href="/notifications">
-                <Bell className="h-5 w-5 text-black" />
+                <Bell className="h-5 w-5 text-muted-foreground" />
                 <span className="sr-only">Notifications</span>
             </Link>
           </Button>
@@ -128,7 +128,9 @@ export function AppHeader() {
               <DropdownMenuItem asChild>
                 <Link href="/profile">Profile</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/admin/settings">Settings</Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link href="/login">Logout</Link>
