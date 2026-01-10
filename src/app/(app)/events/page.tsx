@@ -5,17 +5,20 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays, Zap, BookOpen } from 'lucide-react';
+import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays, Zap, BookOpen, Edit, Save, Trash2 } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { communityUsers, events, conferences, empowermentMeetings, annualCalendar } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 export default function EventsPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   const featuredSpeakers = communityUsers.slice(0, 4);
+  const bannerImage = PlaceHolderImages.find(img => img.id === 'hero');
 
   return (
     <div className="space-y-8">
@@ -28,6 +31,23 @@ export default function EventsPage() {
           Join our live events, view schedules, and register for upcoming sessions.
         </p>
       </div>
+
+       {bannerImage && (
+        <div className="relative w-full rounded-lg overflow-hidden">
+            <AspectRatio ratio={16/9}>
+                <Image
+                    src={bannerImage.imageUrl}
+                    alt="Events Banner"
+                    fill
+                    className="object-cover"
+                    data-ai-hint={bannerImage.imageHint}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-6">
+                    <h2 className="text-3xl font-headline font-bold text-white">Join Us for a Time of Encounter</h2>
+                </div>
+            </AspectRatio>
+        </div>
+      )}
 
       <section>
         <h2 className="text-2xl font-headline font-bold mb-4">Annual Ministry Calendar</h2>
@@ -202,5 +222,3 @@ export default function EventsPage() {
     </div>
   );
 }
-
-    
