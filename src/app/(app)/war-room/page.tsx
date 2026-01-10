@@ -116,7 +116,9 @@ export default function WarRoomPage() {
                             <p>Case of Generational Curses</p>
                             <p>August 5, 2024 @ 9:00 PM EST</p>
                         </div>
-                        <Button variant="link" className="p-0 mt-2">View Full Calendar</Button>
+                        <Button variant="link" className="p-0 mt-2" asChild>
+                            <Link href="/courts-of-heaven">View Full Calendar</Link>
+                        </Button>
                     </CardContent>
                 </Card>
             </div>
@@ -124,3 +126,5 @@ export default function WarRoomPage() {
     </div>
   )
 }
+
+    
