@@ -72,6 +72,12 @@ const coreSchools = [
     description: 'Equipping marketplace leaders and entrepreneurs for Kingdom impact.',
     href: '/business-school',
   },
+    {
+    icon: <BookOpen className="h-6 w-6 text-accent" />,
+    title: 'Bible Theology (All Levels)',
+    description: 'A deep dive into systematic theology, biblical interpretation, and church history.',
+    href: '/bible-theology',
+  },
 ];
 
 const studentTestimonials = [
