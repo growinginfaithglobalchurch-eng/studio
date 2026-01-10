@@ -27,6 +27,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useRouter } from 'next/navigation';
 import { AppSidebarNav } from './app-sidebar-nav';
 import { ScrollArea } from './ui/scroll-area';
+import { LanguageSwitcher } from './language-switcher';
 
 export function AppHeader() {
   const router = useRouter();
@@ -97,7 +98,8 @@ export function AppHeader() {
       </div>
 
       {isLoggedIn ? (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+           <LanguageSwitcher />
           <Button variant="ghost" size="icon" className="rounded-full" asChild>
             <Link href="/notifications">
                 <Bell className="h-5 w-5 text-muted-foreground" />
