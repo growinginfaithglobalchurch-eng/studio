@@ -245,7 +245,7 @@ export default function VisitorTrainingProgramPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground mb-4">Upon successful completion of this training, you will receive a certificate and your final visit confirmation. We look forward to welcoming you!</p>
+                    <p className="text-muted-foreground mb-4">Upon successful completion of this training, all visitors will be given their certification and final visit confirmation. We look forward to welcoming you!</p>
                     <div className="flex flex-col sm:flex-row gap-4">
                          <Button asChild>
                             <Link href="/login">Access Training Portal</Link>
@@ -270,4 +270,3 @@ export default function VisitorTrainingProgramPage() {
         </div>
     );
 }
-
