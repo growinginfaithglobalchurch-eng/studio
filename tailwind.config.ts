@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -17,8 +18,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['"Lato"', 'sans-serif'],
-        headline: ['"Montserrat"', 'serif'],
+        body: ['"Noto Serif"', 'serif'],
+        headline: ['"Noto Serif"', 'serif'],
         mono: ['"Inconsolata"', 'monospace'],
       },
       colors: {
