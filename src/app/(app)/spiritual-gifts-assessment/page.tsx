@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Check, Gift } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { cn } from '@/lib/utils';
 
 const questions = [
   { id: 1, text: "I enjoy organizing people and resources to achieve a common goal.", gift: "Administration" },
@@ -85,7 +86,7 @@ export default function SpiritualGiftsAssessmentPage() {
               <Progress value={progress} className="mt-2" />
             </CardHeader>
             <CardContent>
-              <p className="text-lg mb-6 text-foreground">{questions[currentQuestionIndex].text}</p>
+              <p className={cn("text-lg mb-6", currentQuestionIndex === 0 ? "text-black" : "text-foreground")}>{questions[currentQuestionIndex].text}</p>
               <div className="flex gap-4">
                 <Button size="lg" className="w-full" onClick={() => handleAnswer('yes')}>Yes</Button>
                 <Button size="lg" variant="outline" className="w-full" onClick={() => handleAnswer('no')}>No</Button>
