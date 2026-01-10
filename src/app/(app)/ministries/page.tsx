@@ -19,7 +19,7 @@ const opportunities = [
     title: 'Evangelism & Outreach Teams',
     description: 'Join local and global teams to share the Gospel and demonstrate God\'s love in practical ways.',
     cta: 'Join a Team',
-    href: '#',
+    href: '/departments',
   },
 ];
 
