@@ -245,7 +245,7 @@ export default function SpiritWarfarePage() {
                 <CardTitle className="font-headline flex items-center gap-2"><Shield className="h-6 w-6 text-accent" /> The War Room</CardTitle>
             </CardHeader>
             <CardContent>
-                 <p className="text-muted-foreground mb-4">The War Room is the strategic command center for live prayer operations, targeted assignments, and Courts of Heaven sessions. It is not noise; it is strategy, alignment, and execution.</p>
+                 <p className="text-muted-foreground mb-4">The War Room is a portal for war against all dark forces and their kingdom, traveling through time, removing evil, events, curses, accidents, death, poverty, divorces etc.</p>
                  <Button variant="secondary">Enter the War Room</Button>
             </CardContent>
         </Card>
