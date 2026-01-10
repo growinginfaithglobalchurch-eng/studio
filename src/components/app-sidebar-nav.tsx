@@ -32,6 +32,7 @@ import {
   Megaphone,
   School,
   LayoutDashboard,
+  Bell,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -164,6 +165,17 @@ export function AppSidebarNav() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+      
+       <Link
+          href="/notifications"
+          className={cn(
+            'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
+            pathname === '/notifications' && 'bg-sidebar-muted text-sidebar-foreground'
+          )}
+        >
+          <Bell className="h-4 w-4" />
+          Notifications
+        </Link>
 
        <Link
           href="/profile"
