@@ -210,7 +210,7 @@ export default function VisitorTrainingProgramPage() {
                                         <Accordion key={session.title} type="single" collapsible>
                                             <AccordionItem value={session.title}>
                                                 <AccordionTrigger className={cn("font-bold text-lg hover:no-underline", "text-foreground")}>{session.title}</AccordionTrigger>
-                                                <AccordionContent className="p-4 bg-background rounded-md">
+                                                <AccordionContent className="p-4 bg-card rounded-md">
                                                     <div className="space-y-4">
                                                         <div>
                                                             <h5 className="font-semibold text-accent">Key Scriptures</h5>
