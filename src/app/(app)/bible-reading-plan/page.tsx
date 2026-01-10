@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -58,7 +59,11 @@ export default function BibleReadingPlanPage() {
                            <div className="space-y-3">
                              {item.readings.map((reading, index) => (
                                 <div key={index} className="flex items-center justify-between p-3 rounded-md bg-secondary/50">
-                                    <p className="font-semibold text-foreground">Day {index + 1}: <span className="font-normal text-muted-foreground">{reading}</span></p>
+                                    <div className="flex items-center gap-4">
+                                        <div className="text-sm font-bold text-accent w-12 text-center">Day {index + 1}</div>
+                                        <div className="border-l border-border h-6"></div>
+                                        <p className="font-semibold text-foreground">{reading}</p>
+                                    </div>
                                     <Button size="sm" variant="ghost" onClick={() => handleMarkAsComplete(item.month, index + 1)}>
                                         <CheckCircle className="h-5 w-5 text-muted-foreground hover:text-green-500" />
                                     </Button>
@@ -74,3 +79,5 @@ export default function BibleReadingPlanPage() {
     </div>
   );
 }
+
+    
