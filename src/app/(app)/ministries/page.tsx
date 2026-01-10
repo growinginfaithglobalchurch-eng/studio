@@ -64,7 +64,7 @@ export default function MinistriesPage() {
                 </div>
             </CardHeader>
             <CardContent>
-                <Button variant="outline" asChild>
+                <Button variant="outline" asChild className="text-white">
                     <Link href="/contact">Contact Us for Partnership</Link>
                 </Button>
             </CardContent>
