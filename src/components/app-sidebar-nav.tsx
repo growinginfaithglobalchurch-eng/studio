@@ -107,13 +107,18 @@ const adminNav = [
     { href: '/admin/settings', label: 'Settings', icon: <Settings className="h-4 w-4" /> },
 ]
 
-export function AppSidebarNav() {
+interface AppSidebarNavProps {
+  onLinkClick?: () => void;
+}
+
+export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
   const pathname = usePathname();
 
   const createNavLink = (item: { href: string; label: string; icon: React.ReactNode }) => (
      <Link
         key={item.href}
         href={item.href}
+        onClick={onLinkClick}
         className={cn(
           'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted',
            (pathname === item.href) && 'bg-sidebar-muted text-sidebar-foreground'
@@ -128,6 +133,7 @@ export function AppSidebarNav() {
     <nav className="grid items-start gap-1 px-2 text-sm font-medium">
        <Link
           href="/dashboard"
+          onClick={onLinkClick}
           className={cn(
             'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted font-semibold text-base',
             pathname === '/dashboard' && 'bg-sidebar-muted text-sidebar-foreground'

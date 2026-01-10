@@ -28,9 +28,12 @@ import { useRouter } from 'next/navigation';
 import { AppSidebarNav } from './app-sidebar-nav';
 import { ScrollArea } from './ui/scroll-area';
 import { LanguageSwitcher } from './language-switcher';
+import { useState } from 'react';
 
 export function AppHeader() {
   const router = useRouter();
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
   // This would come from an auth context in a real app
   const isLoggedIn = true;
   const user = {
@@ -47,10 +50,12 @@ export function AppHeader() {
     }
   };
 
+  const closeSheet = () => setIsSheetOpen(false);
+
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6 shrink-0">
       
-      <Sheet>
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
           <Button
             variant="outline"
@@ -67,7 +72,7 @@ export function AppHeader() {
              <SheetDescription className="sr-only">Main navigation for the application.</SheetDescription>
            </SheetHeader>
             <ScrollArea className="flex-grow">
-                <AppSidebarNav />
+                <AppSidebarNav onLinkClick={closeSheet} />
             </ScrollArea>
         </SheetContent>
       </Sheet>
