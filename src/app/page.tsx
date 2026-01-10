@@ -154,7 +154,7 @@ export default function LandingPage() {
 
         <section className="py-12 md:py-20 text-center bg-secondary">
             <div className="container px-4 md:px-6">
-                <p className="font-semibold text-accent tracking-wider uppercase"><span className="italic">Welcome</span> to</p>
+                <p className="font-semibold text-accent tracking-wider text-lg italic">welcome to</p>
                 <h2 className="font-headline text-4xl font-bold tracking-wide sm:text-5xl text-card-foreground mt-2">
                     The Year of Restoration &amp; Acceleration
                 </h2>
