@@ -166,8 +166,8 @@ export default function LandingPage() {
         <section className="py-12 md:py-20 text-center bg-secondary">
             <div className="container px-4 md:px-6">
                 <p className="font-semibold text-accent tracking-wider uppercase">Welcome to</p>
-                <h2 className="font-headline text-4xl font-bold tracking-wide sm:text-5xl text-foreground mt-2">
-                    The Year of Restoration & Acceleration
+                <h2 className="font-headline text-4xl font-bold tracking-wide sm:text-5xl text-accent mt-2">
+                    The Year of Restoration &amp; Acceleration
                 </h2>
                 <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">
                     This is a season of divine recovery and supernatural advancement. God is restoring what was lost and accelerating His promises in your life. Position yourself for an unprecedented move of the Spirit!
@@ -188,7 +188,7 @@ export default function LandingPage() {
         <section id="features" className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
+              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-accent">
                 A Platform for Transformation
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
