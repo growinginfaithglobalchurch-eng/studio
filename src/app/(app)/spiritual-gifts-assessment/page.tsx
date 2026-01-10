@@ -89,7 +89,7 @@ export default function SpiritualGiftsAssessmentPage() {
               <p className={cn("text-lg mb-6", currentQuestionIndex === 0 ? "text-black" : "text-foreground")}>{questions[currentQuestionIndex].text}</p>
               <div className="flex gap-4">
                 <Button size="lg" className="w-full" onClick={() => handleAnswer('yes')}>Yes</Button>
-                <Button size="lg" variant="outline" className="w-full" onClick={() => handleAnswer('no')}>No</Button>
+                <Button size="lg" variant="outline" className="w-full text-white" onClick={() => handleAnswer('no')}>No</Button>
               </div>
             </CardContent>
           </>
