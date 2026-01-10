@@ -1,9 +1,14 @@
 
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { departments, Department } from "@/lib/data";
-import { Handshake, UserPlus, Music, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users, Briefcase } from "lucide-react";
+import { Handshake, UserPlus, Music, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users, Briefcase, Eye } from "lucide-react";
 import React from "react";
+import Link from 'next/link';
+import { slugify } from '@/lib/utils';
+
 
 export const iconMap: { [key: string]: React.ReactNode } = {
   'Music': <Music className="h-6 w-6 text-accent" />,
@@ -50,10 +55,16 @@ export default function DepartmentsPage() {
                 </div>
             </CardHeader>
             <CardContent className="flex-grow" />
-            <div className="p-6 pt-0">
-                <Button className="w-full">
+            <div className="p-6 pt-0 flex gap-2">
+                <Button className="w-full" asChild>
+                    <Link href={`/departments/${slugify(dept.name)}`}>
+                        <Eye className="mr-2 h-4 w-4" />
+                        View
+                    </Link>
+                </Button>
+                <Button className="w-full" variant="outline">
                     <UserPlus className="mr-2 h-4 w-4" />
-                    Join Department
+                    Join 
                 </Button>
             </div>
           </Card>
