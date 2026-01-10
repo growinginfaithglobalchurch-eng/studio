@@ -25,14 +25,16 @@ export default function ContactPage() {
     });
 
     useEffect(() => {
-        const type = partnershipType === 'church' ? 'Partner Church' : partnershipType === 'ministry' ? 'Ministry Partner' : 'General';
+        let type = 'General';
+        if (partnershipType === 'church') {
+            type = 'Partner Church';
+        } else if (partnershipType === 'ministry') {
+            type = 'Ministry Partner';
+        } else if (partnershipType === 'visiting-program') {
+            type = 'Visiting Program Application';
+        }
         setFormData(prev => ({...prev, partnershipType: type}));
     }, [partnershipType]);
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,21 +49,31 @@ export default function ContactPage() {
         
         toast({
             title: 'Message Sent!',
-            description: 'Thank you for your inquiry. Our partnerships team will get back to you shortly.',
+            description: 'Thank you for your inquiry. Our team will get back to you shortly.',
         });
         
+        let type = 'General';
+        if (partnershipType === 'church') {
+            type = 'Partner Church';
+        } else if (partnershipType === 'ministry') {
+            type = 'Ministry Partner';
+        } else if (partnershipType === 'visiting-program') {
+            type = 'Visiting Program Application';
+        }
+
         setFormData({
             name: '',
             email: '',
             ministryName: '',
             message: '',
-            partnershipType: partnershipType === 'church' ? 'Partner Church' : partnershipType === 'ministry' ? 'Ministry Partner' : 'General'
+            partnershipType: type
         });
     };
 
     const getTitle = () => {
         if (partnershipType === 'church') return "Partner Church Inquiry";
         if (partnershipType === 'ministry') return "Ministry Partner Inquiry";
+        if (partnershipType === 'visiting-program') return "Visiting Program Application";
         return "Partnership Inquiry";
     }
 
@@ -70,7 +82,7 @@ export default function ContactPage() {
             <div>
                 <div className="flex items-center gap-3 mb-2">
                     <Handshake className="h-8 w-8 text-accent" />
-                    <h1 className="text-3xl font-headline font-bold text-foreground">Contact Our Partnerships Team</h1>
+                    <h1 className="text-3xl font-headline font-bold text-foreground">Contact Us</h1>
                 </div>
                 <p className="text-muted-foreground">
                     We're excited to explore how we can partner together to advance the Kingdom.
@@ -87,7 +99,7 @@ export default function ContactPage() {
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
                          <div className="space-y-2">
-                            <Label htmlFor="partnershipType">Partnership Type</Label>
+                            <Label htmlFor="partnershipType">Inquiry Type</Label>
                             <Input id="partnershipType" name="partnershipType" value={formData.partnershipType} readOnly className="text-white bg-secondary" />
                         </div>
                         <div className="grid md:grid-cols-2 gap-6">
@@ -106,7 +118,7 @@ export default function ContactPage() {
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="message">Message</Label>
-                            <Textarea id="message" name="message" value={formData.message} onChange={handleInputChange} placeholder="Tell us a little about your ministry and how you'd like to partner with us..." required className="text-white" />
+                            <Textarea id="message" name="message" value={formData.message} onChange={handleInputChange} placeholder="Tell us a little about yourself and your interest in the program..." required className="text-white" />
                         </div>
                         <div className="flex justify-end">
                             <Button type="submit">

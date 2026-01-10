@@ -214,7 +214,7 @@ export default function VisitingProgramsPage() {
                     Submit your application to begin your journey of immersion, mentorship, and activation.
                 </CardDescription>
                 <Button size="lg" asChild>
-                    <Link href="/signup">Apply Now</Link>
+                    <Link href="/contact?type=visiting-program">Apply Now</Link>
                 </Button>
             </Card>
 
