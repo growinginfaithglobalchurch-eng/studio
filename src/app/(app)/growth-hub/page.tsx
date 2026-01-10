@@ -11,7 +11,7 @@ const dailyPractices = [
   {
     icon: <Sunrise className="h-6 w-6 text-accent" />,
     title: "Morning Alignment & Declaration",
-    description: "Start your day by aligning your spirit with God's will and declaring His promises.",
+    description: "Start your day by aligning your spirit with God's will and declaring His promises: 'Glory, power, immortality is my portion, now and forever amen.'",
     href: "/devotionals",
     cta: "Declare Now"
   },
@@ -46,7 +46,7 @@ const dailyPractices = [
   {
     icon: <Sunset className="h-6 w-6 text-accent" />,
     title: "Night Reflection & Review",
-    description: "Review your day, give thanks, and commit your night to the Lord.",
+    description: "Review your day, give thanks, and commit your night to the Lord with this closing declaration: 'God's goodness and mercy will follow me all the days of my life, as I dwell in the house of the Lord for ever and ever amen.'",
     href: "#",
     cta: "Review Day"
   }
