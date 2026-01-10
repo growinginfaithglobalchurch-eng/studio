@@ -64,6 +64,7 @@ const communityNav = [
   { href: '/groups', label: 'Groups', icon: <Users className="h-4 w-4" /> },
   { href: '/mentorship', label: 'Mentorship', icon: <UserCheck className="h-4 w-4" /> },
   { href: '/visiting-programs', label: 'Visiting Programs', icon: <Globe className="h-4 w-4" /> },
+  { href: '/visitor-training-program', label: 'Visitor Training', icon: <GraduationCap className="h-4 w-4" /> },
   { href: '/kids-and-youth', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
   { href: '/church-integration', label: 'Church Integration', icon: <Handshake className="h-4 w-4" /> },
 ];
