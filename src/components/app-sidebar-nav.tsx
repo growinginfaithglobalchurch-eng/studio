@@ -115,6 +115,7 @@ const adminNav = [
     { href: '/admin/events', label: 'Events', icon: <Calendar className="h-4 w-4" /> },
     { href: '/admin/programming', label: 'Programming', icon: <ClipboardList className="h-4 w-4" /> },
     { href: '/admin/life-groups', label: 'Life Groups', icon: <Users className="h-4 w-4" /> },
+    { href: '/admin/family-hub', label: 'Family Hub', icon: <Home className="h-4 w-4" /> },
     { href: '/admin/global-expansion', label: 'Global Strategy', icon: <Globe className="h-4 w-4" /> },
     { href: '/admin/global-prayer-hub', label: 'Global Prayer Hub', icon: <Globe className="h-4 w-4" /> },
     { href: '/admin/visitors', label: 'Visitors', icon: <Users className="h-4 w-4" /> },
