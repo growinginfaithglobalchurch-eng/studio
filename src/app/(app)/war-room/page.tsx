@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Shield, Globe, Target, Calendar, Radio, Users, Feather, Crown, Anchor, BookOpen } from "lucide-react";
 import { Countdown } from "@/components/countdown";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
 const assignments = [
     {
@@ -26,6 +27,15 @@ const assignments = [
 ];
 
 export default function WarRoomPage() {
+    const { toast } = useToast();
+
+    const handleEngage = (title: string) => {
+        toast({
+            title: "Assignment Engaged!",
+            description: `You have engaged with: "${title}". Your intercession is vital.`
+        });
+    };
+
   return (
     <div className="space-y-8">
       <div>
@@ -87,7 +97,7 @@ export default function WarRoomPage() {
                                     <p className="font-semibold text-foreground">{item.title}</p>
                                     <p className="text-sm text-muted-foreground">{item.description}</p>
                                 </div>
-                                <Button size="sm">Engage</Button>
+                                <Button size="sm" onClick={() => handleEngage(item.title)}>Engage</Button>
                             </div>
                         ))}
                     </CardContent>
