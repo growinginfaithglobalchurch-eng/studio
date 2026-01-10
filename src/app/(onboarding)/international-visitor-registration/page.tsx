@@ -33,7 +33,7 @@ export default function InternationalVisitorRegistrationPage() {
                         <Plane className="h-8 w-8 text-accent" />
                         <h1 className="text-3xl font-headline font-bold text-foreground">International Visitor Registration</h1>
                     </div>
-                    <CardDescription>
+                    <CardDescription className="text-foreground">
                         Please complete all sections of the form to apply for the visiting program.
                     </CardDescription>
                 </CardHeader>
