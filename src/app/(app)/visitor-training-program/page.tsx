@@ -124,7 +124,7 @@ export default function VisitorTrainingProgramPage() {
                         </Button>
                         <div className="flex gap-2">
                             <Select onValueChange={setSupportType} value={supportType}>
-                                <SelectTrigger className="w-[240px]">
+                                <SelectTrigger className="w-[240px] text-white">
                                     <SelectValue placeholder="Select Support Type" />
                                 </SelectTrigger>
                                 <SelectContent>
