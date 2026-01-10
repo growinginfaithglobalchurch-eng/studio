@@ -17,9 +17,11 @@ import { format } from 'date-fns';
 
 export default function EventsPage() {
   const [date, setDate] = useState<Date | undefined>(undefined);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setDate(new Date());
+    setIsClient(true);
   }, []);
 
   const featuredSpeakers = communityUsers.slice(0, 4);
@@ -242,12 +244,18 @@ export default function EventsPage() {
               <CardTitle>Event Schedule</CardTitle>
             </CardHeader>
             <CardContent className="flex justify-center">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border"
-              />
+              {isClient ? (
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  className="rounded-md border"
+                />
+              ) : (
+                <div className="rounded-md border p-3">
+                  <div className="h-[280px] w-[258px] animate-pulse bg-muted rounded-md" />
+                </div>
+              )}
             </CardContent>
           </Card>
           <Card>
