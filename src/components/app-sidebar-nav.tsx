@@ -39,6 +39,7 @@ import {
   CheckSquare,
   Phone,
   Code,
+  ClipboardList,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -72,7 +73,7 @@ const communityNav = [
   { href: '/kids-and-youth', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
   { href: '/church-integration', label: 'Church Integration', icon: <Handshake className="h-4 w-4" /> },
   { href: '/our-mandate', label: 'Our Mandate', icon: <BookMarked className="h-4 w-4" /> },
-  { href: '/programming', label: 'Programming', icon: <Code className="h-4 w-4" /> },
+  { href: '/programming', label: 'Service Programming', icon: <ClipboardList className="h-4 w-4" /> },
 ];
 
 const equippingNav = [
