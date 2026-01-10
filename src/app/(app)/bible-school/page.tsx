@@ -75,7 +75,7 @@ const coreSchools = [
     {
     icon: <BookOpen className="h-6 w-6 text-accent" />,
     title: 'Bible Theology (All Levels)',
-    description: 'A deep dive into systematic theology, biblical interpretation, and church history.',
+    description: 'A deep dive into systematic theology, biblical interpretation, and church history, activated at a professional and international level.',
     href: '/bible-theology',
   },
 ];
