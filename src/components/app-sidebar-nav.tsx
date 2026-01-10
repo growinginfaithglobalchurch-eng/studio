@@ -57,28 +57,20 @@ const dailyPracticesNav = [
     { href: '/devotionals', label: 'Daily Declarations', icon: <Sparkles className="h-4 w-4" /> },
 ];
 
-const warfareNav = [
-    { href: '/spirit-warfare', label: 'Spirit Warfare', icon: <Swords className="h-4 w-4" /> },
-    { href: '/war-room', label: 'War Room', icon: <Shield className="h-4 w-4" /> },
-    { href: '/courts-of-heaven', label: 'Courts of Heaven', icon: <Gavel className="h-4 w-4" /> },
-    { href: '/global-prayer-hub', label: 'Global Prayer Hub', icon: <Globe className="h-4 w-4" /> },
-    { href: '/prayer', label: 'Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
-    { href: '/prayer-line-registration', label: 'Prayer Line', icon: <Phone className="h-4 w-4" /> },
-]
-
 const communityNav = [
   { href: '/connect', label: 'Connect', icon: <Handshake className="h-4 w-4" /> },
   { href: '/groups', label: 'Groups', icon: <Users className="h-4 w-4" /> },
   { href: '/family-hub', label: 'Family Hub', icon: <Home className="h-4 w-4" /> },
   { href: '/mentorship', label: 'Mentorship', icon: <UserCheck className="h-4 w-4" /> },
-  { href: '/visiting-programs', label: 'Visiting Programs', icon: <Globe className="h-4 w-4" /> },
-  { href: '/visitor-training-program', label: 'Visitor Training', icon: <GraduationCap className="h-4 w-4" /> },
   { href: '/kids-and-youth', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
   { href: '/parental-dashboard', label: 'Parental Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
-  { href: '/church-integration', label: 'Church Integration', icon: <Handshake className="h-4 w-4" /> },
   { href: '/our-mandate', label: 'Our Mandate', icon: <BookMarked className="h-4 w-4" /> },
   { href: '/programming', label: 'Service Programming', icon: <ClipboardList className="h-4 w-4" /> },
+  { href: '/departments', label: 'Departments', icon: <Users className="h-4 w-4" /> },
   { href: '/life-group-training', label: 'Life Group Training', icon: <Users className="h-4 w-4" /> },
+  { href: '/church-integration', label: 'Church Integration', icon: <Handshake className="h-4 w-4" /> },
+  { href: '/visiting-programs', label: 'Visiting Programs', icon: <Globe className="h-4 w-4" /> },
+  { href: '/visitor-training-program', label: 'Visitor Training', icon: <GraduationCap className="h-4 w-4" /> },
 ];
 
 const equippingNav = [
@@ -94,6 +86,15 @@ const equippingNav = [
     { href: '/business-school', label: 'Business School', icon: <TrendingUp className="h-4 w-4" /> },
     { href: '/bible-theology', label: 'Bible Theology', icon: <BookOpen className="h-4 w-4" /> },
 ];
+
+const warfareNav = [
+    { href: '/spirit-warfare', label: 'Overview', icon: <Swords className="h-4 w-4" /> },
+    { href: '/war-room', label: 'War Room', icon: <Shield className="h-4 w-4" /> },
+    { href: '/courts-of-heaven', label: 'Courts of Heaven', icon: <Gavel className="h-4 w-4" /> },
+    { href: '/global-prayer-hub', label: 'Global Prayer Hub', icon: <Globe className="h-4 w-4" /> },
+    { href: '/prayer', label: 'Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
+    { href: '/prayer-line-registration', label: 'Prayer Line', icon: <Phone className="h-4 w-4" /> },
+]
 
 const resourcesNav = [
     { href: '/resources', label: 'Resource Library', icon: <Library className="h-4 w-4" /> },
@@ -188,15 +189,6 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
           </AccordionContent>
         </AccordionItem>
         
-         <AccordionItem value="warfare" className="border-b-0">
-          {createAccordionTrigger("Warfare", <Shield className="h-4 w-4" />, "/warfare")}
-          <AccordionContent className="pl-4 pb-0">
-            <div className="flex flex-col space-y-1">
-              {warfareNav.map(createNavLink)}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
         <AccordionItem value="community" className="border-b-0">
           {createAccordionTrigger("Community & Growth", <Users className="h-4 w-4" />, "/")}
           <AccordionContent className="pl-4 pb-0">
@@ -215,6 +207,15 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
           </AccordionContent>
         </AccordionItem>
         
+         <AccordionItem value="warfare" className="border-b-0">
+          {createAccordionTrigger("Warfare & Governance", <Shield className="h-4 w-4" />, "/warfare")}
+          <AccordionContent className="pl-4 pb-0">
+            <div className="flex flex-col space-y-1">
+              {warfareNav.map(createNavLink)}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
          <AccordionItem value="resources" className="border-b-0">
           {createAccordionTrigger("Content Library", <Library className="h-4 w-4" />, "/resources")}
           <AccordionContent className="pl-4 pb-0">
@@ -272,11 +273,13 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
       <div className="pt-4 mt-4 border-t border-border">
         {createNavLink({ href: "/notifications", label: "Notifications", icon: <Bell className="h-4 w-4" /> })}
         {createNavLink({ href: "/profile", label: "Profile & Settings", icon: <User className="h-4 w-4" /> })}
+        {createNavLink({ href: "/certificates", label: "Certificates", icon: <Award className="h-4 w-4" /> })}
       </div>
        
     </nav>
   );
 }
+
 
 
 
