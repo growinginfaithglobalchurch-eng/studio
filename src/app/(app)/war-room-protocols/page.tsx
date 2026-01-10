@@ -1,7 +1,10 @@
 
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, Scale, Shield, Users, AlertTriangle, CheckCircle, Handshake, Info, XCircle } from 'lucide-react';
 import React from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const sections = [
     { 
@@ -31,7 +34,7 @@ const sections = [
         ]
     },
     { 
-        title: "War Room Code of Conduct", 
+        title: "War Room Code of Conduct", -
         icon: <Handshake className="h-6 w-6 text-accent" />,
         subSections: [
             {
@@ -139,9 +142,9 @@ export default function WarRoomProtocolsPage() {
                              <Alert variant="destructive">
                                 <AlertTriangle className="h-4 w-4" />
                                 <AlertTitle>Consequences for Violations</AlertTitle>
-                                <CardDescription>
+                                <AlertDescription>
                                     {section.consequences}
-                                </CardDescription>
+                                </AlertDescription>
                             </Alert>
                         )}
                     </CardContent>
