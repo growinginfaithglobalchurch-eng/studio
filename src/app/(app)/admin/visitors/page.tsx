@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { ClipboardList, Users, Shield, Check, Award, Eye, Gavel, UserPlus, Link as LinkIcon } from 'lucide-react';
+import { ClipboardList, Users, Shield, Check, Award, Eye, Gavel, UserPlus, Link as LinkIcon, FileText } from 'lucide-react';
 import { communityUsers } from '@/lib/data';
 import {
   Table,
@@ -129,6 +129,13 @@ export default function AdminVisitorsPage() {
         toast({
             title: 'Badge Issued',
             description: `An authority badge has been generated for ${visitorName}.`,
+        });
+    };
+    
+    const handleGenerateReport = (visitorName: string) => {
+        toast({
+            title: 'Report Generated',
+            description: `A participation and progress report for ${visitorName} is being downloaded.`,
         });
     };
 
@@ -283,6 +290,10 @@ export default function AdminVisitorsPage() {
                                                 <DropdownMenuItem onClick={() => handleViewParticipation(visitor)}>
                                                     <Eye className="mr-2 h-4 w-4" />
                                                     View Participation
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => handleGenerateReport(visitor.name)}>
+                                                    <FileText className="mr-2 h-4 w-4" />
+                                                    Generate Report
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onClick={() => handleIssueBadge(visitor.name)}>
                                                     <Award className="mr-2 h-4 w-4" />
