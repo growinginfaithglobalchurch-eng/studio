@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
+import Link from 'next/link';
 
 const stats = [
   {
@@ -66,9 +67,11 @@ export default function ProfilePage() {
               <h1 className="text-2xl font-bold text-card-foreground">{user.name}</h1>
               <p className="text-muted-foreground">{user.email}</p>
             </div>
-            <Button variant="outline" size="icon" className="ml-auto">
-              <Edit className="h-4 w-4 text-accent" />
-              <span className="sr-only">Edit Profile</span>
+            <Button variant="outline" size="icon" className="ml-auto" asChild>
+              <Link href="/profile/edit">
+                <Edit className="h-4 w-4 text-accent" />
+                <span className="sr-only">Edit Profile</span>
+              </Link>
             </Button>
           </div>
         </CardHeader>
