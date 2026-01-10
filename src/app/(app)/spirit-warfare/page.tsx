@@ -147,35 +147,37 @@ export default function SpiritWarfarePage() {
       </Card>
 
 
-      <Card className="overflow-hidden">
-        <div className="grid md:grid-cols-2 items-center">
-          <div className="p-8">
-            <CardHeader className="p-0">
-               <div className="inline-block rounded-lg bg-accent/10 px-3 py-1 text-sm font-semibold text-accent border border-accent/20 w-fit">Section 1</div>
-              <CardTitle className="text-3xl font-headline mt-2">
-                The Courts of Heaven
-              </CardTitle>
-              <CardDescription className="mt-4 text-lg">
-                The judicial realm of the spirit where verdicts are issued, accusations are addressed, and destinies are legislated. Warfare that ignores the courts may win battles but lose legitimacy.
-              </CardDescription>
-            </CardHeader>
-          </div>
-          <div className="p-8 bg-card">
-            <h3 className="font-bold mb-4 text-card-foreground">Teaching Focus:</h3>
-            <div className="grid gap-4">
-                 {courtsOfHeavenPillars.map((pillar) => (
-                    <div key={pillar.title} className="flex items-start gap-3">
-                        {pillar.icon}
-                        <div>
-                            <h4 className="font-semibold text-card-foreground">{pillar.title}</h4>
-                            <p className="text-sm text-muted-foreground">{pillar.description}</p>
-                        </div>
-                    </div>
-                ))}
+      <Link href="/courts-of-heaven" className="block hover:opacity-90 transition-opacity">
+        <Card className="overflow-hidden bg-card text-card-foreground">
+          <div className="grid md:grid-cols-2 items-center">
+            <div className="p-8">
+              <CardHeader className="p-0">
+                <div className="inline-block rounded-lg bg-accent/10 px-3 py-1 text-sm font-semibold text-accent border border-accent/20 w-fit">Section 1</div>
+                <CardTitle className="text-3xl font-headline mt-2">
+                  The Courts of Heaven
+                </CardTitle>
+                <CardDescription className="mt-4 text-lg">
+                  The judicial realm of the spirit where verdicts are issued, accusations are addressed, and destinies are legislated. Warfare that ignores the courts may win battles but lose legitimacy.
+                </CardDescription>
+              </CardHeader>
+            </div>
+            <div className="p-8 bg-card">
+              <h3 className="font-bold mb-4 text-card-foreground">Teaching Focus:</h3>
+              <div className="grid gap-4">
+                  {courtsOfHeavenPillars.map((pillar) => (
+                      <div key={pillar.title} className="flex items-start gap-3">
+                          {pillar.icon}
+                          <div>
+                              <h4 className="font-semibold text-card-foreground">{pillar.title}</h4>
+                              <p className="text-sm text-muted-foreground">{pillar.description}</p>
+                          </div>
+                      </div>
+                  ))}
+              </div>
             </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </Link>
 
       <div>
         <div className="inline-block rounded-lg bg-accent/10 px-3 py-1 text-sm font-semibold text-accent border border-accent/20 w-fit mb-2">Section 2 & 3</div>
@@ -223,7 +225,7 @@ export default function SpiritWarfarePage() {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button variant="outline" className="w-full text-white" onClick={() => handleChooseTribe(tribe.name)}>Choose {tribe.name}</Button>
+                <Button variant="outline" className="w-full" onClick={() => handleChooseTribe(tribe.name)}>Choose {tribe.name}</Button>
               </CardFooter>
             </Card>
           ))}

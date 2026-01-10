@@ -61,8 +61,8 @@ export default function CourtsOfHeavenPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {upcomingSessions.map(session => (
-                        <div key={session.case} className="p-3 rounded-lg border bg-card">
-                            <p className="font-semibold text-foreground">{session.case}</p>
+                        <div key={session.case} className="p-3 rounded-lg border bg-card text-card-foreground">
+                            <p className="font-semibold">{session.case}</p>
                             <p className="text-sm text-muted-foreground">{session.date}</p>
                              <Button variant="secondary" size="sm" className="mt-2">Join Session</Button>
                         </div>
@@ -75,12 +75,12 @@ export default function CourtsOfHeavenPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {caseFiles.map(file => (
-                         <div key={file.id} className="flex items-center justify-between p-3 rounded-lg border bg-card">
+                         <div key={file.id} className="flex items-center justify-between p-3 rounded-lg border bg-card text-card-foreground">
                              <div>
-                                <p className="font-semibold text-foreground">{file.title}</p>
+                                <p className="font-semibold">{file.title}</p>
                                 <p className="text-xs text-muted-foreground">Case ID: {file.id} | {file.date}</p>
                              </div>
-                            <Button variant="outline" size="sm">View Details</Button>
+                            <Button variant="outline">View Details</Button>
                         </div>
                     ))}
                 </CardContent>

@@ -80,7 +80,7 @@ export default function WarRoomPage() {
                     <CardContent>
                         <p className="text-muted-foreground">Our current unified focus is on breaking the spirit of division within the global church. All tribes are to engage in prayers of unity, reconciliation, and honor. Reference Ephesians 4:1-3. Specific assignments are listed below.</p>
                         <Button variant="outline" className="mt-4" asChild>
-                            <Link href="/war-room-protocols" className="text-white">
+                            <Link href="/war-room-protocols">
                                 <BookOpen className="mr-2 h-4 w-4" />
                                 Read Protocols
                             </Link>
@@ -112,17 +112,17 @@ export default function WarRoomPage() {
                         <CardDescription>Access your tribe-specific command center.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-3">
-                        <Button variant="outline" className="w-full justify-start gap-2 text-white" asChild>
+                        <Button variant="outline" className="w-full justify-start gap-2" asChild>
                             <Link href="/war-room/eagle">
                                 <Feather className="h-4 w-4 text-accent" /> Eagle Room
                             </Link>
                         </Button>
-                        <Button variant="outline" className="w-full justify-start gap-2 text-white" asChild>
+                        <Button variant="outline" className="w-full justify-start gap-2" asChild>
                             <Link href="/war-room/lion">
                                 <Crown className="h-4 w-4 text-accent" /> Lion Room
                             </Link>
                         </Button>
-                        <Button variant="outline" className="w-full justify-start gap-2 text-white" asChild>
+                        <Button variant="outline" className="w-full justify-start gap-2" asChild>
                              <Link href="/war-room/marine">
                                 <Anchor className="h-4 w-4 text-accent" /> Marine Room
                             </Link>
