@@ -85,8 +85,8 @@ export default function FaithGrowthHubPage() {
                 <div key={practice.title} className="flex flex-col sm:flex-row items-start gap-4 p-4 rounded-lg border bg-card/50">
                     <div className="flex-shrink-0">{practice.icon}</div>
                     <div className="flex-grow">
-                        <h3 className="font-bold text-lg text-foreground">{practice.title}</h3>
-                        <p className="text-sm text-foreground mt-1">{practice.description}</p>
+                        <h3 className="font-bold text-lg text-black">{practice.title}</h3>
+                        <p className="text-sm text-black mt-1">{practice.description}</p>
                         <div className="mt-3 flex gap-2">
                             <Button asChild variant="outline">
                                 <Link href={practice.href}>{practice.cta}</Link>
