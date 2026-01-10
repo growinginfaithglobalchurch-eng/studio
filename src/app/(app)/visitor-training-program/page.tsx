@@ -21,6 +21,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { CodeBlock } from "@/components/code-block";
+import { cn } from "@/lib/utils";
 
 const trainingSchedule = [
     {
@@ -183,9 +184,9 @@ export default function VisitorTrainingProgramPage() {
                 </p>
             </div>
 
-            <Card className="bg-secondary/30">
+            <Card>
                 <CardHeader>
-                    <CardTitle className="font-headline">Why This Training is Required</CardTitle>
+                    <CardTitle className="font-headline text-black">Why This Training is Required</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground">To ensure unity, safety, and maximum impact, it is essential that all visitors are aligned with our Kingdom culture and protocols before arriving. This training equips you with the foundational understanding needed to fully participate in and receive from all that God is doing in our midst.</p>
@@ -193,11 +194,11 @@ export default function VisitorTrainingProgramPage() {
             </Card>
 
             <div>
-                <h2 className="text-2xl font-headline font-bold mb-4">Training Curriculum</h2>
+                <h2 className="text-2xl font-headline font-bold mb-4 text-foreground">Training Curriculum</h2>
                 <Accordion type="single" collapsible defaultValue="Day 1: Foundations & Kingdom Culture" className="w-full">
                     {trainingSchedule.map((day) => (
                         <AccordionItem value={day.day} key={day.day}>
-                            <AccordionTrigger className="text-xl font-headline hover:no-underline">
+                            <AccordionTrigger className="text-xl font-headline hover:no-underline text-foreground">
                                 <div className="flex items-center gap-3">
                                     {day.icon}
                                     {day.day}
@@ -208,8 +209,8 @@ export default function VisitorTrainingProgramPage() {
                                     {day.sessions.map(session => (
                                         <Accordion key={session.title} type="single" collapsible>
                                             <AccordionItem value={session.title}>
-                                                <AccordionTrigger className="font-bold text-lg text-foreground hover:no-underline">{session.title}</AccordionTrigger>
-                                                <AccordionContent className="p-4 bg-background/50 rounded-md">
+                                                <AccordionTrigger className={cn("font-bold text-lg hover:no-underline", "text-foreground")}>{session.title}</AccordionTrigger>
+                                                <AccordionContent className="p-4 bg-background rounded-md">
                                                     <div className="space-y-4">
                                                         <div>
                                                             <h5 className="font-semibold text-accent">Key Scriptures</h5>
@@ -239,7 +240,7 @@ export default function VisitorTrainingProgramPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-black">
                         <CheckCircle className="h-5 w-5 text-green-500" />
                         Completion & Support
                     </CardTitle>
