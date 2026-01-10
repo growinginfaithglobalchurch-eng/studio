@@ -106,7 +106,7 @@ export default function VisitorTrainingProgramPage() {
                             <Link href="/login">Access Training Portal</Link>
                         </Button>
                         <Button asChild variant="outline">
-                            <Link href="/contact">Contact Support</Link>
+                            <Link href="/contact" className="text-white">Contact Support</Link>
                         </Button>
                     </div>
                 </CardContent>
