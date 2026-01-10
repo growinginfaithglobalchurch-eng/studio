@@ -138,7 +138,7 @@ export function AppSidebarNav() {
         <div className="px-3 py-2 text-xs font-medium text-sidebar-muted-foreground">Warfare & Governance</div>
         {warfareNav.map(createNavLink)}
       
-      <Accordion type="multiple" defaultValue={['community', 'equipping', 'resources', 'admin']} className="w-full">
+      <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="community" className="border-b-0">
           <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline hover:bg-sidebar-muted", "data-[state=open]:bg-sidebar-muted")}>
             <Users className="h-4 w-4" />
