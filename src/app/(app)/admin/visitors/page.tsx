@@ -25,8 +25,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+} from '@/components/ui/alert-dialog';
 
-const initialVisitors = [
+type Visitor = {
+    id: number;
+    name: string;
+    track: string;
+    progress: number;
+    mentor: string;
+    status: string;
+    warRoomAccess: boolean;
+    courtAccess: boolean;
+    participation: {
+        completed: string[];
+        violations: string[];
+    }
+}
+
+const initialVisitors: Visitor[] = [
     {
         id: 1,
         name: communityUsers[2].name,
@@ -36,6 +60,10 @@ const initialVisitors = [
         status: "Active",
         warRoomAccess: false,
         courtAccess: false,
+        participation: {
+            completed: ["Kingdom Protocols Training", "Identity & Purpose Session"],
+            violations: ["Missed one mandatory session"]
+        }
     },
     {
         id: 2,
@@ -46,6 +74,10 @@ const initialVisitors = [
         status: "Pending",
         warRoomAccess: false,
         courtAccess: false,
+        participation: {
+            completed: ["Kingdom Protocols Training"],
+            violations: []
+        }
     },
     {
         id: 3,
@@ -56,12 +88,18 @@ const initialVisitors = [
         status: "Completed",
         warRoomAccess: true,
         courtAccess: false,
+         participation: {
+            completed: ["All required sessions", "Final assessment"],
+            violations: []
+        }
     }
 ];
 
 export default function AdminVisitorsPage() {
     const { toast } = useToast();
     const [visitors, setVisitors] = useState(initialVisitors);
+    const [selectedVisitor, setSelectedVisitor] = useState<Visitor | null>(null);
+    const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
 
     const handleApproveWarRoom = (visitorId: number) => {
         setVisitors(prev => prev.map(v => v.id === visitorId ? { ...v, warRoomAccess: true } : v));
@@ -79,11 +117,9 @@ export default function AdminVisitorsPage() {
         });
     };
 
-    const handleViewParticipation = (visitorName: string) => {
-        toast({
-            title: 'Loading Report',
-            description: `Generating participation report for ${visitorName}...`,
-        });
+    const handleViewParticipation = (visitor: Visitor) => {
+        setSelectedVisitor(visitor);
+        setIsReviewDialogOpen(true);
     };
 
     const handleIssueBadge = (visitorName: string) => {
@@ -182,7 +218,7 @@ export default function AdminVisitorsPage() {
                                             <DropdownMenuContent>
                                                 <DropdownMenuLabel>Manage Visitor</DropdownMenuLabel>
                                                 <DropdownMenuSeparator />
-                                                <DropdownMenuItem onClick={() => handleViewParticipation(visitor.name)}>
+                                                <DropdownMenuItem onClick={() => handleViewParticipation(visitor)}>
                                                     <Eye className="mr-2 h-4 w-4" />
                                                     View Participation
                                                 </DropdownMenuItem>
@@ -199,6 +235,41 @@ export default function AdminVisitorsPage() {
                     </Table>
                 </CardContent>
             </Card>
+
+            <AlertDialog open={isReviewDialogOpen} onOpenChange={setIsReviewDialogOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Participation Report for {selectedVisitor?.name}</AlertDialogTitle>
+                        <AlertDialogDescription>
+                           A summary of the visitor's engagement and any recorded violations.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    {selectedVisitor && (
+                        <div className="space-y-4 text-sm">
+                           <div>
+                                <h3 className="font-semibold text-foreground mb-2">Completed Activities</h3>
+                                {selectedVisitor.participation.completed.length > 0 ? (
+                                    <ul className="list-disc pl-5 text-muted-foreground">
+                                        {selectedVisitor.participation.completed.map(item => <li key={item}>{item}</li>)}
+                                    </ul>
+                                ) : <p className="text-muted-foreground">No activities completed yet.</p>}
+                           </div>
+                           <div>
+                                <h3 className="font-semibold text-foreground mb-2">Violations</h3>
+                                {selectedVisitor.participation.violations.length > 0 ? (
+                                    <ul className="list-disc pl-5 text-destructive">
+                                        {selectedVisitor.participation.violations.map(item => <li key={item}>{item}</li>)}
+                                    </ul>
+                                ) : <p className="text-muted-foreground">No violations recorded.</p>}
+                           </div>
+                        </div>
+                    )}
+                    <AlertDialogFooter>
+                        <AlertDialogAction onClick={() => setIsReviewDialogOpen(false)}>Close</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
         </div>
     );
 }
