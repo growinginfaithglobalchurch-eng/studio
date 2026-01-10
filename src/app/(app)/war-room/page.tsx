@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Shield, Globe, Target, Calendar, Radio, Users, Feather, Crown, Anchor } from "lucide-react";
+import { Shield, Globe, Target, Calendar, Radio, Users, Feather, Crown, Anchor, BookOpen } from "lucide-react";
 import { Countdown } from "@/components/countdown";
 import Link from "next/link";
 
@@ -67,6 +67,12 @@ export default function WarRoomPage() {
                     </CardHeader>
                     <CardContent>
                         <p className="text-muted-foreground">Our current unified focus is on breaking the spirit of division within the global church. All tribes are to engage in prayers of unity, reconciliation, and honor. Reference Ephesians 4:1-3. Specific assignments are listed below.</p>
+                        <Button variant="outline" className="mt-4" asChild>
+                            <Link href="/war-room-protocols">
+                                <BookOpen className="mr-2 h-4 w-4" />
+                                Read Protocols
+                            </Link>
+                        </Button>
                     </CardContent>
                 </Card>
                  <Card>
@@ -126,5 +132,3 @@ export default function WarRoomPage() {
     </div>
   )
 }
-
-    
