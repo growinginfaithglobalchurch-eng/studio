@@ -18,22 +18,24 @@ import {
 } from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Checkbox } from '@/components/ui/checkbox';
+import { FamilyGroup } from '@/lib/types';
 
-type FamilyGroup = {
-    id: number;
-    fatherId: number;
-    motherId: number;
-    childrenIds: number[];
-    monthlyFocus: string;
-};
 
 const initialFamilyGroups: FamilyGroup[] = [
     {
         id: 1,
-        fatherId: 1,
-        motherId: 2,
-        childrenIds: [3, 4],
+        members: {
+            fatherId: 1,
+            motherId: 2,
+            childrenIds: [3, 4],
+        },
+        familyPractices: {
+            prayerMoments: true,
+            scriptureDiscussion: false,
+            blessingDeclarations: true,
+        },
         monthlyFocus: 'Unity & Vision',
+        unityScore: 'Active',
     }
 ];
 
@@ -71,10 +73,18 @@ export default function AdminFamilyHubPage() {
 
         const newFamilyGroup: FamilyGroup = {
             id: newId,
-            fatherId: parseInt(newGroup.fatherId, 10),
-            motherId: parseInt(newGroup.motherId, 10),
-            childrenIds: childrenIds,
-            monthlyFocus: newGroup.monthlyFocus || 'Not Set'
+            members: {
+                fatherId: parseInt(newGroup.fatherId, 10),
+                motherId: parseInt(newGroup.motherId, 10),
+                childrenIds: childrenIds,
+            },
+            familyPractices: {
+                prayerMoments: false,
+                scriptureDiscussion: false,
+                blessingDeclarations: false,
+            },
+            monthlyFocus: newGroup.monthlyFocus || 'Not Set',
+            unityScore: 'Inactive',
         };
 
         setFamilyGroups(prev => [newFamilyGroup, ...prev]);
@@ -136,9 +146,9 @@ export default function AdminFamilyHubPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {familyGroups.map(group => {
-                        const father = getUserById(group.fatherId);
-                        const mother = getUserById(group.motherId);
-                        const children = group.childrenIds.map(id => getUserById(id)).filter(Boolean);
+                        const father = getUserById(group.members.fatherId);
+                        const mother = getUserById(group.members.motherId);
+                        const children = group.members.childrenIds.map(id => getUserById(id)).filter(Boolean);
                         
                         return (
                             <div key={group.id} className="rounded-lg border p-4">

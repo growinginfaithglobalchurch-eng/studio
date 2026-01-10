@@ -53,9 +53,11 @@ export type Declaration = {
 
 export type CalendarEvent = {
   type: string;
+  description: string;
   startDate: any;
   endDate: any;
-  completed: boolean;
+  global: boolean;
+  assignedUsers: string[];
 };
 
 export type GrowthMetrics = {
@@ -75,7 +77,18 @@ export type FamilyPractices = {
     prayerMoments: boolean;
     scriptureDiscussion: boolean;
     blessingDeclarations: boolean;
+};
+
+export type FamilyGroup = {
+    id: number;
+    members: {
+        fatherId: number;
+        motherId: number;
+        childrenIds: number[];
+    };
+    familyPractices: FamilyPractices;
     monthlyFocus: string;
+    unityScore: 'Active' | 'Inactive';
 };
 
 // This replaces the previous simple User type
@@ -89,11 +102,9 @@ export type User = {
   declarations?: Declaration[];
   calendarEvents?: CalendarEvent[];
   growthMetrics: GrowthMetrics;
-  familyGroup?: {
-    members: string[];
-    familyPractices: FamilyPractices;
-    unityScore: 'Active' | 'Inactive';
-  };
+  familyGroup?: FamilyGroup;
   kidsProfile?: KidsProfile;
   avatar?: ImagePlaceholder; // Keeping this for UI consistency
+  location?: string; // from old model
+  name: string; // from old model
 };

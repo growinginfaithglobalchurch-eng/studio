@@ -8,19 +8,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { communityUsers } from "@/lib/data";
 import { Home, CheckCircle, Heart, BookOpen, Sparkles, Fingerprint } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { FamilyGroup } from "@/lib/types";
 
-const familyGroup = {
-    groupId: "FG-2024-AB789",
-    fatherId: 1,
-    motherId: 2,
-    childrenIds: [3, 4],
+const familyGroup: FamilyGroup = {
+    id: 1,
+    members: {
+        fatherId: 1,
+        motherId: 2,
+        childrenIds: [3, 4],
+    },
     familyPractices: {
         prayerMoments: true,
         scriptureDiscussion: false,
         blessingDeclarations: true,
     },
-    unityScore: "Active",
-    monthlyFocus: "Unity & Vision"
+    monthlyFocus: "Unity & Vision",
+    unityScore: 'Active',
 };
 
 const practiceItems = [
@@ -40,9 +43,9 @@ export default function FamilyHubPage() {
         // In a real app, you'd update this state in Firebase
     };
     
-    const father = communityUsers.find(u => u.id === familyGroup.fatherId);
-    const mother = communityUsers.find(u => u.id === familyGroup.motherId);
-    const children = familyGroup.childrenIds.map(id => communityUsers.find(u => u.id === id)).filter(Boolean);
+    const father = communityUsers.find(u => u.id === familyGroup.members.fatherId);
+    const mother = communityUsers.find(u => u.id === familyGroup.members.motherId);
+    const children = familyGroup.members.childrenIds.map(id => communityUsers.find(u => u.id === id)).filter(Boolean);
 
     const familyMembers = [
         ...(father ? [{ ...father, role: 'Father' }] : []),
@@ -108,7 +111,7 @@ export default function FamilyHubPage() {
                             <CardTitle className="flex items-center gap-2"><Fingerprint className="h-5 w-5 text-accent"/> Group ID</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="font-mono text-sm text-center bg-secondary text-foreground p-2 rounded-md">{familyGroup.groupId}</p>
+                            <p className="font-mono text-sm text-center bg-secondary text-foreground p-2 rounded-md">FG-{familyGroup.id}</p>
                         </CardContent>
                     </Card>
                     <Card>
