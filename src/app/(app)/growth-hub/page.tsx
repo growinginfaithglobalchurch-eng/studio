@@ -13,7 +13,7 @@ const dailyPractices = [
     icon: <Sunrise className="h-6 w-6 text-accent" />,
     title: "Morning Alignment & Declaration",
     description: "Start your day by aligning your spirit with God's will and declaring His promises: 'Glory, power, immortality is my portion, now and forever amen.'",
-    href: "/devotionals",
+    href: "#",
     cta: "Declare Now"
   },
   {
@@ -68,18 +68,23 @@ export default function FaithGrowthHubPage() {
     });
     // In a real app, this would update user progress in Firebase.
   };
-
-  const handleLogSpeech = () => {
-    toast({
-        title: "Speech Logged!",
-        description: `Your declaration of faith has been noted. Keep speaking life!`
-    });
-  };
-
-  const handleActionClick = (practiceId: string) => {
-    if (practiceId === 'speech') {
-      handleLogSpeech();
+  
+  const handleActionClick = (practiceId: string, title: string) => {
+    let toastTitle = "Action Logged!";
+    let toastDescription = `Your action for "${title}" has been logged.`;
+    
+    if (practiceId === 'morning') {
+      toastTitle = "Declaration Made!";
+      toastDescription = "Your morning alignment has been declared in the spirit.";
+    } else if (practiceId === 'speech') {
+      toastTitle = "Speech Logged!";
+      toastDescription = `Your declaration of faith has been noted. Keep speaking life!`;
     }
+
+    toast({
+        title: toastTitle,
+        description: toastDescription,
+    });
   };
 
   return (
@@ -107,8 +112,8 @@ export default function FaithGrowthHubPage() {
                         <h3 className="font-bold text-lg text-card-foreground">{practice.title}</h3>
                         <p className="text-sm text-muted-foreground mt-1">{practice.description}</p>
                         <div className="mt-3 flex gap-2">
-                            {practice.id === 'speech' ? (
-                                <Button variant="outline" onClick={() => handleActionClick(practice.id)}>
+                            {practice.id === 'morning' || practice.id === 'speech' ? (
+                                <Button variant="outline" onClick={() => handleActionClick(practice.id, practice.title)}>
                                     {practice.cta}
                                 </Button>
                             ) : (
