@@ -48,7 +48,7 @@ export default function InternationalVisitorRegistrationPage() {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2"><Label htmlFor="fullName">Full Name</Label><Input id="fullName" required className="text-white" /></div>
-                                <div className="space-y-2"><Label>Gender</Label><Select required><SelectTrigger><SelectValue placeholder="Select gender" /></SelectTrigger><SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem><SelectItem value="other">Other</SelectItem></SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Gender</Label><Select required><SelectTrigger className="text-white"><SelectValue placeholder="Select gender" /></SelectTrigger><SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem><SelectItem value="other">Other</SelectItem></SelectContent></Select></div>
                                 <div className="space-y-2"><Label htmlFor="dob">Date of Birth</Label><Input id="dob" type="date" required className="text-white" /></div>
                                 <div className="space-y-2"><Label htmlFor="nationality">Nationality</Label><Input id="nationality" required className="text-white" /></div>
                                 <div className="space-y-2"><Label htmlFor="passportNumber">Passport Number</Label><Input id="passportNumber" required className="text-white" /></div>
@@ -78,7 +78,7 @@ export default function InternationalVisitorRegistrationPage() {
                                 <Label htmlFor="kingdomCitizen">Are you a Kingdom Citizen?</Label>
                             </div>
                             <div className="space-y-2"><Label htmlFor="kingdomID">Kingdom ID (if applicable)</Label><Input id="kingdomID" className="text-white" /></div>
-                            <div className="space-y-2"><Label>Tribe Preference</Label><Select><SelectTrigger><SelectValue placeholder="Select tribe" /></SelectTrigger><SelectContent><SelectItem value="eagle">Eagle</SelectItem><SelectItem value="lion">Lion</SelectItem><SelectItem value="marine">Marine</SelectItem><SelectItem value="all">All Tribes</SelectItem></SelectContent></Select></div>
+                            <div className="space-y-2"><Label>Tribe Preference</Label><Select><SelectTrigger className="text-white"><SelectValue placeholder="Select tribe" /></SelectTrigger><SelectContent><SelectItem value="eagle">Eagle</SelectItem><SelectItem value="lion">Lion</SelectItem><SelectItem value="marine">Marine</SelectItem><SelectItem value="all">All Tribes</SelectItem></SelectContent></Select></div>
                             <div className="space-y-2"><Label htmlFor="previousPrograms">Previous Programs Attended (comma-separated)</Label><Input id="previousPrograms" className="text-white" /></div>
                         </section>
 
@@ -89,11 +89,11 @@ export default function InternationalVisitorRegistrationPage() {
                                 <h2 className="text-xl font-bold font-headline text-black">Program Selection</h2>
                             </div>
                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-2"><Label>Program Track</Label><Select required><SelectTrigger><SelectValue placeholder="Select track" /></SelectTrigger><SelectContent><SelectItem value="leadership">Leadership</SelectItem><SelectItem value="warrior">Warrior</SelectItem><SelectItem value="family-youth">Family & Youth</SelectItem></SelectContent></Select></div>
-                                <div className="space-y-2"><Label>Desired Duration</Label><Select required><SelectTrigger><SelectValue placeholder="Select duration" /></SelectTrigger><SelectContent><SelectItem value="7-14">7-14 days</SelectItem><SelectItem value="15-30">15-30 days</SelectItem><SelectItem value="30+">30+ days</SelectItem></SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Program Track</Label><Select required><SelectTrigger className="text-white"><SelectValue placeholder="Select track" /></SelectTrigger><SelectContent><SelectItem value="leadership">Leadership</SelectItem><SelectItem value="warrior">Warrior</SelectItem><SelectItem value="family-youth">Family & Youth</SelectItem></SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Desired Duration</Label><Select required><SelectTrigger className="text-white"><SelectValue placeholder="Select duration" /></SelectTrigger><SelectContent><SelectItem value="7-14">7-14 days</SelectItem><SelectItem value="15-30">15-30 days</SelectItem><SelectItem value="30+">30+ days</SelectItem></SelectContent></Select></div>
                                 <div className="space-y-2"><Label htmlFor="startDate">Preferred Start Date</Label><Input id="startDate" type="date" required className="text-white" /></div>
                                 <div className="space-y-2"><Label htmlFor="endDate">Preferred End Date</Label><Input id="endDate" type="date" required className="text-white" /></div>
-                                <div className="space-y-2"><Label>Mode of Participation</Label><Select required><SelectTrigger><SelectValue placeholder="Select mode" /></SelectTrigger><SelectContent><SelectItem value="physical">Physical</SelectItem><SelectItem value="virtual">Virtual</SelectItem></SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Mode of Participation</Label><Select required><SelectTrigger className="text-white"><SelectValue placeholder="Select mode" /></SelectTrigger><SelectContent><SelectItem value="physical">Physical</SelectItem><SelectItem value="virtual">Virtual</SelectItem></SelectContent></Select></div>
                                 <div className="spacey-2"><Label>Primary Language</Label><Input defaultValue="English" className="text-white" /></div>
                             </div>
                              <div className="space-y-2"><Label htmlFor="dietaryRequirements">Dietary Requirements or Allergies</Label><Textarea id="dietaryRequirements" placeholder="e.g., Vegetarian, gluten-free" className="text-white" /></div>
@@ -106,9 +106,9 @@ export default function InternationalVisitorRegistrationPage() {
                                 <h2 className="text-xl font-bold font-headline text-black">Document Uploads</h2>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div className="space-y-2"><Label htmlFor="passportCopy">Passport Copy</Label><Input id="passportCopy" type="file" required /></div>
-                                <div className="space-y-2"><Label htmlFor="visaDocuments">Visa Documents (if applicable)</Label><Input id="visaDocuments" type="file" /></div>
-                                <div className="space-y-2"><Label htmlFor="profilePhoto">Profile Photo</Label><Input id="profilePhoto" type="file" required /></div>
+                                <div className="space-y-2"><Label htmlFor="passportCopy">Passport Copy</Label><Input id="passportCopy" type="file" required className="text-white" /></div>
+                                <div className="space-y-2"><Label htmlFor="visaDocuments">Visa Documents (if applicable)</Label><Input id="visaDocuments" type="file" className="text-white" /></div>
+                                <div className="space-y-2"><Label htmlFor="profilePhoto">Profile Photo</Label><Input id="profilePhoto" type="file" required className="text-white" /></div>
                             </div>
                         </section>
 
