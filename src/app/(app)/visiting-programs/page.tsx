@@ -24,7 +24,7 @@ const visitorTypes = [
             "Information on local housing options.",
             "Structured daily and weekly schedules."
         ],
-        applyLink: "/contact?type=visiting-program&visitor=international"
+        applyLink: "/contact?type=visiting-program"
     },
     {
         icon: <Users className="h-8 w-8 text-accent" />,
@@ -35,7 +35,7 @@ const visitorTypes = [
             "Focused on deep community integration.",
             "Opportunities for ongoing mentorship."
         ],
-        applyLink: "/contact?type=visiting-program&visitor=local"
+        applyLink: "/contact?type=visiting-program"
     }
 ];
 
@@ -45,12 +45,12 @@ export default function VisitingProgramsPage() {
             <div className="text-center">
                 <div className="flex items-center justify-center gap-3 mb-2">
                     <Plane className="h-8 w-8 text-accent" />
-                    <h1 className="text-4xl font-headline font-bold text-black">Visiting Programs</h1>
+                    <h1 className="text-4xl font-headline font-bold text-foreground">Visiting Programs</h1>
                 </div>
-                <p className="text-xl text-black">
+                <p className="text-xl text-foreground">
                   Experiencing the Kingdom Firsthand
                 </p>
-                <p className="mt-4 text-lg italic text-black">“Go therefore and make disciples of all nations…” — Matthew 28:19</p>
+                <p className="mt-4 text-lg italic text-foreground">“Go therefore and make disciples of all nations…” — Matthew 28:19</p>
             </div>
 
             <Card>
