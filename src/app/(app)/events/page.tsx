@@ -62,13 +62,13 @@ export default function EventsPage() {
       
       <section>
         <h2 className="text-2xl font-headline font-bold mb-4">Consecration Week</h2>
-        <Card className="bg-secondary/30">
+        <Card className="bg-card text-card-foreground">
           <CardHeader>
             <div className="flex items-center gap-3">
               <Cross className="h-6 w-6 text-accent" />
-              <CardTitle className="font-headline text-2xl">{consecrationWeek.title}</CardTitle>
+              <CardTitle className="font-headline text-2xl">Global Consecration Week</CardTitle>
             </div>
-            <CardDescription>{consecrationWeek.description}</CardDescription>
+            <CardDescription className="text-muted-foreground">A dedicated week for the entire community to align with God through fasting, prayer, and focused study.</CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground mb-4">
@@ -77,14 +77,14 @@ export default function EventsPage() {
             <Accordion type="single" collapsible className="w-full">
               {consecrationWeek.schedule.map((day) => (
                 <AccordionItem value={day.day} key={day.day}>
-                  <AccordionTrigger className="text-lg font-semibold">{day.day}: <span className="ml-2 font-normal text-muted-foreground">{day.theme}</span></AccordionTrigger>
-                  <AccordionContent className="p-4 bg-card rounded-md">
+                  <AccordionTrigger className="text-lg font-semibold text-card-foreground">{day.day}: <span className="ml-2 font-normal text-muted-foreground">{day.theme}</span></AccordionTrigger>
+                  <AccordionContent className="p-4 bg-secondary/10 rounded-md">
                     <ul className="space-y-2">
                       {day.points.map((point, index) => (
                         <li key={index} className="flex items-start gap-3">
                           <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
                           <div>
-                            <p className="font-semibold text-foreground">{point.title}</p>
+                            <p className="font-semibold text-card-foreground">{point.title}</p>
                             <p className="text-sm text-muted-foreground">{point.scripture}</p>
                           </div>
                         </li>
