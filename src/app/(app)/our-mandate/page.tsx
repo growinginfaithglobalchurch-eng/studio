@@ -93,7 +93,7 @@ export default function OurMandatePage() {
                                 <div className="bg-green-500/20 text-green-400 rounded-full p-1">
                                     <CheckCircle className="h-5 w-5" />
                                 </div>
-                                <span className="font-semibold text-foreground">{point}</span>
+                                <span className="font-semibold text-black">{point}</span>
                             </li>
                         ))}
                     </ul>
