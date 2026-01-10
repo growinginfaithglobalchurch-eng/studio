@@ -140,7 +140,7 @@ export function AppSidebarNav() {
       
       <Accordion type="multiple" defaultValue={['community', 'equipping', 'resources', 'admin']} className="w-full">
         <AccordionItem value="community" className="border-b-0">
-          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180 hover:bg-sidebar-muted")}>
+          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline hover:bg-sidebar-muted", "data-[state=open]:bg-sidebar-muted")}>
             <Users className="h-4 w-4" />
             Community & Growth
           </AccordionTrigger>
@@ -152,7 +152,7 @@ export function AppSidebarNav() {
         </AccordionItem>
 
          <AccordionItem value="equipping" className="border-b-0">
-          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180 hover:bg-sidebar-muted")}>
+          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline hover:bg-sidebar-muted", "data-[state=open]:bg-sidebar-muted")}>
             <GraduationCap className="h-4 w-4" />
             Equipping Centers
           </AccordionTrigger>
@@ -164,7 +164,7 @@ export function AppSidebarNav() {
         </AccordionItem>
         
          <AccordionItem value="resources" className="border-b-0">
-          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180 hover:bg-sidebar-muted")}>
+          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline hover:bg-sidebar-muted", "data-[state=open]:bg-sidebar-muted")}>
             <Library className="h-4 w-4" />
             Content Library
           </AccordionTrigger>
@@ -176,8 +176,9 @@ export function AppSidebarNav() {
         </AccordionItem>
 
          <AccordionItem value="admin" className="border-b-0">
-          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline [&[data-state=open]>svg]:rotate-180 hover:bg-sidebar-muted",
-           (pathname.startsWith('/admin')) && 'bg-sidebar-muted text-sidebar-foreground'
+          <AccordionTrigger className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:no-underline hover:bg-sidebar-muted",
+           (pathname.startsWith('/admin')) && 'bg-sidebar-muted text-sidebar-foreground',
+           "data-[state=open]:bg-sidebar-muted"
           )}>
             <Shield className="h-4 w-4" />
             Admin
