@@ -166,7 +166,7 @@ export default function ChatPage() {
               <div className="relative">
                 <Input 
                     placeholder="Type a message..." 
-                    className="pr-24"
+                    className="pr-24 text-white"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyDown={handleKeyPress}
