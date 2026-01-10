@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { ClipboardList, Users, Shield, Check, Award, Eye } from 'lucide-react';
+import { ClipboardList, Users, Shield, Check, Award, Eye, Gavel } from 'lucide-react';
 import { communityUsers } from '@/lib/data';
 import {
   Table,
@@ -35,6 +35,7 @@ const initialVisitors = [
         mentor: communityUsers[0].name,
         status: "Active",
         warRoomAccess: false,
+        courtAccess: false,
     },
     {
         id: 2,
@@ -44,6 +45,7 @@ const initialVisitors = [
         mentor: communityUsers[1].name,
         status: "Pending",
         warRoomAccess: false,
+        courtAccess: false,
     },
     {
         id: 3,
@@ -53,6 +55,7 @@ const initialVisitors = [
         mentor: communityUsers[1].name,
         status: "Completed",
         warRoomAccess: true,
+        courtAccess: false,
     }
 ];
 
@@ -68,6 +71,14 @@ export default function AdminVisitorsPage() {
         });
     };
     
+    const handleApproveCourtAccess = (visitorId: number) => {
+        setVisitors(prev => prev.map(v => v.id === visitorId ? { ...v, courtAccess: true } : v));
+        toast({
+            title: 'Access Granted!',
+            description: `Courts of Heaven access has been approved for the selected visitor.`,
+        });
+    };
+
     const handleViewParticipation = (visitorName: string) => {
         toast({
             title: 'Loading Report',
@@ -120,6 +131,7 @@ export default function AdminVisitorsPage() {
                                 <TableHead>Mentor</TableHead>
                                 <TableHead>Status</TableHead>
                                 <TableHead>War Room Access</TableHead>
+                                <TableHead>Court Access</TableHead>
                                 <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -148,6 +160,18 @@ export default function AdminVisitorsPage() {
                                         >
                                             <Shield className="mr-2 h-4 w-4" />
                                             {visitor.warRoomAccess ? 'Access Approved' : 'Approve War Room'}
+                                        </Button>
+                                    </TableCell>
+                                     <TableCell>
+                                        <Button
+                                            size="sm"
+                                            variant={visitor.courtAccess ? "secondary" : "default"}
+                                            onClick={() => handleApproveCourtAccess(visitor.id)}
+                                            disabled={visitor.courtAccess}
+                                            className="w-40"
+                                        >
+                                            <Gavel className="mr-2 h-4 w-4" />
+                                            {visitor.courtAccess ? 'Access Approved' : 'Approve Court'}
                                         </Button>
                                     </TableCell>
                                     <TableCell className="text-right">
