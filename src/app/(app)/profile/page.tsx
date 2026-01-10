@@ -69,7 +69,7 @@ export default function ProfilePage() {
             </div>
             <Button variant="outline" size="icon" className="ml-auto" asChild>
               <Link href="/profile/edit">
-                <Edit className="h-4 w-4 text-accent" />
+                <Edit className="h-4 w-4" />
                 <span className="sr-only">Edit Profile</span>
               </Link>
             </Button>
