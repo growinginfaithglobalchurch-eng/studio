@@ -88,10 +88,10 @@ export default function FaithGrowthHubPage() {
                         <h3 className="font-bold text-lg text-black">{practice.title}</h3>
                         <p className="text-sm text-black mt-1">{practice.description}</p>
                         <div className="mt-3 flex gap-2">
-                            <Button asChild variant="outline">
+                            <Button asChild variant="outline" className="text-white">
                                 <Link href={practice.href}>{practice.cta}</Link>
                             </Button>
-                            <Button variant="ghost" onClick={() => handleComplete(practice.title)}>
+                            <Button variant="ghost" className="text-white" onClick={() => handleComplete(practice.title)}>
                                 <Check className="mr-2 h-4 w-4" />
                                 Mark as Complete
                             </Button>
