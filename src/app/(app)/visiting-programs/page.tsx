@@ -113,13 +113,18 @@ export default function VisitingProgramsPage() {
                         </Button>
                     </div>
                 </Card>
-                 <Card>
+                 <Card className="flex flex-col">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2"><User className="h-5 w-5 text-accent"/> Local Visitors</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="flex-grow">
                         <p className="text-muted-foreground">From within the country with easier access to physical programs, focused on deep spiritual integration and community mentorship.</p>
                     </CardContent>
+                    <div className="p-6 pt-0">
+                         <Button asChild>
+                            <Link href="/contact?type=visiting-program">Apply Now</Link>
+                        </Button>
+                    </div>
                 </Card>
             </div>
 
