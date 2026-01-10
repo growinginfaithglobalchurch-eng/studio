@@ -8,6 +8,7 @@ import { Handshake, UserPlus, Music, Music2, Video, Heart, Wrench, DollarSign, H
 import React from "react";
 import Link from 'next/link';
 import { slugify } from '@/lib/utils';
+import { useToast } from "@/hooks/use-toast";
 
 
 export const iconMap: { [key: string]: React.ReactNode } = {
@@ -28,6 +29,15 @@ export const iconMap: { [key: string]: React.ReactNode } = {
 
 
 export default function DepartmentsPage() {
+  const { toast } = useToast();
+
+  const handleJoin = (departmentName: string) => {
+    toast({
+      title: "Request to Join Sent!",
+      description: `Your request to join the ${departmentName} has been submitted.`,
+    });
+  };
+  
   return (
     <div className="space-y-8">
       <div>
@@ -62,7 +72,7 @@ export default function DepartmentsPage() {
                         View
                     </Link>
                 </Button>
-                <Button className="w-full text-white" variant="outline">
+                <Button className="w-full text-white" variant="outline" onClick={() => handleJoin(dept.name)}>
                     <UserPlus className="mr-2 h-4 w-4" />
                     Join 
                 </Button>

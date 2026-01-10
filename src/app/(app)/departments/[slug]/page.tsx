@@ -9,11 +9,21 @@ import { slugify, unslugify } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Home, MessageSquare, Calendar, Megaphone, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 export default function DepartmentDetailPage() {
     const params = useParams();
+    const { toast } = useToast();
     const departmentName = unslugify(params.slug as string);
     const department = departments.find(d => d.name === departmentName);
+
+    const handleJoin = () => {
+        if (!department) return;
+        toast({
+            title: 'Request to Join Sent!',
+            description: `Your request to join the ${department.name} has been submitted.`
+        });
+    };
 
     if (!department) {
         return (
@@ -34,7 +44,7 @@ export default function DepartmentDetailPage() {
                             <CardTitle className="font-headline text-3xl">{department.name}</CardTitle>
                             <CardDescription className="text-lg mt-1">{department.description}</CardDescription>
                         </div>
-                         <Button className="ml-auto">
+                         <Button className="ml-auto" onClick={handleJoin}>
                             <UserPlus className="mr-2 h-4 w-4" />
                             Join Department
                         </Button>
