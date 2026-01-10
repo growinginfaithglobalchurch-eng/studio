@@ -70,6 +70,7 @@ const communityNav = [
   { href: '/visitor-training-program', label: 'Visitor Training', icon: <GraduationCap className="h-4 w-4" /> },
   { href: '/kids-and-youth', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
   { href: '/church-integration', label: 'Church Integration', icon: <Handshake className="h-4 w-4" /> },
+  { href: '/our-mandate', label: 'Our Mandate', icon: <BookMarked className="h-4 w-4" /> },
 ];
 
 const equippingNav = [
