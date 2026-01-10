@@ -84,7 +84,9 @@ export default function ChurchIntegrationPage() {
                                 </ul>
                             </CardContent>
                             <div className="p-6 pt-0">
-                                <Button>Inquire About Partnership</Button>
+                                <Button asChild>
+                                    <Link href="/contact">Inquire About Partnership</Link>
+                                </Button>
                             </div>
                         </Card>
                     ))}
