@@ -140,25 +140,6 @@ export default function LandingPage() {
                 priority
                 data-ai-hint="worship congregation"
               />
-              
-              <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
-                <div className="container px-4 md:px-6">
-                  <h1 className="font-headline text-4xl font-bold tracking-wide text-white sm:text-5xl md:text-6xl lg:text-7xl">
-                    Deeper Faith. Global Connection.
-                  </h1>
-                  <p className="mx-auto mt-6 max-w-3xl text-lg text-white/90 md:text-xl">
-                    Connecting Faith. Activating Purpose. Impacting the World.
-                  </p>
-                  <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                    <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                      <Link href="/signup">Join the Community</Link>
-                    </Button>
-                    <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10">
-                      <Link href="/#features">Learn More</Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
             </AspectRatio>
           </div>
         </section>
