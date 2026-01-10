@@ -19,6 +19,8 @@ import {
   Sparkles,
   Swords,
   Globe,
+  Zap,
+  RefreshCw,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -140,11 +142,52 @@ export default function LandingPage() {
                 priority
                 data-ai-hint="worship congregation"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
+              <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
+                <div className="container px-4 md:px-6">
+                  <h1 className="font-headline text-4xl font-bold tracking-wide text-white sm:text-5xl md:text-6xl lg:text-7xl">
+                    Deeper Faith. Global Connection.
+                  </h1>
+                  <p className="mx-auto mt-6 max-w-3xl text-lg text-white/90 md:text-xl">
+                    An interactive spiritual ecosystem to grow in faith, access transformational resources, and live out your divine purpose.
+                  </p>
+                  <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+                    <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+                      <Link href="/signup">Get Started</Link>
+                    </Button>
+                    <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10">
+                      <Link href="/dashboard">Explore Platform</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </AspectRatio>
           </div>
         </section>
+
+        <section className="py-12 md:py-20 text-center">
+            <div className="container px-4 md:px-6">
+                <p className="font-semibold text-accent tracking-wider uppercase">Welcome to</p>
+                <h2 className="font-headline text-4xl font-bold tracking-wide sm:text-5xl text-foreground mt-2">
+                    The Year of Restoration & Acceleration
+                </h2>
+                <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">
+                    This is a season of divine recovery and supernatural advancement. God is restoring what was lost and accelerating His promises in your life. Position yourself for an unprecedented move of the Spirit!
+                </p>
+                <div className="flex justify-center gap-6 mt-6">
+                    <div className="flex items-center gap-2 text-foreground">
+                        <RefreshCw className="h-5 w-5 text-accent"/>
+                        <span>Restoration</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-foreground">
+                        <Zap className="h-5 w-5 text-accent"/>
+                        <span>Acceleration</span>
+                    </div>
+                </div>
+            </div>
+        </section>
         
-        <section id="features" className="py-12 md:py-24">
+        <section id="features" className="py-12 md:py-24 bg-secondary">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
               <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
@@ -171,7 +214,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="bg-secondary py-12 md:py-24">
+        <section className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
              <div className="mb-12 text-center">
                  <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
@@ -193,7 +236,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="py-12 md:py-24">
+        <section className="py-12 md:py-24 bg-secondary">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
               <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
@@ -222,7 +265,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="founders" className="py-12 md:py-24 bg-secondary">
+        <section id="founders" className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
               <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
