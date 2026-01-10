@@ -103,7 +103,7 @@ export default function GlobalPrayerHubPage() {
                      <Accordion type="single" collapsible className="w-full">
                         {regionalTowers.map((tower) => (
                             <AccordionItem value={tower.region} key={tower.region}>
-                                <AccordionTrigger className="text-lg font-semibold hover:no-underline text-foreground">
+                                <AccordionTrigger className="text-lg font-semibold hover:no-underline text-card-foreground">
                                    {tower.region}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-4 bg-secondary/30 rounded-md">
