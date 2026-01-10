@@ -49,8 +49,8 @@ export default function MinistriesPage() {
                     </div>
                 </CardHeader>
                 <CardContent>
-                  <Button asChild variant="outline" className="text-white">
-                    <Link href={item.href}>{item.cta}</Link>
+                  <Button asChild variant="outline">
+                    <Link href={item.href} className="text-white">{item.cta}</Link>
                   </Button>
                 </CardContent>
              </Card>
@@ -68,8 +68,8 @@ export default function MinistriesPage() {
                 </div>
             </CardHeader>
             <CardContent>
-                <Button variant="outline" asChild className="text-white">
-                    <Link href="/contact">Contact Us for Partnership</Link>
+                <Button variant="outline" asChild>
+                    <Link href="/church-integration" className="text-white">Contact Us for Partnership</Link>
                 </Button>
             </CardContent>
         </Card>
