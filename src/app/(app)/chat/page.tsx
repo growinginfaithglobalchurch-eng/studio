@@ -18,7 +18,7 @@ import {
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 
-const mockMessages = [
+const initialMessages = [
   {
     id: 1,
     sender: 'Jane Smith',
@@ -50,6 +50,30 @@ const currentUser = {
 
 export default function ChatPage() {
   const [selectedUser, setSelectedUser] = useState(communityUsers[1]);
+  const [messages, setMessages] = useState(initialMessages);
+  const [newMessage, setNewMessage] = useState('');
+
+  const handleSendMessage = () => {
+    if (newMessage.trim() === '') return;
+
+    const message = {
+        id: messages.length + 1,
+        sender: 'You',
+        text: newMessage,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        isCurrentUser: true,
+    };
+
+    setMessages([...messages, message]);
+    setNewMessage('');
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[350px_1fr] h-[calc(100vh-8rem)] gap-4">
@@ -113,7 +137,7 @@ export default function ChatPage() {
             </div>
 
             <div className="flex-grow p-4 space-y-4 overflow-y-auto bg-secondary/40">
-                {mockMessages.map(msg => (
+                {messages.map(msg => (
                     <div key={msg.id} className={cn("flex items-end gap-2", msg.isCurrentUser ? "justify-end" : "justify-start")}>
                         {!msg.isCurrentUser && (
                             <Avatar className="h-8 w-8">
@@ -140,12 +164,18 @@ export default function ChatPage() {
 
             <div className="p-4 border-t bg-card">
               <div className="relative">
-                <Input placeholder="Type a message..." className="pr-24" />
+                <Input 
+                    placeholder="Type a message..." 
+                    className="pr-24"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyDown={handleKeyPress}
+                />
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
                    <Button variant="ghost" size="icon">
                       <Paperclip className="h-5 w-5 text-black/60" />
                    </Button>
-                   <Button size="sm" className="ml-2">
+                   <Button size="sm" className="ml-2" onClick={handleSendMessage}>
                      <Send className="h-4 w-4 mr-2" /> Send
                    </Button>
                 </div>
