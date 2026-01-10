@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { communityUsers, friends } from '@/lib/data';
 import { UserPlus, Users, UserCheck, MessageSquare } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ConnectPage() {
   // Filter out the first user to simulate not seeing yourself in the list
@@ -81,9 +82,11 @@ export default function ConnectPage() {
                             <p className="text-sm text-black/60">{user.location}</p>
                         </div>
                     </div>
-                     <Button className="mt-4 w-full">
-                        <MessageSquare className="mr-2 h-4 w-4" />
-                        Message
+                     <Button className="mt-4 w-full" asChild>
+                        <Link href="/chat">
+                            <MessageSquare className="mr-2 h-4 w-4" />
+                            Message
+                        </Link>
                       </Button>
                   </Card>
                 ))
