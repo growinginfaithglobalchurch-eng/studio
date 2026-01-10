@@ -36,11 +36,11 @@ export default function InternationalVisitorRegistrationPage() {
                     <div className="rounded-lg overflow-hidden">
                         <AspectRatio ratio={16 / 9}>
                             <Image
-                                src={bannerImage.imageUrl}
+                                src={"https://images.unsplash.com/photo-1528041401798-ffb747bd33a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkaXZlcnNlJTIwY29tbXVuaXR5fGVufDB8fHx8MTc2NzkyNzQwMnww&ixlib=rb-4.1.0&q=80&w=1080"}
                                 alt="International Visitors"
                                 fill
                                 className="object-cover"
-                                data-ai-hint={bannerImage.imageHint}
+                                data-ai-hint={"diverse community"}
                             />
                         </AspectRatio>
                     </div>
