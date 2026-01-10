@@ -87,7 +87,7 @@ export default function WarRoomPage() {
                                     <p className="font-semibold text-foreground">{item.title}</p>
                                     <p className="text-sm text-muted-foreground">{item.description}</p>
                                 </div>
-                                <Button variant="secondary" size="sm">Engage</Button>
+                                <Button size="sm">Engage</Button>
                             </div>
                         ))}
                     </CardContent>
