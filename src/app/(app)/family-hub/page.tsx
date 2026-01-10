@@ -112,7 +112,7 @@ export default function FamilyHubPage() {
                                     </Avatar>
                                     <div>
                                         <p className="font-semibold text-foreground">{member.name}</p>
-                                        <p className="text-xs text-muted-foreground">{index === 0 ? 'Father' : index === 1 ? 'Mother' : 'Child'}</p>
+                                        <p className="text-xs text-muted-foreground">{index === 0 ? 'Father' : index === 1 ? 'Mother' : 'Child'} (ID: {member.id})</p>
                                     </div>
                                 </div>
                             ))}
