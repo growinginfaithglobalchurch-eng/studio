@@ -178,13 +178,25 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
           Dashboard
         </Link>
         
-        <div className="px-3 py-2 text-xs font-medium text-sidebar-muted-foreground">Daily Practices</div>
-        {dailyPracticesNav.map(createNavLink)}
-
-        <div className="px-3 py-2 text-xs font-medium text-sidebar-muted-foreground">Warfare & Governance</div>
-        {warfareNav.map(createNavLink)}
-      
       <Accordion type="single" collapsible className="w-full" defaultValue={pathname.startsWith('/admin') ? 'admin' : ''}>
+         <AccordionItem value="practices" className="border-b-0">
+          {createAccordionTrigger("Daily Practices", <CheckSquare className="h-4 w-4" />, "/growth-hub")}
+          <AccordionContent className="pl-4 pb-0">
+            <div className="flex flex-col space-y-1">
+              {dailyPracticesNav.map(createNavLink)}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        
+         <AccordionItem value="warfare" className="border-b-0">
+          {createAccordionTrigger("Warfare", <Shield className="h-4 w-4" />, "/warfare")}
+          <AccordionContent className="pl-4 pb-0">
+            <div className="flex flex-col space-y-1">
+              {warfareNav.map(createNavLink)}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
         <AccordionItem value="community" className="border-b-0">
           {createAccordionTrigger("Community & Growth", <Users className="h-4 w-4" />, "/")}
           <AccordionContent className="pl-4 pb-0">
@@ -265,5 +277,6 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
     </nav>
   );
 }
+
 
 
