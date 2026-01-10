@@ -3,14 +3,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, MessageCircle, Users, User, Handshake } from 'lucide-react';
+import { Home, CheckSquare, Shield, Globe, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/dashboard', icon: <Home className="h-5 w-5" />, label: 'Home' },
-  { href: '/connect', icon: <Handshake className="h-5 w-5" />, label: 'Connect' },
-  { href: '/chat', icon: <MessageCircle className="h-5 w-5" />, label: 'Chat' },
-  { href: '/profile', icon: <User className="h-5 w-5" />, label: 'Me' },
+  { href: '/dashboard', icon: <Home className="h-5 w-5" />, label: 'Dashboard' },
+  { href: '/growth-hub', icon: <CheckSquare className="h-5 w-5" />, label: 'Practices' },
+  { href: '/war-room', icon: <Shield className="h-5 w-5" />, label: 'War Room' },
+  { href: '/visiting-programs', icon: <Globe className="h-5 w-5" />, label: 'Programs' },
+  { href: '/certificates', icon: <Award className="h-5 w-5" />, label: 'Certs' },
 ];
 
 export function AppBottomNav() {
@@ -18,14 +19,14 @@ export function AppBottomNav() {
 
   return (
     <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-card border-t border-border md:hidden">
-      <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+      <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
         {navItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             className={cn(
               'inline-flex flex-col items-center justify-center px-5 hover:bg-muted text-muted-foreground',
-              (pathname === item.href) && 'text-primary'
+              (pathname.startsWith(item.href) && (item.href !== '/dashboard' || pathname === '/dashboard')) && 'text-primary'
             )}
           >
             {item.icon}
