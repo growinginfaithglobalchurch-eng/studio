@@ -33,6 +33,7 @@ import {
   School,
   LayoutDashboard,
   Bell,
+  Store,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -50,6 +51,7 @@ const mainNav = [
   { href: '/growth-hub', label: 'Growth Hub', icon: <TrendingUp className="h-4 w-4" /> },
   { href: '/devotionals', label: 'Devotionals', icon: <BookOpen className="h-4 w-4" /> },
   { href: '/resources', label: 'Resources', icon: <Library className="h-4 w-4" /> },
+  { href: '/store', label: 'Store', icon: <Store className="h-4 w-4" /> },
   { href: '/prayer', label: 'Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
   { href: '/live', label: 'Live Sessions', icon: <Clapperboard className="h-4 w-4" /> },
   { href: '/events', label: 'Events', icon: <Calendar className="h-4 w-4" /> },

@@ -6,6 +6,7 @@ import { liveSessions } from '@/lib/data';
 import { Clapperboard, PlayCircle } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 export default function LivePage() {
   return (
@@ -52,10 +53,15 @@ export default function LivePage() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-headline font-bold mb-4">Replay Library: On-Demand Access</h2>
+        <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-headline font-bold">Replay Library: On-Demand Access</h2>
+            <Button asChild>
+                <Link href="/store">View All Plans</Link>
+            </Button>
+        </div>
          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {liveSessions.replays.map((replay) => (
-                <Link key={replay.id} href={liveSessions.current.videoUrl} target="_blank" rel="noopener noreferrer">
+                <Link key={replay.id} href="/store">
                     <Card className="group overflow-hidden">
                         <CardContent className="p-0">
                         <AspectRatio ratio={16/9} className="relative">
