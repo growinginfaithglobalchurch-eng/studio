@@ -246,7 +246,9 @@ export default function SpiritWarfarePage() {
             </CardHeader>
             <CardContent>
                  <p className="text-muted-foreground mb-4">The War Room is a portal for war against all dark forces and their kingdom, traveling through time, removing evil, events, curses, accidents, death, poverty, divorces etc.</p>
-                 <Button variant="secondary">Enter the War Room</Button>
+                 <Button asChild variant="secondary">
+                    <Link href="/war-room">Enter the War Room</Link>
+                 </Button>
             </CardContent>
         </Card>
         <Card>
@@ -271,5 +273,3 @@ export default function SpiritWarfarePage() {
     </div>
   );
 }
-
-    
