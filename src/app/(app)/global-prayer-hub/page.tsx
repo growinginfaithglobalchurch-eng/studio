@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -83,7 +84,7 @@ export default function GlobalPrayerHubPage() {
                 <CardContent className="space-y-4">
                     {globalDirectives.map((directive) => (
                         <div key={directive.title} className="p-4 rounded-lg border bg-card/50">
-                            <h3 className="font-bold text-lg text-foreground">{directive.title}</h3>
+                            <h3 className="font-bold text-lg text-card-foreground">{directive.title}</h3>
                             <p className="text-sm text-muted-foreground mt-1">{directive.description}</p>
                             <p className="text-xs text-accent font-mono mt-2">{directive.scripture}</p>
                         </div>
