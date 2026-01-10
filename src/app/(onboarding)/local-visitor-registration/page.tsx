@@ -48,7 +48,7 @@ export default function LocalVisitorRegistrationPage() {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2"><Label htmlFor="fullName">Full Name</Label><Input id="fullName" required className="text-white" /></div>
-                                <div className="space-y-2"><Label>Gender</Label><Select required><SelectTrigger><SelectValue placeholder="Select gender" /></SelectTrigger><SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem><SelectItem value="other">Other</SelectItem></SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Gender</Label><Select required><SelectTrigger className="text-white"><SelectValue placeholder="Select gender" /></SelectTrigger><SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem><SelectItem value="other">Other</SelectItem></SelectContent></Select></div>
                                 <div className="space-y-2"><Label htmlFor="dob">Date of Birth</Label><Input id="dob" type="date" required className="text-white" /></div>
                                 <div className="space-y-2"><Label htmlFor="idNumber">National ID Number</Label><Input id="idNumber" required className="text-white" /></div>
                                 <div className="space-y-2"><Label htmlFor="email">Email Address</Label><Input id="email" type="email" required className="text-white" /></div>
@@ -76,7 +76,7 @@ export default function LocalVisitorRegistrationPage() {
                                 <Label htmlFor="kingdomCitizen">Are you a Kingdom Citizen?</Label>
                             </div>
                             <div className="space-y-2"><Label htmlFor="kingdomID">Kingdom ID (if applicable)</Label><Input id="kingdomID" className="text-white" /></div>
-                            <div className="space-y-2"><Label>Tribe Preference</Label><Select><SelectTrigger><SelectValue placeholder="Select tribe" /></SelectTrigger><SelectContent><SelectItem value="eagle">Eagle</SelectItem><SelectItem value="lion">Lion</SelectItem><SelectItem value="marine">Marine</SelectItem><SelectItem value="all">All Tribes</SelectItem></SelectContent></Select></div>
+                            <div className="space-y-2"><Label>Tribe Preference</Label><Select><SelectTrigger className="text-white"><SelectValue placeholder="Select tribe" /></SelectTrigger><SelectContent><SelectItem value="eagle">Eagle</SelectItem><SelectItem value="lion">Lion</SelectItem><SelectItem value="marine">Marine</SelectItem><SelectItem value="all">All Tribes</SelectItem></SelectContent></Select></div>
                             <div className="space-y-2"><Label htmlFor="previousPrograms">Previous Programs Attended (comma-separated)</Label><Input id="previousPrograms" className="text-white" /></div>
                         </section>
 
@@ -87,8 +87,8 @@ export default function LocalVisitorRegistrationPage() {
                                 <h2 className="text-xl font-bold font-headline text-black">Program Selection</h2>
                             </div>
                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-2"><Label>Program Track</Label><Select required><SelectTrigger><SelectValue placeholder="Select track" /></SelectTrigger><SelectContent><SelectItem value="leadership">Leadership</SelectItem><SelectItem value="warrior">Warrior</SelectItem><SelectItem value="family-youth">Family & Youth</SelectItem></SelectContent></Select></div>
-                                <div className="space-y-2"><Label>Desired Duration</Label><Select required><SelectTrigger><SelectValue placeholder="Select duration" /></SelectTrigger><SelectContent><SelectItem value="7-14">7-14 days</SelectItem><SelectItem value="15-30">15-30 days</SelectItem><SelectItem value="30+">30+ days</SelectItem></SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Program Track</Label><Select required><SelectTrigger className="text-white"><SelectValue placeholder="Select track" /></SelectTrigger><SelectContent><SelectItem value="leadership">Leadership</SelectItem><SelectItem value="warrior">Warrior</SelectItem><SelectItem value="family-youth">Family & Youth</SelectItem></SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Desired Duration</Label><Select required><SelectTrigger className="text-white"><SelectValue placeholder="Select duration" /></SelectTrigger><SelectContent><SelectItem value="7-14">7-14 days</SelectItem><SelectItem value="15-30">15-30 days</SelectItem><SelectItem value="30+">30+ days</SelectItem></SelectContent></Select></div>
                                 <div className="space-y-2"><Label htmlFor="startDate">Preferred Start Date</Label><Input id="startDate" type="date" required className="text-white" /></div>
                                 <div className="space-y-2"><Label htmlFor="endDate">Preferred End Date</Label><Input id="endDate" type="date" required className="text-white" /></div>
                             </div>
@@ -102,8 +102,8 @@ export default function LocalVisitorRegistrationPage() {
                                 <h2 className="text-xl font-bold font-headline text-black">Document Uploads</h2>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-2"><Label htmlFor="idCopy">National ID Copy</Label><Input id="idCopy" type="file" required /></div>
-                                <div className="space-y-2"><Label htmlFor="profilePhoto">Profile Photo</Label><Input id="profilePhoto" type="file" required /></div>
+                                <div className="space-y-2"><Label htmlFor="idCopy">National ID Copy</Label><Input id="idCopy" type="file" required className="text-white" /></div>
+                                <div className="space-y-2"><Label htmlFor="profilePhoto">Profile Photo</Label><Input id="profilePhoto" type="file" required className="text-white" /></div>
                             </div>
                         </section>
 
