@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plane, Users, Globe, CheckCircle } from "lucide-react";
+import { Plane, Users, Globe, CheckCircle, ClipboardCheck } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -88,6 +88,21 @@ export default function VisitingProgramsPage() {
                             </li>
                         ))}
                     </ul>
+                </CardContent>
+            </Card>
+
+            <Card className="bg-secondary/30">
+                <CardHeader>
+                    <CardTitle className="font-headline text-2xl text-foreground flex items-center gap-3">
+                        <ClipboardCheck className="h-6 w-6 text-accent" />
+                        Mandatory Pre-Arrival Training
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground pt-2">
+                        To ensure all visitors are aligned and prepared, accepted applicants must complete a mandatory three-day training program before their arrival at the church.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">This training covers our core values, Kingdom protocols, and prepares you for a powerful time of immersion. Details will be provided upon acceptance.</p>
                 </CardContent>
             </Card>
             
