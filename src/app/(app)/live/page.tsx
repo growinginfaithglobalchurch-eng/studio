@@ -55,30 +55,32 @@ export default function LivePage() {
         <h2 className="text-2xl font-headline font-bold mb-4">Replay Library: On-Demand Access</h2>
          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {liveSessions.replays.map((replay) => (
-              <Card key={replay.id} className="group overflow-hidden">
-                <CardContent className="p-0">
-                  <AspectRatio ratio={16/9} className="relative">
-                     {replay.image && (
-                        <Image
-                            src={replay.image.imageUrl}
-                            alt={replay.title}
-                            fill
-                            className="object-cover transition-transform group-hover:scale-105"
-                            data-ai-hint={replay.image.imageHint}
-                        />
-                     )}
-                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <PlayCircle className="h-12 w-12 text-accent/70 transition-all group-hover:text-accent group-hover:scale-110" />
-                     </div>
-                  </AspectRatio>
-                </CardContent>
-                <CardFooter className="p-4">
-                    <div>
-                        <h3 className="font-semibold leading-tight group-hover:text-primary">{replay.title}</h3>
-                        <p className="text-xs text-muted-foreground mt-1">{replay.speaker}</p>
-                    </div>
-                </CardFooter>
-              </Card>
+                <Link key={replay.id} href={liveSessions.current.videoUrl} target="_blank" rel="noopener noreferrer">
+                    <Card className="group overflow-hidden">
+                        <CardContent className="p-0">
+                        <AspectRatio ratio={16/9} className="relative">
+                            {replay.image && (
+                                <Image
+                                    src={replay.image.imageUrl}
+                                    alt={replay.title}
+                                    fill
+                                    className="object-cover transition-transform group-hover:scale-105"
+                                    data-ai-hint={replay.image.imageHint}
+                                />
+                            )}
+                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <PlayCircle className="h-12 w-12 text-accent/70 transition-all group-hover:text-accent group-hover:scale-110" />
+                            </div>
+                        </AspectRatio>
+                        </CardContent>
+                        <CardFooter className="p-4">
+                            <div>
+                                <h3 className="font-semibold leading-tight group-hover:text-primary">{replay.title}</h3>
+                                <p className="text-xs text-muted-foreground mt-1">{replay.speaker}</p>
+                            </div>
+                        </CardFooter>
+                    </Card>
+              </Link>
             ))}
          </div>
       </section>
