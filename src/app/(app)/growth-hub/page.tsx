@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const dailyPractices = [
   {
+    id: "morning",
     icon: <Sunrise className="h-6 w-6 text-accent" />,
     title: "Morning Alignment & Declaration",
     description: "Start your day by aligning your spirit with God's will and declaring His promises: 'Glory, power, immortality is my portion, now and forever amen.'",
@@ -16,6 +17,7 @@ const dailyPractices = [
     cta: "Declare Now"
   },
   {
+    id: "word",
     icon: <BookOpen className="h-6 w-6 text-accent" />,
     title: "Word & Truth Intake",
     description: "Engage with Scripture through the daily reading plan.",
@@ -23,6 +25,7 @@ const dailyPractices = [
     cta: "Read Today's Word"
   },
   {
+    id: "identity",
     icon: <UserCircle className="h-6 w-6 text-accent" />,
     title: "Identity Consciousness & Reflection",
     description: "Reflect on who you are in Christ. Journal your thoughts and revelations.",
@@ -30,6 +33,7 @@ const dailyPractices = [
     cta: "Journal"
   },
   {
+    id: "speech",
     icon: <MessageSquare className="h-6 w-6 text-accent" />,
     title: "Kingdom Speech Tracking",
     description: "Practice speaking life and aligning your words with God's truth.",
@@ -37,6 +41,7 @@ const dailyPractices = [
     cta: "Log Speech"
   },
   {
+    id: "warfare",
     icon: <Shield className="h-6 w-6 text-accent" />,
     title: "Warfare Readiness Check",
     description: "Assess your spiritual readiness and prepare for engagement.",
@@ -44,6 +49,7 @@ const dailyPractices = [
     cta: "Assess Readiness"
   },
   {
+    id: "night",
     icon: <Sunset className="h-6 w-6 text-accent" />,
     title: "Night Reflection & Review",
     description: "Review your day, give thanks, and commit your night to the Lord with this closing declaration: 'God's goodness and mercy will follow me all the days of my life, as I dwell in the house of the Lord for ever and ever amen.'",
@@ -61,6 +67,19 @@ export default function FaithGrowthHubPage() {
         description: `You've completed: ${title}.`
     });
     // In a real app, this would update user progress in Firebase.
+  };
+
+  const handleLogSpeech = () => {
+    toast({
+        title: "Speech Logged!",
+        description: `Your declaration of faith has been noted. Keep speaking life!`
+    });
+  };
+
+  const handleActionClick = (practiceId: string) => {
+    if (practiceId === 'speech') {
+      handleLogSpeech();
+    }
   };
 
   return (
@@ -88,9 +107,15 @@ export default function FaithGrowthHubPage() {
                         <h3 className="font-bold text-lg text-black">{practice.title}</h3>
                         <p className="text-sm text-black mt-1">{practice.description}</p>
                         <div className="mt-3 flex gap-2">
-                            <Button asChild variant="outline" className="text-white">
-                                <Link href={practice.href}>{practice.cta}</Link>
-                            </Button>
+                            {practice.id === 'speech' ? (
+                                <Button variant="outline" className="text-white" onClick={() => handleActionClick(practice.id)}>
+                                    {practice.cta}
+                                </Button>
+                            ) : (
+                                <Button asChild variant="outline" className="text-white">
+                                    <Link href={practice.href}>{practice.cta}</Link>
+                                </Button>
+                            )}
                             <Button variant="ghost" className="text-white" onClick={() => handleComplete(practice.title)}>
                                 <Check className="mr-2 h-4 w-4" />
                                 Mark as Complete
