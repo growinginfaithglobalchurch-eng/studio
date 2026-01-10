@@ -84,6 +84,7 @@ const equippingNav = [
     { href: '/school-of-deliverance', label: 'School of Deliverance', icon: <Swords className="h-4 w-4" /> },
     { href: '/school-of-ministry', label: 'School of Ministry', icon: <Briefcase className="h-4 w-4" /> },
     { href: '/business-school', label: 'Business School', icon: <TrendingUp className="h-4 w-4" /> },
+    { href: '/bible-theology', label: 'Bible Theology', icon: <BookOpen className="h-4 w-4" /> },
 ];
 
 const resourcesNav = [
