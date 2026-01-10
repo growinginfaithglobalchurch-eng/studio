@@ -112,14 +112,20 @@ export default function WarRoomPage() {
                         <CardDescription>Access your tribe-specific command center.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-3">
-                        <Button variant="outline" className="w-full justify-start gap-2 text-white">
-                            <Feather className="h-4 w-4 text-accent" /> Eagle Room
+                        <Button variant="outline" className="w-full justify-start gap-2 text-white" asChild>
+                            <Link href="/war-room/eagle">
+                                <Feather className="h-4 w-4 text-accent" /> Eagle Room
+                            </Link>
                         </Button>
-                        <Button variant="outline" className="w-full justify-start gap-2 text-white">
-                            <Crown className="h-4 w-4 text-accent" /> Lion Room
+                        <Button variant="outline" className="w-full justify-start gap-2 text-white" asChild>
+                            <Link href="/war-room/lion">
+                                <Crown className="h-4 w-4 text-accent" /> Lion Room
+                            </Link>
                         </Button>
-                        <Button variant="outline" className="w-full justify-start gap-2 text-white">
-                            <Anchor className="h-4 w-4 text-accent" /> Marine Room
+                        <Button variant="outline" className="w-full justify-start gap-2 text-white" asChild>
+                             <Link href="/war-room/marine">
+                                <Anchor className="h-4 w-4 text-accent" /> Marine Room
+                            </Link>
                         </Button>
                     </CardContent>
                 </Card>
