@@ -97,9 +97,6 @@ export default function VisitingProgramsPage() {
                         <ClipboardCheck className="h-6 w-6 text-accent" />
                         Mandatory Pre-Arrival Training
                     </CardTitle>
-                    <CardDescription className="text-muted-foreground pt-2">
-                        To ensure all visitors are aligned and prepared, accepted applicants must complete a mandatory three-day training program before their arrival at the church.
-                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground mb-4">This training covers our core values, Kingdom protocols, and prepares you for a powerful time of immersion. Details will be provided upon acceptance.</p>
