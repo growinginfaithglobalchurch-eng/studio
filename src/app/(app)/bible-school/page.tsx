@@ -27,6 +27,7 @@ import {
   BarChart,
   GitCompare,
   Server,
+  Users,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
