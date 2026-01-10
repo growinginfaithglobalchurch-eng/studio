@@ -186,7 +186,7 @@ export default function VisitorTrainingProgramPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="font-headline text-black">Why This Training is Required</CardTitle>
+                    <CardTitle className="font-headline text-card-foreground">Why This Training is Required</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground">To ensure unity, safety, and maximum impact, it is essential that all visitors are aligned with our Kingdom culture and protocols before arriving. This training equips you with the foundational understanding needed to fully participate in and receive from all that God is doing in our midst.</p>
@@ -209,7 +209,7 @@ export default function VisitorTrainingProgramPage() {
                                     {day.sessions.map(session => (
                                         <Accordion key={session.title} type="single" collapsible>
                                             <AccordionItem value={session.title}>
-                                                <AccordionTrigger className={cn("font-bold text-lg hover:no-underline", "text-foreground")}>{session.title}</AccordionTrigger>
+                                                <AccordionTrigger className={cn("font-bold text-lg hover:no-underline", "text-card-foreground")}>{session.title}</AccordionTrigger>
                                                 <AccordionContent className="p-4 bg-card rounded-md">
                                                     <div className="space-y-4">
                                                         <div>
@@ -238,15 +238,17 @@ export default function VisitorTrainingProgramPage() {
                 </Accordion>
             </div>
 
-            <Card className="bg-secondary/30">
-                <CardHeader>
-                    <CardTitle className="font-headline text-2xl text-white flex items-center gap-3">
-                        <ClipboardCheck className="h-6 w-6 text-accent" />
-                        Mandatory Pre-Arrival Training
-                    </CardTitle>
+            <Card>
+                <CardHeader className="flex-row items-center gap-4">
+                    <ClipboardCheck className="h-8 w-8 text-accent" />
+                    <div>
+                        <CardTitle>Mandatory Pre-Arrival Training</CardTitle>
+                        <CardDescription>
+                            This training covers our core values, Kingdom protocols, and prepares you for a powerful time of immersion. Details will be provided upon acceptance.
+                        </CardDescription>
+                    </div>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-white mb-4">This training covers our core values, Kingdom protocols, and prepares you for a powerful time of immersion. Details will be provided upon acceptance.</p>
                      <Button asChild>
                         <Link href="/visitor-training-program">View Training Curriculum</Link>
                     </Button>
@@ -255,7 +257,7 @@ export default function VisitorTrainingProgramPage() {
             
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-black">
+                    <CardTitle className="flex items-center gap-2 text-card-foreground">
                         <CheckCircle className="h-5 w-5 text-green-500" />
                         Completion & Support
                     </CardTitle>
@@ -268,7 +270,7 @@ export default function VisitorTrainingProgramPage() {
                         </Button>
                         <div className="flex gap-2">
                             <Select onValueChange={setSupportType} value={supportType}>
-                                <SelectTrigger className="w-[240px] text-white">
+                                <SelectTrigger className="w-[240px]">
                                     <SelectValue placeholder="Select Support Type" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -277,7 +279,7 @@ export default function VisitorTrainingProgramPage() {
                                 </SelectContent>
                             </Select>
                             <Button variant="outline" onClick={handleContactSupport} disabled={!supportType}>
-                                <span className="text-white">Contact Support</span>
+                                Contact Support
                             </Button>
                         </div>
                     </div>

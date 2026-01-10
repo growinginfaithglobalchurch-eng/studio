@@ -85,7 +85,6 @@ export default function ProfileSetupPage() {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g., John Doe"
                 required
-                className="text-white"
               />
             </div>
             <div className="space-y-2">
@@ -95,7 +94,6 @@ export default function ProfileSetupPage() {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="e.g., London, UK"
-                className="text-white"
               />
             </div>
           </CardContent>

@@ -79,22 +79,22 @@ export default function PrayerLineRegistrationPage() {
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <Label htmlFor="name">Your Full Name</Label>
-                                <Input id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="John Doe" required className="text-white" />
+                                <Input id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="John Doe" required />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email">Your Email</Label>
-                                <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="you@example.com" required className="text-white" />
+                                <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="you@example.com" required />
                             </div>
                         </div>
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <Label htmlFor="phone">Phone Number</Label>
-                                <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="+1 (555) 123-4567" required className="text-white" />
+                                <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="+1 (555) 123-4567" required />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="timeSlot">Preferred Time Slot</Label>
                                 <Select onValueChange={handleSelectChange} value={formData.timeSlot} required>
-                                    <SelectTrigger className="text-white">
+                                    <SelectTrigger>
                                         <SelectValue placeholder="Select a time" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -107,7 +107,7 @@ export default function PrayerLineRegistrationPage() {
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="request">Brief Prayer Request (Optional)</Label>
-                            <Textarea id="request" name="request" value={formData.request} onChange={handleInputChange} placeholder="Briefly describe what you would like prayer for..." className="text-white" />
+                            <Textarea id="request" name="request" value={formData.request} onChange={handleInputChange} placeholder="Briefly describe what you would like prayer for..." />
                         </div>
                         <div className="flex justify-end">
                             <Button type="submit">

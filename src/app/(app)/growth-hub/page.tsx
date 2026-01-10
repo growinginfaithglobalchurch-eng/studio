@@ -101,22 +101,22 @@ export default function FaithGrowthHubPage() {
         </CardHeader>
         <CardContent className="space-y-4">
             {dailyPractices.map((practice) => (
-                <div key={practice.title} className="flex flex-col sm:flex-row items-start gap-4 p-4 rounded-lg border bg-card/50">
+                <div key={practice.title} className="flex flex-col sm:flex-row items-start gap-4 p-4 rounded-lg border bg-card">
                     <div className="flex-shrink-0">{practice.icon}</div>
                     <div className="flex-grow">
-                        <h3 className="font-bold text-lg text-black">{practice.title}</h3>
-                        <p className="text-sm text-black mt-1">{practice.description}</p>
+                        <h3 className="font-bold text-lg text-card-foreground">{practice.title}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">{practice.description}</p>
                         <div className="mt-3 flex gap-2">
                             {practice.id === 'speech' ? (
-                                <Button variant="outline" className="text-white" onClick={() => handleActionClick(practice.id)}>
+                                <Button variant="outline" onClick={() => handleActionClick(practice.id)}>
                                     {practice.cta}
                                 </Button>
                             ) : (
-                                <Button asChild variant="outline" className="text-white">
+                                <Button asChild variant="outline">
                                     <Link href={practice.href}>{practice.cta}</Link>
                                 </Button>
                             )}
-                            <Button variant="ghost" className="text-white" onClick={() => handleComplete(practice.title)}>
+                            <Button variant="ghost" onClick={() => handleComplete(practice.title)}>
                                 <Check className="mr-2 h-4 w-4" />
                                 Mark as Complete
                             </Button>

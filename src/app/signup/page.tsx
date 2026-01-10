@@ -25,15 +25,15 @@ export default function SignupPage() {
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="full-name">Full Name</Label>
-              <Input id="full-name" placeholder="John Doe" required className="text-white" />
+              <Input id="full-name" placeholder="John Doe" required />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="m@example.com" required className="text-white" />
+              <Input id="email" type="email" placeholder="m@example.com" required />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" className="text-white" />
+              <Input id="password" type="password" />
             </div>
             <Button type="submit" className="w-full" asChild>
                 <Link href="/welcome">Create an account</Link>

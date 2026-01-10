@@ -16,11 +16,10 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { format } from 'date-fns';
 
 export default function EventsPage() {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setDate(new Date());
     setIsClient(true);
   }, []);
 
@@ -77,7 +76,7 @@ export default function EventsPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground mb-4">
-              <span className="font-bold text-foreground">Dates:</span> {formatDateRange(consecrationWeek.startDate, consecrationWeek.endDate)}
+              <span className="font-bold text-card-foreground">Dates:</span> {formatDateRange(consecrationWeek.startDate, consecrationWeek.endDate)}
             </p>
             <Accordion type="single" collapsible className="w-full">
               {consecrationWeek.schedule.map((day) => (
@@ -115,9 +114,9 @@ export default function EventsPage() {
               {annualCalendar.map((item) => (
                 <AccordionItem value={item.month} key={item.month}>
                   <AccordionTrigger className="text-lg font-headline">{item.month}: <span className="ml-2 font-normal text-muted-foreground">{item.theme}</span></AccordionTrigger>
-                  <AccordionContent className="p-4 bg-secondary/30 rounded-md">
-                    <p className="font-semibold text-foreground">Purpose: <span className="font-normal text-muted-foreground">{item.purpose}</span></p>
-                    <h4 className="font-semibold text-foreground mt-4 mb-2">Key Activities:</h4>
+                  <AccordionContent className="p-4 bg-secondary rounded-md">
+                    <p className="font-semibold text-card-foreground">Purpose: <span className="font-normal text-muted-foreground">{item.purpose}</span></p>
+                    <h4 className="font-semibold text-card-foreground mt-4 mb-2">Key Activities:</h4>
                     <ul className="list-disc pl-5 text-muted-foreground space-y-1">
                       {item.activities.map(activity => <li key={activity}>{activity}</li>)}
                     </ul>

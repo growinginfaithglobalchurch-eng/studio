@@ -81,13 +81,12 @@ export default function PrayerPage() {
               </p>
               <Input
                 placeholder="Your Name (Optional)"
-                className="text-white"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               <Textarea
                 placeholder="Type your prayer request here..."
-                className="min-h-[120px] text-white"
+                className="min-h-[120px]"
                 value={request}
                 onChange={(e) => setRequest(e.target.value)}
               />

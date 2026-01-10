@@ -59,11 +59,11 @@ export default function BibleReadingPlanPage() {
                         <AccordionContent>
                            <div className="space-y-3">
                              {item.readings.map((reading, index) => (
-                                <div key={index} className="flex items-center justify-between p-3 rounded-md bg-secondary/50">
+                                <div key={index} className="flex items-center justify-between p-3 rounded-md bg-secondary">
                                     <div className="flex items-center gap-4">
                                         <div className="text-sm font-bold text-accent w-12 text-center">Day {index + 1}</div>
                                         <div className="border-l border-border h-6"></div>
-                                        <p className={cn("font-semibold text-foreground", "text-black")}>{reading}</p>
+                                        <p className={cn("font-semibold", "text-card-foreground")}>{reading}</p>
                                     </div>
                                     <Button size="sm" variant="ghost" onClick={() => handleMarkAsComplete(item.month, index + 1)}>
                                         <CheckCircle className="h-5 w-5 text-muted-foreground hover:text-green-500" />

@@ -93,7 +93,6 @@ export default function EditProfilePage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="text-white"
               />
             </div>
              <div className="space-y-2">
@@ -104,7 +103,6 @@ export default function EditProfilePage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="text-white"
               />
             </div>
             <div className="space-y-2">
@@ -114,7 +112,6 @@ export default function EditProfilePage() {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="e.g., London, UK"
-                className="text-white"
               />
             </div>
           </CardContent>

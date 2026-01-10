@@ -91,7 +91,7 @@ export default function VisitingProgramsPage() {
                 </CardContent>
             </Card>
 
-            <Card className="bg-card text-card-foreground">
+            <Card>
                 <CardHeader>
                     <CardTitle className="font-headline text-2xl text-card-foreground flex items-center gap-3">
                         <ClipboardCheck className="h-6 w-6 text-accent" />

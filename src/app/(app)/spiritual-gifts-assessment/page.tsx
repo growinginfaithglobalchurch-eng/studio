@@ -97,10 +97,10 @@ export default function SpiritualGiftsAssessmentPage() {
               <Progress value={progress} className="mt-2" />
             </CardHeader>
             <CardContent>
-              <p className={cn("text-lg mb-6", currentQuestionIndex === 0 ? "text-black" : "text-foreground")}>{questions[currentQuestionIndex].text}</p>
+              <p className={cn("text-lg mb-6", "text-card-foreground")}>{questions[currentQuestionIndex].text}</p>
               <div className="flex gap-4">
                 <Button size="lg" className="w-full" onClick={() => handleAnswer('yes')}>Yes</Button>
-                <Button size="lg" variant="outline" className="w-full text-white" onClick={() => handleAnswer('no')}>No</Button>
+                <Button size="lg" variant="outline" className="w-full" onClick={() => handleAnswer('no')}>No</Button>
               </div>
             </CardContent>
           </>
@@ -117,7 +117,7 @@ export default function SpiritualGiftsAssessmentPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               {getTopGifts().length > 0 ? getTopGifts().map(([gift, score]) => (
-                <Card key={gift} className="bg-secondary/50 p-4">
+                <Card key={gift} className="bg-secondary p-4">
                   <h3 className="font-bold text-xl text-accent">{gift}</h3>
                   <p className="text-muted-foreground mt-1">{(giftDescriptions as any)[gift]}</p>
                 </Card>
@@ -125,7 +125,7 @@ export default function SpiritualGiftsAssessmentPage() {
                 <p className="text-muted-foreground text-center py-4">No dominant gifts identified. Try retaking the assessment and reflecting on where you feel most drawn to serve.</p>
               )}
               <div className="pt-4">
-                <h4 className="font-semibold text-foreground">Next Steps:</h4>
+                <h4 className="font-semibold text-card-foreground">Next Steps:</h4>
                 <ul className="list-disc pl-5 mt-2 text-muted-foreground space-y-1">
                   <li>Pray and ask God to confirm these gifts in your heart.</li>
                   <li>Talk to a pastor or mentor about what you've discovered.</li>

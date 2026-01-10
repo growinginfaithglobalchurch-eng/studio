@@ -54,7 +54,7 @@ export default function ResourcesPage() {
             </CardHeader>
              <CardContent className="flex-grow" />
             <div className="p-6 pt-0">
-              <Button variant="outline" className="text-white">{category.cta}</Button>
+              <Button variant="outline">{category.cta}</Button>
             </div>
           </Card>
         ))}
