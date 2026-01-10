@@ -71,7 +71,7 @@ export default function InternationalVisitorRegistrationPage() {
                         <section className="space-y-6">
                             <div className="flex items-center gap-3 border-b pb-2">
                                 <Shield className="h-6 w-6 text-accent" />
-                                <h2 className="text-xl font-bold font-headline text-foreground">Kingdom Information</h2>
+                                <h2 className="text-xl font-bold font-headline text-black">Kingdom Information</h2>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Checkbox id="kingdomCitizen" />
@@ -86,7 +86,7 @@ export default function InternationalVisitorRegistrationPage() {
                         <section className="space-y-6">
                             <div className="flex items-center gap-3 border-b pb-2">
                                 <Briefcase className="h-6 w-6 text-accent" />
-                                <h2 className="text-xl font-bold font-headline text-foreground">Program Selection</h2>
+                                <h2 className="text-xl font-bold font-headline text-black">Program Selection</h2>
                             </div>
                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2"><Label>Program Track</Label><Select required><SelectTrigger><SelectValue placeholder="Select track" /></SelectTrigger><SelectContent><SelectItem value="leadership">Leadership</SelectItem><SelectItem value="warrior">Warrior</SelectItem><SelectItem value="family-youth">Family & Youth</SelectItem></SelectContent></Select></div>
@@ -103,7 +103,7 @@ export default function InternationalVisitorRegistrationPage() {
                         <section className="space-y-6">
                             <div className="flex items-center gap-3 border-b pb-2">
                                 <Upload className="h-6 w-6 text-accent" />
-                                <h2 className="text-xl font-bold font-headline text-foreground">Document Uploads</h2>
+                                <h2 className="text-xl font-bold font-headline text-black">Document Uploads</h2>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="space-y-2"><Label htmlFor="passportCopy">Passport Copy</Label><Input id="passportCopy" type="file" required /></div>
@@ -116,7 +116,7 @@ export default function InternationalVisitorRegistrationPage() {
                         <section className="space-y-6">
                             <div className="flex items-center gap-3 border-b pb-2">
                                 <CheckCircle className="h-6 w-6 text-accent" />
-                                <h2 className="text-xl font-bold font-headline text-foreground">Agreements</h2>
+                                <h2 className="text-xl font-bold font-headline text-black">Agreements</h2>
                             </div>
                             <div className="space-y-4">
                                 <div className="flex items-start space-x-2"><Checkbox id="kingdomProtocols" required /><div className="grid gap-1.5 leading-none"><Label htmlFor="kingdomProtocols">I agree to abide by all Kingdom Protocols.</Label></div></div>
