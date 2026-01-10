@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { communityUsers } from "@/lib/data";
-import { Home, CheckCircle, Heart, BookOpen, Sparkles } from "lucide-react";
+import { Home, CheckCircle, Heart, BookOpen, Sparkles, Fingerprint } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const familyGroup = {
+    groupId: "FG-2024-AB789",
     members: communityUsers.slice(0, 4), // Mock data: first 4 users are a family
     familyPractices: {
         prayerMoments: true,
@@ -89,6 +91,14 @@ export default function FamilyHubPage() {
 
                 </div>
                 <div className="space-y-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2"><Fingerprint className="h-5 w-5 text-accent"/> Group ID</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="font-mono text-sm text-center bg-secondary text-foreground p-2 rounded-md">{familyGroup.groupId}</p>
+                        </CardContent>
+                    </Card>
                     <Card>
                         <CardHeader>
                             <CardTitle>Family Members</CardTitle>
