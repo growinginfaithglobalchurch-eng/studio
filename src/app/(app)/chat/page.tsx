@@ -103,11 +103,11 @@ export default function ChatPage() {
                 </Avatar>
                 <div className="flex-grow">
                   <p className="font-semibold text-card-foreground">{user.name}</p>
-                  <p className="text-xs text-black/60 truncate">
+                  <p className="text-xs text-muted-foreground truncate">
                     Hey! How are you doing? Let's catch up...
                   </p>
                 </div>
-                <div className="text-xs text-black/60 self-start">
+                <div className="text-xs text-muted-foreground self-start">
                     10:33 AM
                 </div>
               </button>
@@ -127,7 +127,7 @@ export default function ChatPage() {
               </Avatar>
               <div className="ml-3">
                  <p className="font-semibold text-card-foreground">{selectedUser.name}</p>
-                 <p className="text-xs text-black/60">Online</p>
+                 <p className="text-xs text-muted-foreground">Online</p>
               </div>
               <div className="ml-auto">
                   <Button variant="ghost" size="icon">
@@ -150,7 +150,7 @@ export default function ChatPage() {
                              msg.isCurrentUser ? "bg-primary text-primary-foreground" : "bg-card text-card-foreground"
                         )}>
                             <p className="text-sm">{msg.text}</p>
-                             <p className={cn("text-xs mt-1", msg.isCurrentUser ? "text-primary-foreground/70" : "text-black/50")}>{msg.timestamp}</p>
+                             <p className={cn("text-xs mt-1", msg.isCurrentUser ? "text-primary-foreground/70" : "text-muted-foreground")}>{msg.timestamp}</p>
                         </div>
                          {msg.isCurrentUser && (
                             <Avatar className="h-8 w-8">
@@ -173,7 +173,7 @@ export default function ChatPage() {
                 />
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
                    <Button variant="ghost" size="icon">
-                      <Paperclip className="h-5 w-5 text-black/60" />
+                      <Paperclip className="h-5 w-5 text-muted-foreground" />
                    </Button>
                    <Button size="sm" className="ml-2" onClick={handleSendMessage}>
                      <Send className="h-4 w-4 mr-2" /> Send
@@ -186,7 +186,7 @@ export default function ChatPage() {
           <div className="flex flex-col items-center justify-center h-full text-center p-8">
             <MessageCircle className="h-16 w-16 text-muted-foreground" />
             <h2 className="mt-4 text-2xl font-semibold text-card-foreground">Select a conversation</h2>
-            <p className="mt-2 text-black/60">
+            <p className="mt-2 text-muted-foreground">
               Choose someone from your connections to start chatting.
             </p>
           </div>

@@ -57,7 +57,7 @@ export function ContentRecommender() {
             <CardTitle className="font-headline text-2xl text-accent font-bold">
               Your Personalized Faith Path
             </CardTitle>
-            <CardDescription className="text-black/80">
+            <CardDescription className="text-muted-foreground">
               AI-powered recommendations to guide your spiritual journey.
             </CardDescription>
           </div>
@@ -92,7 +92,7 @@ export function ContentRecommender() {
                       <div className="flex-grow">
                          <p className="text-sm font-semibold text-accent">{categoryLabels[key]}</p>
                         <p className="font-semibold text-md text-card-foreground">{item.title}</p>
-                        <p className="text-sm text-black/70 mt-1">
+                        <p className="text-sm text-muted-foreground mt-1">
                           {item.reason}
                         </p>
                         <Button

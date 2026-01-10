@@ -61,7 +61,7 @@ export default function ConnectPage() {
                     <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <h3 className="mt-4 text-lg font-bold text-card-foreground">{user.name}</h3>
-                  <p className="text-sm text-black/60">
+                  <p className="text-sm text-muted-foreground">
                     {user.location}
                   </p>
                   <Button className="mt-4 w-full" onClick={() => handleAddFriend(user)}>
@@ -89,7 +89,7 @@ export default function ConnectPage() {
                         </Avatar>
                         <div>
                             <h3 className="font-semibold text-card-foreground">{user.name}</h3>
-                            <p className="text-sm text-black/60">{user.location}</p>
+                            <p className="text-sm text-muted-foreground">{user.location}</p>
                         </div>
                     </div>
                      <Button className="mt-4 w-full" asChild>
@@ -101,7 +101,7 @@ export default function ConnectPage() {
                   </Card>
                 ))
               ) : (
-                <p className="text-black/60">
+                <p className="text-muted-foreground">
                   You haven&apos;t added any friends yet.
                 </p>
               )}
@@ -114,7 +114,7 @@ export default function ConnectPage() {
               <CardTitle>Friend Requests</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-black/60">
+              <p className="text-muted-foreground">
                 No new friend requests.
               </p>
             </CardContent>

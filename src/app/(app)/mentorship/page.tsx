@@ -70,7 +70,7 @@ export default function MentorshipPage() {
                 <AvatarFallback>{mentor.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <h3 className="mt-4 text-lg font-bold text-card-foreground">{mentor.name}</h3>
-              <p className="text-sm text-black/60">{mentor.location}</p>
+              <p className="text-sm text-muted-foreground">{mentor.location}</p>
               <Button className="mt-4 w-full">
                 <UserPlus className="mr-2 h-4 w-4" />
                 Request Mentor

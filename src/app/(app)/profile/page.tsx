@@ -64,7 +64,7 @@ export default function ProfilePage() {
             )}
             <div>
               <h1 className="text-2xl font-bold text-card-foreground">{user.name}</h1>
-              <p className="text-black/60">{user.email}</p>
+              <p className="text-muted-foreground">{user.email}</p>
             </div>
             <Button variant="outline" size="icon" className="ml-auto">
               <Edit className="h-4 w-4 text-accent" />
@@ -85,7 +85,7 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-card-foreground">{stat.value}</div>
-              <p className="text-xs text-black/60">
+              <p className="text-xs text-muted-foreground">
                 in the last 30 days
               </p>
             </CardContent>
