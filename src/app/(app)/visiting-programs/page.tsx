@@ -45,18 +45,18 @@ export default function VisitingProgramsPage() {
             <div className="text-center">
                 <div className="flex items-center justify-center gap-3 mb-2">
                     <Plane className="h-8 w-8 text-accent" />
-                    <h1 className="text-4xl font-headline font-bold text-foreground">Visiting Programs</h1>
+                    <h1 className="text-4xl font-headline font-bold text-black">Visiting Programs</h1>
                 </div>
-                <p className="text-xl text-muted-foreground">
+                <p className="text-xl text-black">
                   Experiencing the Kingdom Firsthand
                 </p>
-                <p className="mt-4 text-lg italic text-muted-foreground">“Go therefore and make disciples of all nations…” — Matthew 28:19</p>
+                <p className="mt-4 text-lg italic text-black">“Go therefore and make disciples of all nations…” — Matthew 28:19</p>
             </div>
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="font-headline text-2xl">Purpose of the Program</CardTitle>
-                    <CardDescription>Our Visiting Programs are designed to achieve several key objectives:</CardDescription>
+                    <CardTitle className="font-headline text-2xl text-black">Purpose of the Program</CardTitle>
+                    <CardDescription className="text-black">Our Visiting Programs are designed to achieve several key objectives:</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3">
@@ -65,7 +65,7 @@ export default function VisitingProgramsPage() {
                                 <div className="bg-green-500/20 text-green-400 rounded-full p-1">
                                     <CheckCircle className="h-5 w-5" />
                                 </div>
-                                <span className="text-foreground">{purpose}</span>
+                                <span className="text-black">{purpose}</span>
                             </li>
                         ))}
                     </ul>
@@ -73,17 +73,17 @@ export default function VisitingProgramsPage() {
             </Card>
             
             <div>
-                <h2 className="text-2xl font-headline font-bold text-center mb-6">Choose Your Program Type</h2>
+                <h2 className="text-2xl font-headline font-bold text-center mb-6 text-black">Choose Your Program Type</h2>
                 <div className="grid md:grid-cols-2 gap-8 items-start">
                     {visitorTypes.map(type => (
                         <Card key={type.title} className="flex flex-col h-full">
                             <CardHeader className="items-center text-center">
                                 {type.icon}
-                                <CardTitle className="font-headline text-xl mt-2">{type.title}</CardTitle>
-                                <CardDescription>{type.description}</CardDescription>
+                                <CardTitle className="font-headline text-xl mt-2 text-black">{type.title}</CardTitle>
+                                <CardDescription className="text-black">{type.description}</CardDescription>
                             </CardHeader>
                             <CardContent className="flex-grow">
-                                <ul className="space-y-2 text-sm text-muted-foreground list-disc pl-5">
+                                <ul className="space-y-2 text-sm text-black list-disc pl-5">
                                     {type.details.map(detail => <li key={detail}>{detail}</li>)}
                                 </ul>
                             </CardContent>
