@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -48,6 +47,17 @@ export default function VisitingProgramsPage() {
 
     return (
         <div className="space-y-8">
+            <div className="text-center">
+                <div className="flex items-center justify-center gap-3 mb-2">
+                    <Plane className="h-8 w-8 text-accent" />
+                    <h1 className="text-4xl font-headline font-bold text-foreground">Visiting Programs</h1>
+                </div>
+                <p className="text-xl text-foreground">
+                    Experiencing the Kingdom Firsthand
+                </p>
+                <p className="mt-4 text-lg italic text-foreground/90">“Go therefore and make disciples of all nations…” — Matthew 28:19</p>
+            </div>
+            
             <div className="relative w-full rounded-lg overflow-hidden">
                 <AspectRatio ratio={16 / 9}>
                     {bannerImage && (
@@ -59,16 +69,6 @@ export default function VisitingProgramsPage() {
                             data-ai-hint={bannerImage.imageHint}
                         />
                     )}
-                    <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center p-4">
-                        <div className="flex items-center justify-center gap-3 mb-2">
-                            <Plane className="h-8 w-8 text-accent" />
-                            <h1 className="text-4xl font-headline font-bold text-white">Visiting Programs</h1>
-                        </div>
-                        <p className="text-xl text-white">
-                          Experiencing the Kingdom Firsthand
-                        </p>
-                        <p className="mt-4 text-lg italic text-white/90">“Go therefore and make disciples of all nations…” — Matthew 28:19</p>
-                    </div>
                 </AspectRatio>
             </div>
 
