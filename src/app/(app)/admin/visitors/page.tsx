@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { ClipboardList, Users, Shield, Check, Award, Eye, Gavel } from 'lucide-react';
+import { ClipboardList, Users, Shield, Check, Award, Eye, Gavel, UserPlus, Link as LinkIcon } from 'lucide-react';
 import { communityUsers } from '@/lib/data';
 import {
   Table,
@@ -34,6 +34,8 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
 } from '@/components/ui/alert-dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 
 type Visitor = {
     id: number;
@@ -100,6 +102,7 @@ export default function AdminVisitorsPage() {
     const [visitors, setVisitors] = useState(initialVisitors);
     const [selectedVisitor, setSelectedVisitor] = useState<Visitor | null>(null);
     const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
+    const [newAssignment, setNewAssignment] = useState({ visitorId: '', mentorId: '' });
 
     const handleApproveWarRoom = (visitorId: number) => {
         setVisitors(prev => prev.map(v => v.id === visitorId ? { ...v, warRoomAccess: true } : v));
@@ -137,6 +140,32 @@ export default function AdminVisitorsPage() {
             default: return 'secondary';
         }
     }
+    
+    const handleAssignmentChange = (type: 'visitorId' | 'mentorId', value: string) => {
+        setNewAssignment(prev => ({ ...prev, [type]: value }));
+    };
+
+    const handleAssignMentor = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newAssignment.visitorId || !newAssignment.mentorId) {
+            toast({ variant: 'destructive', title: 'Missing Fields', description: 'Please select a visitor and a mentor.' });
+            return;
+        }
+
+        const visitor = visitors.find(v => v.id.toString() === newAssignment.visitorId);
+        const mentor = communityUsers.find(u => u.id.toString() === newAssignment.mentorId);
+
+        if (visitor && mentor) {
+            if (visitor.name === mentor.name) {
+                toast({ variant: 'destructive', title: 'Invalid Assignment', description: 'A user cannot mentor themselves.' });
+                return;
+            }
+            setVisitors(prev => prev.map(v => v.id.toString() === newAssignment.visitorId ? { ...v, mentor: mentor.name } : v));
+            setNewAssignment({ visitorId: '', mentorId: '' });
+            toast({ title: 'Mentor Assigned', description: `${mentor.name} has been assigned to ${visitor.name}.` });
+        }
+    };
+
 
     return (
         <div className="space-y-8">
@@ -146,6 +175,39 @@ export default function AdminVisitorsPage() {
                     Manage visitor programs, review participation, and assign roles.
                 </p>
             </div>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <UserPlus className="h-5 w-5 text-accent" />
+                        Assign Mentor
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleAssignMentor} className="grid gap-6 md:grid-cols-3">
+                        <div className="space-y-2">
+                            <Label>Select Visitor</Label>
+                            <Select onValueChange={(val) => handleAssignmentChange('visitorId', val)} value={newAssignment.visitorId}>
+                                <SelectTrigger><SelectValue placeholder="Select a visitor" /></SelectTrigger>
+                                <SelectContent>{visitors.map(v => <SelectItem key={v.id} value={v.id.toString()}>{v.name}</SelectItem>)}</SelectContent>
+                            </Select>
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Select Mentor</Label>
+                                <Select onValueChange={(val) => handleAssignmentChange('mentorId', val)} value={newAssignment.mentorId}>
+                                <SelectTrigger><SelectValue placeholder="Select a mentor" /></SelectTrigger>
+                                <SelectContent>{communityUsers.map(user => <SelectItem key={user.id} value={user.id.toString()}>{user.name}</SelectItem>)}</SelectContent>
+                            </Select>
+                        </div>
+                        <div className="flex items-end">
+                            <Button type="submit" className="w-full">
+                                <LinkIcon className="mr-2 h-4 w-4" />
+                                Assign Mentor
+                            </Button>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
 
             <Card>
                 <CardHeader>
