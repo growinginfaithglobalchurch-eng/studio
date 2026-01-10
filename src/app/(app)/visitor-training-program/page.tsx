@@ -11,6 +11,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  SelectItem
+} from '@/components/ui/select';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const trainingSchedule = [
     {
@@ -44,6 +53,14 @@ const trainingSchedule = [
 
 
 export default function VisitorTrainingProgramPage() {
+    const router = useRouter();
+    const [supportType, setSupportType] = useState('');
+
+    const handleContactSupport = () => {
+        if (supportType) {
+            router.push(`/contact?type=${supportType}`);
+        }
+    }
 
     return (
         <div className="space-y-8">
@@ -96,18 +113,29 @@ export default function VisitorTrainingProgramPage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <CheckCircle className="h-5 w-5 text-green-500" />
-                        Completion & Next Steps
+                        Completion & Support
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground mb-4">Upon successful completion of this training, you will receive a certificate and your final visit confirmation. We look forward to welcoming you!</p>
-                    <div className="flex gap-4">
+                    <div className="flex flex-col sm:flex-row gap-4">
                          <Button asChild>
                             <Link href="/login">Access Training Portal</Link>
                         </Button>
-                        <Button asChild variant="outline">
-                            <Link href="/contact" className="text-white">Contact Support</Link>
-                        </Button>
+                        <div className="flex gap-2">
+                            <Select onValueChange={setSupportType} value={supportType}>
+                                <SelectTrigger className="w-[240px]">
+                                    <SelectValue placeholder="Select Support Type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="local-visitor-support">Local Visitor Support</SelectItem>
+                                    <SelectItem value="international-visitor-support">International Visitor Support</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <Button variant="outline" onClick={handleContactSupport} disabled={!supportType}>
+                                <span className="text-white">Contact Support</span>
+                            </Button>
+                        </div>
                     </div>
                 </CardContent>
             </Card>
