@@ -119,7 +119,7 @@ export default function ChurchIntegrationPage() {
                     If you share our vision and are interested in exploring a partnership, we would love to connect with you. Let's discuss how we can work together to serve the Body of Christ.
                 </CardDescription>
                 <Button size="lg" asChild>
-                    <Link href="/discipleship-forum">Contact Our Partnerships Team</Link>
+                    <Link href="/contact">Contact Our Partnerships Team</Link>
                 </Button>
             </Card>
 
