@@ -61,9 +61,11 @@ export default function WarRoomPage() {
             <CardContent>
                 <h3 className="text-lg font-bold text-foreground">Operation: Midnight Cry</h3>
                 <p className="text-muted-foreground mb-4">Urgent intercession for the protection of missionaries in sensitive regions.</p>
-                <Button variant="destructive">
+                <Button variant="destructive" asChild>
+                  <Link href="https://royallifetelevision.online.church/" target="_blank" rel="noopener noreferrer">
                     <Shield className="mr-2 h-4 w-4" />
                     Join Live Prayer
+                  </Link>
                 </Button>
             </CardContent>
         </Card>
