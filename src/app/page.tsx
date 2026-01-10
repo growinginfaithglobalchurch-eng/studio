@@ -143,29 +143,30 @@ export default function LandingPage() {
                 data-ai-hint="worship congregation"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
-              <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
-                <div className="container px-4 md:px-6">
-                  <h1 className="font-headline text-4xl font-bold tracking-wide text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            </AspectRatio>
+          </div>
+        </section>
+
+        <section className="py-12 md:py-20 text-center">
+            <div className="container px-4 md:px-6">
+                 <h1 className="font-headline text-4xl font-bold tracking-wide text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                     Deeper Faith. Global Connection.
                   </h1>
-                  <p className="mx-auto mt-6 max-w-3xl text-lg text-white/90 md:text-xl">
+                  <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground md:text-xl">
                     An interactive spiritual ecosystem to grow in faith, access transformational resources, and live out your divine purpose.
                   </p>
                   <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                     <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
                       <Link href="/signup">Get Started</Link>
                     </Button>
-                    <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10">
+                    <Button size="lg" variant="outline" asChild>
                       <Link href="/dashboard">Explore Platform</Link>
                     </Button>
                   </div>
-                </div>
-              </div>
-            </AspectRatio>
-          </div>
+            </div>
         </section>
 
-        <section className="py-12 md:py-20 text-center">
+        <section className="py-12 md:py-20 text-center bg-secondary">
             <div className="container px-4 md:px-6">
                 <p className="font-semibold text-accent tracking-wider uppercase">Welcome to</p>
                 <h2 className="font-headline text-4xl font-bold tracking-wide sm:text-5xl text-foreground mt-2">
@@ -187,7 +188,7 @@ export default function LandingPage() {
             </div>
         </section>
         
-        <section id="features" className="py-12 md:py-24 bg-secondary">
+        <section id="features" className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
               <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
@@ -214,7 +215,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="py-12 md:py-24">
+        <section className="py-12 md:py-24 bg-secondary">
           <div className="container px-4 md:px-6">
              <div className="mb-12 text-center">
                  <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
@@ -236,7 +237,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="py-12 md:py-24 bg-secondary">
+        <section className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
               <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
@@ -265,7 +266,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="founders" className="py-12 md:py-24">
+        <section id="founders" className="py-12 md:py-24 bg-secondary">
           <div className="container px-4 md:px-6">
             <div className="mb-12 text-center">
               <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
@@ -314,7 +315,7 @@ export default function LandingPage() {
 
       </main>
 
-      <footer className="bg-secondary text-secondary-foreground">
+      <footer className="bg-background text-foreground">
         <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Faith Connect Global. All Rights Reserved.
