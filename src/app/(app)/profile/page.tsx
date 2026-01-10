@@ -3,69 +3,96 @@
 
 import { ContentRecommender } from '@/components/content-recommender';
 import { SpiritualGrowthChart } from '@/components/spiritual-growth-chart';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import {
   BookOpen,
   HeartHandshake,
   Users,
   Clapperboard,
+  Edit,
+  Shield,
+  Star,
+  GitBranch,
+  TrendingUp,
+  Award,
+  CheckCircle,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
-import { Edit } from 'lucide-react';
 import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Progress } from '@/components/ui/progress';
+import { tribeIcons } from '@/components/profile-icons';
 
-const stats = [
-  {
-    icon: <BookOpen className="h-6 w-6 text-accent" />,
-    title: 'Devotionals Read',
-    value: '12',
-  },
-  {
-    icon: <HeartHandshake className="h-6 w-6 text-accent" />,
-    title: 'Prayers Joined',
-    value: '8',
-  },
-  {
-    icon: <Clapperboard className="h-6 w-6 text-accent" />,
-    title: 'Sessions Watched',
-    value: '5',
-  },
-  {
-    icon: <Users className="h-6 w-6 text-accent" />,
-    title: 'New Connections',
-    value: '3',
-  },
-];
-
-// In a real app, this would come from an auth context
+// Mock data based on the new User model
 const user = {
-  name: 'Joseph',
-  email: 'joseph@faithconnect.com',
-  avatar: PlaceHolderImages.find((p) => p.id === 'avatar-1'),
+  profile: {
+    fullName: 'Joseph Tryson',
+    email: 'joseph@faithconnect.com',
+    photoURL: PlaceHolderImages.find((p) => p.id === 'avatar-1')?.imageUrl,
+  },
+  kingdomID: {
+    kingdomIDNumber: 'KGC-2026-000123',
+    authorityLevel: 1,
+    tribe: 'Eagle',
+    badge: 'Kingdom Citizen',
+  },
+  authority: {
+      tier: 2,
+      title: "Authorized Citizen",
+      status: "Active"
+  },
+  dailyPractices: {
+      streakCount: 21,
+      alignment: true,
+      wordIntake: true,
+      identity: true,
+      speech: true,
+      obedience: false,
+      warfareReadiness: true,
+      review: true,
+  },
+  growthMetrics: {
+      consistencyScore: 82,
+      readinessLevel: "Emerging Authority",
+      authorityEligibility: false,
+  }
 };
 
+const dailyPracticesList = [
+    { key: 'alignment', label: 'Alignment' },
+    { key: 'wordIntake', label: 'Word Intake' },
+    { key: 'identity', label: 'Identity' },
+    { key: 'speech', label: 'Speech' },
+    { key: 'obedience', label: 'Obedience' },
+    { key: 'warfareReadiness', label: 'Warfare Readiness' },
+    { key: 'review', label: 'Review' },
+];
 
 export default function ProfilePage() {
+
+  const TribeIcon = tribeIcons[user.kingdomID.tribe as keyof typeof tribeIcons] || tribeIcons.All;
+
   return (
     <div className="flex flex-col gap-6">
       <Card>
         <CardHeader>
           <div className="flex items-center gap-4">
-            {user.avatar && (
+            {user.profile.photoURL && (
               <Avatar className="h-20 w-20">
                 <AvatarImage
-                  src={user.avatar.imageUrl}
-                  alt={user.name}
-                  data-ai-hint={user.avatar.imageHint}
+                  src={user.profile.photoURL}
+                  alt={user.profile.fullName}
+                  data-ai-hint="man smiling"
                 />
-                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                <AvatarFallback>{user.profile.fullName.charAt(0)}</AvatarFallback>
               </Avatar>
             )}
             <div>
-              <h1 className="text-2xl font-bold text-card-foreground">{user.name}</h1>
-              <p className="text-muted-foreground">{user.email}</p>
+              <h1 className="text-2xl font-bold text-card-foreground">{user.profile.fullName}</h1>
+              <p className="text-muted-foreground">{user.profile.email}</p>
             </div>
             <Button variant="outline" size="icon" className="ml-auto" asChild>
               <Link href="/profile/edit">
@@ -76,33 +103,107 @@ export default function ProfilePage() {
           </div>
         </CardHeader>
       </Card>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat, index) => (
-          <Card key={index} className="hover:bg-card/90 transition-colors">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-card-foreground">
-                {stat.title}
-              </CardTitle>
-              {stat.icon}
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Card className="col-span-1 lg:col-span-1">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5 text-accent"/>Kingdom ID</CardTitle>
+                <CardDescription>Your official spiritual identification.</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-card-foreground">{stat.value}</div>
-              <p className="text-xs text-muted-foreground">
-                in the last 30 days
-              </p>
+            <CardContent className="space-y-4">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-secondary">
+                    <span className="text-sm text-muted-foreground">ID Number</span>
+                    <span className="font-mono text-sm font-bold text-foreground">{user.kingdomID.kingdomIDNumber}</span>
+                </div>
+                 <div className="flex items-center justify-between p-3 rounded-lg bg-secondary">
+                    <span className="text-sm text-muted-foreground">Badge</span>
+                    <Badge variant="default">{user.kingdomID.badge}</Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 rounded-lg bg-secondary">
+                    <span className="text-sm text-muted-foreground">Tribe</span>
+                    <div className="flex items-center gap-2">
+                        <TribeIcon className="h-5 w-5 text-accent" />
+                        <span className="font-semibold text-foreground">{user.kingdomID.tribe}</span>
+                    </div>
+                </div>
+                <div className="flex items-center justify-between p-3 rounded-lg bg-secondary">
+                    <span className="text-sm text-muted-foreground">Authority Level</span>
+                    <span className="font-bold text-lg text-accent">{user.kingdomID.authorityLevel}</span>
+                </div>
             </CardContent>
-          </Card>
-        ))}
+        </Card>
+        
+        <Card className="col-span-1 lg:col-span-1">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Star className="h-5 w-5 text-accent" />Status & Metrics</CardTitle>
+                <CardDescription>Your current standing and growth.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+                 <div className="text-center">
+                    <p className="text-sm text-muted-foreground">Citizenship Status</p>
+                    <p className="text-lg font-bold text-green-400">Active</p>
+                </div>
+                <Separator />
+                <div className="text-center">
+                    <p className="text-sm text-muted-foreground">Authority Title</p>
+                    <p className="text-lg font-bold text-foreground">{user.authority.title}</p>
+                </div>
+                 <Separator />
+                 <div className="flex justify-around items-center pt-2">
+                    <div className="text-center">
+                        <p className="text-sm text-muted-foreground">Consistency</p>
+                        <p className="text-2xl font-bold text-accent">{user.growthMetrics.consistencyScore}%</p>
+                    </div>
+                     <div className="text-center">
+                        <p className="text-sm text-muted-foreground">Readiness</p>
+                        <p className="font-bold text-foreground">{user.growthMetrics.readinessLevel}</p>
+                    </div>
+                 </div>
+            </CardContent>
+        </Card>
+        
+        <Card className="col-span-1 md:col-span-2 lg:col-span-1">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><TrendingUp className="h-5 w-5 text-accent"/>Daily Practices</CardTitle>
+                <CardDescription>Your current daily discipline streak.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                 <div className="text-center">
+                    <p className="text-5xl font-bold text-accent">{user.dailyPractices.streakCount}</p>
+                    <p className="text-sm text-muted-foreground">Day Streak</p>
+                </div>
+                 <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                    {dailyPracticesList.map(practice => (
+                        <div key={practice.key} className="flex items-center gap-2 text-sm">
+                            <CheckCircle className={cn("h-4 w-4", user.dailyPractices[practice.key as keyof typeof user.dailyPractices] ? 'text-green-500' : 'text-muted-foreground/50')} />
+                            <span className={cn(user.dailyPractices[practice.key as keyof typeof user.dailyPractices] ? 'text-foreground' : 'text-muted-foreground')}>{practice.label}</span>
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
+
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <SpiritualGrowthChart />
         <ContentRecommender />
       </div>
-
-      <div>
-        {/* Placeholder for more dashboard components like upcoming events, recent activity etc */}
+       <div className="grid gap-6">
+        <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Award className="h-5 w-5 text-accent"/>My Certificates & Badges</CardTitle>
+                <CardDescription>Recognitions of your growth and achievements.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                 <div className="flex items-center gap-4 text-muted-foreground">
+                    <p>Your earned certificates will appear here.</p>
+                     <Button asChild variant="link">
+                        <Link href="/certificates">View All</Link>
+                     </Button>
+                 </div>
+            </CardContent>
+        </Card>
       </div>
     </div>
   );
