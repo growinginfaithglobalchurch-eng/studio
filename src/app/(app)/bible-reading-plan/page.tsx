@@ -6,6 +6,7 @@ import { BookMarked, CheckCircle } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 const readingPlan = [
     { month: "January", readings: ["Genesis 1-3", "Genesis 4-6", "Genesis 7-9", "Genesis 10-12", "Genesis 13-15", "Genesis 16-18", "Genesis 19-21", "Genesis 22-24", "Genesis 25-27", "Genesis 28-30", "Genesis 31-33", "Genesis 34-36", "Genesis 37-39", "Genesis 40-42", "Genesis 43-45", "Genesis 46-48", "Genesis 49-50", "Exodus 1-3", "Exodus 4-6", "Exodus 7-9", "Exodus 10-12", "Exodus 13-15", "Exodus 16-18", "Exodus 19-21", "Exodus 22-24", "Exodus 25-27", "Exodus 28-30", "Exodus 31-33", "Exodus 34-36", "Exodus 37-39", "Exodus 40"] },
@@ -62,7 +63,7 @@ export default function BibleReadingPlanPage() {
                                     <div className="flex items-center gap-4">
                                         <div className="text-sm font-bold text-accent w-12 text-center">Day {index + 1}</div>
                                         <div className="border-l border-border h-6"></div>
-                                        <p className="font-semibold text-foreground">{reading}</p>
+                                        <p className={cn("font-semibold text-foreground", "text-black")}>{reading}</p>
                                     </div>
                                     <Button size="sm" variant="ghost" onClick={() => handleMarkAsComplete(item.month, index + 1)}>
                                         <CheckCircle className="h-5 w-5 text-muted-foreground hover:text-green-500" />
@@ -79,5 +80,3 @@ export default function BibleReadingPlanPage() {
     </div>
   );
 }
-
-    
