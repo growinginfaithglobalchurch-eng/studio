@@ -1,8 +1,7 @@
 
-
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,7 +16,11 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { format } from 'date-fns';
 
 export default function EventsPage() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(undefined);
+
+  useEffect(() => {
+    setDate(new Date());
+  }, []);
 
   const featuredSpeakers = communityUsers.slice(0, 4);
   const bannerImage = PlaceHolderImages.find(img => img.id === 'hero');
