@@ -9,10 +9,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { communityUsers, friends } from '@/lib/data';
 import { UserPlus, Users, UserCheck, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
+import { User } from '@/lib/types';
 
 export default function ConnectPage() {
+  const { toast } = useToast();
   // Filter out the first user to simulate not seeing yourself in the list
   const otherUsers = communityUsers.slice(1);
+
+  const handleAddFriend = (user: User) => {
+    toast({
+      title: 'Friend Request Sent!',
+      description: `Your request to connect with ${user.name} has been sent.`,
+    });
+  };
 
   return (
     <div className="space-y-8">
@@ -54,7 +64,7 @@ export default function ConnectPage() {
                   <p className="text-sm text-black/60">
                     {user.location}
                   </p>
-                  <Button className="mt-4 w-full">
+                  <Button className="mt-4 w-full" onClick={() => handleAddFriend(user)}>
                     <UserPlus className="mr-2 h-4 w-4" />
                     Add Friend
                   </Button>
