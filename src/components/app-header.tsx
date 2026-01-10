@@ -26,6 +26,7 @@ import {
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useRouter } from 'next/navigation';
 import { AppSidebarNav } from './app-sidebar-nav';
+import { ScrollArea } from './ui/scroll-area';
 
 export function AppHeader() {
   const router = useRouter();
@@ -60,11 +61,13 @@ export function AppHeader() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col p-0 bg-sidebar text-sidebar-foreground">
-           <SheetHeader className="p-4 border-b border-sidebar-border">
+           <SheetHeader className="p-4 border-b border-sidebar-border shrink-0">
              <SheetTitle className="sr-only">Menu</SheetTitle>
              <SheetDescription className="sr-only">Main navigation for the application.</SheetDescription>
            </SheetHeader>
-          <AppSidebarNav />
+            <ScrollArea className="flex-grow">
+                <AppSidebarNav />
+            </ScrollArea>
         </SheetContent>
       </Sheet>
 
