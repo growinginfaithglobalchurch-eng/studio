@@ -1,5 +1,9 @@
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+'use client';
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import { Feather, Crown, Anchor, Swords } from 'lucide-react';
 
 const realmsOfWar = [
@@ -39,6 +43,15 @@ const realmsOfWar = [
 ];
 
 export default function RealmsOfWarPage() {
+  const { toast } = useToast();
+
+  const handleActivatePrayer = (realm: string) => {
+    toast({
+        title: `${realm} Prayer Activated`,
+        description: `You have engaged in warfare for the ${realm}.`,
+    });
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -68,11 +81,16 @@ export default function RealmsOfWarPage() {
                 </ul>
               </div>
             </CardContent>
+            <CardFooter>
+                <Button onClick={() => handleActivatePrayer(realm.title)}>
+                    Activate {realm.title.split(' ')[1]} Prayer
+                </Button>
+            </CardFooter>
           </Card>
         ))}
       </div>
 
-      <Card className="bg-secondary">
+      <Card className="bg-card text-card-foreground">
           <CardHeader>
               <CardTitle>Identity Before Authority</CardTitle>
           </CardHeader>
