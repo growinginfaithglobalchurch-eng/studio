@@ -1,14 +1,16 @@
 
+
 'use client';
 
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { departments, Department } from "@/lib/data";
-import { Handshake, UserPlus, Music, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users, Briefcase, Eye } from "lucide-react";
-import React from "react";
+import { departments as initialDepartments, Department } from "@/lib/data";
+import { Handshake, UserPlus, Music, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users, Briefcase, Eye, CheckCircle } from "lucide-react";
 import Link from 'next/link';
 import { slugify } from '@/lib/utils';
 import { useToast } from "@/hooks/use-toast";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 
 export const iconMap: { [key: string]: React.ReactNode } = {
@@ -30,13 +32,25 @@ export const iconMap: { [key: string]: React.ReactNode } = {
 
 export default function DepartmentsPage() {
   const { toast } = useToast();
+  const [departments, setDepartments] = useState<Department[]>(initialDepartments);
 
   const handleJoin = (departmentName: string) => {
+     setDepartments(prev => prev.map(d => 
+      d.name === departmentName ? { ...d, isMember: !d.isMember } : d
+    ));
+
+    const isJoining = !departments.find(d => d.name === departmentName)?.isMember;
+
     toast({
-      title: "Request to Join Sent!",
-      description: `Your request to join the ${departmentName} has been submitted.`,
+      title: isJoining ? "Successfully Joined!" : "Left Department",
+      description: isJoining 
+        ? `You have joined the ${departmentName}.`
+        : `You have left the ${departmentName}.`,
     });
   };
+
+  const myDepartments = departments.filter(d => d.isMember);
+  const allDepartments = departments;
   
   return (
     <div className="space-y-8">
@@ -52,34 +66,67 @@ export default function DepartmentsPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {departments.map((dept: Department) => (
-          <Card key={dept.name} className="flex flex-col">
-            <CardHeader>
-                <div className="flex items-start gap-4">
-                    {iconMap[dept.icon]}
-                    <div>
-                        <CardTitle className="font-headline text-xl">{dept.name}</CardTitle>
-                        <CardDescription className="mt-1">{dept.description}</CardDescription>
-                    </div>
-                </div>
-            </CardHeader>
-            <CardContent className="flex-grow" />
-            <div className="p-6 pt-0 flex gap-2">
-                <Button className="w-full" asChild>
-                    <Link href={`/departments/${slugify(dept.name)}`}>
-                        <Eye className="mr-2 h-4 w-4" />
-                        View
-                    </Link>
-                </Button>
-                <Button className="w-full text-white" variant="outline" onClick={() => handleJoin(dept.name)}>
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    Join 
-                </Button>
+       <Tabs defaultValue="discover">
+        <TabsList className="grid w-full grid-cols-2 md:w-[400px]">
+          <TabsTrigger value="discover"><Eye className="mr-2 h-4 w-4" /> Discover</TabsTrigger>
+          <TabsTrigger value="my-departments"><Users className="mr-2 h-4 w-4" /> My Departments ({myDepartments.length})</TabsTrigger>
+        </TabsList>
+        <TabsContent value="discover">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-4">
+              {allDepartments.map((dept: Department) => (
+                <Card key={dept.name} className="flex flex-col">
+                  <CardHeader>
+                      <div className="flex items-start gap-4">
+                          {iconMap[dept.icon]}
+                          <div>
+                              <CardTitle className="font-headline text-xl">{dept.name}</CardTitle>
+                              <CardDescription className="mt-1">{dept.description}</CardDescription>
+                          </div>
+                      </div>
+                  </CardHeader>
+                  <CardContent className="flex-grow" />
+                  <div className="p-6 pt-0 flex gap-2">
+                      <Button className="w-full" asChild>
+                          <Link href={`/departments/${slugify(dept.name)}`}>
+                              <Eye className="mr-2 h-4 w-4" />
+                              View
+                          </Link>
+                      </Button>
+                      <Button className="w-full text-white" variant={dept.isMember ? "secondary" : "outline"} onClick={() => handleJoin(dept.name)}>
+                          {dept.isMember ? <CheckCircle className="mr-2 h-4 w-4" /> : <UserPlus className="mr-2 h-4 w-4" />}
+                          {dept.isMember ? 'Joined' : 'Join'}
+                      </Button>
+                  </div>
+                </Card>
+              ))}
             </div>
-          </Card>
-        ))}
-      </div>
+        </TabsContent>
+         <TabsContent value="my-departments">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-4">
+               {myDepartments.length > 0 ? myDepartments.map((dept) => (
+                 <Card key={dept.name} className="flex flex-col">
+                    <CardHeader>
+                        <div className="flex items-start gap-4">
+                            {iconMap[dept.icon]}
+                            <div>
+                                <CardTitle className="font-headline text-xl">{dept.name}</CardTitle>
+                            </div>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="flex-grow" />
+                    <div className="p-6 pt-0">
+                         <Button className="w-full" asChild>
+                          <Link href={`/departments/${slugify(dept.name)}`}>
+                              <Eye className="mr-2 h-4 w-4" />
+                              View Department Hub
+                          </Link>
+                      </Button>
+                    </div>
+                 </Card>
+               )) : <p className="text-muted-foreground col-span-full">You haven't joined any departments yet.</p>}
+            </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 
+
 import type { ImagePlaceholder } from './placeholder-images';
 
 export type UserProfile = {
@@ -93,18 +94,19 @@ export type FamilyGroup = {
 
 // This replaces the previous simple User type
 export type User = {
-  id: string; // Document ID
-  profile: UserProfile;
-  kingdomCitizenship: KingdomCitizenship;
-  kingdomID: KingdomID;
-  authority: Authority;
-  dailyPractices: DailyPractices;
+  id: number;
+  profile?: UserProfile;
+  kingdomCitizenship?: KingdomCitizenship;
+  kingdomID?: KingdomID;
+  authority?: Authority;
+  dailyPractices?: DailyPractices;
   declarations?: Declaration[];
   calendarEvents?: CalendarEvent[];
-  growthMetrics: GrowthMetrics;
+  growthMetrics?: GrowthMetrics;
   familyGroup?: FamilyGroup;
   kidsProfile?: KidsProfile;
   avatar?: ImagePlaceholder; // Keeping this for UI consistency
-  location?: string; // from old model
+  location: string; // from old model
   name: string; // from old model
+  isFriend: boolean;
 };

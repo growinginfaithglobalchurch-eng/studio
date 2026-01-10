@@ -1,34 +1,56 @@
 
+
 'use client';
 
+import React, { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { groups, communityUsers } from '@/lib/data';
-import { UserPlus, Users, Search, PlusCircle } from 'lucide-react';
+import { groups as initialGroups, communityUsers } from '@/lib/data';
+import { UserPlus, Users, Search, PlusCircle, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import React, { useState } from 'react';
 
 export default function GroupsPage() {
-  const myGroups = groups.slice(0, 1);
+  const [groups, setGroups] = useState(initialGroups);
   const { toast } = useToast();
+
+  const handleJoinGroup = (groupId: number) => {
+    setGroups(prev => prev.map(g => 
+        g.id === groupId ? { ...g, isMember: !g.isMember } : g
+    ));
+
+    const group = groups.find(g => g.id === groupId);
+    if (!group) return;
+
+    const isJoining = !group.isMember;
+
+    toast({
+        title: isJoining ? "Group Joined!" : "Left Group",
+        description: isJoining 
+          ? `You have successfully joined the "${group.name}" group.`
+          : `You have left the "${group.name}" group.`
+    });
+  };
 
   const handleCreateGroup = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title') as string;
     
+    // In a real app, you would also handle file uploads and create a new group object
     toast({
         title: "Group Created!",
-        description: `Your new group "${title}" has been created.`,
+        description: `Your new group "${title}" has been created and is pending review.`,
     });
-    // In a real app, you'd handle form state and reset
+    // In a real app, you'd reset form state
   };
+
+  const myGroups = groups.filter(g => g.isMember);
 
   return (
     <div className="space-y-8">
@@ -45,7 +67,7 @@ export default function GroupsPage() {
             <Search className="mr-2 h-4 w-4" /> Discover
           </TabsTrigger>
           <TabsTrigger value="my-groups">
-            <Users className="mr-2 h-4 w-4" /> My Groups
+            <Users className="mr-2 h-4 w-4" /> My Groups ({myGroups.length})
           </TabsTrigger>
           <TabsTrigger value="create">
             <PlusCircle className="mr-2 h-4 w-4" /> Create
@@ -84,9 +106,9 @@ export default function GroupsPage() {
                     </div>
                   </CardContent>
                   <div className="p-6 pt-0">
-                     <Button className="w-full">
-                        <UserPlus className="mr-2 h-4 w-4" />
-                        Join Group
+                     <Button className="w-full" onClick={() => handleJoinGroup(group.id)} variant={group.isMember ? 'secondary' : 'default'}>
+                        {group.isMember ? <CheckCircle className="mr-2 h-4 w-4" /> : <UserPlus className="mr-2 h-4 w-4" />}
+                        {group.isMember ? 'Joined' : 'Join Group'}
                       </Button>
                   </div>
                 </Card>
@@ -117,7 +139,7 @@ export default function GroupsPage() {
                         <p className="text-sm text-muted-foreground line-clamp-2">{group.description}</p>
                      </CardContent>
                      <div className="p-6 pt-0">
-                         <Button variant="outline" className="w-full">View Group</Button>
+                         <Button variant="outline" className="w-full text-white">View Group</Button>
                      </div>
                   </Card>
                 ))

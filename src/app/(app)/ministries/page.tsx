@@ -1,10 +1,15 @@
 
+
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ministries } from '@/lib/data';
-import { HandHelping, Briefcase } from 'lucide-react';
+import { ministries as initialMinistries } from '@/lib/data';
+import { HandHelping, Briefcase, UserPlus, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
 
 const opportunities = [
   {
@@ -24,6 +29,24 @@ const opportunities = [
 ];
 
 export default function MinistriesPage() {
+  const [ministries, setMinistries] = useState(initialMinistries.map(m => ({ ...m, isMember: false })));
+  const { toast } = useToast();
+
+  const handleJoin = (ministryId: number) => {
+    const ministry = ministries.find(m => m.id === ministryId);
+    if (!ministry) return;
+
+    const isJoining = !ministry.isMember;
+    setMinistries(prev => prev.map(m => m.id === ministryId ? { ...m, isMember: isJoining } : m));
+
+    toast({
+      title: isJoining ? 'Request Sent!' : 'Left Ministry',
+      description: isJoining
+        ? `Your request to join "${ministry.name}" has been sent.`
+        : `You have left "${ministry.name}".`
+    });
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -97,8 +120,13 @@ export default function MinistriesPage() {
                 <p className="text-sm text-muted-foreground">{ministry.description}</p>
                 </CardContent>
                 <div className="p-6 pt-0">
-                  <Button asChild className="text-white">
-                    <Link href="/signup">Get Involved</Link>
+                  <Button 
+                    onClick={() => handleJoin(ministry.id)}
+                    className="w-full text-white"
+                    variant={ministry.isMember ? 'secondary' : 'default'}
+                    >
+                    {ministry.isMember ? <CheckCircle className="mr-2" /> : <UserPlus className="mr-2" />}
+                    {ministry.isMember ? 'Joined' : 'Get Involved'}
                   </Button>
                 </div>
             </Card>

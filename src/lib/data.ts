@@ -95,20 +95,13 @@ export const ministries = [
 ];
 
 export const communityUsers: User[] = [
-  { id: 1, name: 'John Doe', location: 'Lagos, Nigeria', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1')! },
-  { id: 2, name: 'Jane Smith', location: 'London, UK', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2')! },
-  { id: 3, name: 'Carlos Garcia', location: 'São Paulo, Brazil', avatar: PlaceHolderImages.find(p => p.id === 'avatar-3')! },
-  { id: 4, name: 'Aisha Khan', location: 'Mumbai, India', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2')! },
-  { id: 5, name: 'Michael Chen', location: 'Sydney, Australia', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1')! },
-  { id: 6, name: 'Maria Rodriguez', location: 'Mexico City, Mexico', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2')! },
+  { id: 1, name: 'John Doe', location: 'Lagos, Nigeria', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1')!, isFriend: false },
+  { id: 2, name: 'Jane Smith', location: 'London, UK', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2')!, isFriend: true },
+  { id: 3, name: 'Carlos Garcia', location: 'São Paulo, Brazil', avatar: PlaceHolderImages.find(p => p.id === 'avatar-3')!, isFriend: false },
+  { id: 4, name: 'Aisha Khan', location: 'Mumbai, India', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2')!, isFriend: false },
+  { id: 5, name: 'Michael Chen', location: 'Sydney, Australia', avatar: PlaceHolderImages.find(p => p.id === 'avatar-1')!, isFriend: true },
+  { id: 6, name: 'Maria Rodriguez', location: 'Mexico City, Mexico', avatar: PlaceHolderImages.find(p => p.id === 'avatar-2')!, isFriend: false },
 ];
-
-export const friends: User[] = [
-  communityUsers[1],
-  communityUsers[2],
-  communityUsers[4],
-];
-
 
 export const feedItems = [
   {
@@ -171,6 +164,7 @@ export const events = [
     date: new Date(2024, 8, 15), // Note: Month is 0-indexed, so 8 is September
     time: '7:00 PM - 9:00 PM EST',
     isLive: false,
+    isRegistered: false,
   },
   {
     id: 2,
@@ -179,6 +173,7 @@ export const events = [
     date: new Date(2024, 8, 22),
     time: '10:00 AM - 1:00 PM EST',
     isLive: false,
+    isRegistered: true,
   },
    {
     id: 3,
@@ -187,6 +182,7 @@ export const events = [
     speaker: 'Faith Connect Worship',
     time: '11:00 AM EST',
     isLive: true,
+    isRegistered: false,
   },
 ];
 
@@ -273,6 +269,7 @@ export const conferences = [
         dates: 'October 10-12, 2024',
         location: 'Atlanta, GA & Online',
         image: PlaceHolderImages.find(p => p.id === 'hero'),
+        isRegistered: false,
     },
     {
         id: 2,
@@ -281,6 +278,7 @@ export const conferences = [
         dates: 'November 7-9, 2024',
         location: 'Online Only',
         image: PlaceHolderImages.find(p => p.id === 'live-replay-2'),
+        isRegistered: true,
     },
     {
         id: 3,
@@ -289,6 +287,7 @@ export const conferences = [
         dates: 'January 15-17, 2025',
         location: 'Online Only',
         image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
+        isRegistered: false,
     }
 ];
 
@@ -376,6 +375,7 @@ export const empowermentMeetings = [
     time: '6:00 PM EST',
     type: 'Monthly',
     image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
+    isRegistered: false,
   },
   {
     id: 2,
@@ -385,6 +385,7 @@ export const empowermentMeetings = [
     time: 'Various Times',
     type: 'Yearly',
     image: PlaceHolderImages.find(p => p.id === 'hero'),
+    isRegistered: true,
   },
   {
     id: 3,
@@ -394,6 +395,7 @@ export const empowermentMeetings = [
     time: '10:00 AM EST',
     type: 'Weekly',
     image: PlaceHolderImages.find(p => p.id === 'community-feature'),
+    isRegistered: false,
   }
 ];
 
@@ -429,6 +431,7 @@ export const groups = [
         image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
         members: 128,
         category: 'Men\'s Group',
+        isMember: true,
     },
     {
         id: 2,
@@ -437,6 +440,7 @@ export const groups = [
         image: PlaceHolderImages.find(p => p.id === 'devotional-3'),
         members: 245,
         category: 'Women\'s Group',
+        isMember: false,
     },
     {
         id: 3,
@@ -445,6 +449,7 @@ export const groups = [
         image: PlaceHolderImages.find(p => p.id === 'community-feature'),
         members: 89,
         category: 'Career & Business',
+        isMember: false,
     },
      {
         id: 4,
@@ -453,6 +458,7 @@ export const groups = [
         image: PlaceHolderImages.find(p => p.id === 'devotionals-feature'),
         members: 450,
         category: 'Bible Study',
+        isMember: false,
     },
 ];
 
@@ -460,10 +466,11 @@ export type Department = {
   name: string;
   description: string;
   icon: string;
+  isMember?: boolean;
 }
 
 export const departments: Department[] = [
-  { name: 'Praise & Worship Department', description: 'Leading the congregation into the presence of God through music.', icon: 'Music' },
+  { name: 'Praise & Worship Department', description: 'Leading the congregation into the presence of God through music.', icon: 'Music', isMember: true },
   { name: 'Ushering Department', description: 'Creating a welcoming and orderly environment for all services.', icon: 'Handshake' },
   { name: 'Music Department', description: 'Serving the house through instrumental and vocal music.', icon: 'Music2' },
   { name: 'Media Department', description: 'Managing sound, video, and streaming to spread the gospel.', icon: 'Video' },
