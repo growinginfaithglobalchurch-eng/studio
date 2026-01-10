@@ -68,7 +68,7 @@ export default function WarRoomPage() {
                     <CardContent>
                         <p className="text-muted-foreground">Our current unified focus is on breaking the spirit of division within the global church. All tribes are to engage in prayers of unity, reconciliation, and honor. Reference Ephesians 4:1-3. Specific assignments are listed below.</p>
                         <Button variant="outline" className="mt-4" asChild>
-                            <Link href="/war-room-protocols">
+                            <Link href="/war-room-protocols" className="text-white">
                                 <BookOpen className="mr-2 h-4 w-4" />
                                 Read Protocols
                             </Link>
