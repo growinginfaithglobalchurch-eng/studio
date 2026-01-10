@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { iconMap } from '../page';
 import { slugify, unslugify } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Home, MessageSquare, Calendar, Megaphone, UserPlus } from 'lucide-react';
+import { Home, MessageSquare, Calendar, Megaphone, UserPlus, BookOpen, ClipboardCheck, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 
@@ -53,11 +53,13 @@ export default function DepartmentDetailPage() {
             </Card>
 
             <Tabs defaultValue="home" className="w-full">
-                <TabsList className="grid w-full grid-cols-4">
+                <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                     <TabsTrigger value="home"><Home className="mr-2 h-4 w-4" /> Home</TabsTrigger>
-                    <TabsTrigger value="chat"><MessageSquare className="mr-2 h-4 w-4" /> Chat</TabsTrigger>
-                    <TabsTrigger value="meetings"><Calendar className="mr-2 h-4 w-4" /> Meetings</TabsTrigger>
                     <TabsTrigger value="announcements"><Megaphone className="mr-2 h-4 w-4" /> Announcements</TabsTrigger>
+                    <TabsTrigger value="meetings"><Calendar className="mr-2 h-4 w-4" /> Meetings</TabsTrigger>
+                    <TabsTrigger value="teachings"><BookOpen className="mr-2 h-4 w-4" /> Teachings</TabsTrigger>
+                    <TabsTrigger value="trainings"><GraduationCap className="mr-2 h-4 w-4" /> Trainings</TabsTrigger>
+                    <TabsTrigger value="assignments"><ClipboardCheck className="mr-2 h-4 w-4" /> Assignments</TabsTrigger>
                 </TabsList>
                 <TabsContent value="home">
                     <Card>
@@ -69,22 +71,34 @@ export default function DepartmentDetailPage() {
                         </CardContent>
                     </Card>
                 </TabsContent>
-                <TabsContent value="chat">
+                <TabsContent value="announcements">
                      <Card>
-                        <CardHeader><CardTitle>Chat Room</CardTitle></CardHeader>
-                        <CardContent><p className="text-muted-foreground">Chat functionality coming soon.</p></CardContent>
+                        <CardHeader><CardTitle>Announcements</CardTitle></CardHeader>
+                        <CardContent><p className="text-muted-foreground">Department announcements coming soon.</p></CardContent>
                     </Card>
                 </TabsContent>
-                <TabsContent value="meetings">
+                 <TabsContent value="meetings">
                      <Card>
                         <CardHeader><CardTitle>Meetings & Schedule</CardTitle></CardHeader>
                         <CardContent><p className="text-muted-foreground">Meeting schedule and content coming soon.</p></CardContent>
                     </Card>
                 </TabsContent>
-                 <TabsContent value="announcements">
+                <TabsContent value="teachings">
                      <Card>
-                        <CardHeader><CardTitle>Announcements</CardTitle></CardHeader>
-                        <CardContent><p className="text-muted-foreground">Department announcements coming soon.</p></CardContent>
+                        <CardHeader><CardTitle>Teachings</CardTitle></CardHeader>
+                        <CardContent><p className="text-muted-foreground">Teaching content coming soon.</p></CardContent>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="trainings">
+                     <Card>
+                        <CardHeader><CardTitle>Trainings & Practical Sessions</CardTitle></CardHeader>
+                        <CardContent><p className="text-muted-foreground">Training materials and session info coming soon.</p></CardContent>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="assignments">
+                     <Card>
+                        <CardHeader><CardTitle>Assignments & Serving Appointments</CardTitle></CardHeader>
+                        <CardContent><p className="text-muted-foreground">Service schedules and assignments coming soon.</p></CardContent>
                     </Card>
                 </TabsContent>
             </Tabs>
