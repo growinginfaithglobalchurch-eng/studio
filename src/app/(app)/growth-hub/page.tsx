@@ -29,7 +29,7 @@ const dailyPractices = [
     icon: <UserCircle className="h-6 w-6 text-accent" />,
     title: "Identity Consciousness & Reflection",
     description: "Reflect on who you are in Christ. Journal your thoughts and revelations.",
-    href: "#",
+    href: "/identity-journal",
     cta: "Journal"
   },
   {
