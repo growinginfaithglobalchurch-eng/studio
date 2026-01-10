@@ -18,8 +18,8 @@ export default function WelcomePage() {
                 <Image 
                     src={welcomeImage.imageUrl} 
                     alt="Welcome" 
-                    layout="fill" 
-                    objectFit="cover" 
+                    fill
+                    className="object-cover" 
                     data-ai-hint={welcomeImage.imageHint}
                 />
             </div>
