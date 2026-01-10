@@ -78,6 +78,7 @@ const equippingNav = [
     { href: '/school-of-the-spirit', label: 'School of the Spirit', icon: <Wind className="h-4 w-4" /> },
     { href: '/school-of-healing', label: 'School of Healing', icon: <HeartPulse className="h-4 w-4" /> },
     { href: '/school-of-prophet', label: 'School of the Prophet', icon: <Voicemail className="h-4 w-4" /> },
+    { href: '/one-on-one-prophetic-registration', label: '1-on-1 Prophetic', icon: <UserCheck className="h-4 w-4" /> },
     { href: '/school-of-deliverance', label: 'School of Deliverance', icon: <Swords className="h-4 w-4" /> },
     { href: '/school-of-ministry', label: 'School of Ministry', icon: <Briefcase className="h-4 w-4" /> },
     { href: '/business-school', label: 'Business School', icon: <TrendingUp className="h-4 w-4" /> },
