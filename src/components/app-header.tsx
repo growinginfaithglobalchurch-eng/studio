@@ -96,7 +96,7 @@ export function AppHeader() {
       {isLoggedIn ? (
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" className="rounded-full">
-            <Bell className="h-5 w-5" />
+            <Bell className="h-5 w-5 text-black" />
             <span className="sr-only">Notifications</span>
           </Button>
           <DropdownMenu>
