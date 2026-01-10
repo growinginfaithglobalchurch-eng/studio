@@ -91,9 +91,9 @@ export default function VisitingProgramsPage() {
                 </CardContent>
             </Card>
 
-            <Card className="bg-secondary/30">
+            <Card className="bg-card text-card-foreground">
                 <CardHeader>
-                    <CardTitle className="font-headline text-2xl text-foreground flex items-center gap-3">
+                    <CardTitle className="font-headline text-2xl text-card-foreground flex items-center gap-3">
                         <ClipboardCheck className="h-6 w-6 text-accent" />
                         Mandatory Pre-Arrival Training
                     </CardTitle>
