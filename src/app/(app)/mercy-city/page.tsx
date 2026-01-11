@@ -22,10 +22,11 @@ const guidedPrayerPoints = [
 ];
 
 const benefitsOfMercy = [
-    { title: "Foreknowledge & Predestination", text: "You are seen, known, and chosen by God before the foundations of the world." },
-    { title: "Conformation to Christ", text: "You are shaped into the very image of Jesus, adopted into God's divine lineage, and given an incorruptible nature." },
-    { title: "Divine Calling", text: "You are called to be holy and blameless, set apart for His glorious purpose." },
-    { title: "Justification & Glorification", text: "You are declared righteous by faith and are being transitioned from one level of glory to another, daily." },
+    { title: "Foreknowledge & Predestination", text: "You receive the assurance that you were known and chosen by God before the foundation of the world." },
+    { title: "Conformation to Christ", text: "You are conformed to the image of Jesus, adopted into God's divine lineage, and receive an incorruptible nature, carrying His image and likeness." },
+    { title: "Divine Calling", text: "You are called to be holy and blameless before Him, set apart for His glorious purpose from the beginning." },
+    { title: "Justification", text: "You are declared righteous by faith in the name of Jesus Christ, standing before God without fault." },
+    { title: "Glorification", text: "You are transitioned daily, from one level of glory to another, continually being transformed into His likeness." },
 ];
 
 type MercyPetition = {
