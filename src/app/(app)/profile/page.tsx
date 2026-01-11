@@ -177,7 +177,7 @@ export default function ProfilePage() {
                     {dailyPracticesList.map(practice => (
                         <div key={practice.key} className="flex items-center gap-2 text-sm">
                             <CheckCircle className={cn("h-4 w-4", user.dailyPractices[practice.key as keyof typeof user.dailyPractices] ? 'text-green-500' : 'text-muted-foreground/50')} />
-                            <span className={cn(user.dailyPractices[practice.key as keyof typeof user.dailyPractices] ? 'text-foreground' : 'text-muted-foreground')}>{practice.label}</span>
+                            <span className={cn(user.dailyPractices[practice.key as keyof typeof user.dailyPractices] ? 'text-card-foreground' : 'text-muted-foreground')}>{practice.label}</span>
                         </div>
                     ))}
                 </div>
