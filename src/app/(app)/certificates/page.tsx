@@ -34,10 +34,33 @@ const userCertificates = [
 export default function CertificatesPage() {
     const { toast } = useToast();
 
-    const handleDownload = (title: string) => {
+    const handleDownload = (cert: typeof userCertificates[0]) => {
+        const certificateContent = `
+            CERTIFICATE OF COMPLETION
+
+            This certifies that
+            [Your Name Here]
+            has successfully completed the
+            
+            "${cert.title}"
+
+            Issued by: ${cert.issuingAuthority}
+            Date: ${new Date(cert.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        `;
+
+        const blob = new Blob([certificateContent.trim()], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${cert.title.replace(/ /g, '_')}_Certificate.txt`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
         toast({
             title: "Downloading Certificate",
-            description: `Your certificate for "${title}" is being prepared for download.`,
+            description: `Your certificate for "${cert.title}" is downloading.`,
         });
     };
 
@@ -84,7 +107,7 @@ export default function CertificatesPage() {
                           <p className="text-sm text-muted-foreground">{cert.description}</p>
                       </CardContent>
                       <div className="p-6 pt-0 flex flex-col sm:flex-row gap-2">
-                          <Button className="w-full" onClick={() => handleDownload(cert.title)}>
+                          <Button className="w-full" onClick={() => handleDownload(cert)}>
                               <Download className="mr-2 h-4 w-4" /> Download
                           </Button>
                           <Button variant="outline" className="w-full text-white" onClick={() => handleShare(cert.title)}>
