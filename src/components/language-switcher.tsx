@@ -34,6 +34,7 @@ export function LanguageSwitcher() {
         <DropdownMenuItem onSelect={() => handleLanguageChange('Spanish')}>Español (Spanish)</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleLanguageChange('French')}>Français (French)</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleLanguageChange('Mandarin')}>中文 (Mandarin)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Urdu')}>اردو (Urdu)</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleLanguageChange('Portuguese')}>Português (Portuguese)</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleLanguageChange('German')}>Deutsch (German)</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleLanguageChange('Russian')}>Русский (Russian)</DropdownMenuItem>
