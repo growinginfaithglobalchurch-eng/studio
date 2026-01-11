@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, BookOpen, CheckCircle, Droplets, Heart, Shield, Award, PlayCircle, Star, Target, Users, ThumbsUp } from "lucide-react";
+import { Home, BookOpen, CheckCircle, Droplets, Heart, Shield, Award, PlayCircle, Star, Target, Users, ThumbsUp, GitCompare, Landmark } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -19,28 +19,28 @@ const trainingModules = [
         title: "The Kingdom Mandate: Parenting from God’s Perspective", 
         icon: <Target className="h-5 w-5 text-accent" />, 
         content: "From the very beginning, God instituted the family as a primary means by which His Kingdom would be established on Earth. This module redefines parenting as a divine calling to multiply God’s image and raise up Kingdom ambassadors who will carry His light into the world.",
-        points: ["The Origin of Parenting: God’s Design", "The Kingdom Mandate: Multiplying God’s Image", "The Role of Parents in the Kingdom of God", "Parenting with Purpose: Raising Kingdom Ambassadors"]
+        points: ["The Origin of Parenting: God’s Design", "The Kingdom Mandate: Multiplying God’s Image", "The Role of Parents in the Kingdom of God", "Parenting with Purpose: Raising Kingdom Ambassadors", "The Power of Generational Influence", "The Kingdom’s Empowering Grace"]
     },
     { 
         id: "model", 
         title: "God as Our Model: Understanding Divine Fatherhood", 
         icon: <Users className="h-5 w-5 text-accent" />, 
-        content: "God is the perfect Father. His love, provision, guidance, discipline, and presence form the ultimate model for Kingdom parenting. By reflecting His heart, we help our children understand their true identity as children of God.",
-        points: ["God’s Heart as a Father (1 John 3:1)", "God’s Provision (Matthew 7:11)", "God’s Guidance (Proverbs 3:5-6)", "God’s Discipline (Hebrews 12:6)", "God’s Presence (Psalm 139:7)"]
+        content: "God is the perfect Father. His love, provision, guidance, discipline, presence, and unconditional grace form the ultimate model for Kingdom parenting. By reflecting His heart, we help our children understand their true identity as children of God.",
+        points: ["God’s Heart as a Father (1 John 3:1)", "God’s Provision (Matthew 7:11)", "God’s Guidance (Proverbs 3:5-6)", "God’s Discipline (Hebrews 12:6)", "God’s Presence (Psalm 139:7)", "God’s Unconditional Love (Romans 8:38-39)"]
     },
     { 
         id: "values", 
         title: "Establishing Kingdom Values in Your Home", 
         icon: <Home className="h-5 w-5 text-accent" />, 
         content: "A home is never neutral—it is either intentionally formed by Kingdom values or unconsciously shaped by worldly influences. This module provides the blueprint for making your home the center of spiritual formation where righteousness, peace, and joy in the Holy Spirit reign.",
-        points: ["The Home as a Kingdom Environment", "Modeling Before Teaching", "Guarding the Culture of the Home"]
+        points: ["The Home as a Kingdom Environment", "Modeling Before Teaching", "Teaching Values Through Daily Life", "Guarding the Culture of the Home"]
     },
     { 
         id: "discipleship", 
         title: "Discipleship at Home: Teaching the Ways of God", 
         icon: <BookOpen className="h-5 w-5 text-accent" />, 
         content: "Discipleship begins in the home. Parents are the first pastors, teachers, and disciplers in a child’s life. This module focuses on practical ways to teach Scripture, prayer, worship, and obedience as a natural part of family life.",
-        points: ["The Home as the First Discipleship Center", "Teaching God’s Word", "Prayer and Worship as a Family"]
+        points: ["The Home as the First Discipleship Center", "Teaching God’s Word", "Prayer and Worship as a Family", "Leading by Example"]
     },
     { 
         id: "prayer", 
@@ -55,6 +55,34 @@ const trainingModules = [
         icon: <Droplets className="h-5 w-5 text-accent" />, 
         content: "Biblical discipline is not about punishment; it's about loving correction that forms character and guides children toward righteousness. This module teaches how to balance grace and truth to restore relationship and instill wisdom.",
         points: ["God’s Model of Discipline", "Discipline with Purpose", "Restoration After Discipline"]
+    },
+    {
+        id: "grace-truth",
+        title: "Grace and Truth: Balancing Love and Authority",
+        icon: <GitCompare className="h-5 w-5 text-accent" />,
+        content: "Jesus modeled a perfect balance—full of grace and truth (John 1:14). Parents must learn to do the same, avoiding the extremes of permissive grace or rigid authority.",
+        points: ["Avoiding Extremes in Parenting", "Leading with Love and Firmness", "Building Trust through Balance"]
+    },
+    {
+        id: "empowering",
+        title: "Empowering Your Children for Kingdom Living",
+        icon: <Award className="h-5 w-5 text-accent" />,
+        content: "Children are not merely future leaders—they are active participants in God’s Kingdom now. This module is about empowering them to live out their faith.",
+        points: ["Affirming Identity and Purpose", "Teaching Responsibility and Faith", "Releasing Them into Their Calling"]
+    },
+    {
+        id: "leaders",
+        title: "Raising Kingdom Leaders: A Legacy of Faith",
+        icon: <Landmark className="h-5 w-5 text-accent" />,
+        content: "Leadership begins at home. Kingdom leaders are shaped by character, humility, and a heart of service. Learn how to cultivate these traits in your children.",
+        points: ["Modeling Servant Leadership", "Creating a Generational Legacy", "The Power of Intentional Mentorship"]
+    },
+    {
+        id: "challenges",
+        title: "Navigating Challenges in a Broken World",
+        icon: <Shield className="h-5 w-5 text-accent" />,
+        content: "Parents must equip children to navigate cultural confusion, moral challenges, and spiritual opposition with wisdom and faith.",
+        points: ["Teaching Biblical Discernment", "Standing Firm in Faith Through Trials", "Creating a Safe Space for Tough Questions"]
     },
 ];
 
