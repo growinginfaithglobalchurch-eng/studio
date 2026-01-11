@@ -8,25 +8,24 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Shield, Send, CheckCircle, Gift } from 'lucide-react';
+import { Shield, Send, CheckCircle, Gift, Heart } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { communityUsers } from '@/lib/data';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-const guidedPrayerPoints = [
-    "Father, I come boldly to Your throne of grace, not on my merit, but by the blood of Jesus.",
-    "I plead for mercy for my shortcomings, my family's errors, and the transgressions of my nation.",
-    "Lord, release Your grace to help me in my time of need. Strengthen me where I am weak.",
-    "I receive Your mercy that triumphs over judgment and Your grace that empowers me to overcome.",
-];
-
 const benefitsOfMercy = [
-    { title: "Foreknowledge & Predestination", text: "You receive the assurance that you were known and chosen by God before the foundation of the world." },
-    { title: "Conformation to Christ", text: "You are conformed to the image of Jesus, adopted into God's divine lineage, and receive an incorruptible nature, carrying His image and likeness." },
-    { title: "Divine Calling", text: "You are called to be holy and blameless before Him, set apart for His glorious purpose from the beginning." },
+    { title: "Foreknowledge & Predestination", text: "You were known and chosen by God before the foundation of the world." },
+    { title: "Conformation to Christ", text: "You are conformed to the image of Jesus, adopted into God's divine lineage, and receive an incorruptible nature, carrying His image, likeness, and divine nature." },
+    { title: "Divine Calling", text: "You are called to be holy and without blemish before Him who chose you from the beginning." },
     { title: "Justification", text: "You are declared righteous by faith in the name of Jesus Christ, standing before God without fault." },
     { title: "Glorification", text: "You are transitioned daily, from one level of glory to another, continually being transformed into His likeness." },
+];
+
+const assurancePoints = [
+    { title: "God is For Us", text: "If God is for us, who can be against us? He who did not spare His own Son will also freely give us all things.", scripture: "Romans 8:31-32" },
+    { title: "No Condemnation", text: "Who can bring a charge against God's elect? It is God who justifies. Who is he who condemns? It is Christ who died and is risen, interceding for us.", scripture: "Romans 8:33-34" },
+    { title: "Inseparable Love", text: "Nothing—neither death nor life, angels nor demons, the present nor the future, nor any powers—can separate us from the love of God in Christ Jesus.", scripture: "Romans 8:38-39" },
 ];
 
 type MercyPetition = {
@@ -115,7 +114,7 @@ export default function MercyCityPage() {
       <Card>
         <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline text-xl text-foreground"><Gift className="h-5 w-5 text-accent" />The Blessings of Mercy City</CardTitle>
-            <CardDescription>Based on Romans 8, when you approach the throne of grace, you receive:</CardDescription>
+            <CardDescription>When you approach the throne of grace, you receive:</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-2">
             {benefitsOfMercy.map(benefit => (
@@ -125,6 +124,22 @@ export default function MercyCityPage() {
                 </div>
             ))}
         </CardContent>
+      </Card>
+      
+      <Card>
+          <CardHeader>
+              <CardTitle className="flex items-center gap-2 font-headline text-xl text-foreground"><Heart className="h-5 w-5 text-accent" />The Assurance of God's Love</CardTitle>
+              <CardDescription>Meditate on these truths from Romans 8:31-39.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+              {assurancePoints.map(point => (
+                   <div key={point.title} className="p-3 rounded-lg border bg-secondary/50">
+                      <h3 className="font-bold text-foreground">{point.title}</h3>
+                      <p className="text-sm text-muted-foreground mt-1">{point.text}</p>
+                      <p className="text-xs font-mono text-accent mt-2">{point.scripture}</p>
+                  </div>
+              ))}
+          </CardContent>
       </Card>
 
       <div className="grid md:grid-cols-2 gap-8">
