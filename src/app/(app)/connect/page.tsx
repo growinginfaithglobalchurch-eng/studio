@@ -17,10 +17,10 @@ type UserWithRequest = User & { friendRequestSent?: boolean };
 
 export default function ConnectPage() {
   const { toast } = useToast();
-  const [users, setUsers] = useState<UserWithRequest[]>(initialUsers.map(u => ({...u, isFriendRequest: false, friendRequestSent: false})));
+  const [users, setUsers] = useState<UserWithRequest[]>(initialUsers.map(u => ({...u, friendRequestSent: false })));
   const [friendRequests, setFriendRequests] = useState<User[]>([
-      { ...initialUsers[3], isFriendRequest: true },
-      { ...initialUsers[5], isFriendRequest: true },
+      { ...initialUsers[3], isFriend: false },
+      { ...initialUsers[5], isFriend: false },
   ]);
 
   const handleFriendAction = (user: UserWithRequest) => {
