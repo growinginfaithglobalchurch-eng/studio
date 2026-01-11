@@ -15,6 +15,7 @@ import { StoryViewer } from '@/components/story-viewer';
 import { User } from '@/lib/types';
 import { AddStoryDialog } from '@/components/add-story-dialog';
 import { ScrollAnimator } from '@/components/scroll-animator';
+import { useLanguage } from '@/context/language-context';
 
 
 const iconMap = {
@@ -33,6 +34,7 @@ const stories: User[] = [
 export default function DashboardPage() {
   const [viewingStory, setViewingStory] = useState<User | null>(null);
   const [addingStory, setAddingStory] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (viewingStory) {
@@ -71,9 +73,9 @@ export default function DashboardPage() {
 
       <ScrollAnimator>
         <div>
-          <h1 className="text-3xl font-headline font-bold text-foreground">Feeds & Stories</h1>
+          <h1 className="text-3xl font-headline font-bold text-foreground">{t('dashboardTitle')}</h1>
           <p className="text-muted-foreground">
-            Catch up on stories and see what's happening in the community.
+            {t('dashboardDescription')}
           </p>
         </div>
       </ScrollAnimator>
