@@ -6,9 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Clock, BookOpen, CheckCircle, Printer, Rewind, Play, FastForward, Shield, Quote } from "lucide-react";
 import { CodeBlock } from "@/components/code-block";
 import React from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 const sections = [
     { 
+        id: "past",
         title: "Engaging the Past: Timeline Redemption",
         icon: <Rewind className="h-6 w-6 text-accent" />,
         description: "Apply the Blood of Jesus to your personal and generational history to cleanse foundations and nullify demonic legal rights established in the past.",
@@ -21,6 +26,7 @@ const sections = [
         declaration: "By the Blood of Jesus, I redeem my past. Every faulty foundation is rebuilt on Christ. Every evil covenant is nullified. My history is now His story."
     },
     { 
+        id: "present",
         title: "Engaging the Present: Seizing Kairos",
         icon: <Play className="h-6 w-6 text-accent" />,
         description: "Live fully in your present moment, discerning God's appointed opportunities (Kairos) and walking in obedience.",
@@ -33,6 +39,7 @@ const sections = [
         declaration: "I am fully present in this day. I have the wisdom to discern my Kairos moments and the courage to act. I will not miss what God has for me today."
     },
     { 
+        id: "future",
         title: "Engaging the Future: Destiny Programming",
         icon: <FastForward className="h-6 w-6 text-accent" />,
         description: "Use your prophetic and kingly authority to decree God's written destiny over your future, coding your timeline with Heaven's script.",
@@ -47,6 +54,15 @@ const sections = [
 ];
 
 export default function TravelingThroughTimePage() {
+    const { toast } = useToast();
+
+    const handleActivate = (declaration: string) => {
+        toast({
+            title: "Declaration Activated!",
+            description: `You have declared: "${declaration}"`,
+        })
+    }
+
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
              <div className="text-center">
@@ -82,16 +98,25 @@ Joel 2:25 - "So I will restore to you the years that the swarming locust has eat
                         <CardDescription>{section.description}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                         <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                            {section.points.map(point => <li key={point}>{point}</li>)}
-                        </ul>
-                         <Alert className="mt-4">
-                            <Quote className="h-4 w-4"/>
-                            <AlertTitle>Declaration of Authority</AlertTitle>
-                            <AlertDescription className="italic text-foreground">
-                                {section.declaration}
+                        <div className="space-y-3">
+                            <h4 className="font-semibold text-foreground">Action Points:</h4>
+                            {section.points.map((point, index) => (
+                                <div key={index} className="flex items-center space-x-2">
+                                    <Checkbox id={`${section.id}-${index}`} />
+                                    <Label htmlFor={`${section.id}-${index}`} className="text-muted-foreground">{point}</Label>
+                                </div>
+                            ))}
+                        </div>
+                         <Alert className="mt-4 bg-secondary">
+                            <Quote className="h-4 w-4 text-accent"/>
+                            <AlertTitle className="text-accent">Declaration of Authority</AlertTitle>
+                            <AlertDescription className="italic text-foreground mt-2">
+                                "{section.declaration}"
                             </AlertDescription>
                         </Alert>
+                        <Button className="mt-4" onClick={() => handleActivate(section.declaration)}>
+                            <Play className="mr-2 h-4 w-4" /> Activate Declaration
+                        </Button>
                     </CardContent>
                 </Card>
             ))}
