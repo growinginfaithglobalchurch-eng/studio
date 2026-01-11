@@ -15,6 +15,7 @@ import {
   Target,
   BookOpen,
 } from 'lucide-react';
+import Link from 'next/link';
 
 const courseCategories = [
   {
@@ -130,6 +131,11 @@ export default function CoursesPage() {
                             <CardDescription className="mt-1">{feat.description}</CardDescription>
                         </div>
                     </CardHeader>
+                    <CardContent>
+                         <Button variant="outline" asChild>
+                            <Link href="/mentorship">Learn More</Link>
+                         </Button>
+                    </CardContent>
                  </Card>
             ))}
         </div>
