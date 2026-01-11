@@ -62,6 +62,21 @@ const user = {
   }
 };
 
+const userCertificates = [
+    {
+        id: 1,
+        title: "Visitor Training Program Graduate",
+        issuingAuthority: "Faith Connect Global",
+        date: "2024-07-30",
+    },
+    {
+        id: 2,
+        title: "School of the Prophet Graduate",
+        issuingAuthority: "Growing In Faith Global Bible Institute",
+        date: "2024-06-15",
+    },
+];
+
 const dailyPracticesList = [
     { key: 'alignment', label: 'Alignment' },
     { key: 'wordIntake', label: 'Word Intake' },
@@ -108,7 +123,7 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="col-span-1 lg:col-span-1">
             <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-card-foreground"><Shield className="h-5 w-5 text-accent"/>Kingdom ID</CardTitle>
+                <CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5 text-accent"/>Kingdom ID</CardTitle>
                 <CardDescription>Your official spiritual identification.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -193,19 +208,37 @@ export default function ProfilePage() {
        <div className="grid gap-6">
         <Card>
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Award className="h-5 w-5 text-accent"/>My Certificates & Badges</CardTitle>
-                <CardDescription>Recognitions of your growth and achievements.</CardDescription>
+                <CardTitle className="flex items-center gap-2"><Award className="h-5 w-5 text-accent"/>My Achievements</CardTitle>
+                <CardDescription>A record of your earned certificates and badges.</CardDescription>
             </CardHeader>
             <CardContent>
-                 <div className="flex items-center gap-4 text-muted-foreground">
-                    <p>Your earned certificates will appear here.</p>
-                     <Button asChild variant="link">
-                        <Link href="/certificates">View All</Link>
-                     </Button>
-                 </div>
+                 {userCertificates.length > 0 ? (
+                    <div className="space-y-4">
+                        {userCertificates.map(cert => (
+                            <div key={cert.id} className="flex items-center justify-between p-4 rounded-lg border bg-secondary">
+                                <div>
+                                    <p className="font-bold text-card-foreground">{cert.title}</p>
+                                    <p className="text-sm text-muted-foreground">Issued by: {cert.issuingAuthority} on {cert.date}</p>
+                                </div>
+                                <Button variant="link" asChild>
+                                    <Link href="/certificates">View</Link>
+                                </Button>
+                            </div>
+                        ))}
+                    </div>
+                 ) : (
+                    <div className="flex items-center gap-4 text-muted-foreground">
+                        <p>Your earned certificates will appear here.</p>
+                         <Button asChild variant="link">
+                            <Link href="/certificates">View All</Link>
+                         </Button>
+                    </div>
+                 )}
             </CardContent>
         </Card>
       </div>
     </div>
   );
 }
+
+    
