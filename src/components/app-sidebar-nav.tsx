@@ -71,6 +71,7 @@ const communityNav = [
   { href: '/mentorship', label: 'Mentorship', icon: <UserCheck className="h-4 w-4" /> },
   { href: '/kids-and-youth', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
   { href: '/parental-dashboard', label: 'Parental Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
+  { href: '/kingdom-parenting-room', label: 'Kingdom Parenting', icon: <Home className="h-4 w-4" /> },
   { href: '/our-mandate', label: 'Our Mandate', icon: <BookMarked className="h-4 w-4" /> },
   { href: '/programming', label: 'Service Programming', icon: <ClipboardList className="h-4 w-4" /> },
   { href: '/departments', label: 'Departments', icon: <Users className="h-4 w-4" /> },
