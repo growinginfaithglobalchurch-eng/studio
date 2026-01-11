@@ -30,18 +30,21 @@ export function LanguageSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onSelect={() => handleLanguageChange('English')}>
-          English
-        </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => handleLanguageChange('Spanish')}>
-          Español
-        </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => handleLanguageChange('French')}>
-          Français
-        </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => handleLanguageChange('Mandarin')}>
-          中文
-        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('English')}>English</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Spanish')}>Español (Spanish)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('French')}>Français (French)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Mandarin')}>中文 (Mandarin)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Portuguese')}>Português (Portuguese)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('German')}>Deutsch (German)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Russian')}>Русский (Russian)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Arabic')}>العربية (Arabic)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Hindi')}>हिन्दी (Hindi)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Japanese')}>日本語 (Japanese)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Korean')}>한국어 (Korean)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Italian')}>Italiano (Italian)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Dutch')}>Nederlands (Dutch)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Swahili')}>Kiswahili (Swahili)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Yoruba')}>Yorùbá (Yoruba)</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
