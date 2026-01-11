@@ -98,7 +98,7 @@ export default function GlobalNewsPage() {
                      </div>
                 </CardHeader>
 
-                <ScrollArea className="flex-grow p-4 bg-gray-800/50">
+                <ScrollArea className="flex-grow p-4 bg-background">
                     <div className="space-y-4">
                         <div className="text-center my-4">
                             <span className="bg-secondary text-muted-foreground text-xs font-semibold px-2 py-1 rounded-full">YESTERDAY</span>
