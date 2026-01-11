@@ -110,7 +110,7 @@ export default function TravelingThroughTimeEzekiel37Page() {
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
              <div className="text-center">
-                <h1 className="text-3xl font-headline font-bold text-foreground">CHAPTER ONE: THE MYSTERY OF PROPHETIC TIME TRAVEL IN EZEKIEL 37</h1>
+                <h1 className="text-3xl font-headline font-bold text-foreground">SECTION ONE: THE MYSTERY OF PROPHETIC TIME TRAVEL IN EZEKIEL 37</h1>
                 <p className="mt-2 text-lg text-muted-foreground">A Prophetic Teaching</p>
                 <p className="mt-1 text-sm text-muted-foreground">By Joseph Tryson</p>
             </div>
