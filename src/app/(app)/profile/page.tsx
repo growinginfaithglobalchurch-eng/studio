@@ -147,7 +147,7 @@ export default function ProfilePage() {
                 <Separator />
                 <div className="text-center">
                     <p className="text-sm text-muted-foreground">Authority Title</p>
-                    <p className="text-lg font-bold text-foreground">{user.authority.title}</p>
+                    <p className="text-lg font-bold text-card-foreground">{user.authority.title}</p>
                 </div>
                  <Separator />
                  <div className="flex justify-around items-center pt-2">
@@ -157,7 +157,7 @@ export default function ProfilePage() {
                     </div>
                      <div className="text-center">
                         <p className="text-sm text-muted-foreground">Readiness</p>
-                        <p className="font-bold text-foreground">{user.growthMetrics.readinessLevel}</p>
+                        <p className="font-bold text-card-foreground">{user.growthMetrics.readinessLevel}</p>
                     </div>
                  </div>
             </CardContent>
