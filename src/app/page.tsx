@@ -77,18 +77,22 @@ export default function LandingPage() {
   const inEssencePoints = [
     {
       icon: <Network className="h-8 w-8 text-accent" />,
+      key: 'landingEssenceTitle1',
       title: t('landingEssenceTitle1'),
     },
     {
       icon: <Sparkles className="h-8 w-8 text-accent" />,
+      key: 'landingEssenceTitle2',
       title: t('landingEssenceTitle2'),
     },
     {
       icon: <Swords className="h-8 w-8 text-accent" />,
+      key: 'landingEssenceTitle3',
       title: t('landingEssenceTitle3'),
     },
     {
       icon: <Globe className="h-8 w-8 text-accent" />,
+      key: 'landingEssenceTitle4',
       title: t('landingEssenceTitle4'),
     },
   ];
@@ -249,7 +253,7 @@ export default function LandingPage() {
             </ScrollAnimator>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               {inEssencePoints.map((point, index) => (
-                <ScrollAnimator key={point.title} delay={index * 0.1}>
+                <ScrollAnimator key={point.key} delay={index * 0.1}>
                   <Card
                     className="bg-card p-6 text-center flex flex-col items-center h-full"
                   >
