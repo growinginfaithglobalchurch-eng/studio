@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Feather, CheckCircle } from "lucide-react";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 const prayerPoints = [
     "By the authority in the name of Jesus, I release the fire of the Holy Ghost to consume every satanic cloud and spiritual fog blocking my vision and clarity.",
@@ -15,32 +16,36 @@ const prayerPoints = [
 export default function AirForcesPrayerPage() {
   return (
     <div className="space-y-8 max-w-3xl mx-auto">
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-            <Feather className="h-8 w-8 text-accent" />
-            <h1 className="text-3xl font-headline font-bold text-foreground">Prophetic Prayers: The Air Forces</h1>
+      <ScrollAnimator>
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+              <Feather className="h-8 w-8 text-accent" />
+              <h1 className="text-3xl font-headline font-bold text-foreground">Prophetic Prayers: The Air Forces</h1>
+          </div>
+          <p className="text-muted-foreground">
+            Use these prayer points to engage in warfare against powers of the air.
+          </p>
         </div>
-        <p className="text-muted-foreground">
-          Use these prayer points to engage in warfare against powers of the air.
-        </p>
-      </div>
+      </ScrollAnimator>
 
-      <Card>
-        <CardHeader>
-            <CardTitle>Prayer of Engagement</CardTitle>
-            <CardDescription>Declare these points with faith and authority.</CardDescription>
-        </CardHeader>
-        <CardContent>
-            <ul className="space-y-4">
-                {prayerPoints.map((point) => (
-                    <li key={point} className="flex items-start gap-3">
-                        <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
-                        <span className="text-muted-foreground">{point}</span>
-                    </li>
-                ))}
-            </ul>
-        </CardContent>
-      </Card>
+      <ScrollAnimator>
+        <Card>
+          <CardHeader>
+              <CardTitle>Prayer of Engagement</CardTitle>
+              <CardDescription>Declare these points with faith and authority.</CardDescription>
+          </CardHeader>
+          <CardContent>
+              <ul className="space-y-4">
+                  {prayerPoints.map((point) => (
+                      <li key={point} className="flex items-start gap-3">
+                          <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                          <span className="text-muted-foreground">{point}</span>
+                      </li>
+                  ))}
+              </ul>
+          </CardContent>
+        </Card>
+      </ScrollAnimator>
     </div>
   );
 }

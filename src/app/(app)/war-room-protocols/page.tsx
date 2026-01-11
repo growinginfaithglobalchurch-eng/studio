@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 const sections = [
     { 
@@ -99,82 +100,88 @@ export default function WarRoomProtocolsPage() {
 
     return (
         <div className="space-y-8">
-            <div>
-                <div className="flex items-center gap-3 mb-2">
-                    <BookOpen className="h-8 w-8 text-accent" />
-                    <h1 className="text-3xl font-headline font-bold text-foreground">The War Room: Protocols & Rules</h1>
-                </div>
-                <p className="text-muted-foreground max-w-2xl">
-                   “Let all things be done decently and in order.” — 1 Corinthians 14:40
-                </p>
-                <p className="mt-2 text-lg font-semibold">The War Room is not a chat room. It is a spiritual command center for disciplined, lawful, Christ-centered warfare.</p>
-            </div>
+            <ScrollAnimator>
+              <div>
+                  <div className="flex items-center gap-3 mb-2">
+                      <BookOpen className="h-8 w-8 text-accent" />
+                      <h1 className="text-3xl font-headline font-bold text-foreground">The War Room: Protocols & Rules</h1>
+                  </div>
+                  <p className="text-muted-foreground max-w-2xl">
+                    “Let all things be done decently and in order.” — 1 Corinthians 14:40
+                  </p>
+                  <p className="mt-2 text-lg font-semibold">The War Room is not a chat room. It is a spiritual command center for disciplined, lawful, Christ-centered warfare.</p>
+              </div>
+            </ScrollAnimator>
 
-            {sections.map(section => (
-                <Card key={section.title}>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-3">{section.icon} {section.title}</CardTitle>
-                        {section.description && <CardDescription>{section.description}</CardDescription>}
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        {section.points && <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                            {section.points.map(point => <li key={point}>{point}</li>)}
-                        </ul>}
-                        
-                        {section.restrictions && (
-                            <div>
-                                <h4 className="font-semibold text-foreground mb-2">Restrictions:</h4>
-                                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                                    {section.restrictions.map(point => <li key={point}>{point}</li>)}
-                                </ul>
-                            </div>
-                        )}
+            {sections.map((section, index) => (
+                <ScrollAnimator key={section.title} delay={index * 0.1}>
+                  <Card>
+                      <CardHeader>
+                          <CardTitle className="flex items-center gap-3">{section.icon} {section.title}</CardTitle>
+                          {section.description && <CardDescription>{section.description}</CardDescription>}
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                          {section.points && <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                              {section.points.map(point => <li key={point}>{point}</li>)}
+                          </ul>}
+                          
+                          {section.restrictions && (
+                              <div>
+                                  <h4 className="font-semibold text-foreground mb-2">Restrictions:</h4>
+                                  <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                                      {section.restrictions.map(point => <li key={point}>{point}</li>)}
+                                  </ul>
+                              </div>
+                          )}
 
-                        {section.subSections && section.subSections.map(sub => (
-                            <div key={sub.title} className="p-4 border rounded-lg">
-                                <h4 className="font-bold text-lg text-foreground">{sub.title}</h4>
-                                <ul className="list-disc pl-5 space-y-1 text-muted-foreground mt-2">
-                                    {sub.points.map(p => <li key={p}>{p}</li>)}
-                                </ul>
-                                {sub.quote && <p className="mt-3 text-sm italic text-accent font-semibold">“{sub.quote}”</p>}
-                            </div>
-                        ))}
+                          {section.subSections && section.subSections.map(sub => (
+                              <div key={sub.title} className="p-4 border rounded-lg">
+                                  <h4 className="font-bold text-lg text-foreground">{sub.title}</h4>
+                                  <ul className="list-disc pl-5 space-y-1 text-muted-foreground mt-2">
+                                      {sub.points.map(p => <li key={p}>{p}</li>)}
+                                  </ul>
+                                  {sub.quote && <p className="mt-3 text-sm italic text-accent font-semibold">“{sub.quote}”</p>}
+                              </div>
+                          ))}
 
-                        {section.phases && section.phases.map(phase => (
-                             <div key={phase.num} className="p-4 border rounded-lg">
-                                <h4 className="font-bold text-lg text-foreground">{phase.num}. {phase.name}</h4>
-                                <ul className="list-disc pl-5 space-y-1 text-muted-foreground mt-2">
-                                    {phase.details.map(d => <li key={d}>{d}</li>)}
-                                </ul>
-                                {phase.quote && <p className="mt-3 text-sm italic text-accent font-semibold">“{phase.quote}”</p>}
-                            </div>
-                        ))}
+                          {section.phases && section.phases.map(phase => (
+                              <div key={phase.num} className="p-4 border rounded-lg">
+                                  <h4 className="font-bold text-lg text-foreground">{phase.num}. {phase.name}</h4>
+                                  <ul className="list-disc pl-5 space-y-1 text-muted-foreground mt-2">
+                                      {phase.details.map(d => <li key={d}>{d}</li>)}
+                                  </ul>
+                                  {phase.quote && <p className="mt-3 text-sm italic text-accent font-semibold">“{phase.quote}”</p>}
+                              </div>
+                          ))}
 
-                        {section.quote && <p className="mt-2 text-md italic text-accent font-semibold">“{section.quote}”</p>}
+                          {section.quote && <p className="mt-2 text-md italic text-accent font-semibold">“{section.quote}”</p>}
 
-                        {section.consequences && (
-                             <Alert variant="destructive">
-                                <AlertTriangle className="h-4 w-4" />
-                                <AlertTitle>Consequences for Violations</AlertTitle>
-                                <AlertDescription>
-                                    {section.consequences}
-                                </AlertDescription>
-                            </Alert>
-                        )}
-                    </CardContent>
-                </Card>
+                          {section.consequences && (
+                              <Alert variant="destructive">
+                                  <AlertTriangle className="h-4 w-4" />
+                                  <AlertTitle>Consequences for Violations</AlertTitle>
+                                  <AlertDescription>
+                                      {section.consequences}
+                                  </AlertDescription>
+                              </Alert>
+                          )}
+                      </CardContent>
+                  </Card>
+                </ScrollAnimator>
             ))}
-             <Card>
-                <CardHeader><CardTitle className="flex items-center gap-3"><Shield className="h-6 w-6 text-accent"/>Governing Declaration</CardTitle></CardHeader>
-                <CardContent>
-                     <p className="text-lg italic text-muted-foreground">
-                        “I acknowledge that I enter the War Room under the authority of Jesus Christ. I submit to order, discipline, and leadership. I renounce fear, pride, and disorder. I engage from victory, not struggle. I walk in Christ’s triumphal procession.”
-                    </p>
-                </CardContent>
-                <CardFooter>
-                    <Button onClick={handleAgree}>I Agree & Submit</Button>
-                </CardFooter>
-             </Card>
+             <ScrollAnimator>
+               <Card>
+                  <CardHeader><CardTitle className="flex items-center gap-3"><Shield className="h-6 w-6 text-accent"/>Governing Declaration</CardTitle></CardHeader>
+                  <CardContent>
+                      <p className="text-lg italic text-muted-foreground">
+                          “I acknowledge that I enter the War Room under the authority of Jesus Christ. I submit to order, discipline, and leadership. I renounce fear, pride, and disorder. I engage from victory, not struggle. I walk in Christ’s triumphal procession.”
+                      </p>
+                  </CardContent>
+                  <CardFooter>
+                      <Button onClick={handleAgree}>I Agree & Submit</Button>
+                  </CardFooter>
+              </Card>
+             </ScrollAnimator>
 
         </div>
     )

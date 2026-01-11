@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Store, Star, Check } from "lucide-react";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 const subscriptionPlans = [
     {
@@ -45,51 +46,55 @@ const subscriptionPlans = [
 export default function StorePage() {
     return (
         <div className="space-y-8">
-            <div>
-                <div className="flex items-center gap-3 mb-2">
-                    <Store className="h-8 w-8 text-accent" />
-                    <h1 className="text-3xl font-headline font-bold text-foreground">Content Library Store</h1>
-                </div>
-                <p className="text-muted-foreground max-w-2xl">
-                    Unlock unlimited access to our entire library of teachings, sermons, conferences, and more.
-                </p>
-            </div>
+            <ScrollAnimator>
+              <div>
+                  <div className="flex items-center gap-3 mb-2">
+                      <Store className="h-8 w-8 text-accent" />
+                      <h1 className="text-3xl font-headline font-bold text-foreground">Content Library Store</h1>
+                  </div>
+                  <p className="text-muted-foreground max-w-2xl">
+                      Unlock unlimited access to our entire library of teachings, sermons, conferences, and more.
+                  </p>
+              </div>
+            </ScrollAnimator>
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {subscriptionPlans.map(plan => (
-                    <Card key={plan.title} className={`flex flex-col ${plan.popular ? 'border-primary border-2' : ''}`}>
-                         {plan.popular && (
-                            <div className="flex justify-center -mt-4">
-                                <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
-                                    <Star className="h-4 w-4"/>
-                                    Most Popular
-                                </div>
+                {subscriptionPlans.map((plan, index) => (
+                    <ScrollAnimator key={plan.title} delay={index * 0.1}>
+                      <Card className={`flex flex-col ${plan.popular ? 'border-primary border-2' : ''}`}>
+                          {plan.popular && (
+                              <div className="flex justify-center -mt-4">
+                                  <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
+                                      <Star className="h-4 w-4"/>
+                                      Most Popular
+                                  </div>
+                              </div>
+                          )}
+                          <CardHeader className="text-center">
+                              <CardTitle className="text-2xl font-headline">{plan.title}</CardTitle>
+                              <CardDescription>{plan.description}</CardDescription>
+                          </CardHeader>
+                          <CardContent className="flex-grow text-center">
+                            <div className="flex justify-center items-baseline">
+                              <p className="text-4xl font-bold">{plan.price}</p>
+                              <p className="text-muted-foreground">{plan.period}</p>
                             </div>
-                        )}
-                        <CardHeader className="text-center">
-                            <CardTitle className="text-2xl font-headline">{plan.title}</CardTitle>
-                            <CardDescription>{plan.description}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-grow text-center">
-                           <div className="flex justify-center items-baseline">
-                             <p className="text-4xl font-bold">{plan.price}</p>
-                             <p className="text-muted-foreground">{plan.period}</p>
-                           </div>
-                           <ul className="mt-6 space-y-3 text-left">
-                                {plan.features.map(feature => (
-                                    <li key={feature} className="flex items-center gap-3">
-                                        <div className="bg-green-500/20 text-green-400 rounded-full p-1">
-                                            <Check className="h-4 w-4" />
-                                        </div>
-                                        <span className="text-muted-foreground">{feature}</span>
-                                    </li>
-                                ))}
-                           </ul>
-                        </CardContent>
-                        <CardFooter>
-                            <Button className="w-full" size="lg">Subscribe Now</Button>
-                        </CardFooter>
-                    </Card>
+                            <ul className="mt-6 space-y-3 text-left">
+                                  {plan.features.map(feature => (
+                                      <li key={feature} className="flex items-center gap-3">
+                                          <div className="bg-green-500/20 text-green-400 rounded-full p-1">
+                                              <Check className="h-4 w-4" />
+                                          </div>
+                                          <span className="text-muted-foreground">{feature}</span>
+                                      </li>
+                                  ))}
+                            </ul>
+                          </CardContent>
+                          <CardFooter>
+                              <Button className="w-full" size="lg">Subscribe Now</Button>
+                          </CardFooter>
+                      </Card>
+                    </ScrollAnimator>
                 ))}
             </div>
 

@@ -14,6 +14,7 @@ import { Separator } from '@/components/ui/separator';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 export default function PrayerPage() {
   const { toast } = useToast();
@@ -65,7 +66,7 @@ export default function PrayerPage() {
 
   return (
     <div className="grid md:grid-cols-3 gap-6 h-full">
-      <div className="md:col-span-1 flex flex-col gap-6">
+      <ScrollAnimator className="md:col-span-1 flex flex-col gap-6">
         <Card>
           <CardHeader>
             <CardTitle className="font-headline text-2xl flex items-center gap-2 font-bold">
@@ -96,9 +97,9 @@ export default function PrayerPage() {
             </form>
           </CardContent>
         </Card>
-      </div>
+      </ScrollAnimator>
 
-      <div className="md:col-span-2">
+      <ScrollAnimator className="md:col-span-2">
         <Card className="h-full flex flex-col">
           <CardHeader>
             <CardTitle className="font-headline text-2xl flex items-center gap-2 font-bold">
@@ -155,7 +156,7 @@ export default function PrayerPage() {
             </ScrollArea>
           </CardContent>
         </Card>
-      </div>
+      </ScrollAnimator>
     </div>
   );
 }

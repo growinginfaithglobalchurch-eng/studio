@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Check, Gift } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 const questions = [
   { id: 1, text: "I enjoy organizing people and resources to achieve a common goal.", gift: "Administration" },
@@ -79,66 +80,70 @@ export default function SpiritualGiftsAssessmentPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-            <Gift className="h-8 w-8 text-accent" />
-            <h1 className="text-3xl font-headline font-bold text-foreground">Spiritual Gifts Assessment</h1>
+      <ScrollAnimator>
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+              <Gift className="h-8 w-8 text-accent" />
+              <h1 className="text-3xl font-headline font-bold text-foreground">Spiritual Gifts Assessment</h1>
+          </div>
+          <p className="text-muted-foreground max-w-2xl">
+            Discover how God has uniquely equipped you to serve His kingdom.
+          </p>
         </div>
-        <p className="text-muted-foreground max-w-2xl">
-          Discover how God has uniquely equipped you to serve His kingdom.
-        </p>
-      </div>
+      </ScrollAnimator>
 
-      <Card>
-        {!completed ? (
-          <>
-            <CardHeader>
-              <CardTitle>Question {currentQuestionIndex + 1} of {questions.length}</CardTitle>
-              <Progress value={progress} className="mt-2" />
-            </CardHeader>
-            <CardContent>
-              <p className={cn("text-lg mb-6", "text-card-foreground")}>{questions[currentQuestionIndex].text}</p>
-              <div className="flex gap-4">
-                <Button size="lg" className="w-full" onClick={() => handleAnswer('yes')}>Yes</Button>
-                <Button size="lg" variant="outline" className="w-full" onClick={() => handleAnswer('no')}>No</Button>
-              </div>
-            </CardContent>
-          </>
-        ) : (
-          <>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Check className="h-6 w-6 text-green-500" />
-                Assessment Complete!
-              </CardTitle>
-              <CardDescription>
-                Based on your responses, here are your top potential spiritual gifts. Remember, this is a starting point for prayer and exploration!
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {getTopGifts().length > 0 ? getTopGifts().map(([gift, score]) => (
-                <Card key={gift} className="bg-secondary p-4">
-                  <h3 className="font-bold text-xl text-accent">{gift}</h3>
-                  <p className="text-muted-foreground mt-1">{(giftDescriptions as any)[gift]}</p>
-                </Card>
-              )) : (
-                <p className="text-muted-foreground text-center py-4">No dominant gifts identified. Try retaking the assessment and reflecting on where you feel most drawn to serve.</p>
-              )}
-              <div className="pt-4">
-                <h4 className="font-semibold text-card-foreground">Next Steps:</h4>
-                <ul className="list-disc pl-5 mt-2 text-muted-foreground space-y-1">
-                  <li>Pray and ask God to confirm these gifts in your heart.</li>
-                  <li>Talk to a pastor or mentor about what you've discovered.</li>
-                  <li>Explore ministry opportunities where you can use these gifts by visiting the <Button variant="link" asChild className="p-0"><a href="/departments">Departments</a></Button> page.</li>
-                </ul>
-              </div>
-              <Button className="mt-6" onClick={() => { setCompleted(false); setCurrentQuestionIndex(0); setScores({}); }}>
-                Retake Assessment
-              </Button>
-            </CardContent>
-          </>
-        )}
-      </Card>
+      <ScrollAnimator>
+        <Card>
+          {!completed ? (
+            <>
+              <CardHeader>
+                <CardTitle>Question {currentQuestionIndex + 1} of {questions.length}</CardTitle>
+                <Progress value={progress} className="mt-2" />
+              </CardHeader>
+              <CardContent>
+                <p className={cn("text-lg mb-6", "text-card-foreground")}>{questions[currentQuestionIndex].text}</p>
+                <div className="flex gap-4">
+                  <Button size="lg" className="w-full" onClick={() => handleAnswer('yes')}>Yes</Button>
+                  <Button size="lg" variant="outline" className="w-full" onClick={() => handleAnswer('no')}>No</Button>
+                </div>
+              </CardContent>
+            </>
+          ) : (
+            <>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Check className="h-6 w-6 text-green-500" />
+                  Assessment Complete!
+                </CardTitle>
+                <CardDescription>
+                  Based on your responses, here are your top potential spiritual gifts. Remember, this is a starting point for prayer and exploration!
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {getTopGifts().length > 0 ? getTopGifts().map(([gift, score]) => (
+                  <Card key={gift} className="bg-secondary p-4">
+                    <h3 className="font-bold text-xl text-accent">{gift}</h3>
+                    <p className="text-muted-foreground mt-1">{(giftDescriptions as any)[gift]}</p>
+                  </Card>
+                )) : (
+                  <p className="text-muted-foreground text-center py-4">No dominant gifts identified. Try retaking the assessment and reflecting on where you feel most drawn to serve.</p>
+                )}
+                <div className="pt-4">
+                  <h4 className="font-semibold text-card-foreground">Next Steps:</h4>
+                  <ul className="list-disc pl-5 mt-2 text-muted-foreground space-y-1">
+                    <li>Pray and ask God to confirm these gifts in your heart.</li>
+                    <li>Talk to a pastor or mentor about what you've discovered.</li>
+                    <li>Explore ministry opportunities where you can use these gifts by visiting the <Button variant="link" asChild className="p-0"><a href="/departments">Departments</a></Button> page.</li>
+                  </ul>
+                </div>
+                <Button className="mt-6" onClick={() => { setCompleted(false); setCurrentQuestionIndex(0); setScores({}); }}>
+                  Retake Assessment
+                </Button>
+              </CardContent>
+            </>
+          )}
+        </Card>
+      </ScrollAnimator>
     </div>
   );
 }

@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { useRef, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 const trainingModules = [
     { 
@@ -135,106 +136,116 @@ export default function KingdomParentingPage() {
 
     return (
         <div className="space-y-8">
-            <div>
-                <div className="flex items-center gap-3 mb-2">
-                    <Home className="h-8 w-8 text-accent" />
-                    <h1 className="text-3xl font-headline font-bold text-foreground">Kingdom Parenting Room</h1>
-                </div>
-                <p className="text-muted-foreground max-w-2xl">
-                    A training hub to equip and transform you into a visionary Kingdom parent.
-                </p>
-            </div>
+            <ScrollAnimator>
+              <div>
+                  <div className="flex items-center gap-3 mb-2">
+                      <Home className="h-8 w-8 text-accent" />
+                      <h1 className="text-3xl font-headline font-bold text-foreground">Kingdom Parenting Room</h1>
+                  </div>
+                  <p className="text-muted-foreground max-w-2xl">
+                      A training hub to equip and transform you into a visionary Kingdom parent.
+                  </p>
+              </div>
+            </ScrollAnimator>
 
-            <Card className="bg-gradient-to-r from-primary/10 to-transparent">
-                <CardHeader>
-                    <CardTitle className="font-headline text-xl text-foreground">The Vision: Parents as Kings & Priests</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">This room is designed to raise and transform parents into leaders who govern their families with Kingdom principles. Your mandate is to predominate, govern, and colonize the earth by first establishing God's culture in your home. You are a king and a priest to your family.</p>
-                     <Button className="mt-4" size="lg" onClick={handleBeginTraining}>
-                        <PlayCircle className="mr-2 h-5 w-5" />
-                        Begin Training
-                    </Button>
-                </CardContent>
-            </Card>
+            <ScrollAnimator>
+              <Card className="bg-gradient-to-r from-primary/10 to-transparent">
+                  <CardHeader>
+                      <CardTitle className="font-headline text-xl text-foreground">The Vision: Parents as Kings & Priests</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <p className="text-muted-foreground">This room is designed to raise and transform parents into leaders who govern their families with Kingdom principles. Your mandate is to predominate, govern, and colonize the earth by first establishing God's culture in your home. You are a king and a priest to your family.</p>
+                      <Button className="mt-4" size="lg" onClick={handleBeginTraining}>
+                          <PlayCircle className="mr-2 h-5 w-5" />
+                          Begin Training
+                      </Button>
+                  </CardContent>
+              </Card>
+            </ScrollAnimator>
 
             <div className="grid md:grid-cols-3 gap-8" ref={trainingModulesRef}>
                 <div className="md:col-span-2 space-y-8">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2"><BookOpen className="h-5 w-5 text-accent"/>Training Modules</CardTitle>
-                             <div className="space-y-2 pt-2">
-                                <Progress value={progressPercentage} className="h-2" />
-                                <p className="text-sm text-muted-foreground">{completedModules.length} of {trainingModules.length} modules completed.</p>
-                             </div>
-                        </CardHeader>
-                        <CardContent>
-                             <Accordion type="single" collapsible className="w-full">
-                                {trainingModules.map(mod => {
-                                    const isCompleted = completedModules.includes(mod.id);
-                                    return (
-                                        <AccordionItem value={mod.id} key={mod.id} className={cn(isCompleted && "bg-green-500/10")}>
-                                            <AccordionTrigger className="hover:no-underline px-4">
-                                                <div className="flex items-center gap-3 text-left">
-                                                    {mod.icon}
-                                                    <span className={cn("text-lg font-semibold", "text-black")}>{mod.title}</span>
-                                                </div>
-                                            </AccordionTrigger>
-                                            <AccordionContent className="p-4 bg-secondary/30 rounded-md">
-                                                <p className="text-muted-foreground">{mod.content}</p>
-                                                <ul className="list-disc pl-5 mt-4 space-y-1 text-muted-foreground">
-                                                    {mod.points.map(p => <li key={p}>{p}</li>)}
-                                                </ul>
-                                                <Button 
-                                                    className="mt-4" 
-                                                    variant={isCompleted ? "secondary" : "default"}
-                                                    onClick={() => handleCompleteModule(mod.id)}
-                                                >
-                                                    {isCompleted ? <ThumbsUp className="mr-2 h-4 w-4" /> : <CheckCircle className="mr-2 h-4 w-4" />}
-                                                    {isCompleted ? "Completed" : "Mark as Complete"}
-                                                </Button>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    )
-                                })}
-                            </Accordion>
-                        </CardContent>
-                    </Card>
+                    <ScrollAnimator>
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className="flex items-center gap-2"><BookOpen className="h-5 w-5 text-accent"/>Training Modules</CardTitle>
+                              <div className="space-y-2 pt-2">
+                                  <Progress value={progressPercentage} className="h-2" />
+                                  <p className="text-sm text-muted-foreground">{completedModules.length} of {trainingModules.length} modules completed.</p>
+                              </div>
+                          </CardHeader>
+                          <CardContent>
+                              <Accordion type="single" collapsible className="w-full">
+                                  {trainingModules.map(mod => {
+                                      const isCompleted = completedModules.includes(mod.id);
+                                      return (
+                                          <AccordionItem value={mod.id} key={mod.id} className={cn(isCompleted && "bg-green-500/10")}>
+                                              <AccordionTrigger className="hover:no-underline px-4">
+                                                  <div className="flex items-center gap-3 text-left">
+                                                      {mod.icon}
+                                                      <span className={cn("text-lg font-semibold", "text-black")}>{mod.title}</span>
+                                                  </div>
+                                              </AccordionTrigger>
+                                              <AccordionContent className="p-4 bg-secondary/30 rounded-md">
+                                                  <p className="text-muted-foreground">{mod.content}</p>
+                                                  <ul className="list-disc pl-5 mt-4 space-y-1 text-muted-foreground">
+                                                      {mod.points.map(p => <li key={p}>{p}</li>)}
+                                                  </ul>
+                                                  <Button 
+                                                      className="mt-4" 
+                                                      variant={isCompleted ? "secondary" : "default"}
+                                                      onClick={() => handleCompleteModule(mod.id)}
+                                                  >
+                                                      {isCompleted ? <ThumbsUp className="mr-2 h-4 w-4" /> : <CheckCircle className="mr-2 h-4 w-4" />}
+                                                      {isCompleted ? "Completed" : "Mark as Complete"}
+                                                  </Button>
+                                              </AccordionContent>
+                                          </AccordionItem>
+                                      )
+                                  })}
+                              </Accordion>
+                          </CardContent>
+                      </Card>
+                    </ScrollAnimator>
                 </div>
                 <div className="space-y-8">
-                     <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-accent"/>Daily Activations</CardTitle>
-                            <CardDescription>Apply what you learn.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-3">
-                            {dailyActivations.map(item => (
-                                <div key={item.id} className="flex items-center space-x-3 p-3 rounded-md border bg-card">
-                                    <Checkbox id={item.id} onCheckedChange={() => handleActivationCheck(item.label)} />
-                                    <Label htmlFor={item.id} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                        {item.label}
-                                    </Label>
-                                </div>
-                            ))}
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader>
-                             <CardTitle className="flex items-center gap-2"><Award className="h-5 w-5 text-accent"/>My Badges</CardTitle>
-                             <CardDescription>Track your progress.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                             {badges.map(badge => (
-                                <div key={badge.title} className="flex items-center gap-3">
-                                    {badge.icon}
-                                    <div>
-                                        <p className="font-semibold text-foreground">{badge.title}</p>
-                                        <p className="text-xs text-foreground">{badge.description}</p>
-                                    </div>
-                                </div>
-                             ))}
-                        </CardContent>
-                    </Card>
+                     <ScrollAnimator>
+                       <Card>
+                          <CardHeader>
+                              <CardTitle className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-accent"/>Daily Activations</CardTitle>
+                              <CardDescription>Apply what you learn.</CardDescription>
+                          </CardHeader>
+                          <CardContent className="space-y-3">
+                              {dailyActivations.map(item => (
+                                  <div key={item.id} className="flex items-center space-x-3 p-3 rounded-md border bg-card">
+                                      <Checkbox id={item.id} onCheckedChange={() => handleActivationCheck(item.label)} />
+                                      <Label htmlFor={item.id} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                          {item.label}
+                                      </Label>
+                                  </div>
+                              ))}
+                          </CardContent>
+                      </Card>
+                     </ScrollAnimator>
+                    <ScrollAnimator>
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className="flex items-center gap-2"><Award className="h-5 w-5 text-accent"/>My Badges</CardTitle>
+                              <CardDescription>Track your progress.</CardDescription>
+                          </CardHeader>
+                          <CardContent className="space-y-4">
+                              {badges.map(badge => (
+                                  <div key={badge.title} className="flex items-center gap-3">
+                                      {badge.icon}
+                                      <div>
+                                          <p className="font-semibold text-foreground">{badge.title}</p>
+                                          <p className="text-xs text-foreground">{badge.description}</p>
+                                      </div>
+                                  </div>
+                              ))}
+                          </CardContent>
+                      </Card>
+                    </ScrollAnimator>
                 </div>
             </div>
         </div>

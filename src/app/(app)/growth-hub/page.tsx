@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CheckSquare, Sunrise, BookOpen, UserCircle, MessageSquare, Shield, Sunset, Check } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 const dailyPractices = [
   {
@@ -89,48 +90,54 @@ export default function FaithGrowthHubPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-            <CheckSquare className="h-8 w-8 text-accent" />
-            <h1 className="text-3xl font-headline font-bold text-foreground">Daily Kingdom Practices</h1>
+      <ScrollAnimator>
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+              <CheckSquare className="h-8 w-8 text-accent" />
+              <h1 className="text-3xl font-headline font-bold text-foreground">Daily Kingdom Practices</h1>
+          </div>
+          <p className="text-muted-foreground max-w-2xl">
+            A structured spiritual growth center designed for believers at every level.
+          </p>
         </div>
-        <p className="text-muted-foreground max-w-2xl">
-          A structured spiritual growth center designed for believers at every level.
-        </p>
-      </div>
+      </ScrollAnimator>
 
-      <Card>
-        <CardHeader>
-            <CardTitle>Your Daily Checklist</CardTitle>
-            <CardDescription>Complete these practices daily to build a consistent spiritual lifestyle.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-            {dailyPractices.map((practice) => (
-                <div key={practice.title} className="flex flex-col sm:flex-row items-start gap-4 p-4 rounded-lg border bg-card">
-                    <div className="flex-shrink-0">{practice.icon}</div>
-                    <div className="flex-grow">
-                        <h3 className="font-bold text-lg text-card-foreground">{practice.title}</h3>
-                        <p className="text-sm text-muted-foreground mt-1">{practice.description}</p>
-                        <div className="mt-3 flex gap-2">
-                            {practice.href === "#" ? (
-                                <Button variant="outline" onClick={() => handleActionClick(practice.id, practice.title)}>
-                                    {practice.cta}
+      <ScrollAnimator>
+        <Card>
+          <CardHeader>
+              <CardTitle>Your Daily Checklist</CardTitle>
+              <CardDescription>Complete these practices daily to build a consistent spiritual lifestyle.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+              {dailyPractices.map((practice, index) => (
+                  <ScrollAnimator key={practice.title} delay={index * 0.1}>
+                    <div className="flex flex-col sm:flex-row items-start gap-4 p-4 rounded-lg border bg-card">
+                        <div className="flex-shrink-0">{practice.icon}</div>
+                        <div className="flex-grow">
+                            <h3 className="font-bold text-lg text-card-foreground">{practice.title}</h3>
+                            <p className="text-sm text-muted-foreground mt-1">{practice.description}</p>
+                            <div className="mt-3 flex gap-2">
+                                {practice.href === "#" ? (
+                                    <Button variant="outline" onClick={() => handleActionClick(practice.id, practice.title)}>
+                                        {practice.cta}
+                                    </Button>
+                                ) : (
+                                    <Button asChild variant="outline">
+                                        <Link href={practice.href}>{practice.cta}</Link>
+                                    </Button>
+                                )}
+                                <Button variant="ghost" onClick={() => handleComplete(practice.title)}>
+                                    <Check className="mr-2 h-4 w-4" />
+                                    Mark as Complete
                                 </Button>
-                            ) : (
-                                <Button asChild variant="outline">
-                                    <Link href={practice.href}>{practice.cta}</Link>
-                                </Button>
-                            )}
-                            <Button variant="ghost" onClick={() => handleComplete(practice.title)}>
-                                <Check className="mr-2 h-4 w-4" />
-                                Mark as Complete
-                            </Button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
-        </CardContent>
-      </Card>
+                  </ScrollAnimator>
+              ))}
+          </CardContent>
+        </Card>
+      </ScrollAnimator>
     </div>
   );
 }

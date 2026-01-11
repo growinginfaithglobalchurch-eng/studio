@@ -72,20 +72,22 @@ export default function SearchPage() {
               <section>
                 <h2 className="text-2xl font-headline font-bold mb-4">Devotionals</h2>
                 <div className="grid gap-4 md:grid-cols-2">
-                  {filteredDevotionals.map((item) => (
-                    <Card key={`devotional-${item.id}`}>
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <BookOpen className="h-5 w-5 text-accent" /> {item.title}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-muted-foreground line-clamp-3">{item.content.text}</p>
-                        <Button asChild variant="link" className="p-0 mt-2">
-                          <Link href="/devotionals">Read More</Link>
-                        </Button>
-                      </CardContent>
-                    </Card>
+                  {filteredDevotionals.map((item, index) => (
+                    <ScrollAnimator key={`devotional-${item.id}`} delay={index * 0.1}>
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2">
+                            <BookOpen className="h-5 w-5 text-accent" /> {item.title}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-sm text-muted-foreground line-clamp-3">{item.content.text}</p>
+                          <Button asChild variant="link" className="p-0 mt-2">
+                            <Link href="/devotionals">Read More</Link>
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    </ScrollAnimator>
                   ))}
                 </div>
               </section>
@@ -97,20 +99,22 @@ export default function SearchPage() {
               <section>
                 <h2 className="text-2xl font-headline font-bold mb-4">Ministries</h2>
                 <div className="grid gap-4 md:grid-cols-2">
-                  {filteredMinistries.map((item) => (
-                    <Card key={`ministry-${item.id}`}>
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <Church className="h-5 w-5 text-accent" /> {item.name}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
-                        <Button asChild variant="link" className="p-0 mt-2">
-                          <Link href="/ministries">Learn More</Link>
-                        </Button>
-                      </CardContent>
-                    </Card>
+                  {filteredMinistries.map((item, index) => (
+                    <ScrollAnimator key={`ministry-${item.id}`} delay={index * 0.1}>
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2">
+                            <Church className="h-5 w-5 text-accent" /> {item.name}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
+                          <Button asChild variant="link" className="p-0 mt-2">
+                            <Link href="/ministries">Learn More</Link>
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    </ScrollAnimator>
                   ))}
                 </div>
               </section>

@@ -69,49 +69,55 @@ export default function DashboardPage() {
         onOpenChange={setAddingStory}
       />
 
-      <div>
-        <h1 className="text-3xl font-headline font-bold text-foreground">Feeds & Stories</h1>
-        <p className="text-muted-foreground">
-          Catch up on stories and see what's happening in the community.
-        </p>
-      </div>
+      <ScrollAnimator>
+        <div>
+          <h1 className="text-3xl font-headline font-bold text-foreground">Feeds & Stories</h1>
+          <p className="text-muted-foreground">
+            Catch up on stories and see what's happening in the community.
+          </p>
+        </div>
+      </ScrollAnimator>
 
-      <Card>
-        <CardHeader>
-             <h2 className="text-lg font-semibold tracking-tight text-card-foreground">Stories</h2>
-        </CardHeader>
-        <CardContent>
-            <ScrollArea className="w-full whitespace-nowrap">
-                <div className="flex w-max space-x-4 pb-4">
-                {stories.map((story) => (
-                    <button 
-                        key={story.id} 
-                        className="flex-shrink-0 focus:outline-none"
-                        onClick={() => handleStoryClick(story)}
-                    >
-                        <div className="flex flex-col items-center gap-2 w-20">
-                            <div className="relative">
-                                <Avatar className="h-16 w-16 border-2 border-accent">
-                                    {story.avatar && <AvatarImage src={story.avatar.imageUrl} alt={story.name} data-ai-hint={story.avatar.imageHint} />}
-                                    <AvatarFallback>{story.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                 {story.id === 'current-user' && (
-                                    <div className="absolute -bottom-1 -right-1 bg-card rounded-full">
-                                        <PlusCircle className="h-6 w-6 text-primary"/>
-                                    </div>
-                                )}
-                            </div>
-                            <p className="text-xs text-center text-card-foreground truncate w-full">{story.name}</p>
-                        </div>
-                    </button>
-                ))}
-                </div>
-                <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-        </CardContent>
-      </Card>
+      <ScrollAnimator>
+        <Card>
+          <CardHeader>
+              <h2 className="text-lg font-semibold tracking-tight text-card-foreground">Stories</h2>
+          </CardHeader>
+          <CardContent>
+              <ScrollArea className="w-full whitespace-nowrap">
+                  <div className="flex w-max space-x-4 pb-4">
+                  {stories.map((story) => (
+                      <button 
+                          key={story.id} 
+                          className="flex-shrink-0 focus:outline-none"
+                          onClick={() => handleStoryClick(story)}
+                      >
+                          <div className="flex flex-col items-center gap-2 w-20">
+                              <div className="relative">
+                                  <Avatar className="h-16 w-16 border-2 border-accent">
+                                      {story.avatar && <AvatarImage src={story.avatar.imageUrl} alt={story.name} data-ai-hint={story.avatar.imageHint} />}
+                                      <AvatarFallback>{story.name.charAt(0)}</AvatarFallback>
+                                  </Avatar>
+                                  {story.id === 'current-user' && (
+                                      <div className="absolute -bottom-1 -right-1 bg-card rounded-full">
+                                          <PlusCircle className="h-6 w-6 text-primary"/>
+                                      </div>
+                                  )}
+                              </div>
+                              <p className="text-xs text-center text-card-foreground truncate w-full">{story.name}</p>
+                          </div>
+                      </button>
+                  ))}
+                  </div>
+                  <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+          </CardContent>
+        </Card>
+      </ScrollAnimator>
 
-      <CreatePostForm />
+      <ScrollAnimator>
+        <CreatePostForm />
+      </ScrollAnimator>
 
       <div className="space-y-4">
          <h2 className="text-lg font-semibold tracking-tight text-card-foreground">Community Feed</h2>

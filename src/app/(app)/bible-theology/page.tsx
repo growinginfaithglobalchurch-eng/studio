@@ -17,6 +17,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 const corePillars = [
   {
@@ -61,97 +62,109 @@ export default function BibleTheologyPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-          <BookOpen className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-headline font-bold text-foreground">
-            Bible Theology (All Levels)
-          </h1>
-        </div>
-        <p className="text-muted-foreground max-w-2xl">
-          A deep dive into systematic theology, biblical interpretation, and church history, activated at a professional and international level.
-        </p>
-      </div>
-
-      <Card className="overflow-hidden">
-        <div className="grid md:grid-cols-2 items-center">
-          <div className="p-8">
-            <CardHeader className="p-0">
-              <p className="text-sm font-semibold text-accent">Enrollment Open</p>
-              <CardTitle className="text-3xl font-headline mt-2">
-                Master the Word of God
-              </CardTitle>
-              <CardDescription className="mt-4 text-lg">
-                Build an unshakable theological foundation to defend your faith and effectively minister the Gospel with depth and accuracy.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-0 mt-6">
-              <Button size="lg" asChild>
-                <Link href="/signup">Enroll Now</Link>
-              </Button>
-            </CardContent>
+      <ScrollAnimator>
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <BookOpen className="h-8 w-8 text-accent" />
+            <h1 className="text-3xl font-headline font-bold text-foreground">
+              Bible Theology (All Levels)
+            </h1>
           </div>
-          {heroImage && (
-            <div className="relative h-64 md:h-full w-full">
-              <Image
-                src={heroImage.imageUrl}
-                alt="Bible Theology"
-                fill
-                className="object-cover"
-                data-ai-hint={heroImage.imageHint}
-              />
-            </div>
-          )}
+          <p className="text-muted-foreground max-w-2xl">
+            A deep dive into systematic theology, biblical interpretation, and church history, activated at a professional and international level.
+          </p>
         </div>
-      </Card>
+      </ScrollAnimator>
 
-      <div>
-        <h2 className="text-2xl font-headline font-bold mb-4">Core Pillars</h2>
-        <div className="grid gap-6 md:grid-cols-3">
-          {corePillars.map((pillar) => (
-            <Card key={pillar.title}>
-              <CardHeader className="flex flex-row items-center gap-4">
-                {pillar.icon}
-                <CardTitle>{pillar.title}</CardTitle>
+      <ScrollAnimator>
+        <Card className="overflow-hidden">
+          <div className="grid md:grid-cols-2 items-center">
+            <div className="p-8">
+              <CardHeader className="p-0">
+                <p className="text-sm font-semibold text-accent">Enrollment Open</p>
+                <CardTitle className="text-3xl font-headline mt-2">
+                  Master the Word of God
+                </CardTitle>
+                <CardDescription className="mt-4 text-lg">
+                  Build an unshakable theological foundation to defend your faith and effectively minister the Gospel with depth and accuracy.
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{pillar.description}</p>
+              <CardContent className="p-0 mt-6">
+                <Button size="lg" asChild>
+                  <Link href="/signup">Enroll Now</Link>
+                </Button>
               </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+            </div>
+            {heroImage && (
+              <div className="relative h-64 md:h-full w-full">
+                <Image
+                  src={heroImage.imageUrl}
+                  alt="Bible Theology"
+                  fill
+                  className="object-cover"
+                  data-ai-hint={heroImage.imageHint}
+                />
+              </div>
+            )}
+          </div>
+        </Card>
+      </ScrollAnimator>
 
-      <div>
-        <h2 className="text-2xl font-headline font-bold mb-4">
-          Signature Programs
-        </h2>
-        <div className="grid gap-8 md:grid-cols-2">
-          {signaturePrograms.map((program) => (
-            <Card key={program.title} className="flex flex-col">
-              {program.image && (
-                <div className="relative aspect-video w-full overflow-hidden rounded-t-lg">
-                  <Image
-                    src={program.image.imageUrl}
-                    alt={program.title}
-                    fill
-                    className="object-cover"
-                    data-ai-hint={program.image.imageHint}
-                  />
-                </div>
-              )}
-              <CardHeader>
-                <CardTitle className="font-headline">{program.title}</CardTitle>
-                <CardDescription>{program.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow" />
-              <CardFooter>
-                <Button variant="outline">Explore Curriculum</Button>
-              </CardFooter>
-            </Card>
-          ))}
+      <ScrollAnimator>
+        <div>
+          <h2 className="text-2xl font-headline font-bold mb-4">Core Pillars</h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            {corePillars.map((pillar, index) => (
+              <ScrollAnimator key={pillar.title} delay={index * 0.1}>
+                <Card>
+                  <CardHeader className="flex flex-row items-center gap-4">
+                    {pillar.icon}
+                    <CardTitle>{pillar.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{pillar.description}</p>
+                  </CardContent>
+                </Card>
+              </ScrollAnimator>
+            ))}
+          </div>
         </div>
-      </div>
+      </ScrollAnimator>
+
+      <ScrollAnimator>
+        <div>
+          <h2 className="text-2xl font-headline font-bold mb-4">
+            Signature Programs
+          </h2>
+          <div className="grid gap-8 md:grid-cols-2">
+            {signaturePrograms.map((program, index) => (
+              <ScrollAnimator key={program.title} delay={index * 0.1}>
+                <Card className="flex flex-col">
+                  {program.image && (
+                    <div className="relative aspect-video w-full overflow-hidden rounded-t-lg">
+                      <Image
+                        src={program.image.imageUrl}
+                        alt={program.title}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={program.image.imageHint}
+                      />
+                    </div>
+                  )}
+                  <CardHeader>
+                    <CardTitle className="font-headline">{program.title}</CardTitle>
+                    <CardDescription>{program.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex-grow" />
+                  <CardFooter>
+                    <Button variant="outline">Explore Curriculum</Button>
+                  </CardFooter>
+                </Card>
+              </ScrollAnimator>
+            ))}
+          </div>
+        </div>
+      </ScrollAnimator>
     </div>
   );
 }

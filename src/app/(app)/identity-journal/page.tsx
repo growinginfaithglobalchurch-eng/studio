@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { BookUser, Save } from "lucide-react";
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 type JournalEntry = {
     id: number;
@@ -55,54 +56,60 @@ export default function IdentityJournalPage() {
 
     return (
         <div className="space-y-8 max-w-3xl mx-auto">
-            <div>
-                <div className="flex items-center gap-3 mb-2">
-                    <BookUser className="h-8 w-8 text-accent" />
-                    <h1 className="text-3xl font-headline font-bold text-foreground">Identity Journal</h1>
-                </div>
-                <p className="text-muted-foreground">
-                    A sacred space to reflect on who you are in Christ and journal your thoughts and revelations.
-                </p>
-            </div>
+            <ScrollAnimator>
+              <div>
+                  <div className="flex items-center gap-3 mb-2">
+                      <BookUser className="h-8 w-8 text-accent" />
+                      <h1 className="text-3xl font-headline font-bold text-foreground">Identity Journal</h1>
+                  </div>
+                  <p className="text-muted-foreground">
+                      A sacred space to reflect on who you are in Christ and journal your thoughts and revelations.
+                  </p>
+              </div>
+            </ScrollAnimator>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>New Journal Entry</CardTitle>
-                    <CardDescription>What is God revealing to you about your identity today?</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="grid w-full gap-1.5">
-                        <Label htmlFor="message">Your thoughts</Label>
-                        <Textarea 
-                            placeholder="Type your reflections here..." 
-                            id="message"
-                            value={newEntry}
-                            onChange={(e) => setNewEntry(e.target.value)}
-                            rows={6}
-                        />
-                    </div>
-                     <Button onClick={handleSaveEntry}>
-                        <Save className="mr-2 h-4 w-4" />
-                        Save Entry
-                    </Button>
-                </CardContent>
-            </Card>
+            <ScrollAnimator>
+              <Card>
+                  <CardHeader>
+                      <CardTitle>New Journal Entry</CardTitle>
+                      <CardDescription>What is God revealing to you about your identity today?</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                      <div className="grid w-full gap-1.5">
+                          <Label htmlFor="message">Your thoughts</Label>
+                          <Textarea 
+                              placeholder="Type your reflections here..." 
+                              id="message"
+                              value={newEntry}
+                              onChange={(e) => setNewEntry(e.target.value)}
+                              rows={6}
+                          />
+                      </div>
+                      <Button onClick={handleSaveEntry}>
+                          <Save className="mr-2 h-4 w-4" />
+                          Save Entry
+                      </Button>
+                  </CardContent>
+              </Card>
+            </ScrollAnimator>
             
-            <Card>
-                <CardHeader>
-                    <CardTitle>Past Entries</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    {entries.map(entry => (
-                        <div key={entry.id} className="p-4 rounded-lg border bg-secondary/50">
-                            <p className="text-xs text-muted-foreground mb-2">
-                                {new Date(entry.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                            </p>
-                            <p className="text-sm text-foreground">{entry.content}</p>
-                        </div>
-                    ))}
-                </CardContent>
-            </Card>
+            <ScrollAnimator>
+              <Card>
+                  <CardHeader>
+                      <CardTitle>Past Entries</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                      {entries.map(entry => (
+                          <div key={entry.id} className="p-4 rounded-lg border bg-secondary/50">
+                              <p className="text-xs text-muted-foreground mb-2">
+                                  {new Date(entry.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                              </p>
+                              <p className="text-sm text-foreground">{entry.content}</p>
+                          </div>
+                      ))}
+                  </CardContent>
+              </Card>
+            </ScrollAnimator>
         </div>
     );
 }

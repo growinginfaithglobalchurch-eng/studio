@@ -35,6 +35,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { communityUsers } from '@/lib/data';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 const coreSchools = [
   {
@@ -192,209 +193,231 @@ export default function BibleSchoolPage() {
 
   return (
     <div className="space-y-12">
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-          <GraduationCap className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-headline font-bold text-foreground">
-            Growing In Faith Global Bible Institute
-          </h1>
-        </div>
-        <p className="text-muted-foreground max-w-2xl">
-          Raising and equipping a generation that walks in the fullness of their identity and authority in Christ.
-        </p>
-      </div>
-
-      <Card className="overflow-hidden">
-        <div className="grid md:grid-cols-2 items-center">
-          <div className="p-8">
-            <CardHeader className="p-0">
-              <p className="text-sm font-semibold text-accent">Enrollment Now Open</p>
-              <CardTitle className="text-3xl font-headline mt-2">
-                Begin Your Transformational Journey
-              </CardTitle>
-              <CardDescription className="mt-4 text-lg">
-                Our institute is more than an academic exercise; it's a spiritual equipping center designed to activate your calling.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-0 mt-6">
-              <Button size="lg" asChild>
-                <Link href="/signup">Apply Now</Link>
-              </Button>
-            </CardContent>
+      <ScrollAnimator>
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <GraduationCap className="h-8 w-8 text-accent" />
+            <h1 className="text-3xl font-headline font-bold text-foreground">
+              Growing In Faith Global Bible Institute
+            </h1>
           </div>
-          {heroImage && (
-            <div className="relative h-64 md:h-full w-full">
-              <Image
-                src={heroImage.imageUrl}
-                alt="Bible Institute"
-                fill
-                className="object-cover"
-                data-ai-hint={heroImage.imageHint}
-              />
-            </div>
-          )}
+          <p className="text-muted-foreground max-w-2xl">
+            Raising and equipping a generation that walks in the fullness of their identity and authority in Christ.
+          </p>
         </div>
-      </Card>
-      
-      <div>
-        <h2 className="text-2xl font-headline font-bold mb-4 text-center">Curriculum Levels & Structure</h2>
-        <Accordion type="single" collapsible className="w-full">
-            {curriculumLevels.map((item, index) => (
-                <AccordionItem value={`level-${index + 1}`} key={index}>
-                    <AccordionTrigger className="text-lg font-headline hover:no-underline">
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-1">
-                             <span>{item.level}</span>
-                             <span className="text-sm font-normal text-muted-foreground">{item.audience}</span>
-                        </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="p-4 bg-card/30 rounded-md">
-                       <div className="space-y-6">
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                                <div className="p-2 rounded bg-secondary">
-                                    <p className="text-xs text-muted-foreground">Goal</p>
-                                    <p className="text-sm font-semibold">{item.goal}</p>
-                                </div>
-                                 <div className="p-2 rounded bg-secondary">
-                                    <p className="text-xs text-muted-foreground">Duration</p>
-                                    <p className="text-sm font-semibold">{item.duration}</p>
-                                </div>
-                                <div className="p-2 rounded bg-secondary col-span-2">
-                                    <p className="text-xs text-muted-foreground">Certificate</p>
-                                    <p className="text-sm font-semibold">{item.certificate}</p>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <h4 className="font-semibold text-foreground mb-2">Courses:</h4>
-                                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-sm text-muted-foreground">
-                                    {item.courses.map(course => <li key={course} className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500" /> {course}</li>)}
-                                </ul>
-                            </div>
-                            
-                            {item.practicum && (
-                                <div>
-                                    <h4 className="font-semibold text-foreground mb-2">Practicum:</h4>
-                                    <ul className="text-sm text-muted-foreground list-disc pl-5">
-                                        {item.practicum.map(p => <li key={p}>{p}</li>)}
-                                    </ul>
-                                </div>
-                            )}
+      </ScrollAnimator>
 
-                             <div>
-                                <h4 className="font-semibold text-foreground mb-2">Outcome:</h4>
-                                <ul className="text-sm text-muted-foreground list-disc pl-5">
-                                    {item.outcome.map(o => <li key={o}>{o}</li>)}
-                                </ul>
-                            </div>
-                       </div>
-                    </AccordionContent>
-                </AccordionItem>
-            ))}
-        </Accordion>
-      </div>
+      <ScrollAnimator>
+        <Card className="overflow-hidden">
+          <div className="grid md:grid-cols-2 items-center">
+            <div className="p-8">
+              <CardHeader className="p-0">
+                <p className="text-sm font-semibold text-accent">Enrollment Now Open</p>
+                <CardTitle className="text-3xl font-headline mt-2">
+                  Begin Your Transformational Journey
+                </CardTitle>
+                <CardDescription className="mt-4 text-lg">
+                  Our institute is more than an academic exercise; it's a spiritual equipping center designed to activate your calling.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-0 mt-6">
+                <Button size="lg" asChild>
+                  <Link href="/signup">Apply Now</Link>
+                </Button>
+              </CardContent>
+            </div>
+            {heroImage && (
+              <div className="relative h-64 md:h-full w-full">
+                <Image
+                  src={heroImage.imageUrl}
+                  alt="Bible Institute"
+                  fill
+                  className="object-cover"
+                  data-ai-hint={heroImage.imageHint}
+                />
+              </div>
+            )}
+          </div>
+        </Card>
+      </ScrollAnimator>
+      
+      <ScrollAnimator>
+        <div>
+          <h2 className="text-2xl font-headline font-bold mb-4 text-center">Curriculum Levels & Structure</h2>
+          <Accordion type="single" collapsible className="w-full">
+              {curriculumLevels.map((item, index) => (
+                  <AccordionItem value={`level-${index + 1}`} key={index}>
+                      <AccordionTrigger className="text-lg font-headline hover:no-underline">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-1">
+                              <span>{item.level}</span>
+                              <span className="text-sm font-normal text-muted-foreground">{item.audience}</span>
+                          </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="p-4 bg-card/30 rounded-md">
+                        <div className="space-y-6">
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                  <div className="p-2 rounded bg-secondary">
+                                      <p className="text-xs text-muted-foreground">Goal</p>
+                                      <p className="text-sm font-semibold">{item.goal}</p>
+                                  </div>
+                                  <div className="p-2 rounded bg-secondary">
+                                      <p className="text-xs text-muted-foreground">Duration</p>
+                                      <p className="text-sm font-semibold">{item.duration}</p>
+                                  </div>
+                                  <div className="p-2 rounded bg-secondary col-span-2">
+                                      <p className="text-xs text-muted-foreground">Certificate</p>
+                                      <p className="text-sm font-semibold">{item.certificate}</p>
+                                  </div>
+                              </div>
+                              
+                              <div>
+                                  <h4 className="font-semibold text-foreground mb-2">Courses:</h4>
+                                  <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-sm text-muted-foreground">
+                                      {item.courses.map(course => <li key={course} className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500" /> {course}</li>)}
+                                  </ul>
+                              </div>
+                              
+                              {item.practicum && (
+                                  <div>
+                                      <h4 className="font-semibold text-foreground mb-2">Practicum:</h4>
+                                      <ul className="text-sm text-muted-foreground list-disc pl-5">
+                                          {item.practicum.map(p => <li key={p}>{p}</li>)}
+                                      </ul>
+                                  </div>
+                              )}
+
+                              <div>
+                                  <h4 className="font-semibold text-foreground mb-2">Outcome:</h4>
+                                  <ul className="text-sm text-muted-foreground list-disc pl-5">
+                                      {item.outcome.map(o => <li key={o}>{o}</li>)}
+                                  </ul>
+                              </div>
+                        </div>
+                      </AccordionContent>
+                  </AccordionItem>
+              ))}
+          </Accordion>
+        </div>
+      </ScrollAnimator>
 
       <div className="grid lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-1">
-             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><BookOpen className="h-5 w-5 text-accent"/>Curriculum Structure</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                <div>
-                    <h3 className="font-semibold text-foreground">Levels 1-5</h3>
-                    <p className="text-sm text-muted-foreground">Progress through foundational to advanced levels of spiritual truth and practical ministry.</p>
-                </div>
-                 <div>
-                    <h3 className="font-semibold text-foreground">Mentorship</h3>
-                    <p className="text-sm text-muted-foreground">Each student is assigned a mentor for personal guidance, accountability, and impartation.</p>
-                </div>
-                 <div>
-                    <h3 className="font-semibold text-foreground">Assessments & Activation</h3>
-                    <p className="text-sm text-muted-foreground">Practical assignments and quizzes ensure comprehension, leading to real-world activation of your gifts.</p>
-                </div>
-            </CardContent>
-        </Card>
+        <ScrollAnimator className="lg:col-span-1">
+          <Card>
+              <CardHeader>
+                  <CardTitle className="flex items-center gap-2"><BookOpen className="h-5 w-5 text-accent"/>Curriculum Structure</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                  <div>
+                      <h3 className="font-semibold text-foreground">Levels 1-5</h3>
+                      <p className="text-sm text-muted-foreground">Progress through foundational to advanced levels of spiritual truth and practical ministry.</p>
+                  </div>
+                  <div>
+                      <h3 className="font-semibold text-foreground">Mentorship</h3>
+                      <p className="text-sm text-muted-foreground">Each student is assigned a mentor for personal guidance, accountability, and impartation.</p>
+                  </div>
+                  <div>
+                      <h3 className="font-semibold text-foreground">Assessments & Activation</h3>
+                      <p className="text-sm text-muted-foreground">Practical assignments and quizzes ensure comprehension, leading to real-world activation of your gifts.</p>
+                  </div>
+              </CardContent>
+          </Card>
+        </ScrollAnimator>
         <div className="lg:col-span-2">
-            <h2 className="text-2xl font-headline font-bold mb-4">Core Schools of the Institute</h2>
-            <div className="grid gap-6 md:grid-cols-2">
-            {coreSchools.map((school) => (
-                <Card key={school.title} className="hover:bg-secondary/50 transition-colors">
-                <CardHeader>
-                    <div className="flex items-center gap-3">
-                        {school.icon}
-                        <CardTitle className="text-lg font-headline">{school.title}</CardTitle>
-                    </div>
-                </CardHeader>
-                <CardFooter>
-                    <Button variant="outline" asChild>
-                        <Link href={school.href}>Learn More</Link>
-                    </Button>
-                </CardFooter>
-                </Card>
-            ))}
-            </div>
+            <ScrollAnimator>
+              <h2 className="text-2xl font-headline font-bold mb-4">Core Schools of the Institute</h2>
+              <div className="grid gap-6 md:grid-cols-2">
+              {coreSchools.map((school, index) => (
+                  <ScrollAnimator key={school.title} delay={index * 0.1}>
+                    <Card className="hover:bg-secondary/50 transition-colors">
+                      <CardHeader>
+                          <div className="flex items-center gap-3">
+                              {school.icon}
+                              <CardTitle className="text-lg font-headline">{school.title}</CardTitle>
+                          </div>
+                      </CardHeader>
+                      <CardFooter>
+                          <Button variant="outline" asChild>
+                              <Link href={school.href}>Learn More</Link>
+                          </Button>
+                      </CardFooter>
+                    </Card>
+                  </ScrollAnimator>
+              ))}
+              </div>
+            </ScrollAnimator>
         </div>
       </div>
       
        <div className="grid gap-8 md:grid-cols-3">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><Server className="h-5 w-5 text-accent"/>Delivery Modes</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                    {deliveryModes.map(mode => (
-                        <div key={mode.title} className="flex items-center gap-3">
-                            {mode.icon}
-                            <p className="font-semibold">{mode.title}</p>
-                        </div>
-                    ))}
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><BarChart className="h-5 w-5 text-accent"/>Assessment & Promotion</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-                        {assessmentMethods.map(method => <li key={method}>{method}</li>)}
-                    </ul>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><GitCompare className="h-5 w-5 text-accent"/>Student Progression Rules</CardTitle>
-                </CardHeader>
-                <CardContent>
-                     <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-                        {progressionRules.map(rule => <li key={rule}>{rule}</li>)}
-                    </ul>
-                </CardContent>
-            </Card>
+            <ScrollAnimator delay={0.1}>
+              <Card>
+                  <CardHeader>
+                      <CardTitle className="flex items-center gap-2"><Server className="h-5 w-5 text-accent"/>Delivery Modes</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                      {deliveryModes.map(mode => (
+                          <div key={mode.title} className="flex items-center gap-3">
+                              {mode.icon}
+                              <p className="font-semibold">{mode.title}</p>
+                          </div>
+                      ))}
+                  </CardContent>
+              </Card>
+            </ScrollAnimator>
+            <ScrollAnimator delay={0.2}>
+              <Card>
+                  <CardHeader>
+                      <CardTitle className="flex items-center gap-2"><BarChart className="h-5 w-5 text-accent"/>Assessment & Promotion</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+                          {assessmentMethods.map(method => <li key={method}>{method}</li>)}
+                      </ul>
+                  </CardContent>
+              </Card>
+            </ScrollAnimator>
+            <ScrollAnimator delay={0.3}>
+              <Card>
+                  <CardHeader>
+                      <CardTitle className="flex items-center gap-2"><GitCompare className="h-5 w-5 text-accent"/>Student Progression Rules</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+                          {progressionRules.map(rule => <li key={rule}>{rule}</li>)}
+                      </ul>
+                  </CardContent>
+              </Card>
+            </ScrollAnimator>
        </div>
       
-       <div>
-            <h2 className="text-2xl font-headline font-bold mb-4 text-center">Student Testimonials</h2>
-            <div className="grid gap-8 md:grid-cols-2">
-                {studentTestimonials.map((testimonial, index) => (
-                    <Card key={index} className="bg-card">
-                        <CardContent className="pt-6">
-                            <div className="flex gap-4">
-                                <Avatar className="w-16 h-16 border-2 border-accent">
-                                    <AvatarImage src={testimonial.avatar?.imageUrl} alt={testimonial.name} />
-                                    <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <p className="text-lg font-bold">{testimonial.name}</p>
-                                    <p className="text-sm text-muted-foreground">Level {testimonial.level} Student</p>
+       <ScrollAnimator>
+         <div>
+              <h2 className="text-2xl font-headline font-bold mb-4 text-center">Student Testimonials</h2>
+              <div className="grid gap-8 md:grid-cols-2">
+                  {studentTestimonials.map((testimonial, index) => (
+                      <ScrollAnimator key={index} delay={index * 0.1}>
+                        <Card className="bg-card">
+                            <CardContent className="pt-6">
+                                <div className="flex gap-4">
+                                    <Avatar className="w-16 h-16 border-2 border-accent">
+                                        <AvatarImage src={testimonial.avatar?.imageUrl} alt={testimonial.name} />
+                                        <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                        <p className="text-lg font-bold">{testimonial.name}</p>
+                                        <p className="text-sm text-muted-foreground">Level {testimonial.level} Student</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <blockquote className="mt-4 border-l-2 border-accent pl-4 italic text-muted-foreground">
-                                "{testimonial.testimonial}"
-                            </blockquote>
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
-       </div>
+                                <blockquote className="mt-4 border-l-2 border-accent pl-4 italic text-muted-foreground">
+                                    "{testimonial.testimonial}"
+                                </blockquote>
+                            </CardContent>
+                        </Card>
+                      </ScrollAnimator>
+                  ))}
+              </div>
+        </div>
+       </ScrollAnimator>
 
     </div>
   );

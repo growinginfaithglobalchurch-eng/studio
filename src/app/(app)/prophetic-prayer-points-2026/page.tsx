@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollText, BookOpen, CheckCircle, Printer, Shield } from "lucide-react";
 import { CodeBlock } from "@/components/code-block";
 import React from "react";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 const prayerSections = [
     {
@@ -98,11 +99,13 @@ const prayerSections = [
 export default function PropheticPrayerPoints2026Page() {
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
-            <div className="text-center">
-                <h1 className="text-3xl font-headline font-bold text-foreground">Prophetic Prayer Points for Coding & Programming 2026</h1>
-                <p className="mt-2 text-lg text-muted-foreground">Entering the New Year with Divine Alignment, Authority, and Dominion</p>
-                <p className="mt-1 text-sm text-muted-foreground">By Joseph Tryson</p>
-            </div>
+            <ScrollAnimator>
+              <div className="text-center">
+                  <h1 className="text-3xl font-headline font-bold text-foreground">Prophetic Prayer Points for Coding & Programming 2026</h1>
+                  <p className="mt-2 text-lg text-muted-foreground">Entering the New Year with Divine Alignment, Authority, and Dominion</p>
+                  <p className="mt-1 text-sm text-muted-foreground">By Joseph Tryson</p>
+              </div>
+            </ScrollAnimator>
 
              <div className="flex justify-end">
                 <Button variant="outline" onClick={() => window.print()}>
@@ -111,67 +114,75 @@ export default function PropheticPrayerPoints2026Page() {
                 </Button>
             </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-3"><BookOpen className="h-6 w-6 text-accent" />Foundation Scriptures</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <CodeBlock code={
-`Ecclesiastes 3:1 – Times and seasons
-Daniel 2:21–22 – God changes times and seasons
-Isaiah 45:2–3 – God goes before us
-Job 22:28 – Decrees established
-Psalm 65:11 – Crowned with goodness`
-                    } />
-                </CardContent>
-            </Card>
+            <ScrollAnimator>
+              <Card>
+                  <CardHeader>
+                      <CardTitle className="flex items-center gap-3"><BookOpen className="h-6 w-6 text-accent" />Foundation Scriptures</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <CodeBlock code={
+  `Ecclesiastes 3:1 – Times and seasons
+  Daniel 2:21–22 – God changes times and seasons
+  Isaiah 45:2–3 – God goes before us
+  Job 22:28 – Decrees established
+  Psalm 65:11 – Crowned with goodness`
+                      } />
+                  </CardContent>
+              </Card>
+            </ScrollAnimator>
 
-            {prayerSections.map(section => (
-                <Card key={section.title}>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-3 text-xl font-headline"><ScrollText className="h-5 w-5 text-accent" />{section.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="space-y-3">
-                            {section.points.map(point => (
-                                <li key={point} className="flex items-start gap-3">
-                                    <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
-                                    <span className="text-muted-foreground">{point}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </CardContent>
-                </Card>
+             {prayerSections.map((section, index) => (
+                <ScrollAnimator key={section.title} delay={index * 0.1}>
+                  <Card>
+                      <CardHeader>
+                          <CardTitle className="flex items-center gap-3 text-xl font-headline"><ScrollText className="h-5 w-5 text-accent" />{section.title}</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                          <ul className="space-y-3">
+                              {section.points.map(point => (
+                                  <li key={point} className="flex items-start gap-3">
+                                      <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                                      <span className="text-muted-foreground">{point}</span>
+                                  </li>
+                              ))}
+                          </ul>
+                      </CardContent>
+                  </Card>
+                </ScrollAnimator>
             ))}
             
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-3"><Shield className="h-6 w-6 text-accent" />Sealing Declaration</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                    <p className="flex items-start gap-3 text-muted-foreground"><CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />I seal 2026 with the Blood of Jesus, the authority of the Word, and the witness of the Holy Spirit.</p>
-                    <p className="flex items-start gap-3 text-muted-foreground"><CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />No evil shall be rewritten, no blessing shall be stolen, and no destiny shall be altered.</p>
-                    <p className="flex items-start gap-3 text-muted-foreground"><CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />2026, hear the Word of the Lord—you are programmed for my lifting, fulfillment, and testimony.</p>
-                </CardContent>
-            </Card>
+            <ScrollAnimator>
+              <Card>
+                  <CardHeader>
+                      <CardTitle className="flex items-center gap-3"><Shield className="h-6 w-6 text-accent" />Sealing Declaration</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                      <p className="flex items-start gap-3 text-muted-foreground"><CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />I seal 2026 with the Blood of Jesus, the authority of the Word, and the witness of the Holy Spirit.</p>
+                      <p className="flex items-start gap-3 text-muted-foreground"><CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />No evil shall be rewritten, no blessing shall be stolen, and no destiny shall be altered.</p>
+                      <p className="flex items-start gap-3 text-muted-foreground"><CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />2026, hear the Word of the Lord—you are programmed for my lifting, fulfillment, and testimony.</p>
+                  </CardContent>
+              </Card>
+            </ScrollAnimator>
 
-            <Card className="bg-primary/10 border-primary/20">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-3 text-accent font-headline">Final Prophetic Decree</CardTitle>
-                </CardHeader>
-                 <CardContent>
-                    <blockquote className="border-l-4 border-accent pl-4 italic text-foreground">
-                        “By divine authority, I have coded and programmed 2026 according to heaven’s design.
-                        My times and seasons are aligned.
-                        My destiny is preserved.
-                        My days are fruitful.
-                        My year is blessed.
-                        2026 will deliver everything God has written concerning me.
-                        I enter the new year in power, peace, and dominion.
-                        In Jesus’ name. Amen.”
-                    </blockquote>
-                </CardContent>
-            </Card>
+            <ScrollAnimator>
+              <Card className="bg-primary/10 border-primary/20">
+                  <CardHeader>
+                      <CardTitle className="flex items-center gap-3 text-accent font-headline">Final Prophetic Decree</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <blockquote className="border-l-4 border-accent pl-4 italic text-foreground">
+                          “By divine authority, I have coded and programmed 2026 according to heaven’s design.
+                          My times and seasons are aligned.
+                          My destiny is preserved.
+                          My days are fruitful.
+                          My year is blessed.
+                          2026 will deliver everything God has written concerning me.
+                          I enter the new year in power, peace, and dominion.
+                          In Jesus’ name. Amen.”
+                      </blockquote>
+                  </CardContent>
+              </Card>
+            </ScrollAnimator>
         </div>
     );
 }

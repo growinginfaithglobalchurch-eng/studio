@@ -10,6 +10,7 @@ import { ministries as initialMinistries } from '@/lib/data';
 import { HandHelping, Briefcase, UserPlus, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 const opportunities = [
   {
@@ -49,90 +50,100 @@ export default function MinistriesPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-            <HandHelping className="h-8 w-8 text-accent" />
-            <h1 className="text-3xl font-headline font-bold text-foreground">
-              Ministry & Assignment Activation
-            </h1>
+      <ScrollAnimator>
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+              <HandHelping className="h-8 w-8 text-accent" />
+              <h1 className="text-3xl font-headline font-bold text-foreground">
+                Ministry & Assignment Activation
+              </h1>
+          </div>
+          <p className="text-muted-foreground max-w-2xl">
+            Helping believers move from learning to living out their divine purpose.
+          </p>
         </div>
-        <p className="text-muted-foreground max-w-2xl">
-          Helping believers move from learning to living out their divine purpose.
-        </p>
-      </div>
+      </ScrollAnimator>
 
        <div className="grid gap-6 md:grid-cols-2">
-           {opportunities.map((item) => (
-             <Card key={item.title}>
-                <CardHeader className="flex flex-row items-start gap-4">
-                    {item.icon}
-                    <div>
-                        <CardTitle>{item.title}</CardTitle>
-                        <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
-                    </div>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild variant="outline">
-                    <Link href={item.href} className="text-white">{item.cta}</Link>
-                  </Button>
-                </CardContent>
-             </Card>
+           {opportunities.map((item, index) => (
+             <ScrollAnimator key={item.title} delay={index * 0.1}>
+               <Card>
+                  <CardHeader className="flex flex-row items-start gap-4">
+                      {item.icon}
+                      <div>
+                          <CardTitle>{item.title}</CardTitle>
+                          <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                      </div>
+                  </CardHeader>
+                  <CardContent>
+                    <Button asChild variant="outline">
+                      <Link href={item.href} className="text-white">{item.cta}</Link>
+                    </Button>
+                  </CardContent>
+               </Card>
+             </ScrollAnimator>
            ))}
        </div>
 
-        <Card>
-            <CardHeader className="flex flex-row items-center gap-4">
-                <Briefcase className="h-8 w-8 text-accent" />
-                <div>
-                    <CardTitle>Church & Ministry Integration</CardTitle>
-                    <CardDescription>
-                        We invite churches and other ministries to partner with us to advance the Kingdom. Let's collaborate on projects, events, and initiatives that bring transformation.
-                    </CardDescription>
-                </div>
-            </CardHeader>
-            <CardContent>
-                <Button variant="outline" asChild>
-                    <Link href="/church-integration" className="text-white">Contact Us for Partnership</Link>
-                </Button>
-            </CardContent>
-        </Card>
-
-      <div>
-        <h2 className="text-2xl font-headline font-bold mb-4">Ministry Opportunities</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {ministries.map((ministry) => (
-            <Card key={ministry.id} className="text-center flex flex-col">
-                <CardHeader className="items-center">
-                {ministry.logo && (
-                    <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-card">
-                    <Image
-                        src={ministry.logo.imageUrl}
-                        alt={`${ministry.name} logo`}
-                        fill
-                        className="object-contain"
-                        data-ai-hint={ministry.logo.imageHint}
-                    />
-                    </div>
-                )}
-                <CardTitle className="font-headline text-xl font-bold pt-4">{ministry.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                <p className="text-sm text-muted-foreground">{ministry.description}</p>
-                </CardContent>
-                <div className="p-6 pt-0">
-                  <Button 
-                    onClick={() => handleJoin(ministry.id)}
-                    className="w-full text-white"
-                    variant={ministry.isMember ? 'secondary' : 'default'}
-                    >
-                    {ministry.isMember ? <CheckCircle className="mr-2" /> : <UserPlus className="mr-2" />}
-                    {ministry.isMember ? 'Joined' : 'Get Involved'}
+        <ScrollAnimator>
+          <Card>
+              <CardHeader className="flex flex-row items-center gap-4">
+                  <Briefcase className="h-8 w-8 text-accent" />
+                  <div>
+                      <CardTitle>Church & Ministry Integration</CardTitle>
+                      <CardDescription>
+                          We invite churches and other ministries to partner with us to advance the Kingdom. Let's collaborate on projects, events, and initiatives that bring transformation.
+                      </CardDescription>
+                  </div>
+              </CardHeader>
+              <CardContent>
+                  <Button variant="outline" asChild>
+                      <Link href="/church-integration" className="text-white">Contact Us for Partnership</Link>
                   </Button>
-                </div>
-            </Card>
-            ))}
+              </CardContent>
+          </Card>
+        </ScrollAnimator>
+
+      <ScrollAnimator>
+        <div>
+          <h2 className="text-2xl font-headline font-bold mb-4">Ministry Opportunities</h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {ministries.map((ministry, index) => (
+              <ScrollAnimator key={ministry.id} delay={index * 0.1}>
+                <Card className="text-center flex flex-col">
+                    <CardHeader className="items-center">
+                    {ministry.logo && (
+                        <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-card">
+                        <Image
+                            src={ministry.logo.imageUrl}
+                            alt={`${ministry.name} logo`}
+                            fill
+                            className="object-contain"
+                            data-ai-hint={ministry.logo.imageHint}
+                        />
+                        </div>
+                    )}
+                    <CardTitle className="font-headline text-xl font-bold pt-4">{ministry.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                    <p className="text-sm text-muted-foreground">{ministry.description}</p>
+                    </CardContent>
+                    <div className="p-6 pt-0">
+                      <Button 
+                        onClick={() => handleJoin(ministry.id)}
+                        className="w-full text-white"
+                        variant={ministry.isMember ? 'secondary' : 'default'}
+                        >
+                        {ministry.isMember ? <CheckCircle className="mr-2" /> : <UserPlus className="mr-2" />}
+                        {ministry.isMember ? 'Joined' : 'Get Involved'}
+                      </Button>
+                    </div>
+                </Card>
+              </ScrollAnimator>
+              ))}
+          </div>
         </div>
-      </div>
+      </ScrollAnimator>
     </div>
   );
 }

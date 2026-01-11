@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Award, Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 const userCertificates = [
     {
@@ -51,59 +52,65 @@ export default function CertificatesPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-            <Award className="h-8 w-8 text-accent" />
-            <h1 className="text-3xl font-headline font-bold text-foreground">Your Certificates</h1>
+      <ScrollAnimator>
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+              <Award className="h-8 w-8 text-accent" />
+              <h1 className="text-3xl font-headline font-bold text-foreground">Your Certificates</h1>
+          </div>
+          <p className="text-muted-foreground max-w-2xl">
+            View and share the certificates you've earned on your spiritual journey.
+          </p>
         </div>
-        <p className="text-muted-foreground max-w-2xl">
-          View and share the certificates you've earned on your spiritual journey.
-        </p>
-      </div>
+      </ScrollAnimator>
       
       {userCertificates.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2">
-            {userCertificates.map(cert => (
-                <Card key={cert.id} className="flex flex-col">
-                    <CardHeader>
-                        <div className="flex items-start gap-4">
-                            <div className="bg-muted p-3 rounded-full">
-                                <Award className="h-6 w-6 text-accent" />
-                            </div>
-                            <div>
-                                <CardTitle className="font-headline text-xl">{cert.title}</CardTitle>
-                                <CardDescription>Issued by {cert.issuingAuthority} on {new Date(cert.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</CardDescription>
-                            </div>
-                        </div>
-                    </CardHeader>
-                    <CardContent className="flex-grow">
-                        <p className="text-sm text-muted-foreground">{cert.description}</p>
-                    </CardContent>
-                    <div className="p-6 pt-0 flex flex-col sm:flex-row gap-2">
-                        <Button className="w-full" onClick={() => handleDownload(cert.title)}>
-                            <Download className="mr-2 h-4 w-4" /> Download
-                        </Button>
-                        <Button variant="outline" className="w-full text-white" onClick={() => handleShare(cert.title)}>
-                            <Share2 className="mr-2 h-4 w-4" /> Share
-                        </Button>
-                    </div>
-                </Card>
+            {userCertificates.map((cert, index) => (
+                <ScrollAnimator key={cert.id} delay={index * 0.1}>
+                  <Card className="flex flex-col">
+                      <CardHeader>
+                          <div className="flex items-start gap-4">
+                              <div className="bg-muted p-3 rounded-full">
+                                  <Award className="h-6 w-6 text-accent" />
+                              </div>
+                              <div>
+                                  <CardTitle className="font-headline text-xl">{cert.title}</CardTitle>
+                                  <CardDescription>Issued by {cert.issuingAuthority} on {new Date(cert.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</CardDescription>
+                              </div>
+                          </div>
+                      </CardHeader>
+                      <CardContent className="flex-grow">
+                          <p className="text-sm text-muted-foreground">{cert.description}</p>
+                      </CardContent>
+                      <div className="p-6 pt-0 flex flex-col sm:flex-row gap-2">
+                          <Button className="w-full" onClick={() => handleDownload(cert.title)}>
+                              <Download className="mr-2 h-4 w-4" /> Download
+                          </Button>
+                          <Button variant="outline" className="w-full text-white" onClick={() => handleShare(cert.title)}>
+                              <Share2 className="mr-2 h-4 w-4" /> Share
+                          </Button>
+                      </div>
+                  </Card>
+                </ScrollAnimator>
             ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center h-full text-center py-16">
-            <Card className="w-full max-w-md">
-                <CardHeader>
-                    <div className="mx-auto bg-muted rounded-full p-3">
-                        <Award className="h-10 w-10 text-primary" />
-                    </div>
-                    <CardTitle className="mt-4">No Certificates Earned Yet</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">Complete courses and programs to earn certificates. They will appear here once you've earned them.</p>
-                </CardContent>
-            </Card>
-        </div>
+        <ScrollAnimator>
+          <div className="flex flex-col items-center justify-center h-full text-center py-16">
+              <Card className="w-full max-w-md">
+                  <CardHeader>
+                      <div className="mx-auto bg-muted rounded-full p-3">
+                          <Award className="h-10 w-10 text-primary" />
+                      </div>
+                      <CardTitle className="mt-4">No Certificates Earned Yet</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <p className="text-muted-foreground">Complete courses and programs to earn certificates. They will appear here once you've earned them.</p>
+                  </CardContent>
+              </Card>
+          </div>
+        </ScrollAnimator>
       )}
     </div>
   )

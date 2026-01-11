@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Feather, Crown, Anchor, Swords } from 'lucide-react';
 import Link from 'next/link';
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 const realmsOfWar = [
   {
@@ -53,50 +54,56 @@ const realmsOfWar = [
 export default function RealmsOfWarPage() {
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-headline font-bold text-foreground">The Three Realms of Spiritual Warfare</h1>
-        <p className="text-muted-foreground max-w-3xl mt-2">
-          Understanding your operational domain is critical for effective spiritual warfare. Every believer has a primary realm of authority, though some may operate in all three.
-        </p>
-      </div>
+      <ScrollAnimator>
+        <div>
+          <h1 className="text-3xl font-headline font-bold text-foreground">The Three Realms of Spiritual Warfare</h1>
+          <p className="text-muted-foreground max-w-3xl mt-2">
+            Understanding your operational domain is critical for effective spiritual warfare. Every believer has a primary realm of authority, though some may operate in all three.
+          </p>
+        </div>
+      </ScrollAnimator>
 
       <div className="space-y-6">
-        {realmsOfWar.map((realm) => (
-          <Card key={realm.title}>
-            <CardHeader>
-                <div className="flex items-center gap-4">
-                    {realm.icon}
-                    <CardTitle className="font-headline text-2xl">{realm.title}</CardTitle>
+        {realmsOfWar.map((realm, index) => (
+          <ScrollAnimator key={realm.title} delay={index * 0.1}>
+            <Card>
+              <CardHeader>
+                  <div className="flex items-center gap-4">
+                      {realm.icon}
+                      <CardTitle className="font-headline text-2xl">{realm.title}</CardTitle>
+                  </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-lg text-muted-foreground">{realm.description}</p>
+                <div className="mt-6 border-t pt-4">
+                  <h3 className="font-bold text-lg text-foreground flex items-center gap-2"><Swords className="h-5 w-5 text-accent"/>Combat Strategies</h3>
+                  <ul className="mt-3 space-y-2 list-disc pl-5 text-muted-foreground">
+                      {realm.strategies.map((strategy) => (
+                          <li key={strategy}>{strategy}</li>
+                      ))}
+                  </ul>
                 </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-lg text-muted-foreground">{realm.description}</p>
-              <div className="mt-6 border-t pt-4">
-                <h3 className="font-bold text-lg text-foreground flex items-center gap-2"><Swords className="h-5 w-5 text-accent"/>Combat Strategies</h3>
-                <ul className="mt-3 space-y-2 list-disc pl-5 text-muted-foreground">
-                    {realm.strategies.map((strategy) => (
-                        <li key={strategy}>{strategy}</li>
-                    ))}
-                </ul>
-              </div>
-            </CardContent>
-            <CardFooter>
-                <Button asChild>
-                  <Link href={realm.href}>View Prophetic Prayer Points</Link>
-                </Button>
-            </CardFooter>
-          </Card>
+              </CardContent>
+              <CardFooter>
+                  <Button asChild>
+                    <Link href={realm.href}>View Prophetic Prayer Points</Link>
+                  </Button>
+              </CardFooter>
+            </Card>
+          </ScrollAnimator>
         ))}
       </div>
 
-      <Card className="bg-card text-card-foreground">
-          <CardHeader>
-              <CardTitle>Identity Before Authority</CardTitle>
-          </CardHeader>
-          <CardContent>
-              <p className="text-muted-foreground">Remember, authority in any realm is only activated when your identity in Christ is firmly established. Your position as a son or daughter of God is the source of all power. Before you engage the enemy, know who you are in Him.</p>
-          </CardContent>
-      </Card>
+      <ScrollAnimator>
+        <Card className="bg-card text-card-foreground">
+            <CardHeader>
+                <CardTitle>Identity Before Authority</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <p className="text-muted-foreground">Remember, authority in any realm is only activated when your identity in Christ is firmly established. Your position as a son or daughter of God is the source of all power. Before you engage the enemy, know who you are in Him.</p>
+            </CardContent>
+        </Card>
+      </ScrollAnimator>
     </div>
   );
 }
