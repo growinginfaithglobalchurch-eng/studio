@@ -37,7 +37,7 @@ const dailyPractices = [
     icon: <MessageSquare className="h-6 w-6 text-accent" />,
     title: "Kingdom Speech Tracking",
     description: "Practice speaking life and aligning your words with God's truth.",
-    href: "/identity-journal",
+    href: "/kingdom-speech",
     cta: "Log Speech"
   },
   {
