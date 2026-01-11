@@ -8,16 +8,17 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Shield, Send, CheckCircle, Gift, Heart } from 'lucide-react';
+import { Shield, Send, CheckCircle, Gift, Heart, BookOpen } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { communityUsers } from '@/lib/data';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Link from 'next/link';
 
 const benefitsOfMercy = [
     { title: "The Foreknowledge of God", text: "You were known and chosen by God before the foundation of the world." },
     { title: "Predestination", text: "You are predestined to be conformed to the image of His Son." },
-    { title: "Conformation to Christ", text: "You are confirmed to be blood-related with Jesus, declared a son/daughter of God, adopted into the divine lineage, and given an incorruptible nature, carrying His image, likeness, and divine nature." },
+    { title: "Conformation to Christ", text: "You are confirmed to be blood-related with Jesus, declared a son/daughter of God, adopted into the divine lineage, and given an incorruptible nature, carrying His image, likeness, and divine nature of God and His deity." },
     { title: "Divine Calling", text: "You are called to be holy and without blemish before Him who chose you from the beginning." },
     { title: "Justification", text: "You are declared righteous by faith in the name of Jesus Christ, standing before God without fault." },
     { title: "Glorification", text: "You are transitioned daily, from one level of glory to another, continually being transformed into His likeness." },
@@ -120,6 +121,18 @@ export default function MercyCityPage() {
         </CardContent>
       </Card>
       
+       <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 font-headline text-xl text-foreground"><BookOpen className="h-5 w-5 text-accent" />The Mercy City Session</CardTitle>
+            <CardDescription>Enter the Throne of Grace for Total Restoration of Timelines and Destinies.</CardDescription>
+          </CardHeader>
+          <CardContent>
+              <Button asChild>
+                <Link href="/mercy-city-session">Begin Session</Link>
+              </Button>
+          </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline text-xl text-foreground"><Gift className="h-5 w-5 text-accent" />The Blessings of Mercy City</CardTitle>

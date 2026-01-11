@@ -92,6 +92,7 @@ const warfareNav = [
     { href: '/war-room', label: 'War Room', icon: <Shield className="h-4 w-4" /> },
     { href: '/courts-of-heaven', label: 'Courts of Heaven', icon: <Gavel className="h-4 w-4" /> },
     { href: '/mercy-city', label: 'Mercy City', icon: <Shield className="h-4 w-4" /> },
+    { href: '/mercy-city-session', label: 'Mercy City Session', icon: <BookOpen className="h-4 w-4" /> },
     { href: '/global-prayer-hub', label: 'Global Prayer Hub', icon: <Globe className="h-4 w-4" /> },
     { href: '/prayer', label: 'Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
     { href: '/prayer-line-registration', label: 'Prayer Line', icon: <Phone className="h-4 w-4" /> },
@@ -280,6 +281,7 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
     </nav>
   );
 }
+
 
 
 
