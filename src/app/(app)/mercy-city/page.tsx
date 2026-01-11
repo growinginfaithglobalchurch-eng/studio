@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Shield, Send, CheckCircle } from 'lucide-react';
+import { Shield, Send, CheckCircle, Gift } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { communityUsers } from '@/lib/data';
 import { Separator } from '@/components/ui/separator';
@@ -19,6 +19,13 @@ const guidedPrayerPoints = [
     "I plead for mercy for my shortcomings, my family's errors, and the transgressions of my nation.",
     "Lord, release Your grace to help me in my time of need. Strengthen me where I am weak.",
     "I receive Your mercy that triumphs over judgment and Your grace that empowers me to overcome.",
+];
+
+const benefitsOfMercy = [
+    { title: "Divine Justification", text: "Who can bring a charge against you? It is God who justifies." },
+    { title: "Freedom from Condemnation", text: "Who can condemn? Christ Jesus died, rose, and now intercedes for you." },
+    { title: "Inseparable Love", text: "Nothing—no trial, no power, no created thing—can separate you from the love of God in Christ." },
+    { title: "More Than Conquerors", text: "In all hardships, you are overwhelmingly victorious through Him who loved you." },
 ];
 
 type MercyPetition = {
@@ -104,6 +111,21 @@ export default function MercyCityPage() {
         </CardContent>
       </Card>
       
+      <Card>
+        <CardHeader>
+            <CardTitle className="flex items-center gap-2 font-headline text-xl text-foreground"><Gift className="h-5 w-5 text-accent" />The Benefits of Mercy & Grace</CardTitle>
+            <CardDescription>Based on Romans 8:29-39, when you approach the throne of grace, you receive:</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 md:grid-cols-2">
+            {benefitsOfMercy.map(benefit => (
+                 <div key={benefit.title} className="p-3 rounded-lg border bg-secondary/50">
+                    <h3 className="font-bold text-foreground">{benefit.title}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">{benefit.text}</p>
+                </div>
+            ))}
+        </CardContent>
+      </Card>
+
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-6">
             <Card>
