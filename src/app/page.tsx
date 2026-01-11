@@ -28,6 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 const features = [
   {
@@ -154,6 +155,7 @@ export default function LandingPage() {
 
         <section className="py-12 md:py-20 text-center bg-secondary">
             <div className="container px-4 md:px-6">
+              <ScrollAnimator>
                 <p className="text-accent tracking-wider text-4xl sm:text-5xl italic">welcome to</p>
                 <h2 className="font-headline text-4xl font-bold tracking-wide sm:text-5xl text-card-foreground mt-2">
                     The Year of Restoration &amp; Acceleration
@@ -171,31 +173,36 @@ export default function LandingPage() {
                         <span>Acceleration</span>
                     </div>
                 </div>
+              </ScrollAnimator>
             </div>
         </section>
         
         <section id="features" className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
-            <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-accent">
-                A Platform for Transformation
-              </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-                Everything you need to deepen your relationship with God and
-                connect with a global family of believers.
-              </p>
-            </div>
+            <ScrollAnimator>
+              <div className="mb-12 text-center">
+                <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-accent">
+                  A Platform for Transformation
+                </h2>
+                <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                  Everything you need to deepen your relationship with God and
+                  connect with a global family of believers.
+                </p>
+              </div>
+            </ScrollAnimator>
             <div className="grid gap-8 md:grid-cols-3">
               {features.map((feature, index) => (
-                <Card key={index} className="overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 bg-card">
-                  <CardHeader className="flex flex-col items-center text-center p-6">
-                    {feature.icon}
-                    <CardTitle className="mt-4 font-headline font-bold text-card-foreground">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-center px-6 pb-6">
-                    <p className="text-card-foreground">{feature.description}</p>
-                  </CardContent>
-                </Card>
+                <ScrollAnimator key={index} delay={index * 0.1}>
+                  <Card className="overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 bg-card h-full">
+                    <CardHeader className="flex flex-col items-center text-center p-6">
+                      {feature.icon}
+                      <CardTitle className="mt-4 font-headline font-bold text-card-foreground">{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-center px-6 pb-6">
+                      <p className="text-card-foreground">{feature.description}</p>
+                    </CardContent>
+                  </Card>
+                </ScrollAnimator>
               ))}
             </div>
           </div>
@@ -203,21 +210,25 @@ export default function LandingPage() {
 
         <section className="py-12 md:py-24 bg-secondary">
           <div className="container px-4 md:px-6">
-             <div className="mb-12 text-center">
-                 <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-card-foreground">
+             <ScrollAnimator>
+              <div className="mb-12 text-center">
+                  <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-card-foreground">
                     Our Core Convictions
                   </h2>
-                   <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-                    The heart behind our global digital altar.
-                  </p>
-             </div>
+                    <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                      The heart behind our global digital altar.
+                    </p>
+              </div>
+            </ScrollAnimator>
             <div className="grid gap-8 md:grid-cols-3">
-                {values.map((value) => (
-                    <Card key={value.title} className="bg-card p-6 text-center flex flex-col items-center">
+                {values.map((value, index) => (
+                  <ScrollAnimator key={value.title} delay={index * 0.1}>
+                    <Card className="bg-card p-6 text-center flex flex-col items-center h-full">
                          {value.icon}
                         <h3 className="text-xl font-bold text-card-foreground mt-4">{value.title}</h3>
-                        <p className="text-muted-foreground mt-2">{value.description}</p>
+                        <p className="text-muted-foreground mt-2 flex-grow">{value.description}</p>
                     </Card>
+                  </ScrollAnimator>
                 ))}
             </div>
           </div>
@@ -225,76 +236,89 @@ export default function LandingPage() {
 
         <section className="py-12 md:py-24">
           <div className="container px-4 md:px-6">
-            <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
-                In Essence
-              </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-                Growing in Faith Global Connect is:
-              </p>
-            </div>
+            <ScrollAnimator>
+              <div className="mb-12 text-center">
+                <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
+                  In Essence
+                </h2>
+                <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                  Growing in Faith Global Connect is:
+                </p>
+              </div>
+            </ScrollAnimator>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-              {inEssencePoints.map((point) => (
-                <Card
-                  key={point.title}
-                  className="bg-card p-6 text-center flex flex-col items-center"
-                >
-                  {point.icon}
-                  <h3 className="text-lg font-bold text-card-foreground mt-4">
-                    {point.title}
-                  </h3>
-                </Card>
+              {inEssencePoints.map((point, index) => (
+                <ScrollAnimator key={point.title} delay={index * 0.1}>
+                  <Card
+                    className="bg-card p-6 text-center flex flex-col items-center h-full"
+                  >
+                    {point.icon}
+                    <h3 className="text-lg font-bold text-card-foreground mt-4">
+                      {point.title}
+                    </h3>
+                  </Card>
+                </ScrollAnimator>
               ))}
             </div>
-            <p className="mt-12 text-center text-lg max-w-4xl mx-auto text-muted-foreground">
-              It exists to transform non-existent realities into existence through faith, empowering believers to live fully in Christ and fulfill divine purpose on earth.
-            </p>
+            <ScrollAnimator delay={0.4}>
+              <p className="mt-12 text-center text-lg max-w-4xl mx-auto text-muted-foreground">
+                It exists to transform non-existent realities into existence through faith, empowering believers to live fully in Christ and fulfill divine purpose on earth.
+              </p>
+            </ScrollAnimator>
           </div>
         </section>
 
         <section id="founders" className="py-12 md:py-24 bg-secondary">
           <div className="container px-4 md:px-6">
-            <div className="mb-12 text-center">
-              <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-card-foreground">
-                Meet the Founders
-              </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-                Founded by The Bondservant of Christ, Joseph Tryson, with Prophetess Norah Tryson.
-              </p>
-            </div>
+            <ScrollAnimator>
+              <div className="mb-12 text-center">
+                <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-card-foreground">
+                  Meet the Founders
+                </h2>
+                <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                  Founded by The Bondservant of Christ, Joseph Tryson, with Prophetess Norah Tryson.
+                </p>
+              </div>
+            </ScrollAnimator>
             <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-                <Card className="flex flex-col items-center p-8 text-center bg-card">
-                    <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
-                        <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl} alt="Joseph Tryson"/>
-                        <AvatarFallback>JT</AvatarFallback>
-                    </Avatar>
-                    <h3 className="font-headline text-xl font-bold text-card-foreground">The Bondservant of Christ, Joseph Tryson</h3>
-                    <p className="mt-2 text-muted-foreground">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
-                </Card>
-                 <Card className="flex flex-col items-center p-8 text-center bg-card">
-                    <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
-                        <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-2')?.imageUrl} alt="Prophetess Norah Tryson"/>
-                        <AvatarFallback>NT</AvatarFallback>
-                    </Avatar>
-                    <h3 className="font-headline text-xl font-bold text-card-foreground">Prophetess Norah Tryson</h3>
-                    <p className="mt-2 text-muted-foreground">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
-                </Card>
-                <Card className="flex flex-col p-8 bg-card lg:col-span-2 lg:row-start-1 lg:col-start-3">
-                     <CardHeader className="p-0 text-center">
-                        <CardTitle className="font-headline text-xl font-bold text-card-foreground">Our Leadership Covering</CardTitle>
-                        <CardDescription className="mt-2 text-muted-foreground">Their leadership provides:</CardDescription>
-                     </CardHeader>
-                     <CardContent className="mt-6">
-                        <ul className="space-y-4">
-                            {leadershipPoints.map((point) => (
-                                <li key={point.title} className="flex items-center gap-4">
-                                    {point.icon}
-                                    <span className="font-medium text-card-foreground">{point.title}</span>
-                                </li>
-                            ))}
-                        </ul>
-                     </CardContent>
-                </Card>
+                <ScrollAnimator delay={0.1}>
+                  <Card className="flex flex-col items-center p-8 text-center bg-card">
+                      <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
+                          <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl} alt="Joseph Tryson"/>
+                          <AvatarFallback>JT</AvatarFallback>
+                      </Avatar>
+                      <h3 className="font-headline text-xl font-bold text-card-foreground">The Bondservant of Christ, Joseph Tryson</h3>
+                      <p className="mt-2 text-muted-foreground">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
+                  </Card>
+                </ScrollAnimator>
+                 <ScrollAnimator delay={0.2}>
+                  <Card className="flex flex-col items-center p-8 text-center bg-card">
+                      <Avatar className="w-24 h-24 mb-4 border-4 border-accent">
+                          <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-2')?.imageUrl} alt="Prophetess Norah Tryson"/>
+                          <AvatarFallback>NT</AvatarFallback>
+                      </Avatar>
+                      <h3 className="font-headline text-xl font-bold text-card-foreground">Prophetess Norah Tryson</h3>
+                      <p className="mt-2 text-muted-foreground">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
+                  </Card>
+                </ScrollAnimator>
+                <ScrollAnimator delay={0.3} className="lg:col-span-2 lg:row-start-1 lg:col-start-3">
+                  <Card className="flex flex-col p-8 bg-card h-full">
+                      <CardHeader className="p-0 text-center">
+                          <CardTitle className="font-headline text-xl font-bold text-card-foreground">Our Leadership Covering</CardTitle>
+                          <CardDescription className="mt-2 text-muted-foreground">Their leadership provides:</CardDescription>
+                      </CardHeader>
+                      <CardContent className="mt-6">
+                          <ul className="space-y-4">
+                              {leadershipPoints.map((point) => (
+                                  <li key={point.title} className="flex items-center gap-4">
+                                      {point.icon}
+                                      <span className="font-medium text-card-foreground">{point.title}</span>
+                                  </li>
+                              ))}
+                          </ul>
+                      </CardContent>
+                  </Card>
+                </ScrollAnimator>
             </div>
           </div>
         </section>
