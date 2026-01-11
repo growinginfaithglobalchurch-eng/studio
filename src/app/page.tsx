@@ -162,11 +162,11 @@ export default function LandingPage() {
                     This is a season of divine recovery and supernatural advancement. God is restoring what was lost and accelerating His promises in your life. Position yourself for an unprecedented move of the Spirit!
                 </p>
                 <div className="flex justify-center gap-6 mt-6">
-                    <div className="flex items-center gap-2 text-foreground">
+                    <div className="flex items-center gap-2 text-black">
                         <RefreshCw className="h-5 w-5 text-accent"/>
                         <span>Restoration</span>
                     </div>
-                    <div className="flex items-center gap-2 text-foreground">
+                    <div className="flex items-center gap-2 text-black">
                         <Zap className="h-5 w-5 text-accent"/>
                         <span>Acceleration</span>
                     </div>
