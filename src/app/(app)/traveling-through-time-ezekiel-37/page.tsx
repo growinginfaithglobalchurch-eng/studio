@@ -115,14 +115,7 @@ export default function TravelingThroughTimeEzekiel37Page() {
                 <p className="mt-1 text-sm text-muted-foreground">By Joseph Tryson</p>
             </div>
             
-             <div className="flex justify-end">
-                <Button variant="outline" onClick={() => window.print()}>
-                    <Printer className="mr-2 h-4 w-4" />
-                    Print / Save as PDF
-                </Button>
-            </div>
-
-             <Card>
+             <Card className="bg-secondary">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-3"><Zap className="h-6 w-6 text-accent" />INTRODUCTION: THE PROPHETIC SCIENCE OF TIME TRAVEL IN THE SPIRIT</CardTitle>
                 </CardHeader>
@@ -137,6 +130,13 @@ export default function TravelingThroughTimeEzekiel37Page() {
                     <p className="font-semibold text-foreground">Ezekiel becomes a traveler between what is and what is to come.</p>
                 </CardContent>
             </Card>
+
+             <div className="flex justify-end">
+                <Button variant="outline" onClick={() => window.print()}>
+                    <Printer className="mr-2 h-4 w-4" />
+                    Print / Save as PDF
+                </Button>
+            </div>
 
              {sections.map(section => (
                 <Card key={section.title}>
