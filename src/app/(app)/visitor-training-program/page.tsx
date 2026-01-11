@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { CodeBlock } from "@/components/code-block";
 import { cn } from "@/lib/utils";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 const trainingSchedule = [
     {
@@ -174,117 +175,127 @@ export default function VisitorTrainingProgramPage() {
 
     return (
         <div className="space-y-8">
-            <div>
-                <div className="flex items-center gap-3 mb-2">
-                    <BookOpen className="h-8 w-8 text-accent" />
-                    <h1 className="text-3xl font-headline font-bold text-foreground">Visitor Training Program</h1>
+            <ScrollAnimator>
+                <div>
+                    <div className="flex items-center gap-3 mb-2">
+                        <BookOpen className="h-8 w-8 text-accent" />
+                        <h1 className="text-3xl font-headline font-bold text-foreground">Visitor Training Program</h1>
+                    </div>
+                    <p className="text-muted-foreground max-w-2xl">
+                        Mandatory 3-Day Pre-Arrival Training to prepare you for a powerful immersion experience.
+                    </p>
                 </div>
-                <p className="text-muted-foreground max-w-2xl">
-                    Mandatory 3-Day Pre-Arrival Training to prepare you for a powerful immersion experience.
-                </p>
-            </div>
+            </ScrollAnimator>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle className="font-headline text-card-foreground">Why This Training is Required</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">To ensure unity, safety, and maximum impact, it is essential that all visitors are aligned with our Kingdom culture and protocols before arriving. This training equips you with the foundational understanding needed to fully participate in and receive from all that God is doing in our midst.</p>
-                </CardContent>
-            </Card>
+            <ScrollAnimator>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="font-headline text-card-foreground">Why This Training is Required</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-muted-foreground">To ensure unity, safety, and maximum impact, it is essential that all visitors are aligned with our Kingdom culture and protocols before arriving. This training equips you with the foundational understanding needed to fully participate in and receive from all that God is doing in our midst.</p>
+                    </CardContent>
+                </Card>
+            </ScrollAnimator>
 
-            <div>
-                <h2 className="text-2xl font-headline font-bold mb-4 text-foreground">Training Curriculum</h2>
-                <Accordion type="single" collapsible defaultValue="Day 1: Foundations & Kingdom Culture" className="w-full">
-                    {trainingSchedule.map((day) => (
-                        <AccordionItem value={day.day} key={day.day}>
-                            <AccordionTrigger className="text-xl font-headline hover:no-underline text-foreground">
-                                <div className="flex items-center gap-3">
-                                    {day.icon}
-                                    {day.day}
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="pl-4 border-l-2 border-accent ml-4">
-                                <div className="space-y-2 pt-4">
-                                    {day.sessions.map(session => (
-                                        <Accordion key={session.title} type="single" collapsible>
-                                            <AccordionItem value={session.title}>
-                                                <AccordionTrigger className={cn("font-bold text-lg hover:no-underline", "text-card-foreground")}>{session.title}</AccordionTrigger>
-                                                <AccordionContent className="p-4 bg-card rounded-md">
-                                                    <div className="space-y-4">
-                                                        <div>
-                                                            <h5 className="font-semibold text-accent">Key Scriptures</h5>
-                                                            <CodeBlock code={session.content.scriptures.join('\n')} />
+            <ScrollAnimator>
+                <div>
+                    <h2 className="text-2xl font-headline font-bold mb-4 text-foreground">Training Curriculum</h2>
+                    <Accordion type="single" collapsible defaultValue="Day 1: Foundations & Kingdom Culture" className="w-full">
+                        {trainingSchedule.map((day) => (
+                            <AccordionItem value={day.day} key={day.day}>
+                                <AccordionTrigger className="text-xl font-headline hover:no-underline text-white">
+                                    <div className="flex items-center gap-3">
+                                        {day.icon}
+                                        {day.day}
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="pl-4 border-l-2 border-accent ml-4">
+                                    <div className="space-y-2 pt-4">
+                                        {day.sessions.map(session => (
+                                            <Accordion key={session.title} type="single" collapsible>
+                                                <AccordionItem value={session.title}>
+                                                    <AccordionTrigger className={cn("font-bold text-lg hover:no-underline", "text-white")}>{session.title}</AccordionTrigger>
+                                                    <AccordionContent className="p-4 bg-card rounded-md">
+                                                        <div className="space-y-4">
+                                                            <div>
+                                                                <h5 className="font-semibold text-accent">Key Scriptures</h5>
+                                                                <CodeBlock code={session.content.scriptures.join('\n')} />
+                                                            </div>
+                                                            <div>
+                                                                <h5 className="font-semibold text-accent">Teaching Points</h5>
+                                                                <ul className="list-disc pl-5 text-muted-foreground">
+                                                                    {session.content.points.map(p => <li key={p}>{p}</li>)}
+                                                                </ul>
+                                                            </div>
+                                                            <div>
+                                                                <h5 className="font-semibold text-accent">Practical Application</h5>
+                                                                <p className="text-muted-foreground">{session.content.application}</p>
+                                                            </div>
                                                         </div>
-                                                         <div>
-                                                            <h5 className="font-semibold text-accent">Teaching Points</h5>
-                                                            <ul className="list-disc pl-5 text-muted-foreground">
-                                                                {session.content.points.map(p => <li key={p}>{p}</li>)}
-                                                            </ul>
-                                                        </div>
-                                                        <div>
-                                                            <h5 className="font-semibold text-accent">Practical Application</h5>
-                                                            <p className="text-muted-foreground">{session.content.application}</p>
-                                                        </div>
-                                                    </div>
-                                                </AccordionContent>
-                                            </AccordionItem>
-                                        </Accordion>
-                                    ))}
-                                </div>
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
-            </div>
+                                                    </AccordionContent>
+                                                </AccordionItem>
+                                            </Accordion>
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
+            </ScrollAnimator>
 
-            <Card>
-                <CardHeader className="flex-row items-center gap-4">
-                    <ClipboardCheck className="h-8 w-8 text-accent" />
-                    <div>
-                        <CardTitle>Mandatory Pre-Arrival Training</CardTitle>
-                        <CardDescription>
-                            This training covers our core values, Kingdom protocols, and prepares you for a powerful time of immersion. Details will be provided upon acceptance.
-                        </CardDescription>
-                    </div>
-                </CardHeader>
-                <CardContent>
-                     <Button asChild>
-                        <Link href="/visitor-training-program">View Training Curriculum</Link>
-                    </Button>
-                </CardContent>
-            </Card>
-            
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-card-foreground">
-                        <CheckCircle className="h-5 w-5 text-green-500" />
-                        Completion & Support
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground mb-4">Upon successful completion of this training, all visitors will be given their certification and final visit confirmation. We look forward to welcoming you!</p>
-                    <div className="flex flex-col sm:flex-row gap-4">
-                         <Button asChild>
-                            <Link href="/login">Access Training Portal</Link>
-                        </Button>
-                        <div className="flex gap-2">
-                            <Select onValueChange={setSupportType} value={supportType}>
-                                <SelectTrigger className="w-[240px]">
-                                    <SelectValue placeholder="Select Support Type" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="local-visitor-support">Local Visitor Support</SelectItem>
-                                    <SelectItem value="international-visitor-support">International Visitor Support</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <Button variant="outline" onClick={handleContactSupport} disabled={!supportType}>
-                                Contact Support
-                            </Button>
+            <ScrollAnimator>
+                <Card>
+                    <CardHeader className="flex-row items-center gap-4">
+                        <ClipboardCheck className="h-8 w-8 text-accent" />
+                        <div>
+                            <CardTitle>Mandatory Pre-Arrival Training</CardTitle>
+                            <CardDescription>
+                                This training covers our core values, Kingdom protocols, and prepares you for a powerful time of immersion. Details will be provided upon acceptance.
+                            </CardDescription>
                         </div>
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardHeader>
+                    <CardContent>
+                        <Button asChild>
+                            <Link href="/visitor-training-program">View Training Curriculum</Link>
+                        </Button>
+                    </CardContent>
+                </Card>
+            </ScrollAnimator>
+            
+            <ScrollAnimator>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-card-foreground">
+                            <CheckCircle className="h-5 w-5 text-green-500" />
+                            Completion & Support
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-muted-foreground mb-4">Upon successful completion of this training, all visitors will be given their certification and final visit confirmation. We look forward to welcoming you!</p>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <Button asChild>
+                                <Link href="/login">Access Training Portal</Link>
+                            </Button>
+                            <div className="flex gap-2">
+                                <Select onValueChange={setSupportType} value={supportType}>
+                                    <SelectTrigger className="w-[240px]">
+                                        <SelectValue placeholder="Select Support Type" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="local-visitor-support">Local Visitor Support</SelectItem>
+                                        <SelectItem value="international-visitor-support">International Visitor Support</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <Button variant="outline" onClick={handleContactSupport} disabled={!supportType}>
+                                    Contact Support
+                                </Button>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            </ScrollAnimator>
         </div>
     );
 }
