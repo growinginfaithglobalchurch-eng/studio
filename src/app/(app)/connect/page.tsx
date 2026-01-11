@@ -13,15 +13,17 @@ import { useToast } from '@/hooks/use-toast';
 import { User } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
+type UserWithRequest = User & { friendRequestSent?: boolean };
+
 export default function ConnectPage() {
   const { toast } = useToast();
-  const [users, setUsers] = useState<User[]>(initialUsers.map(u => ({...u, isFriendRequest: false})));
+  const [users, setUsers] = useState<UserWithRequest[]>(initialUsers.map(u => ({...u, isFriendRequest: false, friendRequestSent: false})));
   const [friendRequests, setFriendRequests] = useState<User[]>([
       { ...initialUsers[3], isFriendRequest: true },
       { ...initialUsers[5], isFriendRequest: true },
   ]);
 
-  const handleFriendAction = (user: User) => {
+  const handleFriendAction = (user: UserWithRequest) => {
     if (user.isFriend) {
       // Remove friend
       setUsers(prev => prev.map(u => u.id === user.id ? { ...u, isFriend: false } : u));
@@ -30,11 +32,11 @@ export default function ConnectPage() {
         description: `${user.name} has been removed from your friends list.`,
       });
     } else {
-      // Add friend
-       setUsers(prev => prev.map(u => u.id === user.id ? { ...u, isFriend: true } : u));
+      // Send friend request
+       setUsers(prev => prev.map(u => u.id === user.id ? { ...u, friendRequestSent: true } : u));
       toast({
-        title: 'Friend Added!',
-        description: `You are now friends with ${user.name}.`,
+        title: 'Friend Request Sent!',
+        description: `Your friend request to ${user.name} has been sent.`,
       });
     }
   };
@@ -42,7 +44,7 @@ export default function ConnectPage() {
   const handleRequestAction = (requestingUser: User, action: 'accept' | 'decline') => {
       setFriendRequests(prev => prev.filter(u => u.id !== requestingUser.id));
       if (action === 'accept') {
-          setUsers(prev => prev.map(u => u.id === requestingUser.id ? { ...u, isFriend: true } : u));
+          setUsers(prev => prev.map(u => u.id === requestingUser.id ? { ...u, isFriend: true, friendRequestSent: false } : u));
           toast({
               title: 'Friend Request Accepted',
               description: `You are now friends with ${requestingUser.name}.`,
@@ -59,6 +61,31 @@ export default function ConnectPage() {
   const friends = users.filter(u => u.isFriend);
   // Simulating not seeing yourself
   const discoverableUsers = users.filter(u => u.id !== 1);
+
+  const getButtonState = (user: UserWithRequest) => {
+    if (user.isFriend) {
+        return {
+            text: "Remove Friend",
+            variant: "secondary" as const,
+            icon: <UserMinus className="mr-2 h-4 w-4" />,
+            disabled: false,
+        }
+    }
+    if (user.friendRequestSent) {
+         return {
+            text: "Request Sent",
+            variant: "outline" as const,
+            icon: <Check className="mr-2 h-4 w-4" />,
+            disabled: true,
+        }
+    }
+    return {
+        text: "Add Friend",
+        variant: "default" as const,
+        icon: <UserPlus className="mr-2 h-4 w-4" />,
+        disabled: false,
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -87,29 +114,33 @@ export default function ConnectPage() {
               <CardTitle>Discover Members</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {discoverableUsers.map((user) => (
-                <Card
-                  key={user.id}
-                  className="flex flex-col items-center p-6 text-center"
-                >
-                  <Avatar className="h-20 w-20">
-                    {user.avatar && <AvatarImage src={user.avatar.imageUrl} alt={user.name} data-ai-hint={user.avatar.imageHint} />}
-                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <h3 className="mt-4 text-lg font-bold text-card-foreground">{user.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {user.location}
-                  </p>
-                   <Button 
-                    className="mt-4 w-full" 
-                    onClick={() => handleFriendAction(user)}
-                    variant={user.isFriend ? 'secondary' : 'default'}
-                  >
-                    {user.isFriend ? <UserMinus className="mr-2 h-4 w-4" /> : <UserPlus className="mr-2 h-4 w-4" />}
-                    {user.isFriend ? 'Remove Friend' : 'Add Friend'}
-                  </Button>
-                </Card>
-              ))}
+              {discoverableUsers.map((user) => {
+                const buttonState = getButtonState(user);
+                return (
+                    <Card
+                      key={user.id}
+                      className="flex flex-col items-center p-6 text-center"
+                    >
+                      <Avatar className="h-20 w-20">
+                        {user.avatar && <AvatarImage src={user.avatar.imageUrl} alt={user.name} data-ai-hint={user.avatar.imageHint} />}
+                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <h3 className="mt-4 text-lg font-bold text-card-foreground">{user.name}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {user.location}
+                      </p>
+                       <Button 
+                        className="mt-4 w-full" 
+                        onClick={() => handleFriendAction(user)}
+                        variant={buttonState.variant}
+                        disabled={buttonState.disabled}
+                      >
+                        {buttonState.icon}
+                        {buttonState.text}
+                      </Button>
+                    </Card>
+                )
+            })}
             </CardContent>
           </Card>
         </TabsContent>

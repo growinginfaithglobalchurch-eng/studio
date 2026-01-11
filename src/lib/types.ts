@@ -109,4 +109,5 @@ export type User = {
   location: string; // from old model
   name: string; // from old model
   isFriend: boolean;
+  isFriendRequest?: boolean; // Optional property for friend requests
 };
