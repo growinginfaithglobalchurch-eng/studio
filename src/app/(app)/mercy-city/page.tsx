@@ -15,8 +15,9 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 const benefitsOfMercy = [
-    { title: "Foreknowledge & Predestination", text: "You were known and chosen by God before the foundation of the world." },
-    { title: "Conformation to Christ", text: "You are conformed to the image of Jesus, adopted into God's divine lineage, and receive an incorruptible nature, carrying His image, likeness, and divine nature." },
+    { title: "The Foreknowledge of God", text: "You were known and chosen by God before the foundation of the world." },
+    { title: "Predestination", text: "You are predestined to be conformed to the image of His Son." },
+    { title: "Conformation to Christ", text: "You are confirmed to be blood-related with Jesus, declared a son/daughter of God, adopted into the divine lineage, and given an incorruptible nature, carrying His image, likeness, and divine nature." },
     { title: "Divine Calling", text: "You are called to be holy and without blemish before Him who chose you from the beginning." },
     { title: "Justification", text: "You are declared righteous by faith in the name of Jesus Christ, standing before God without fault." },
     { title: "Glorification", text: "You are transitioned daily, from one level of glory to another, continually being transformed into His likeness." },
@@ -50,6 +51,14 @@ const initialPetitions: MercyPetition[] = [
         petition: 'Asking for grace and strength to overcome a persistent personal struggle.',
         timestamp: '3 hours ago'
     }
+];
+
+const guidedPrayerPoints = [
+    "A prayer for forgiveness and cleansing.",
+    "A prayer for grace in a time of weakness.",
+    "A prayer to receive God's unmerited favor.",
+    "A prayer for mercy over my family and bloodline.",
+    "A prayer to align my heart with the heart of the Father."
 ];
 
 export default function MercyCityPage() {
