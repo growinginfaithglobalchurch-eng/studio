@@ -1,4 +1,5 @@
 
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,87 +30,88 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ScrollAnimator } from '@/components/scroll-animator';
-
-const features = [
-  {
-    icon: <BookOpen className="h-10 w-10 text-accent" />,
-    title: 'Deepen Spiritual Growth',
-    description: 'Access teachings, devotionals, and interactive tools that nurture consistent spiritual maturity.',
-    image: PlaceHolderImages.find(img => img.id === 'devotionals-feature'),
-  },
-  {
-    icon: <Users className="h-10 w-10 text-accent" />,
-    title: 'Unite the Faithful',
-    description: 'Build an engaged, supportive, and interactive faith community across geographical boundaries.',
-    image: PlaceHolderImages.find(img => img.id === 'community-feature'),
-  },
-  {
-    icon: <Rocket className="h-10 w-10 text-accent" />,
-    title: 'Equip for Kingdom Impact',
-    description: 'Discover your gifts and calling in Christ and activate them in service and influence.',
-    image: PlaceHolderImages.find(img => img.id === 'prayer-feature'),
-  },
-];
-
-const values = [
-    {
-      icon: <Target className="h-8 w-8 text-accent" />,
-      title: "Our Vision",
-      description: "To build a global digital altar where believers are raised, equipped, and released to live beyond limitations through faith in Christ."
-    },
-    {
-      icon: <Rocket className="h-8 w-8 text-accent" />,
-      title: "Our Mission",
-      description: "To recruit, identify, equip, deploy, and sustain believers worldwide by providing a Spirit-led platform for growth, revelation, and kingdom impact."
-    },
-    {
-      icon: <Gem className="h-8 w-8 text-accent" />,
-      title: "Our Purpose",
-      description: "To make spiritual growth accessible, structured, and transformational for believers everywhere—turning faith into lifestyle and revelation into impact."
-    }
-]
-
-const inEssencePoints = [
-  {
-    icon: <Network className="h-8 w-8 text-accent" />,
-    title: 'A Digital Church Extension',
-  },
-  {
-    icon: <Sparkles className="h-8 w-8 text-accent" />,
-    title: 'A Faith Activation System',
-  },
-  {
-    icon: <Swords className="h-8 w-8 text-accent" />,
-    title: 'A Kingdom Training Ground',
-  },
-  {
-    icon: <Globe className="h-8 w-8 text-accent" />,
-    title: 'A Global Spiritual Family',
-  },
-];
-
-
-const leadershipPoints = [
-    {
-        icon: <ShieldCheck className="h-6 w-6 text-accent" />,
-        title: "Apostolic & Prophetic Foundation",
-    },
-    {
-        icon: <BookMarked className="h-6 w-6 text-accent" />,
-        title: "Doctrinal Depth & Revelatory Accuracy",
-    },
-    {
-        icon: <Eye className="h-6 w-6 text-accent" />,
-        title: "Spiritual Oversight & Vision Alignment",
-    },
-    {
-        icon: <UserCheck className="h-6 w-6 text-accent" />,
-        title: "Mandate to Raise a Mature End-Time Generation",
-    }
-]
-
+import { useLanguage } from '@/context/language-context';
 
 export default function LandingPage() {
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: <BookOpen className="h-10 w-10 text-accent" />,
+      title: t('landingFeaturesTitle1'),
+      description: t('landingFeaturesDesc1'),
+      image: PlaceHolderImages.find(img => img.id === 'devotionals-feature'),
+    },
+    {
+      icon: <Users className="h-10 w-10 text-accent" />,
+      title: t('landingFeaturesTitle2'),
+      description: t('landingFeaturesDesc2'),
+      image: PlaceHolderImages.find(img => img.id === 'community-feature'),
+    },
+    {
+      icon: <Rocket className="h-10 w-10 text-accent" />,
+      title: t('landingFeaturesTitle3'),
+      description: t('landingFeaturesDesc3'),
+      image: PlaceHolderImages.find(img => img.id === 'prayer-feature'),
+    },
+  ];
+
+  const values = [
+      {
+        icon: <Target className="h-8 w-8 text-accent" />,
+        title: t('landingValuesTitle1'),
+        description: t('landingValuesDesc1')
+      },
+      {
+        icon: <Rocket className="h-8 w-8 text-accent" />,
+        title: t('landingValuesTitle2'),
+        description: t('landingValuesDesc2')
+      },
+      {
+        icon: <Gem className="h-8 w-8 text-accent" />,
+        title: t('landingValuesTitle3'),
+        description: t('landingValuesDesc3')
+      }
+  ];
+
+  const inEssencePoints = [
+    {
+      icon: <Network className="h-8 w-8 text-accent" />,
+      title: t('landingEssenceTitle1'),
+    },
+    {
+      icon: <Sparkles className="h-8 w-8 text-accent" />,
+      title: t('landingEssenceTitle2'),
+    },
+    {
+      icon: <Swords className="h-8 w-8 text-accent" />,
+      title: t('landingEssenceTitle3'),
+    },
+    {
+      icon: <Globe className="h-8 w-8 text-accent" />,
+      title: t('landingEssenceTitle4'),
+    },
+  ];
+
+  const leadershipPoints = [
+      {
+          icon: <ShieldCheck className="h-6 w-6 text-accent" />,
+          title: t('landingLeadershipPoint1'),
+      },
+      {
+          icon: <BookMarked className="h-6 w-6 text-accent" />,
+          title: t('landingLeadershipPoint2'),
+      },
+      {
+          icon: <Eye className="h-6 w-6 text-accent" />,
+          title: t('landingLeadershipPoint3'),
+      },
+      {
+          icon: <UserCheck className="h-6 w-6 text-accent" />,
+          title: t('landingLeadershipPoint4'),
+      }
+  ];
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm">
@@ -122,10 +124,10 @@ export default function LandingPage() {
           </Link>
           <nav className="flex items-center gap-4">
             <Button variant="ghost" asChild>
-              <Link href="/login">Log In</Link>
+              <Link href="/login">{t('login')}</Link>
             </Button>
             <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="/signup">Get Started</Link>
+              <Link href="/signup">{t('getStarted')}</Link>
             </Button>
           </nav>
         </div>
@@ -156,21 +158,21 @@ export default function LandingPage() {
         <section className="py-12 md:py-20 text-center bg-secondary">
             <div className="container px-4 md:px-6">
               <ScrollAnimator>
-                <p className="text-accent tracking-wider text-4xl sm:text-5xl italic">welcome to</p>
+                <p className="text-accent tracking-wider text-4xl sm:text-5xl italic">{t('landingWelcomeTo')}</p>
                 <h2 className="font-headline text-4xl font-bold tracking-wide sm:text-5xl text-card-foreground mt-2">
-                    The Year of Restoration &amp; Acceleration
+                    {t('landingYearOf')}
                 </h2>
                 <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">
-                    This is a season of divine recovery and supernatural advancement. God is restoring what was lost and accelerating His promises in your life. Position yourself for an unprecedented move of the Spirit!
+                    {t('landingYearOfDesc')}
                 </p>
                 <div className="flex justify-center gap-6 mt-6">
                     <div className="flex items-center gap-2 text-black">
                         <RefreshCw className="h-5 w-5 text-accent"/>
-                        <span>Restoration</span>
+                        <span>{t('restoration')}</span>
                     </div>
                     <div className="flex items-center gap-2 text-black">
                         <Zap className="h-5 w-5 text-accent"/>
-                        <span>Acceleration</span>
+                        <span>{t('acceleration')}</span>
                     </div>
                 </div>
               </ScrollAnimator>
@@ -182,11 +184,10 @@ export default function LandingPage() {
             <ScrollAnimator>
               <div className="mb-12 text-center">
                 <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-accent">
-                  A Platform for Transformation
+                  {t('landingPlatformFor')}
                 </h2>
                 <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-                  Everything you need to deepen your relationship with God and
-                  connect with a global family of believers.
+                  {t('landingPlatformForDesc')}
                 </p>
               </div>
             </ScrollAnimator>
@@ -213,10 +214,10 @@ export default function LandingPage() {
              <ScrollAnimator>
               <div className="mb-12 text-center">
                   <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-card-foreground">
-                    Our Core Convictions
+                    {t('landingCoreConvictions')}
                   </h2>
                     <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-                      The heart behind our global digital altar.
+                      {t('landingCoreConvictionsDesc')}
                     </p>
               </div>
             </ScrollAnimator>
@@ -239,10 +240,10 @@ export default function LandingPage() {
             <ScrollAnimator>
               <div className="mb-12 text-center">
                 <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-foreground">
-                  In Essence
+                  {t('inEssence')}
                 </h2>
                 <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-                  Growing in Faith Global Connect is:
+                  {t('inEssenceDesc')}
                 </p>
               </div>
             </ScrollAnimator>
@@ -262,7 +263,7 @@ export default function LandingPage() {
             </div>
             <ScrollAnimator delay={0.4}>
               <p className="mt-12 text-center text-lg max-w-4xl mx-auto text-muted-foreground">
-                It exists to transform non-existent realities into existence through faith, empowering believers to live fully in Christ and fulfill divine purpose on earth.
+                {t('inEssenceFooter')}
               </p>
             </ScrollAnimator>
           </div>
@@ -273,10 +274,10 @@ export default function LandingPage() {
             <ScrollAnimator>
               <div className="mb-12 text-center">
                 <h2 className="font-headline text-3xl font-bold tracking-wide sm:text-4xl text-card-foreground">
-                  Meet the Founders
+                  {t('meetFounders')}
                 </h2>
                 <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-                  Founded by The Bondservant of Christ, Joseph Tryson, with Prophetess Norah Tryson.
+                  {t('meetFoundersDesc')}
                 </p>
               </div>
             </ScrollAnimator>
@@ -287,8 +288,8 @@ export default function LandingPage() {
                           <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl} alt="Joseph Tryson"/>
                           <AvatarFallback>JT</AvatarFallback>
                       </Avatar>
-                      <h3 className="font-headline text-xl font-bold text-card-foreground">The Bondservant of Christ, Joseph Tryson</h3>
-                      <p className="mt-2 text-muted-foreground">A visionary leader, author, and spiritual mentor whose life’s mandate centers on unlocking human potential in Christ.</p>
+                      <h3 className="font-headline text-xl font-bold text-card-foreground">{t('founder1Name')}</h3>
+                      <p className="mt-2 text-muted-foreground">{t('founder1Desc')}</p>
                   </Card>
                 </ScrollAnimator>
                  <ScrollAnimator delay={0.2}>
@@ -297,15 +298,15 @@ export default function LandingPage() {
                           <AvatarImage src={PlaceHolderImages.find(p => p.id === 'avatar-2')?.imageUrl} alt="Prophetess Norah Tryson"/>
                           <AvatarFallback>NT</AvatarFallback>
                       </Avatar>
-                      <h3 className="font-headline text-xl font-bold text-card-foreground">Prophetess Norah Tryson</h3>
-                      <p className="mt-2 text-muted-foreground">A prophetic voice and co-leader whose ministry amplifies the revelation of God’s heart for His people.</p>
+                      <h3 className="font-headline text-xl font-bold text-card-foreground">{t('founder2Name')}</h3>
+                      <p className="mt-2 text-muted-foreground">{t('founder2Desc')}</p>
                   </Card>
                 </ScrollAnimator>
                 <ScrollAnimator delay={0.3} className="lg:col-span-2 lg:row-start-1 lg:col-start-3">
                   <Card className="flex flex-col p-8 bg-card h-full">
                       <CardHeader className="p-0 text-center">
-                          <CardTitle className="font-headline text-xl font-bold text-card-foreground">Our Leadership Covering</CardTitle>
-                          <CardDescription className="mt-2 text-muted-foreground">Their leadership provides:</CardDescription>
+                          <CardTitle className="font-headline text-xl font-bold text-card-foreground">{t('leadershipCovering')}</CardTitle>
+                          <CardDescription className="mt-2 text-muted-foreground">{t('leadershipCoveringDesc')}</CardDescription>
                       </CardHeader>
                       <CardContent className="mt-6">
                           <ul className="space-y-4">
@@ -328,14 +329,14 @@ export default function LandingPage() {
       <footer className="bg-background text-foreground">
         <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Faith Connect Global. All Rights Reserved.
+            © {new Date().getFullYear()} Faith Connect Global. {t('allRightsReserved')}
           </p>
           <nav className="flex gap-4">
             <Link href="#" className="text-sm hover:underline text-muted-foreground">
-              Privacy Policy
+              {t('privacyPolicy')}
             </Link>
             <Link href="#" className="text-sm hover:underline text-muted-foreground">
-              Terms of Service
+              {t('termsOfService')}
             </Link>
           </nav>
         </div>
