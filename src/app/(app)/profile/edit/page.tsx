@@ -27,11 +27,13 @@ export default function EditProfilePage() {
   const [name, setName] = useState('Joseph');
   const [email, setEmail] = useState('joseph@faithconnect.com');
   const [location, setLocation] = useState('New York, USA');
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl || null);
   
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setAvatarFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatarPreview(reader.result as string);
@@ -50,9 +52,16 @@ export default function EditProfilePage() {
       });
       return;
     }
+    
+    let description = 'Your profile has been successfully updated.';
+    if (avatarFile) {
+        description = `Your profile and new photo (${avatarFile.name}) have been saved.`;
+        // In a real app, you would upload avatarFile to storage here.
+    }
+
     toast({
       title: 'Profile Updated!',
-      description: 'Your profile has been successfully updated.',
+      description: description,
     });
     router.push('/profile');
   };
