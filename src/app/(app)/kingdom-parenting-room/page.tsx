@@ -138,11 +138,143 @@ export default function KingdomParentingPage() {
                 <CardHeader>
                     <CardTitle className="font-headline text-2xl">SECTION 3: ESTABLISHING KINGDOM VALUES IN YOUR HOME</CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">As parents, we are the primary stewards of the environment in which our children are raised. The values we instill during formative years shape who they become. Kingdom values reflect God’s heart and must be intentionally cultivated in the home.</p>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>As parents, we are the primary stewards of the environment in which our children are raised. The values we establish in our homes shape the beliefs, behaviors, and spiritual direction of our children. A home is never neutral—it is either intentionally formed by Kingdom values or unconsciously shaped by worldly influences.</p>
+                    <p>Kingdom values are the principles that reflect God’s heart, His character, and His priorities. Romans 14:17 reminds us that “the kingdom of God is not a matter of eating and drinking, but of righteousness, peace, and joy in the Holy Spirit.” These values must be more than ideas; they must be lived out daily within the family.</p>
+                    <h4 className="text-lg font-bold text-foreground">The Home as a Kingdom Environment</h4>
+                    <p>God designed the home to be the first place where faith is modeled and practiced. Before churches, schools, or ministries influence a child, the home sets the foundation. When Kingdom values are embedded into daily family life, children grow up with a clear understanding of who God is and how His Kingdom operates.</p>
+                    <h4 className="text-lg font-bold text-foreground">Modeling Before Teaching</h4>
+                    <p>Children learn values more from what they observe than from what they are told. Parents must live out integrity, humility, forgiveness, prayer, and love consistently. When parents apologize, forgive, and seek God openly, children learn that faith is real and active.</p>
+                    <h4 className="text-lg font-bold text-foreground">Teaching Values Through Daily Life</h4>
+                    <p>Everyday moments—mealtimes, conversations, conflicts, and celebrations—become opportunities to teach Kingdom values. Deuteronomy 6:6–7 emphasizes teaching God’s ways naturally throughout daily routines. This intentional approach builds spiritual depth in children.</p>
+                    <h4 className="text-lg font-bold text-foreground">Guarding the Culture of the Home</h4>
+                    <p>Parents must be vigilant about what influences enter the home. Media, friendships, and ideologies shape values subtly. Establishing clear boundaries protects the spiritual atmosphere of the household and reinforces God’s truth.</p>
+                    <h4 className="text-lg font-bold text-foreground">Conclusion</h4>
+                    <p>When Kingdom values are firmly established at home, children grow with a strong moral compass and spiritual confidence. A Kingdom-centered home becomes a place where God’s presence is evident and His purposes are nurtured.</p>
                 </CardContent>
             </Card>
 
+            <Card>
+                <CardHeader><CardTitle className="font-headline text-2xl">SECTION 4: DISCIPLESHIP AT HOME: Teaching Your Children the Ways of God</CardTitle></CardHeader>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>Discipleship begins in the home. Before children learn doctrine, they learn devotion by observing their parents’ relationship with God. Jesus commanded His followers to make disciples, and this mission starts with our own children.</p>
+                    <h4 className="text-lg font-bold text-foreground">The Home as the First Discipleship Center</h4>
+                    <p>Parents are the first pastors, teachers, and disciplers in a child’s life. Teaching Scripture, prayer, worship, and obedience must be integrated into family life.</p>
+                    <h4 className="text-lg font-bold text-foreground">Teaching God’s Word</h4>
+                    <p>Regular exposure to Scripture builds spiritual understanding. Reading Bible stories, memorizing verses, and discussing biblical principles help children develop a biblical worldview.</p>
+                    <h4 className="text-lg font-bold text-foreground">Prayer and Worship as a Family</h4>
+                    <p>Family prayer cultivates dependence on God. Worship teaches children reverence and gratitude. These practices create spiritual unity and strengthen faith.</p>
+                    <h4 className="text-lg font-bold text-foreground">Leading by Example</h4>
+                    <p>Discipleship is most effective when parents live what they teach. Children imitate authenticity more than instruction.</p>
+                    <h4 className="text-lg font-bold text-foreground">Conclusion</h4>
+                    <p>A discipled child grows into a mature believer who understands God’s ways and walks faithfully with Him.</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader><CardTitle className="font-headline text-2xl">SECTION 5: THE POWER OF PRAYER IN PARENTING</CardTitle></CardHeader>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>Prayer is one of the greatest gifts God has given parents. Through prayer, parents partner with God in shaping their children’s lives.</p>
+                    <h4 className="text-lg font-bold text-foreground">Prayer as Spiritual Covering</h4>
+                    <p>Prayer protects, guides, and strengthens children spiritually. Parents intercede for their children’s identity, purpose, and future.</p>
+                    <h4 className="text-lg font-bold text-foreground">Teaching Children to Pray</h4>
+                    <p>When children learn to pray, they develop a personal relationship with God. Prayer becomes a source of comfort and strength throughout life.</p>
+                    <h4 className="text-lg font-bold text-foreground">Trusting God Through Prayer</h4>
+                    <p>Parenting requires surrender. Prayer teaches parents to trust God with what they cannot control.</p>
+                    <h4 className="text-lg font-bold text-foreground">Conclusion</h4>
+                    <p>Praying parents raise children who understand dependence on God and experience His faithfulness firsthand.</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader><CardTitle className="font-headline text-2xl">SECTION 6: DISCIPLINE: Correcting WITH Kingdom Principles</CardTitle></CardHeader>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>Discipline is a vital part of Kingdom parenting. Biblical discipline is not punishment but loving correction aimed at character formation.</p>
+                    <h4 className="text-lg font-bold text-foreground">God’s Model of Discipline</h4>
+                    <p>Hebrews 12:6 shows that discipline is an expression of love. It guides children toward righteousness and maturity.</p>
+                    <h4 className="text-lg font-bold text-foreground">Discipline with Purpose</h4>
+                    <p>Correction must be consistent, fair, and motivated by love—not anger.</p>
+                    <h4 className="text-lg font-bold text-foreground">Restoration After Discipline</h4>
+                    <p>True discipline restores relationship and teaches responsibility. It should always point children back to grace.</p>
+                    <h4 className="text-lg font-bold text-foreground">Conclusion</h4>
+                    <p>Kingdom discipline produces self-control, wisdom, and godly character.</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader><CardTitle className="font-headline text-2xl">SECTION 7: GRACE AND TRUTH: Balancing Love and Authority</CardTitle></CardHeader>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>Jesus modeled perfect balance—full of grace and truth (John 1:14). Parents must do the same.</p>
+                    <h4 className="text-lg font-bold text-foreground">Avoiding Extremes</h4>
+                    <p>Too much authority without grace leads to fear; too much grace without truth leads to irresponsibility.</p>
+                    <h4 className="text-lg font-bold text-foreground">Leading with Love</h4>
+                    <p>Love creates security. Authority provides direction. Together, they produce healthy development.</p>
+                    <h4 className="text-lg font-bold text-foreground">Conclusion</h4>
+                    <p>Balanced parenting reflects Christ and builds trust, respect, and obedience in children.</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader><CardTitle className="font-headline text-2xl">SECTION 8: EMPOWERING YOUR CHILDREN FOR KINGDOM LIVING</CardTitle></CardHeader>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>Children are not merely future leaders—they are active participants in God’s Kingdom now.</p>
+                    <h4 className="text-lg font-bold text-foreground">Affirming Identity and Purpose</h4>
+                    <p>Parents must speak life, affirm gifts, and encourage calling.</p>
+                    <h4 className="text-lg font-bold text-foreground">Teaching Responsibility and Faith</h4>
+                    <p>Empowerment involves allowing children to grow through responsibility and faith-filled decisions.</p>
+                    <h4 className="text-lg font-bold text-foreground">Conclusion</h4>
+                    <p>Empowered children grow into confident believers who live boldly for God’s Kingdom.</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader><CardTitle className="font-headline text-2xl">SECTION 9: RAISING KINGDOM LEADERS: Developing a Legacy of Faith</CardTitle></CardHeader>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>Leadership begins at home. Kingdom leaders are shaped by character, humility, and service.</p>
+                    <h4 className="text-lg font-bold text-foreground">Servant Leadership</h4>
+                    <p>Jesus taught that true leadership is service.</p>
+                    <h4 className="text-lg font-bold text-foreground">Generational Legacy</h4>
+                    <p>Faith passed down intentionally creates lasting impact beyond one generation.</p>
+                    <h4 className="text-lg font-bold text-foreground">Conclusion</h4>
+                    <p>Kingdom parenting produces leaders who influence the world for Christ.</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader><CardTitle className="font-headline text-2xl">SECTION 10: NAVIGATING CHALLENGES: Parenting in a Broken World</CardTitle></CardHeader>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>Parents must guide children through cultural confusion, moral challenges, and spiritual opposition.</p>
+                    <h4 className="text-lg font-bold text-foreground">Teaching Discernment</h4>
+                    <p>Children must learn to recognize truth amid deception.</p>
+                    <h4 className="text-lg font-bold text-foreground">Standing Firm in Faith</h4>
+                    <p>Parents model resilience by trusting God through difficulty.</p>
+                    <h4 className="text-lg font-bold text-foreground">Conclusion</h4>
+                    <p>God’s truth equips families to overcome the brokenness of the world.</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader><CardTitle className="font-headline text-2xl">SECTION 11: PRACTICAL TIPS FOR EVERYDAY KINGDOM PARENTING</CardTitle></CardHeader>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>Kingdom parenting is lived daily, not occasionally.</p>
+                    <h4 className="text-lg font-bold text-foreground">Consistency and Presence</h4>
+                    <p>Time, attention, and consistency build strong family bonds.</p>
+                    <h4 className="text-lg font-bold text-foreground">Growing as Parents</h4>
+                    <p>Parents must continue growing spiritually to lead effectively.</p>
+                    <h4 className="text-lg font-bold text-foreground">Conclusion</h4>
+                    <p>Faithfulness in daily practices produces long-term spiritual fruit.</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader><CardTitle className="font-headline text-2xl">SECTION 12: CONCLUSION: A Vision for the Future of Our Families</CardTitle></CardHeader>
+                <CardContent className="space-y-4 prose prose-invert max-w-none prose-p:text-muted-foreground">
+                    <p>Kingdom parenting is a sacred calling with eternal impact. Parents are entrusted with shaping lives that reflect God’s image and advance His Kingdom.</p>
+                    <p>As parents commit to God’s ways, families become centers of light, hope, and transformation. The seeds planted today will bear fruit for generations.</p>
+                    <p>May God empower every parent to raise children who love Him, serve Him, and live boldly for His Kingdom.</p>
+                    <p>Amen.</p>
+                </CardContent>
+            </Card>
         </div>
     );
 }
