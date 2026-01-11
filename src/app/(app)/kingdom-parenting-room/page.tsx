@@ -161,7 +161,7 @@ export default function KingdomParentingPage() {
                                     {badge.icon}
                                     <div>
                                         <p className="font-semibold text-foreground">{badge.title}</p>
-                                        <p className="text-xs text-muted-foreground">{badge.description}</p>
+                                        <p className="text-xs text-foreground">{badge.description}</p>
                                     </div>
                                 </div>
                              ))}
