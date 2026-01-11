@@ -35,32 +35,134 @@ export default function CertificatesPage() {
     const { toast } = useToast();
 
     const handleDownload = (cert: typeof userCertificates[0]) => {
-        const certificateContent = `
-            CERTIFICATE OF COMPLETION
-
-            This certifies that
-            [Your Name Here]
-            has successfully completed the
-            
-            "${cert.title}"
-
-            Issued by: ${cert.issuingAuthority}
-            Date: ${new Date(cert.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        const certificateHTML = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${cert.title}</title>
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+                    @page {
+                        size: A4 landscape;
+                        margin: 0;
+                    }
+                    body {
+                        margin: 0;
+                        padding: 0;
+                        font-family: 'Noto Serif', serif;
+                        background-color: #f0f0f0;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        min-height: 100vh;
+                    }
+                    .certificate-container {
+                        width: 297mm;
+                        height: 210mm;
+                        background-color: #0d1117;
+                        color: #e6e6e6;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+                    }
+                    .certificate-border {
+                        width: calc(100% - 40px);
+                        height: calc(100% - 40px);
+                        border: 2px solid #FFD700;
+                        padding: 30px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        text-align: center;
+                        box-sizing: border-box;
+                    }
+                    .header {
+                        font-family: 'Playfair Display', serif;
+                        font-size: 48px;
+                        color: #FFD700;
+                        margin: 0;
+                    }
+                    .subtitle {
+                        font-size: 24px;
+                        margin-top: 10px;
+                    }
+                    .presented-to {
+                        font-size: 18px;
+                        margin-top: 40px;
+                    }
+                    .recipient-name {
+                        font-family: 'Playfair Display', serif;
+                        font-size: 40px;
+                        color: #FFD700;
+                        margin: 10px 0;
+                        border-bottom: 1px solid #FFD700;
+                        padding-bottom: 5px;
+                        display: inline-block;
+                    }
+                    .reason {
+                        font-size: 16px;
+                        margin: 20px auto;
+                        max-width: 80%;
+                    }
+                    .footer {
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: flex-end;
+                        margin-top: 50px;
+                    }
+                    .signature-line {
+                        border-top: 1px solid #e6e6e6;
+                        width: 200px;
+                        padding-top: 5px;
+                        font-size: 14px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="certificate-container">
+                    <div class="certificate-border">
+                        <div>
+                            <h1 class="header">Certificate of Completion</h1>
+                            <h2 class="subtitle">${cert.issuingAuthority}</h2>
+                        </div>
+                        <div>
+                            <p class="presented-to">is hereby granted to</p>
+                            <p class="recipient-name">[Your Name Here]</p>
+                            <p class="reason">For the successful completion of the</p>
+                            <h3 style="font-size: 28px; color: #FFD700; margin: 0;">${cert.title}</h3>
+                        </div>
+                        <div class="footer">
+                            <div class="signature-line">
+                                <p>The Bondservant of Christ, Joseph Tryson</p>
+                                <p>Founder</p>
+                            </div>
+                            <div class="signature-line">
+                                <p>${new Date(cert.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                <p>Date</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <script>
+                    window.onload = () => {
+                        window.print();
+                    };
+                </script>
+            </body>
+            </html>
         `;
 
-        const blob = new Blob([certificateContent.trim()], { type: 'text/plain' });
+        const blob = new Blob([certificateHTML.trim()], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${cert.title.replace(/ /g, '_')}_Certificate.txt`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        window.open(url, '_blank');
         URL.revokeObjectURL(url);
         
         toast({
-            title: "Downloading Certificate",
-            description: `Your certificate for "${cert.title}" is downloading.`,
+            title: "Generating Certificate",
+            description: `Your certificate for "${cert.title}" is opening in a new tab.`,
         });
     };
 
