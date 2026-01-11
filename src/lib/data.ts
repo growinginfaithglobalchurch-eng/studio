@@ -583,3 +583,41 @@ export const newsFeed = [
         ]
     }
 ];
+
+const worshipTeamAssignments = {
+    'praise-worship-department': {
+        announcements: [
+            { id: 1, date: '2024-07-30', title: 'Rehearsal Schedule Update', content: 'This week\'s rehearsal is moved to Thursday at 7 PM to prepare for the conference.' },
+            { id: 2, date: '2024-07-25', title: 'New Song Added to Setlist', content: 'Please familiarize yourselves with "Way Maker". Chord charts are in the trainings tab.' },
+        ],
+        meetings: [
+            { id: 1, title: 'Weekly Rehearsal', date: '2024-08-01T19:00:00', description: 'Full team rehearsal for this Sunday\'s service.' },
+            { id: 2, title: 'Songwriting Session', date: '2024-08-08T18:00:00', description: 'Open session for all team members to bring new song ideas.' },
+        ],
+        teachings: [
+            { id: 1, title: 'The Theology of Worship', description: 'A deep dive into the biblical foundations of praise and worship.', file: { name: 'Theology of Worship.pdf' } },
+            { id: 2, title: 'Leading with a Shepherd\'s Heart', description: 'Understanding the pastoral role of a worship leader.', file: { name: 'Shepherds Heart.pdf' } },
+        ],
+        trainings: [
+            { id: 1, title: 'Vocal Control Techniques', description: 'Exercises and best practices for vocalists to improve control and stamina.', file: { name: 'VocalTechniques.pdf' } },
+            { id: 2, title: 'Using Ableton for Live Worship', description: 'A technical guide to running tracks and pads during service.', file: { name: 'AbletonGuide.pdf' } },
+        ],
+        assignments: {
+            title: 'Sunday Service Rota - August 4, 2024',
+            roles: [
+                { role: 'Worship Leader', person: 'Jane Smith' },
+                { role: 'Acoustic Guitar', person: 'John Doe' },
+                { role: 'Electric Guitar', person: 'Carlos Garcia' },
+                { role: 'Bass Guitar', person: 'Aisha Khan' },
+                { role: 'Drums', person: 'Michael Chen' },
+                { role: 'Keys / Pads', person: 'Maria Rodriguez' },
+                { role: 'Vocalist 1', person: 'Sarah K.' },
+                { role: 'Vocalist 2', person: 'David R.' },
+            ]
+        }
+    }
+}
+
+export const departmentContent = {
+    ...worshipTeamAssignments
+}

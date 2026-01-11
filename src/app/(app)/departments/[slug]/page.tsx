@@ -1,21 +1,30 @@
 
+
 'use client';
 
 import { useParams } from 'next/navigation';
-import { departments, Department } from '@/lib/data';
+import { departments, Department, departmentContent } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { iconMap } from '../page';
 import { slugify, unslugify } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Home, MessageSquare, Calendar, Megaphone, UserPlus, BookOpen, ClipboardCheck, GraduationCap } from 'lucide-react';
+import { Home, MessageSquare, Calendar, Megaphone, UserPlus, BookOpen, ClipboardCheck, GraduationCap, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+
 
 export default function DepartmentDetailPage() {
     const params = useParams();
+    const slug = params.slug as string;
     const { toast } = useToast();
-    const departmentName = unslugify(params.slug as string);
+    const departmentName = unslugify(slug);
     const department = departments.find(d => d.name === departmentName);
+    
+    // @ts-ignore
+    const content = departmentContent[slug];
+
 
     const handleJoin = () => {
         if (!department) return;
@@ -74,31 +83,118 @@ export default function DepartmentDetailPage() {
                 <TabsContent value="announcements">
                      <Card>
                         <CardHeader><CardTitle>Announcements</CardTitle></CardHeader>
-                        <CardContent><p className="text-muted-foreground">Department announcements coming soon.</p></CardContent>
+                        <CardContent>
+                             {content?.announcements ? (
+                                <div className="space-y-4">
+                                {content.announcements.map((ann: any) => (
+                                    <div key={ann.id} className="p-4 rounded-lg border">
+                                        <p className="text-sm text-muted-foreground">{new Date(ann.date).toLocaleDateString()}</p>
+                                        <h3 className="font-bold text-lg mt-1">{ann.title}</h3>
+                                        <p className="text-sm text-muted-foreground mt-2">{ann.content}</p>
+                                    </div>
+                                ))}
+                                </div>
+                            ) : (
+                                <p className="text-muted-foreground">Department announcements coming soon.</p>
+                            )}
+                        </CardContent>
                     </Card>
                 </TabsContent>
                  <TabsContent value="meetings">
                      <Card>
                         <CardHeader><CardTitle>Meetings & Schedule</CardTitle></CardHeader>
-                        <CardContent><p className="text-muted-foreground">Meeting schedule and content coming soon.</p></CardContent>
+                        <CardContent>
+                             {content?.meetings ? (
+                                <div className="space-y-4">
+                                {content.meetings.map((m: any) => (
+                                    <div key={m.id} className="flex items-center justify-between p-4 rounded-lg border">
+                                        <div>
+                                            <p className="text-sm text-muted-foreground">{new Date(m.date).toLocaleString()}</p>
+                                            <h3 className="font-bold text-lg mt-1">{m.title}</h3>
+                                            <p className="text-sm text-muted-foreground mt-2">{m.description}</p>
+                                        </div>
+                                        <Button>Join Meeting</Button>
+                                    </div>
+                                ))}
+                                </div>
+                            ) : (
+                                <p className="text-muted-foreground">Meeting schedule and content coming soon.</p>
+                            )}
+                        </CardContent>
                     </Card>
                 </TabsContent>
                 <TabsContent value="teachings">
                      <Card>
                         <CardHeader><CardTitle>Teachings</CardTitle></CardHeader>
-                        <CardContent><p className="text-muted-foreground">Teaching content coming soon.</p></CardContent>
+                        <CardContent>
+                           {content?.teachings ? (
+                                <div className="space-y-4">
+                                {content.teachings.map((t: any) => (
+                                    <div key={t.id} className="flex items-center justify-between p-4 rounded-lg border">
+                                        <div>
+                                            <h3 className="font-bold text-lg">{t.title}</h3>
+                                            <p className="text-sm text-muted-foreground mt-1">{t.description}</p>
+                                        </div>
+                                        <Button variant="outline">Download: {t.file.name}</Button>
+                                    </div>
+                                ))}
+                                </div>
+                            ) : (
+                                <p className="text-muted-foreground">Teaching content coming soon.</p>
+                           )}
+                        </CardContent>
                     </Card>
                 </TabsContent>
                 <TabsContent value="trainings">
                      <Card>
                         <CardHeader><CardTitle>Trainings & Practical Sessions</CardTitle></CardHeader>
-                        <CardContent><p className="text-muted-foreground">Training materials and session info coming soon.</p></CardContent>
+                        <CardContent>
+                           {content?.trainings ? (
+                                <div className="space-y-4">
+                                {content.trainings.map((t: any) => (
+                                     <div key={t.id} className="flex items-center justify-between p-4 rounded-lg border">
+                                        <div>
+                                            <h3 className="font-bold text-lg">{t.title}</h3>
+                                            <p className="text-sm text-muted-foreground mt-1">{t.description}</p>
+                                        </div>
+                                        <Button variant="outline">Download: {t.file.name}</Button>
+                                    </div>
+                                ))}
+                                </div>
+                            ) : (
+                                <p className="text-muted-foreground">Training materials and session info coming soon.</p>
+                            )}
+                        </CardContent>
                     </Card>
                 </TabsContent>
                 <TabsContent value="assignments">
                      <Card>
                         <CardHeader><CardTitle>Assignments & Serving Appointments</CardTitle></CardHeader>
-                        <CardContent><p className="text-muted-foreground">Service schedules and assignments coming soon.</p></CardContent>
+                        <CardContent>
+                            {content?.assignments ? (
+                                <div>
+                                    <h3 className="text-xl font-bold mb-4">{content.assignments.title}</h3>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead className="w-[200px]">Role</TableHead>
+                                                <TableHead>Assigned To</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {content.assignments.roles.map((a: any) => (
+                                                <TableRow key={a.role}>
+                                                    <TableCell className="font-medium">{a.role}</TableCell>
+                                                    <TableCell>{a.person}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                            ) : (
+                               <p className="text-muted-foreground">Service schedules and assignments coming soon.</p>
+                            )}
+                        </CardContent>
                     </Card>
                 </TabsContent>
             </Tabs>
