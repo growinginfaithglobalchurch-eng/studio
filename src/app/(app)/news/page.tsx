@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState } from 'react';
@@ -94,7 +93,7 @@ export default function GlobalNewsPage() {
                         </Avatar>
                      )}
                      <div>
-                        <CardTitle className="text-lg font-bold">Growing In Faith Global News</CardTitle>
+                        <CardTitle className="text-lg font-bold">News Channel</CardTitle>
                         <CardDescription className="text-white/80 text-xs">Official announcements and updates.</CardDescription>
                      </div>
                 </CardHeader>
