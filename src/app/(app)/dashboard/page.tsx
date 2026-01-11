@@ -14,6 +14,7 @@ import { CreatePostForm } from "@/components/create-post-form";
 import { StoryViewer } from '@/components/story-viewer';
 import { User } from '@/lib/types';
 import { AddStoryDialog } from '@/components/add-story-dialog';
+import { ScrollAnimator } from '@/components/scroll-animator';
 
 
 const iconMap = {
@@ -115,7 +116,7 @@ export default function DashboardPage() {
       <div className="space-y-4">
          <h2 className="text-lg font-semibold tracking-tight text-card-foreground">Community Feed</h2>
         {feedItems.map((item, index) => (
-         <React.Fragment key={item.id}>
+         <ScrollAnimator key={item.id} delay={index * 0.1}>
             <Card>
                 <CardHeader>
                 <div className="flex items-start gap-4">
@@ -140,8 +141,8 @@ export default function DashboardPage() {
                     <p className="text-sm text-card-foreground/90">{item.details}</p>
                 </CardContent>
             </Card>
-            {index < feedItems.length - 1 && <Separator />}
-          </React.Fragment>
+            {index < feedItems.length - 1 && <Separator className="my-4"/>}
+          </ScrollAnimator>
         ))}
       </div>
     </div>
