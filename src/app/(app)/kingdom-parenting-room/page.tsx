@@ -118,7 +118,7 @@ export default function KingdomParentingPage() {
                                         <AccordionTrigger className="hover:no-underline">
                                             <div className="flex items-center gap-3">
                                                 {mod.icon}
-                                                <span className="text-lg font-semibold text-foreground">{mod.title}</span>
+                                                <span className="text-lg font-semibold text-black">{mod.title}</span>
                                             </div>
                                         </AccordionTrigger>
                                         <AccordionContent className="p-4 bg-secondary/30 rounded-md">
