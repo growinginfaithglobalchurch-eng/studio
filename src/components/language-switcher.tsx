@@ -46,6 +46,10 @@ export function LanguageSwitcher() {
         <DropdownMenuItem onSelect={() => handleLanguageChange('Dutch')}>Nederlands (Dutch)</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleLanguageChange('Swahili')}>Kiswahili (Swahili)</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => handleLanguageChange('Yoruba')}>Yorùbá (Yoruba)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Bemba')}>Ichibemba (Bemba)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Chichewa')}>Chichewa (Nyanja)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Tonga')}>Chitonga (Tonga)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleLanguageChange('Lozi')}>Silozi (Lozi)</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
