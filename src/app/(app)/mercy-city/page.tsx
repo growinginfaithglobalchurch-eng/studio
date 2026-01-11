@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -22,10 +22,10 @@ const guidedPrayerPoints = [
 ];
 
 const benefitsOfMercy = [
-    { title: "Divine Justification", text: "Who can bring a charge against you? It is God who justifies." },
-    { title: "Freedom from Condemnation", text: "Who can condemn? Christ Jesus died, rose, and now intercedes for you." },
-    { title: "Inseparable Love", text: "Nothing—no trial, no power, no created thing—can separate you from the love of God in Christ." },
-    { title: "More Than Conquerors", text: "In all hardships, you are overwhelmingly victorious through Him who loved you." },
+    { title: "Foreknowledge & Predestination", text: "You are seen, known, and chosen by God before the foundations of the world." },
+    { title: "Conformation to Christ", text: "You are shaped into the very image of Jesus, adopted into God's divine lineage, and given an incorruptible nature." },
+    { title: "Divine Calling", text: "You are called to be holy and blameless, set apart for His glorious purpose." },
+    { title: "Justification & Glorification", text: "You are declared righteous by faith and are being transitioned from one level of glory to another, daily." },
 ];
 
 type MercyPetition = {
@@ -113,8 +113,8 @@ export default function MercyCityPage() {
       
       <Card>
         <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-headline text-xl text-foreground"><Gift className="h-5 w-5 text-accent" />The Benefits of Mercy & Grace</CardTitle>
-            <CardDescription>Based on Romans 8:29-39, when you approach the throne of grace, you receive:</CardDescription>
+            <CardTitle className="flex items-center gap-2 font-headline text-xl text-foreground"><Gift className="h-5 w-5 text-accent" />The Blessings of Mercy City</CardTitle>
+            <CardDescription>Based on Romans 8, when you approach the throne of grace, you receive:</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-2">
             {benefitsOfMercy.map(benefit => (
