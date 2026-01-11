@@ -108,27 +108,27 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="col-span-1 lg:col-span-1">
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5 text-accent"/>Kingdom ID</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-card-foreground"><Shield className="h-5 w-5 text-accent"/>Kingdom ID</CardTitle>
                 <CardDescription>Your official spiritual identification.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="flex items-center justify-between p-3 rounded-lg bg-secondary">
-                    <span className="text-sm text-muted-foreground">ID Number</span>
-                    <span className="font-mono text-sm font-bold text-foreground">{user.kingdomID.kingdomIDNumber}</span>
+                    <span className="text-sm text-card-foreground">ID Number</span>
+                    <span className="font-mono text-sm font-bold text-card-foreground">{user.kingdomID.kingdomIDNumber}</span>
                 </div>
                  <div className="flex items-center justify-between p-3 rounded-lg bg-secondary">
-                    <span className="text-sm text-muted-foreground">Badge</span>
+                    <span className="text-sm text-card-foreground">Badge</span>
                     <Badge variant="default">{user.kingdomID.badge}</Badge>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-secondary">
-                    <span className="text-sm text-muted-foreground">Tribe</span>
+                    <span className="text-sm text-card-foreground">Tribe</span>
                     <div className="flex items-center gap-2">
                         <TribeIcon className="h-5 w-5 text-accent" />
-                        <span className="font-semibold text-foreground">{user.kingdomID.tribe}</span>
+                        <span className="font-semibold text-card-foreground">{user.kingdomID.tribe}</span>
                     </div>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-secondary">
-                    <span className="text-sm text-muted-foreground">Authority Level</span>
+                    <span className="text-sm text-card-foreground">Authority Level</span>
                     <span className="font-bold text-lg text-accent">{user.kingdomID.authorityLevel}</span>
                 </div>
             </CardContent>
