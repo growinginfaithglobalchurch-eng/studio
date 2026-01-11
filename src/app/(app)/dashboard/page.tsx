@@ -120,7 +120,7 @@ export default function DashboardPage() {
       </ScrollAnimator>
 
       <div className="space-y-4">
-         <h2 className="text-lg font-semibold tracking-tight text-card-foreground">Community Feed</h2>
+         <h2 className="text-lg font-semibold tracking-tight text-white">Community Feed</h2>
         {feedItems.map((item, index) => (
          <ScrollAnimator key={item.id} delay={index * 0.1}>
             <Card>
