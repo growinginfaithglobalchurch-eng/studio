@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import { useRef } from "react";
 
 const trainingModules = [
     { 
@@ -71,12 +72,17 @@ const badges = [
 
 export default function KingdomParentingPage() {
     const { toast } = useToast();
+    const trainingModulesRef = useRef<HTMLDivElement>(null);
 
     const handleActivationCheck = (label: string) => {
         toast({
             title: "Activation Logged!",
             description: `Great job leading your family in: "${label}"`
         })
+    };
+
+    const handleBeginTraining = () => {
+        trainingModulesRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     return (
@@ -97,14 +103,14 @@ export default function KingdomParentingPage() {
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground">This room is designed to raise and transform parents into leaders who govern their families with Kingdom principles. Your mandate is to predominate, govern, and colonize the earth by first establishing God's culture in your home. You are a king and a priest to your family.</p>
-                     <Button className="mt-4" size="lg">
+                     <Button className="mt-4" size="lg" onClick={handleBeginTraining}>
                         <PlayCircle className="mr-2 h-5 w-5" />
                         Begin Training
                     </Button>
                 </CardContent>
             </Card>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8" ref={trainingModulesRef}>
                 <div className="md:col-span-2 space-y-8">
                     <Card>
                         <CardHeader>
