@@ -3,13 +3,15 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, BookOpen, CheckCircle, Droplets, Heart, Shield, Award, PlayCircle, Star, Target, Users } from "lucide-react";
+import { Home, BookOpen, CheckCircle, Droplets, Heart, Shield, Award, PlayCircle, Star, Target, Users, ThumbsUp } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
 
 const trainingModules = [
     { 
@@ -73,6 +75,7 @@ const badges = [
 export default function KingdomParentingPage() {
     const { toast } = useToast();
     const trainingModulesRef = useRef<HTMLDivElement>(null);
+    const [completedModules, setCompletedModules] = useState<string[]>([]);
 
     const handleActivationCheck = (label: string) => {
         toast({
@@ -84,6 +87,23 @@ export default function KingdomParentingPage() {
     const handleBeginTraining = () => {
         trainingModulesRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
+
+    const handleCompleteModule = (moduleId: string) => {
+        setCompletedModules(prev => {
+            if (prev.includes(moduleId)) {
+                return prev.filter(id => id !== moduleId); // Unmark as complete
+            } else {
+                toast({
+                    title: "Module Complete!",
+                    description: "You've completed a training module. Keep going!"
+                });
+                return [...prev, moduleId]; // Mark as complete
+            }
+        });
+    };
+
+    const progressPercentage = (completedModules.length / trainingModules.length) * 100;
+
 
     return (
         <div className="space-y-8">
@@ -115,26 +135,40 @@ export default function KingdomParentingPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2"><BookOpen className="h-5 w-5 text-accent"/>Training Modules</CardTitle>
-                            <CardDescription>Engage with these modules to build your foundation as a Kingdom parent.</CardDescription>
+                             <div className="space-y-2 pt-2">
+                                <Progress value={progressPercentage} className="h-2" />
+                                <p className="text-sm text-muted-foreground">{completedModules.length} of {trainingModules.length} modules completed.</p>
+                             </div>
                         </CardHeader>
                         <CardContent>
                              <Accordion type="single" collapsible className="w-full">
-                                {trainingModules.map(mod => (
-                                    <AccordionItem value={mod.id} key={mod.id}>
-                                        <AccordionTrigger className="hover:no-underline">
-                                            <div className="flex items-center gap-3">
-                                                {mod.icon}
-                                                <span className="text-lg font-semibold text-black">{mod.title}</span>
-                                            </div>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="p-4 bg-secondary/30 rounded-md">
-                                            <p className="text-muted-foreground">{mod.content}</p>
-                                            <ul className="list-disc pl-5 mt-4 space-y-1 text-muted-foreground">
-                                                {mod.points.map(p => <li key={p}>{p}</li>)}
-                                            </ul>
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                ))}
+                                {trainingModules.map(mod => {
+                                    const isCompleted = completedModules.includes(mod.id);
+                                    return (
+                                        <AccordionItem value={mod.id} key={mod.id} className={cn(isCompleted && "bg-green-500/10")}>
+                                            <AccordionTrigger className="hover:no-underline px-4">
+                                                <div className="flex items-center gap-3 text-left">
+                                                    {mod.icon}
+                                                    <span className={cn("text-lg font-semibold", isCompleted ? "text-foreground" : "text-black")}>{mod.title}</span>
+                                                </div>
+                                            </AccordionTrigger>
+                                            <AccordionContent className="p-4 bg-secondary/30 rounded-md">
+                                                <p className="text-muted-foreground">{mod.content}</p>
+                                                <ul className="list-disc pl-5 mt-4 space-y-1 text-muted-foreground">
+                                                    {mod.points.map(p => <li key={p}>{p}</li>)}
+                                                </ul>
+                                                <Button 
+                                                    className="mt-4" 
+                                                    variant={isCompleted ? "secondary" : "default"}
+                                                    onClick={() => handleCompleteModule(mod.id)}
+                                                >
+                                                    {isCompleted ? <ThumbsUp className="mr-2 h-4 w-4" /> : <CheckCircle className="mr-2 h-4 w-4" />}
+                                                    {isCompleted ? "Completed" : "Mark as Complete"}
+                                                </Button>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    )
+                                })}
                             </Accordion>
                         </CardContent>
                     </Card>
