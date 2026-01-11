@@ -117,17 +117,17 @@ export default function KingdomParentingPage() {
     };
 
     const handleCompleteModule = (moduleId: string) => {
-        setCompletedModules(prev => {
-            if (prev.includes(moduleId)) {
-                return prev.filter(id => id !== moduleId); // Unmark as complete
-            } else {
-                toast({
-                    title: "Module Complete!",
-                    description: "You've completed a training module. Keep going!"
-                });
-                return [...prev, moduleId]; // Mark as complete
-            }
-        });
+        const isCompleted = completedModules.includes(moduleId);
+        
+        if (isCompleted) {
+            setCompletedModules(prev => prev.filter(id => id !== moduleId));
+        } else {
+            setCompletedModules(prev => [...prev, moduleId]);
+            toast({
+                title: "Module Complete!",
+                description: "You've completed a training module. Keep going!"
+            });
+        }
     };
 
     const progressPercentage = (completedModules.length / trainingModules.length) * 100;
@@ -177,7 +177,7 @@ export default function KingdomParentingPage() {
                                             <AccordionTrigger className="hover:no-underline px-4">
                                                 <div className="flex items-center gap-3 text-left">
                                                     {mod.icon}
-                                                    <span className={cn("text-lg font-semibold", isCompleted ? "text-foreground" : "text-black")}>{mod.title}</span>
+                                                    <span className={cn("text-lg font-semibold", "text-black")}>{mod.title}</span>
                                                 </div>
                                             </AccordionTrigger>
                                             <AccordionContent className="p-4 bg-secondary/30 rounded-md">
