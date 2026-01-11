@@ -37,7 +37,7 @@ const dailyPractices = [
     icon: <MessageSquare className="h-6 w-6 text-accent" />,
     title: "Kingdom Speech Tracking",
     description: "Practice speaking life and aligning your words with God's truth.",
-    href: "#",
+    href: "/identity-journal",
     cta: "Log Speech"
   },
   {
@@ -112,7 +112,7 @@ export default function FaithGrowthHubPage() {
                         <h3 className="font-bold text-lg text-card-foreground">{practice.title}</h3>
                         <p className="text-sm text-muted-foreground mt-1">{practice.description}</p>
                         <div className="mt-3 flex gap-2">
-                            {practice.id === 'morning' || practice.id === 'speech' ? (
+                            {practice.href === "#" ? (
                                 <Button variant="outline" onClick={() => handleActionClick(practice.id, practice.title)}>
                                     {practice.cta}
                                 </Button>
