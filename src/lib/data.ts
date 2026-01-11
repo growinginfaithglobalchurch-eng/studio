@@ -556,6 +556,10 @@ export const newsFeed = [
         content: "Join us this Friday as we come together as a global community for a day of prayer and fasting. We will be interceding for revival in the nations.\n\nA live prayer session will be held at 12:00 PM EST.",
         timestamp: "9:30 PM",
         image: PlaceHolderImages.find(p => p.id === 'prayer-feature'),
+        reactions: [
+            { emoji: '🙏', count: 128 },
+            { emoji: '❤️', count: 72 },
+        ]
     },
     {
         id: 2,
@@ -563,6 +567,10 @@ export const newsFeed = [
         content: "We are excited to launch a new advanced course in the School of the Prophet, 'The Seer's Realm: Interpreting Visions & Dreams.' Enroll today to deepen your understanding of symbolic revelation.",
         timestamp: "4:15 PM",
         image: PlaceHolderImages.find(p => p.id === 'devotional-3'),
+        reactions: [
+             { emoji: '🔥', count: 95 },
+             { emoji: '👍', count: 63 },
+        ]
     },
     {
         id: 3,
@@ -570,5 +578,8 @@ export const newsFeed = [
         content: "Please be advised that the Faith Connect Global platform will be undergoing scheduled maintenance on Saturday, August 3rd, from 2:00 AM to 4:00 AM EST. During this time, the platform may be temporarily unavailable.",
         timestamp: "1:00 PM",
         image: null,
+        reactions: [
+            { emoji: '👍', count: 45 },
+        ]
     }
 ];
