@@ -92,7 +92,7 @@ export default function LaunchSermonPage() {
              <p>
                 This is Your work, Lord. And to You, be all the glory, honor, and praise.
             </p>
-            <p>
+             <p>
                 In Jesus' mighty name we pray,
             </p>
             <p className="font-bold">Amen.</p>

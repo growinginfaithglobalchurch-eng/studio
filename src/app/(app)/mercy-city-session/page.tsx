@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookOpen, CheckCircle, Printer, Scale, Send, Shield } from 'lucide-react';
+import { BookOpen, CheckCircle, Printer, Scale, Send, Shield } from "lucide-react";
 import { CodeBlock } from '@/components/code-block';
 import React from 'react';
 

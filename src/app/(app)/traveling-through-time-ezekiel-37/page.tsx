@@ -1,11 +1,11 @@
 
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { BookOpen, CheckCircle, Printer, Shield, Zap } from "lucide-react";
-import React from "react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { BookOpen, CheckCircle, Printer, Shield, Zap } from 'lucide-react';
+import React from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const sections = [
     {
