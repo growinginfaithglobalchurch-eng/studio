@@ -67,7 +67,6 @@ const dailyPracticesNav = [
 const communityNav = [
   { href: '/connect', label: 'Connect', icon: <Handshake className="h-4 w-4" /> },
   { href: '/groups', label: 'Groups', icon: <Users className="h-4 w-4" /> },
-  { href: '/news', label: 'Global News', icon: <Newspaper className="h-4 w-4" /> },
   { href: '/family-hub', label: 'Family Hub', icon: <Home className="h-4 w-4" /> },
   { href: '/mentorship', label: 'Mentorship', icon: <UserCheck className="h-4 w-4" /> },
   { href: '/kids-and-youth', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
@@ -189,6 +188,18 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
         >
           <Home className="h-5 w-5" />
           Dashboard
+        </Link>
+        
+        <Link
+          href="/news"
+          onClick={onLinkClick}
+          className={cn(
+            'flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-muted-foreground transition-all hover:text-sidebar-foreground hover:bg-sidebar-muted font-semibold text-base',
+            pathname === '/news' && 'bg-sidebar-muted text-sidebar-foreground'
+          )}
+        >
+          <Newspaper className="h-5 w-5" />
+          Global News
         </Link>
         
       <Accordion type="single" collapsible className="w-full" defaultValue={pathname.startsWith('/admin') ? 'admin' : ''}>
