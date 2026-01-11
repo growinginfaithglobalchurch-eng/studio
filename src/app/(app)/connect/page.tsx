@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState } from 'react';
@@ -8,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { communityUsers as initialUsers } from '@/lib/data';
-import { UserPlus, Users, UserCheck, MessageSquare, UserMinus, Check } from 'lucide-react';
+import { UserPlus, Users, UserCheck, MessageSquare, UserMinus, Check, UserX } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { User } from '@/lib/types';
@@ -16,7 +15,11 @@ import { cn } from '@/lib/utils';
 
 export default function ConnectPage() {
   const { toast } = useToast();
-  const [users, setUsers] = useState<User[]>(initialUsers);
+  const [users, setUsers] = useState<User[]>(initialUsers.map(u => ({...u, isFriendRequest: false})));
+  const [friendRequests, setFriendRequests] = useState<User[]>([
+      { ...initialUsers[3], isFriendRequest: true },
+      { ...initialUsers[5], isFriendRequest: true },
+  ]);
 
   const handleFriendAction = (user: User) => {
     if (user.isFriend) {
@@ -35,6 +38,23 @@ export default function ConnectPage() {
       });
     }
   };
+  
+  const handleRequestAction = (requestingUser: User, action: 'accept' | 'decline') => {
+      setFriendRequests(prev => prev.filter(u => u.id !== requestingUser.id));
+      if (action === 'accept') {
+          setUsers(prev => prev.map(u => u.id === requestingUser.id ? { ...u, isFriend: true } : u));
+          toast({
+              title: 'Friend Request Accepted',
+              description: `You are now friends with ${requestingUser.name}.`,
+          });
+      } else {
+           toast({
+              title: 'Friend Request Declined',
+              description: `You have declined ${requestingUser.name}'s friend request.`,
+              variant: 'destructive'
+          });
+      }
+  };
 
   const friends = users.filter(u => u.isFriend);
   // Simulating not seeing yourself
@@ -50,12 +70,15 @@ export default function ConnectPage() {
       </div>
 
       <Tabs defaultValue="discover">
-        <TabsList className="grid w-full grid-cols-2 md:w-[400px]">
+        <TabsList className="grid w-full grid-cols-3 md:w-[600px]">
           <TabsTrigger value="discover">
             <Users className="mr-2 h-4 w-4" /> Discover
           </TabsTrigger>
           <TabsTrigger value="friends">
             <UserCheck className="mr-2 h-4 w-4" /> Friends ({friends.length})
+          </TabsTrigger>
+          <TabsTrigger value="requests">
+            <UserPlus className="mr-2 h-4 w-4" /> Requests ({friendRequests.length})
           </TabsTrigger>
         </TabsList>
         <TabsContent value="discover">
@@ -125,7 +148,46 @@ export default function ConnectPage() {
                 ))
               ) : (
                 <p className="text-muted-foreground">
-                  You haven&apos;t added any friends yet.
+                  You haven't added any friends yet.
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+         <TabsContent value="requests">
+          <Card>
+            <CardHeader>
+              <CardTitle>Friend Requests</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {friendRequests.length > 0 ? (
+                friendRequests.map((user) => (
+                  <Card key={user.id} className="p-4">
+                    <div className="flex items-center gap-4">
+                        <Avatar>
+                           {user.avatar && <AvatarImage src={user.avatar.imageUrl} alt={user.name} data-ai-hint={user.avatar.imageHint} />}
+                           <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                            <h3 className="font-semibold text-card-foreground">{user.name}</h3>
+                            <p className="text-sm text-muted-foreground">{user.location}</p>
+                        </div>
+                    </div>
+                     <div className="flex gap-2 mt-4">
+                        <Button className="flex-1" onClick={() => handleRequestAction(user, 'accept')}>
+                            <UserCheck className="mr-2 h-4 w-4" />
+                            Accept
+                        </Button>
+                         <Button className="flex-1" variant="destructive" onClick={() => handleRequestAction(user, 'decline')}>
+                            <UserX className="mr-2 h-4 w-4" />
+                            Decline
+                        </Button>
+                     </div>
+                  </Card>
+                ))
+              ) : (
+                <p className="text-muted-foreground">
+                  You have no new friend requests.
                 </p>
               )}
             </CardContent>
