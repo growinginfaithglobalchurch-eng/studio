@@ -85,10 +85,10 @@ export default function GlobalNewsPage() {
     return (
         <div className="max-w-3xl mx-auto h-[calc(100vh-8rem)] flex flex-col">
             <Card className="flex flex-col flex-grow">
-                <CardHeader className="bg-teal-700 text-white p-3 flex-row items-center gap-3">
+                <CardHeader className="bg-[#3B0000] text-white p-3 flex-row items-center gap-3">
                      {channelAvatar && (
                         <Avatar className="h-10 w-10">
-                            <AvatarImage src={channelAvatar.imageUrl} alt="Growing In Faith Global News" />
+                            <AvatarImage src={channelAvatar.imageUrl} alt="News Channel" />
                             <AvatarFallback>N</AvatarFallback>
                         </Avatar>
                      )}
