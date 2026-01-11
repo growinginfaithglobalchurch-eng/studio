@@ -43,6 +43,7 @@ import {
   ClipboardList,
   Clock,
   MessageSquare,
+  Sunset,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -59,6 +60,7 @@ const dailyPracticesNav = [
     { href: '/identity-journal', label: 'Identity Journal', icon: <User className="h-4 w-4" /> },
     { href: '/kingdom-speech', label: 'Kingdom Speech', icon: <MessageSquare className="h-4 w-4" /> },
     { href: '/devotionals', label: 'Daily Declarations', icon: <Sparkles className="h-4 w-4" /> },
+    { href: '/night-reflection', label: 'Night Reflection', icon: <Sunset className="h-4 w-4" /> },
 ];
 
 const communityNav = [
@@ -287,6 +289,7 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
     </nav>
   );
 }
+
 
 
 
