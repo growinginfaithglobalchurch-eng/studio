@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Link from 'next/link';
@@ -45,6 +44,8 @@ import {
   MessageSquare,
   Sunset,
   Newspaper,
+  Radio,
+  Podcast,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -111,6 +112,8 @@ const warfareNav = [
 const resourcesNav = [
     { href: '/resources', label: 'Resource Library', icon: <Library className="h-4 w-4" /> },
     { href: '/live', label: 'Live & Replays', icon: <Clapperboard className="h-4 w-4" /> },
+    { href: '/radio', label: 'Radio', icon: <Radio className="h-4 w-4" /> },
+    { href: '/podcast', label: 'Podcast', icon: <Podcast className="h-4 w-4" /> },
     { href: '/store', label: 'Store', icon: <Store className="h-4 w-4" /> },
     { href: '/events', label: 'Events Calendar', icon: <Calendar className="h-4 w-4" /> },
 ];
@@ -119,6 +122,8 @@ const adminContentNav = [
     { href: '/admin/announcements', label: 'Announcements', icon: <Megaphone className="h-4 w-4" /> },
     { href: '/admin/teachings', label: 'Teachings', icon: <BookOpen className="h-4 w-4" /> },
     { href: '/admin/courses', label: 'Courses', icon: <GraduationCap className="h-4 w-4" /> },
+    { href: '/admin/radio', label: 'Radio', icon: <Radio className="h-4 w-4" /> },
+    { href: '/admin/podcast', label: 'Podcast', icon: <Podcast className="h-4 w-4" /> },
 ];
 
 const adminCommunityNav = [
