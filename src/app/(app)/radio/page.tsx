@@ -77,10 +77,10 @@ export default function RadioPage() {
     if (playlist.length > 0 && audioRef.current) {
         audioRef.current.src = playlist[currentTrackIndex].url;
         if(isPlaying) {
-            audioRef.current.play();
+            audioRef.current.play().catch(e => console.error("Autoplay failed", e));
         }
     }
-  }, [currentTrackIndex, playlist, isPlaying]);
+  }, [currentTrackIndex, playlist]);
 
 
   const handlePlayPause = () => {
