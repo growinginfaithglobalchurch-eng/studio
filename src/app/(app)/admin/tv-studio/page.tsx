@@ -33,6 +33,8 @@ import {
   BookText,
   Newspaper,
   Cross,
+  PenLine,
+  Text,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -138,39 +140,54 @@ type Scripture = {
     text: string;
 };
 
+type LowerThird = {
+  title: string;
+  subtitle: string;
+};
+
 const ScriptureOverlay = ({ scripture }: { scripture: Scripture }) => (
-    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[80%] max-w-4xl text-white font-sans z-20">
-      <div className="relative h-10">
-        <div className="absolute top-0 left-0 h-1.5 w-full bg-red-700"></div>
-        <div 
-          className="absolute left-0 top-1.5 h-[calc(100%-0.375rem)] w-32 bg-gradient-to-b from-gray-300 to-gray-400 flex items-center justify-center"
-          style={{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)' }}
-        >
-          <span className="text-black text-sm font-bold tracking-wider">SCRIPTURE</span>
-        </div>
-
-        <div className="absolute left-[7.5rem] top-1.5 h-[calc(100%-0.375rem)] w-[calc(100%-7.5rem)] bg-white">
-            <div className="absolute right-0 top-0 w-8 h-full bg-transparent" style={{
-              clipPath: 'polygon(100% 0, 100% 100%, 0 100%)',
-              boxShadow: '-5px 5px 8px rgba(0,0,0,0.3) inset'
-            }}>
-               <div className="absolute right-0 top-0 w-8 h-full bg-gray-200" style={{
-                  clipPath: 'polygon(100% 0, 100% 100%, 0 100%)'
-              }}/>
-            </div>
-            <span className="text-red-800 text-2xl font-bold absolute left-4 top-1/2 -translate-y-1/2">{scripture.reference}</span>
-        </div>
-      </div>
-
-      <div 
-        className="relative -mt-1 bg-red-800 p-4 pl-8 text-white text-lg italic"
-        style={{ clipPath: 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)' }}
+  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[80%] max-w-4xl font-sans z-20">
+    <div className="relative h-10">
+      <div className="absolute top-0 left-0 h-1.5 w-full bg-red-700"></div>
+      <div
+        className="absolute left-0 top-1.5 h-[calc(100%-0.375rem)] w-32 bg-gradient-to-b from-gray-300 to-gray-400 flex items-center justify-center"
+        style={{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)' }}
       >
-        <p>{scripture.text}</p>
+        <span className="text-black text-sm font-bold tracking-wider">SCRIPTURE</span>
       </div>
+
+      <div className="absolute left-[7.5rem] top-1.5 h-[calc(100%-0.375rem)] w-[calc(100%-7.5rem)] bg-white">
+        <div className="absolute right-0 top-0 w-8 h-full bg-transparent" style={{
+          clipPath: 'polygon(100% 0, 100% 100%, 0 100%)',
+          boxShadow: '-5px 5px 8px rgba(0,0,0,0.3) inset'
+        }}>
+           <div className="absolute right-0 top-0 w-8 h-full bg-gray-200" style={{
+              clipPath: 'polygon(100% 0, 100% 100%, 0 100%)'
+          }}/>
+        </div>
+        <span className="text-red-800 text-2xl font-bold absolute left-4 top-1/2 -translate-y-1/2">{scripture.reference}</span>
+      </div>
+    </div>
+
+    <div
+      className="relative -mt-1 bg-red-800 p-4 pl-8 text-white text-lg italic"
+      style={{ clipPath: 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)' }}
+    >
+      <p>{scripture.text}</p>
+    </div>
   </div>
 );
 
+const LowerThirdOverlay = ({ data }: { data: LowerThird }) => (
+  <div className="absolute bottom-16 left-8 font-sans z-20 w-[40%] max-w-md">
+    <div className="bg-primary p-2">
+      <h3 className="text-2xl font-bold text-primary-foreground">{data.title}</h3>
+    </div>
+    <div className="bg-black/80 p-2">
+      <p className="text-lg text-white">{data.subtitle}</p>
+    </div>
+  </div>
+);
 
 export default function TvStudioPage() {
   const { toast } = useToast();
@@ -202,9 +219,12 @@ export default function TvStudioPage() {
     text: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."
   });
   const [showScriptureOverlay, setShowScriptureOverlay] = useState(false);
-  
+  const [showLowerThird, setShowLowerThird] = useState(false);
+  const [lowerThirdData, setLowerThirdData] = useState<LowerThird>({ title: 'Joseph Tryson', subtitle: 'The Bondservant of Christ' });
+  const [showLogoBug, setShowLogoBug] = useState(false);
+  const logoScene = scenes.find(s => s.id === 'logo');
+
   const handleGenerateScripture = () => {
-    // In a real app, this would fetch a random scripture.
     const scriptures = [
       { reference: "Philippians 4:13", text: "I can do all things through him who strengthens me." },
       { reference: "Proverbs 3:5-6", text: "Trust in the Lord with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths." },
@@ -287,13 +307,13 @@ export default function TvStudioPage() {
     }
     return () => clearInterval(timer);
   }, [isLive]);
-  
+
   useEffect(() => {
     if (previewVideoRef.current && previewScene?.type === 'live' && previewScene.sourceStream) {
       previewVideoRef.current.srcObject = previewScene.sourceStream;
     }
   }, [previewScene]);
-  
+
   useEffect(() => {
     if (programVideoRef.current && programScene?.type === 'live' && programScene.sourceStream) {
       programVideoRef.current.srcObject = programScene.sourceStream;
@@ -387,7 +407,7 @@ export default function TvStudioPage() {
             {renderScene(previewScene, previewVideoRef, true)}
           </div>
         </div>
-        
+
         <div className="flex flex-col items-center justify-start gap-2 w-28">
             <div className="grid grid-cols-[1fr_16px] gap-2 w-full">
                 <div className="space-y-1.5 flex flex-col">
@@ -439,11 +459,17 @@ export default function TvStudioPage() {
             )}
           >
             {showScriptureOverlay && <ScriptureOverlay scripture={scripture} />}
+            {showLowerThird && <LowerThirdOverlay data={lowerThirdData} />}
+            {showLogoBug && logoScene && (
+              <div className="absolute top-4 right-4 w-24 h-24 z-20">
+                <Image src={logoScene.sourceUrl!} alt="Station Logo" fill className="object-contain" />
+              </div>
+            )}
             <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
               Source: {programScene?.name || 'None'}
             </div>
              {renderScene(programScene, programVideoRef)}
-            
+
             {programScene?.id === 'game' && previewScene?.id === 'cam1' && previewScene.sourceStream && (
               <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary shadow-lg">
                 <video src={previewScene.sourceUrl} autoPlay muted playsInline className="w-full h-full object-cover" />
@@ -754,8 +780,53 @@ export default function TvStudioPage() {
                 </div>
               </div>
             </TabsContent>
-             <TabsContent value="audio" className="flex-grow min-h-0">
+            <TabsContent value="audio" className="flex-grow min-h-0">
                <AudioMixer />
+            </TabsContent>
+            <TabsContent
+              value="graphics"
+              className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4"
+            >
+              <div className="bg-zinc-800 rounded-lg p-3">
+                <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                  <PenLine className="h-5 w-5 text-accent" /> Lower Thirds
+                </h3>
+                <div className="space-y-2">
+                  <Input placeholder="Title (e.g., Pastor John Doe)" value={lowerThirdData.title} onChange={(e) => setLowerThirdData(d => ({ ...d, title: e.target.value }))} className="bg-zinc-900 text-white border-zinc-700"/>
+                  <Input placeholder="Subtitle (e.g., Lead Pastor)" value={lowerThirdData.subtitle} onChange={(e) => setLowerThirdData(d => ({ ...d, subtitle: e.target.value }))} className="bg-zinc-900 text-white border-zinc-700"/>
+                </div>
+                 <div className="flex items-center justify-between mt-2">
+                    <Button variant="outline" size="sm" onClick={() => setShowLowerThird(true)}>Show Lower Third</Button>
+                    <div className="flex items-center space-x-2">
+                        <Switch id="lowerthird-onair" checked={showLowerThird} onCheckedChange={setShowLowerThird} />
+                        <Label htmlFor="lowerthird-onair" className="text-sm">On Air</Label>
+                    </div>
+                </div>
+              </div>
+              <div className="bg-zinc-800 rounded-lg p-3">
+                 <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                  <Text className="h-5 w-5 text-accent" /> Station Logo Bug
+                </h3>
+                 <div className="flex items-center justify-between">
+                    <p className="text-sm text-zinc-300">Show logo in top-right corner</p>
+                    <Switch id="logo-onair" checked={showLogoBug} onCheckedChange={setShowLogoBug} />
+                 </div>
+              </div>
+              <div className="bg-zinc-800 rounded-lg p-3">
+                 <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                  <FileImage className="h-5 w-5 text-accent" /> Full-Screen Graphics
+                </h3>
+                <ScrollArea className="h-40">
+                  <div className="space-y-2 pr-4">
+                    {scenes.filter(s => s.type === 'image').map(scene => (
+                      <div key={scene.id} className="flex items-center justify-between bg-zinc-900 p-2 rounded-md">
+                        <p className="text-sm text-zinc-200">{scene.name}</p>
+                        <Button variant="outline" size="xs" onClick={() => setProgramScene(scene)}>Send to Program</Button>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
             </TabsContent>
           </Tabs>
         </div>
