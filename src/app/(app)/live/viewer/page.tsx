@@ -10,7 +10,7 @@ import {
   Send,
   Heart,
   ThumbsUp,
-  ClappingHands,
+  Hand,
   Flame,
   Eye,
 } from 'lucide-react';
@@ -120,7 +120,7 @@ export default function LiveViewerPage() {
                  <div className="flex justify-around">
                     <Button variant="ghost" size="icon" className="hover:bg-zinc-700"><Heart className="h-6 w-6 text-red-500" /></Button>
                     <Button variant="ghost" size="icon" className="hover:bg-zinc-700"><ThumbsUp className="h-6 w-6 text-blue-500" /></Button>
-                    <Button variant="ghost" size="icon" className="hover:bg-zinc-700"><ClappingHands className="h-6 w-6 text-yellow-500" /></Button>
+                    <Button variant="ghost" size="icon" className="hover:bg-zinc-700"><Hand className="h-6 w-6 text-yellow-500" /></Button>
                     <Button variant="ghost" size="icon" className="hover:bg-zinc-700"><Flame className="h-6 w-6 text-orange-500" /></Button>
                 </div>
                 <div className="flex gap-2">
