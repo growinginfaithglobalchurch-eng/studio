@@ -78,7 +78,7 @@ export default function TvStudioPage() {
             </h1>
 
             {/* Monitors Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 items-center">
                 {/* Preview Monitor */}
                 <Card className="flex flex-col">
                     <CardHeader className="p-2 bg-secondary rounded-t-lg">
