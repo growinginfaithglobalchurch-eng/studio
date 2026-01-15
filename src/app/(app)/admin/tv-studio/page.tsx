@@ -159,23 +159,22 @@ export default function TvStudioPage() {
                 </Button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[45vh]">
-                <div className="lg:col-span-5"><SceneMonitor scene={previewScene} title="Preview" /></div>
-                <div className="lg:col-span-2">
-                    <Card className="flex flex-col items-center justify-center h-full">
-                        <CardHeader><CardTitle>Transitions</CardTitle></CardHeader>
-                        <CardContent className="flex flex-col gap-2 w-full">
-                            <Button variant="outline" className="w-full" onClick={() => handleTransition('cut')}>
-                                <MoveRight className="mr-2 h-4 w-4"/> Cut
-                            </Button>
-                            <Button variant="outline" className="w-full" onClick={() => handleTransition('fade')}>
-                                <GitMerge className="mr-2 h-4 w-4"/> Fade
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </div>
-                <div className="lg:col-span-5"><SceneMonitor scene={programScene} title="Program" isLive={isLive} /></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <SceneMonitor scene={previewScene} title="Preview" />
+                <SceneMonitor scene={programScene} title="Program" isLive={isLive} />
             </div>
+
+            <Card>
+                <CardHeader><CardTitle>Transitions</CardTitle></CardHeader>
+                <CardContent className="flex flex-col sm:flex-row gap-2 w-full">
+                    <Button variant="outline" className="w-full" onClick={() => handleTransition('cut')}>
+                        <MoveRight className="mr-2 h-4 w-4"/> Cut
+                    </Button>
+                    <Button variant="outline" className="w-full" onClick={() => handleTransition('fade')}>
+                        <GitMerge className="mr-2 h-4 w-4"/> Fade
+                    </Button>
+                </CardContent>
+            </Card>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                 <Card className="lg:col-span-8">
