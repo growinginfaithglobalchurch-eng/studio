@@ -104,7 +104,7 @@ export default function TvStudioPage() {
         <div className="flex flex-col h-full gap-4 -m-4 md:-m-6 p-4 bg-background text-foreground">
             {/* Header */}
             <header className="flex items-center justify-between shrink-0">
-                <h1 className="text-xl font-headline font-bold flex items-center gap-2">
+                <h1 className="text-xl font-headline font-bold flex items-center gap-2 text-foreground">
                     <Tv className="h-6 w-6 text-accent" />
                     Royal Life TV Studio
                 </h1>
@@ -163,17 +163,17 @@ export default function TvStudioPage() {
                 {/* Media Manager */}
                 <div className="bg-card rounded-lg p-4 flex flex-col">
                     <div className="flex justify-between items-center pb-2 border-b mb-2">
-                        <h2 className="text-lg font-bold flex items-center gap-2"><Clapperboard /> Media Manager</h2>
+                        <h2 className="text-lg font-bold flex items-center gap-2 text-card-foreground"><Clapperboard /> Media Manager</h2>
                         <div className="flex items-center gap-4">
-                            <Button variant="outline" size="sm"><Upload className="mr-2 h-4 w-4"/> Upload</Button>
+                            <Button variant="outline" size="sm" className="text-white"><Upload className="mr-2 h-4 w-4"/> Upload</Button>
                              <div className="flex items-center space-x-2">
                                 <Switch id="live-cameras" />
-                                <Label htmlFor="live-cameras" className="text-sm">Use Live Cameras</Label>
+                                <Label htmlFor="live-cameras" className="text-sm text-card-foreground">Use Live Cameras</Label>
                             </div>
                         </div>
                     </div>
                      <Tabs defaultValue="scenes" className="flex flex-col flex-grow">
-                        <TabsList>
+                        <TabsList className="text-card-foreground">
                             <TabsTrigger value="scenes"><FileImage className="mr-2 h-4 w-4"/>Scenes</TabsTrigger>
                             <TabsTrigger value="cameras"><Camera className="mr-2 h-4 w-4"/>Cameras</TabsTrigger>
                             <TabsTrigger value="banners"><Video className="mr-2 h-4 w-4"/>Banners</TabsTrigger>
@@ -189,7 +189,7 @@ export default function TvStudioPage() {
                 {/* Broadcast & Control Center */}
                 <div className="bg-card rounded-lg p-4 flex flex-col">
                     <Tabs defaultValue="broadcast" className="flex flex-col flex-grow">
-                        <TabsList className="w-full">
+                        <TabsList className="w-full text-card-foreground">
                             <TabsTrigger value="broadcast">Broadcast</TabsTrigger>
                             <TabsTrigger value="automation">Automation</TabsTrigger>
                             <TabsTrigger value="audio">Audio</TabsTrigger>
@@ -200,47 +200,47 @@ export default function TvStudioPage() {
                          <TabsContent value="broadcast" className="bg-background/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4">
                             {/* Broadcast Controls */}
                             <div className="bg-card rounded-lg p-3">
-                                <h3 className="font-bold flex items-center gap-2 mb-2"><Radio className="h-5 w-5"/> Broadcast Controls</h3>
+                                <h3 className="font-bold flex items-center gap-2 mb-2 text-card-foreground"><Radio className="h-5 w-5"/> Broadcast Controls</h3>
                                 <div className="space-y-2 text-sm">
                                     <div className="flex justify-between items-center bg-secondary p-2 rounded">
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2 text-foreground">
                                             <div className={cn("h-2 w-2 rounded-full", isLive ? "bg-green-500 animate-pulse" : "bg-muted-foreground")}></div>
                                             <span>{isLive ? 'ONLINE' : 'OFFLINE'}</span>
                                         </div>
-                                        <span className="font-mono">{formatTime(streamTime)}</span>
+                                        <span className="font-mono text-foreground">{formatTime(streamTime)}</span>
                                     </div>
                                     <div className="flex justify-between items-center bg-secondary p-2 rounded">
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2 text-foreground">
                                             <div className="h-2 w-2 rounded-full bg-muted-foreground"></div>
                                             <span>NOT RECORDING</span>
                                         </div>
-                                        <span className="font-mono">00:00:00</span>
+                                        <span className="font-mono text-foreground">00:00:00</span>
                                     </div>
                                     <div className="grid grid-cols-2 gap-2 pt-2">
-                                        <Button variant="outline">Start Stream</Button>
-                                        <Button variant="outline">Start Record</Button>
+                                        <Button variant="outline" className="text-white">Start Stream</Button>
+                                        <Button variant="outline" className="text-white">Start Record</Button>
                                     </div>
                                 </div>
                             </div>
                             {/* Multistream */}
                             <div className="bg-card rounded-lg p-3">
-                                <h3 className="font-bold flex items-center gap-2 mb-2"><Shuffle className="h-5 w-5"/> Multistream</h3>
+                                <h3 className="font-bold flex items-center gap-2 mb-2 text-card-foreground"><Shuffle className="h-5 w-5"/> Multistream</h3>
                                 <p className="text-xs text-muted-foreground mb-4">Stream to multiple platforms at once.</p>
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2"><Youtube className="h-5 w-5 text-red-600"/><span>YouTube</span></div>
-                                        <div className="flex items-center gap-2 text-xs"><div className="h-2 w-2 rounded-full bg-muted-foreground"></div>Offline <Switch/></div>
+                                        <div className="flex items-center gap-2 text-foreground"><Youtube className="h-5 w-5 text-red-600"/><span>YouTube</span></div>
+                                        <div className="flex items-center gap-2 text-xs text-foreground"><div className="h-2 w-2 rounded-full bg-muted-foreground"></div>Offline <Switch/></div>
                                     </div>
                                      <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2"><Facebook className="h-5 w-5 text-blue-600"/><span>Facebook</span></div>
-                                        <div className="flex items-center gap-2 text-xs"><div className="h-2 w-2 rounded-full bg-muted-foreground"></div>Offline <Switch/></div>
+                                        <div className="flex items-center gap-2 text-foreground"><Facebook className="h-5 w-5 text-blue-600"/><span>Facebook</span></div>
+                                        <div className="flex items-center gap-2 text-xs text-foreground"><div className="h-2 w-2 rounded-full bg-muted-foreground"></div>Offline <Switch/></div>
                                     </div>
                                      <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2"><Twitch className="h-5 w-5 text-purple-600"/><span>Twitch</span></div>
-                                        <div className="flex items-center gap-2 text-xs"><div className="h-2 w-2 rounded-full bg-muted-foreground"></div>Offline <Switch/></div>
+                                        <div className="flex items-center gap-2 text-foreground"><Twitch className="h-5 w-5 text-purple-600"/><span>Twitch</span></div>
+                                        <div className="flex items-center gap-2 text-xs text-foreground"><div className="h-2 w-2 rounded-full bg-muted-foreground"></div>Offline <Switch/></div>
                                     </div>
                                 </div>
-                                 <Button variant="ghost" className="w-full mt-4 text-xs"><Plus className="mr-2 h-4 w-4"/> Add Custom RTMP</Button>
+                                 <Button variant="ghost" className="w-full mt-4 text-xs text-muted-foreground"><Plus className="mr-2 h-4 w-4"/> Add Custom RTMP</Button>
                             </div>
                         </TabsContent>
                     </Tabs>
@@ -249,3 +249,5 @@ export default function TvStudioPage() {
         </div>
     );
 }
+
+    
