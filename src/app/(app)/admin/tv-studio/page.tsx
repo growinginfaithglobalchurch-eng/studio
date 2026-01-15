@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -180,8 +181,22 @@ export default function TvStudioPage() {
                             <TabsTrigger value="music" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><Music className="mr-2 h-4 w-4"/>Music</TabsTrigger>
                         </TabsList>
                         <TabsContent value="scenes" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0">
-                           {/* Content for scenes would go here */}
-                           <p className="text-center text-zinc-500 p-8">Scene management UI coming soon.</p>
+                           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                                {scenes.map(scene => (
+                                    <button 
+                                        key={scene.id} 
+                                        className={cn(
+                                            "aspect-video rounded-md relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900",
+                                            previewScene?.id === scene.id ? 'ring-2 ring-orange-500' : 'ring-1 ring-zinc-700 hover:ring-orange-500'
+                                        )}
+                                        onClick={() => setPreviewScene(scene)}
+                                    >
+                                        <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover"/>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                        <p className="absolute bottom-1 left-2 text-xs text-white font-semibold truncate">{scene.name}</p>
+                                    </button>
+                                ))}
+                           </div>
                         </TabsContent>
                     </Tabs>
                 </div>
@@ -251,3 +266,4 @@ export default function TvStudioPage() {
 }
 
     
+
