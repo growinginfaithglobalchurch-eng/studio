@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -36,6 +35,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type Scene = {
     id: string;
@@ -54,6 +54,10 @@ const scenes: Scene[] = [
     { id: 'guest', name: 'Guest Speaker Cam', type: 'video', sourceUrl: 'https://picsum.photos/seed/guest/1280/720', dataAiHint: 'remote speaker feed' },
     { id: 'outro', name: 'Outro Bumper', type: 'video', sourceUrl: 'https://picsum.photos/seed/outro/1280/720', dataAiHint: 'outro video' },
     { id: 'lowerthird', name: 'Lower Third BG', type: 'image', sourceUrl: 'https://picsum.photos/seed/lowerthird/1280/720', dataAiHint: 'abstract background' },
+    { id: 'cam2', name: 'Side Camera', type: 'video', sourceUrl: 'https://picsum.photos/seed/cam2/1280/720', dataAiHint: 'video camera feed' },
+    { id: 'waiting', name: 'Waiting Screen', type: 'image', sourceUrl: 'https://picsum.photos/seed/waiting/1280/720', dataAiHint: 'abstract pattern' },
+    { id: 'presentation', name: 'Presentation Slides', type: 'image', sourceUrl: 'https://picsum.photos/seed/slides/1280/720', dataAiHint: 'presentation slides' },
+    { id: 'interview', name: 'Interview Setup', type: 'video', sourceUrl: 'https://picsum.photos/seed/interview/1280/720', dataAiHint: 'interview setup' },
 ];
 
 
@@ -80,6 +84,8 @@ export default function TvStudioPage() {
             timer = setInterval(() => {
                 setStreamTime(prev => prev + 1);
             }, 1000);
+        } else {
+            setStreamTime(0);
         }
         return () => clearInterval(timer);
     }, [isLive]);
@@ -181,22 +187,24 @@ export default function TvStudioPage() {
                             <TabsTrigger value="music" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><Music className="mr-2 h-4 w-4"/>Music</TabsTrigger>
                         </TabsList>
                         <TabsContent value="scenes" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0">
-                           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                                {scenes.map(scene => (
-                                    <button 
-                                        key={scene.id} 
-                                        className={cn(
-                                            "aspect-video rounded-md relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900",
-                                            previewScene?.id === scene.id ? 'ring-2 ring-orange-500' : 'ring-1 ring-zinc-700 hover:ring-orange-500'
-                                        )}
-                                        onClick={() => setPreviewScene(scene)}
-                                    >
-                                        <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover"/>
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                                        <p className="absolute bottom-1 left-2 text-xs text-white font-semibold truncate">{scene.name}</p>
-                                    </button>
-                                ))}
-                           </div>
+                           <ScrollArea className="h-full">
+                               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pr-4">
+                                    {scenes.map(scene => (
+                                        <button 
+                                            key={scene.id} 
+                                            className={cn(
+                                                "aspect-video rounded-md relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900",
+                                                previewScene?.id === scene.id ? 'ring-2 ring-orange-500' : 'ring-1 ring-zinc-700 hover:ring-orange-500'
+                                            )}
+                                            onClick={() => setPreviewScene(scene)}
+                                        >
+                                            <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover"/>
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                            <p className="absolute bottom-1 left-2 text-xs text-white font-semibold truncate">{scene.name}</p>
+                                        </button>
+                                    ))}
+                               </div>
+                           </ScrollArea>
                         </TabsContent>
                     </Tabs>
                 </div>
@@ -266,4 +274,3 @@ export default function TvStudioPage() {
 }
 
     
-
