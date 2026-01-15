@@ -111,10 +111,27 @@ export default function TvStudioPage() {
         <div className="flex flex-col h-full gap-4 -m-4 md:-m-6 p-4 bg-zinc-900 text-zinc-100">
             {/* Header */}
             <header className="flex items-center justify-between shrink-0">
-                <h1 className="text-xl font-headline font-bold flex items-center gap-2">
-                    <Tv className="h-6 w-6 text-accent" />
-                    Royal Life TV Studio
-                </h1>
+                <div className="relative h-16 w-full max-w-2xl">
+                    {/* Main Silver Body */}
+                    <div className="absolute bottom-0 left-0 h-12 w-full bg-gradient-to-r from-zinc-400 to-zinc-200" style={{ clipPath: 'polygon(5% 0, 100% 0, 95% 100%, 0 100%)' }}>
+                        <div className="absolute left-[15%] top-1/2 -translate-y-1/2 w-3/4">
+                            <h2 className="text-black font-extrabold text-xl tracking-wide">ROYAL LIFE TV STUDIO</h2>
+                            <p className="text-zinc-700 text-xs truncate">Official broadcast center for Faith Connect Global.</p>
+                        </div>
+                    </div>
+
+                    {/* Red Top Bar */}
+                    <div className="absolute top-0 left-[10%] h-6 w-[60%] bg-red-600 flex items-center" style={{ clipPath: 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)' }}>
+                        <span className="text-white font-bold text-sm ml-4">LIVE STREAM</span>
+                         <div className="absolute right-4 top-1/2 -translate-y-1/2 h-1 w-8 bg-white/50"></div>
+                    </div>
+
+                    {/* Metallic Left Shape */}
+                    <div className="absolute bottom-0 left-0 h-12 w-[18%] bg-gradient-to-r from-zinc-600 via-zinc-800 to-zinc-600" style={{ clipPath: 'polygon(0 0, 70% 0, 100% 100%, 0% 100%)' }}>
+                        <div className="absolute h-full w-2 bg-red-600 skew-x-[-20deg] left-10"></div>
+                        <div className="absolute h-full w-1 bg-red-700 skew-x-[-20deg] left-14"></div>
+                    </div>
+                </div>
                  <Button variant={isLive ? 'destructive' : 'default'} onClick={() => setIsLive(!isLive)}>
                     <Power className="mr-2 h-4 w-4" />
                     {isLive ? "Stop Stream" : "Go Live"}
@@ -272,5 +289,3 @@ export default function TvStudioPage() {
         </div>
     );
 }
-
-    
