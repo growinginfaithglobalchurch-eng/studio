@@ -46,6 +46,7 @@ import {
   Newspaper,
   Radio,
   Podcast,
+  Tv,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -124,6 +125,7 @@ const adminContentNav = [
     { href: '/admin/courses', label: 'Courses', icon: <GraduationCap className="h-4 w-4" /> },
     { href: '/admin/radio', label: 'Radio', icon: <Radio className="h-4 w-4" /> },
     { href: '/admin/podcast', label: 'Podcast', icon: <Podcast className="h-4 w-4" /> },
+    { href: '/admin/tv-studio', label: 'TV Studio', icon: <Tv className="h-4 w-4" /> },
 ];
 
 const adminCommunityNav = [
