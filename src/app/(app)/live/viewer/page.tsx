@@ -16,7 +16,6 @@ import {
   BookOpen,
   Calendar,
   FileText,
-  Bible,
 } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -175,7 +174,7 @@ export default function LiveViewerPage() {
 
         <Tabs defaultValue="schedule" className="flex-1 flex flex-col min-h-0 bg-card text-card-foreground">
           <TabsList className="grid w-full grid-cols-4 rounded-none h-14">
-            <TabsTrigger value="pray" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent"><Bible className="h-5 w-5 mr-2"/>Pray</TabsTrigger>
+            <TabsTrigger value="pray" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent"><Heart className="h-5 w-5 mr-2"/>Pray</TabsTrigger>
             <TabsTrigger value="schedule" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent"><Calendar className="h-5 w-5 mr-2"/>Schedule</TabsTrigger>
             <TabsTrigger value="notes" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent"><FileText className="h-5 w-5 mr-2"/>Notes</TabsTrigger>
             <TabsTrigger value="bible" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent"><BookOpen className="h-5 w-5 mr-2"/>Bible</TabsTrigger>
