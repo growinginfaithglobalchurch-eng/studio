@@ -16,6 +16,7 @@ import { Switch } from '@/components/ui/switch';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Slider } from '@/components/ui/slider';
 
 type Scene = {
     id: string;
@@ -30,6 +31,7 @@ const initialScenes: Scene[] = [
     { id: 'intro', name: 'Intro Video', type: 'video', sourceUrl: 'https://picsum.photos/seed/intro/1280/720', dataAiHint: 'countdown intro' },
     { id: 'logo', name: 'Logo Screen', type: 'image', sourceUrl: PlaceHolderImages.find(p => p.id === 'ministry-logo-1')?.imageUrl || '', dataAiHint: 'ministry logo' },
     { id: 'scripture', name: 'Scripture Graphic', type: 'image', sourceUrl: 'https://picsum.photos/seed/scripture/1280/720', dataAiHint: 'bible scripture' },
+    { id: 'game', name: 'Game Feed', type: 'video', sourceUrl: 'https://picsum.photos/seed/game/1280/720', dataAiHint: 'space shooter game' },
 ];
 
 export default function TvStudioPage() {
@@ -39,34 +41,25 @@ export default function TvStudioPage() {
     const [scenes, setScenes] = useState(initialScenes);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [newScene, setNewScene] = useState({ name: '', type: 'image' as 'image' | 'video', sourceUrl: '' });
-    const [useLiveCameras, setUseLiveCameras] = useState(false);
 
     const [previewScene, setPreviewScene] = useState<Scene | null>(scenes[0] || null);
-    const [programScene, setProgramScene] = useState<Scene | null>(scenes[1] || null);
+    const [programScene, setProgramScene] = useState<Scene | null>(scenes[4] || null);
+    const [currentTime, setCurrentTime] = useState('');
 
-    const handleGoLive = () => {
-        setIsLive(!isLive);
-        toast({
-            title: isLive ? "Stream Ended" : "You are LIVE!",
-            description: isLive ? "The broadcast has been stopped." : "Your stream has started successfully.",
-            variant: isLive ? 'destructive' : 'default'
-        });
-    };
-    
-    const handleRecord = () => {
-        setIsRecording(!isRecording);
-        toast({
-            title: isRecording ? "Recording Stopped" : "Recording Started",
-            description: isRecording ? "Your recording has been saved." : "The session is now being recorded.",
-        });
-    }
-    
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const url = URL.createObjectURL(file);
-            const type = file.type.startsWith('video') ? 'video' : 'image';
-            setNewScene({ name: file.name, type, sourceUrl: url });
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+        }, 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const handleTransition = (type: 'cut' | 'fade') => {
+        if (previewScene) {
+            setProgramScene(previewScene);
+            toast({
+                title: type === 'cut' ? 'Cut!' : 'Fade Transition Complete',
+                description: `"${previewScene.name}" is now live.`
+            });
         }
     };
     
@@ -83,180 +76,120 @@ export default function TvStudioPage() {
         toast({ title: 'Scene Added', description: `"${sceneToAdd.name}" is now available.` });
     };
 
-    const handleTransition = (type: 'cut' | 'fade') => {
-        if (previewScene) {
-            setProgramScene(previewScene);
-            toast({
-                title: type === 'cut' ? 'Cut!' : 'Fade Transition Complete',
-                description: `"${previewScene.name}" is now live.`
-            });
-        }
-    };
-
-    const YoutubeIcon = () => (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-red-600">
-        <path d="M12.04,18.3c-5.1,0-9.2-1.4-9.2-3.2s4.1-3.2,9.2-3.2s9.2,1.4,9.2,3.2S17.14,18.3,12.04,18.3z M12.04,5.7 c-5.1,0-9.2,1.4-9.2,3.2s4.1,3.2,9.2,3.2s9.2,1.4,9.2,3.2S17.14,5.7,12.04,5.7z M12.04,12.5c-2.3,0-4.2-0.5-4.2-1.1s1.9-1.1,4.2-1.1 s4.2,0.5,4.2,1.1S14.34,12.5,12.04,12.5z" />
-        <path d="M21.5,8.8v6.4c0,1.3-1.9,2.4-4.2,2.4s-4.2-1.1-4.2-2.4V8.8h-2.1v6.4c0,2.1,3.1,3.8,7.3,3.8s7.3-1.7,7.3-3.8V8.8H21.5z" />
-        <path d="M12.04,4.2C6.94,4.2,2.84,5.6,2.84,7.4s4.1,3.2,9.2,3.2s9.2-1.4,9.2-3.2S17.14,4.2,12.04,4.2z M12.04,9.5 c-2.3,0-4.2-0.5-4.2-1.1s1.9-1.1,4.2-1.1s4.2,0.5,4.2,1.1S14.34,9.5,12.04,9.5z" />
-        <path d="M9.84,8.8v6.4c0,1.3,1.9,2.4,4.2,2.4s4.2-1.1,4.2-2.4V8.8H16.1v6.4c0,0.8-1.5,1.4-3.2,1.4s-3.2-0.6-3.2-1.4V8.8H9.84z" />
-      </svg>
-    );
-
-    const FacebookIcon = () => (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-blue-600">
-        <path d="M22,12c0-5.5-4.5-10-10-10S2,6.5,2,12c0,5,3.7,9.1,8.4,9.9v-7H7.9V12h2.5V9.8c0-2.5,1.5-3.9,3.8-3.9 c1.1,0,2,0.1,2.3,0.1v2.1h-1.3c-1.2,0-1.4,0.6-1.4,1.4V12h2.8l-0.4,2.9h-2.4V21.9C18.3,21.1,22,17,22,12z" />
-      </svg>
-    );
-
     return (
-        <div className="flex flex-col h-full bg-background space-y-4 p-4">
-            <header className="flex-shrink-0">
-                 <h1 className="text-xl font-headline font-bold text-foreground flex items-center gap-2">
+        <div className="flex flex-col h-[calc(100vh-5rem)] bg-background -m-4 md:-m-6">
+            <header className="flex-shrink-0 bg-card border-b p-2 flex items-center justify-between">
+                 <h1 className="text-lg font-headline font-bold text-foreground flex items-center gap-2">
                     <Tv className="h-6 w-6 text-accent" />
                     Royal Life TV Studio
                 </h1>
+                <div className="flex items-center gap-2">
+                     <Button 
+                        variant={isRecording ? "destructive" : "outline"} 
+                        size="sm"
+                        onClick={() => setIsRecording(!isRecording)}
+                    >
+                        <Circle className="mr-2 h-3 w-3 fill-current"/>{isRecording ? 'Stop Recording' : 'Record'}
+                    </Button>
+                    <Button 
+                        variant={isLive ? "destructive" : "default"} 
+                        size="sm"
+                        onClick={() => setIsLive(!isLive)}
+                    >
+                        <Radio className="mr-2 h-4 w-4"/>{isLive ? 'Stop Stream' : 'Go Live'}
+                    </Button>
+                </div>
             </header>
-
-            {/* Monitors & Transitions */}
-            <Card>
-                <CardContent className="grid lg:grid-cols-[1fr_auto_1fr] items-center gap-4 p-4">
-                    {/* Preview Monitor */}
-                    <div className="flex-1 space-y-2">
-                        <div className="bg-blue-500 text-white text-center font-bold py-1 rounded-t-md">PREVIEW</div>
-                        <AspectRatio ratio={16/9} className="bg-black rounded-b-md overflow-hidden">
+            
+            <div className="flex-grow grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-2 p-2">
+                {/* Preview Monitor */}
+                <div className="flex flex-col bg-card rounded-md border">
+                    <div className="bg-orange-500 text-white text-sm font-bold py-1 px-3 rounded-t-md">PREVIEW: {previewScene?.name}</div>
+                    <div className="flex-grow relative">
+                         <AspectRatio ratio={16/9} className="bg-black">
                             {previewScene && <Image src={previewScene.sourceUrl} alt={previewScene.name} fill className="object-cover" data-ai-hint={previewScene.dataAiHint} />}
                         </AspectRatio>
                     </div>
-
-                    {/* Transition Controls */}
-                    <div className="flex flex-col gap-2">
-                         <Button variant="outline" onClick={() => handleTransition('cut')}>CUT</Button>
-                         <Button variant="outline" onClick={() => handleTransition('fade')}>FADE</Button>
-                    </div>
-
-                    {/* Program Monitor */}
-                    <div className="flex-1 space-y-2">
-                        <div className="bg-red-600 text-white text-center font-bold py-1 rounded-t-md">PROGRAM {isLive && '(LIVE)'}</div>
-                         <AspectRatio ratio={16/9} className="bg-black rounded-b-md overflow-hidden">
-                            {programScene && <Image src={programScene.sourceUrl} alt={programScene.name} fill className="object-cover" data-ai-hint={programScene.dataAiHint} />}
-                        </AspectRatio>
-                    </div>
-                </CardContent>
-            </Card>
-
-            <div className="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-4">
-                {/* Left Column: Media Manager */}
-                <div className="lg:col-span-2 flex flex-col gap-4">
-                    <Card className="flex-grow flex flex-col">
-                        <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle className="flex items-center gap-2"><Clapperboard className="h-5 w-5 text-accent"/>Media Manager</CardTitle>
-                            <div className="flex items-center gap-4">
-                               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                                    <DialogTrigger asChild>
-                                        <Button variant="outline"><Upload className="mr-2 h-4 w-4" /> Upload</Button>
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogHeader><DialogTitle>Add New Media Input</DialogTitle></DialogHeader>
-                                        <form onSubmit={handleAddScene} className="space-y-4">
-                                            <div className="space-y-2"><Label>Input Name</Label><Input value={newScene.name} onChange={(e) => setNewScene({...newScene, name: e.target.value})} placeholder="e.g., Guest Camera" /></div>
-                                            <div className="space-y-2"><Label>Source URL (or upload)</Label><Input value={newScene.sourceUrl} onChange={(e) => setNewScene({...newScene, sourceUrl: e.target.value})} placeholder="https://... or upload a file" /></div>
-                                            <div className="space-y-2"><Label>Upload File</Label><Input type="file" onChange={handleFileChange} accept="image/*,video/*" /></div>
-                                            <Button type="submit" className="w-full">Add Input</Button>
-                                        </form>
-                                    </DialogContent>
-                                </Dialog>
-                                <div className="flex items-center space-x-2">
-                                    <Label htmlFor="live-camera-switch">Use Live Cameras</Label>
-                                    <Switch id="live-camera-switch" checked={useLiveCameras} onCheckedChange={setUseLiveCameras}/>
-                                </div>
-                            </div>
-                        </CardHeader>
-                        <CardContent className="flex-grow flex flex-col">
-                            <Tabs defaultValue="scenes" className="flex-grow flex flex-col">
-                                <TabsList>
-                                    <TabsTrigger value="scenes"><Film className="mr-2 h-4 w-4"/>Scenes</TabsTrigger>
-                                    <TabsTrigger value="cameras"><Camera className="mr-2 h-4 w-4"/>Cameras</TabsTrigger>
-                                    <TabsTrigger value="banners"><ImageIcon className="mr-2 h-4 w-4"/>Banners</TabsTrigger>
-                                    <TabsTrigger value="music"><Music className="mr-2 h-4 w-4"/>Music</TabsTrigger>
-                                </TabsList>
-                                <TabsContent value="scenes" className="flex-grow mt-2 rounded-md">
-                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                                        {scenes.map(scene => (
-                                            <Card key={scene.id} className="overflow-hidden cursor-pointer" onClick={() => setPreviewScene(scene)}>
-                                                <AspectRatio ratio={16/9} className="bg-black">
-                                                     <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover" data-ai-hint={scene.dataAiHint} />
-                                                </AspectRatio>
-                                                <p className="text-xs p-1 bg-background/50 truncate">{scene.name}</p>
-                                            </Card>
-                                        ))}
-                                    </div>
-                                </TabsContent>
-                            </Tabs>
-                        </CardContent>
-                    </Card>
                 </div>
 
-                {/* Right Column: Controls */}
-                <div className="lg:col-span-1 flex flex-col gap-4">
-                     <Tabs defaultValue="broadcast" className="w-full">
-                        <TabsList className="grid w-full grid-cols-3">
-                            <TabsTrigger value="broadcast">Broadcast</TabsTrigger>
-                            <TabsTrigger value="audio">Audio</TabsTrigger>
-                            <TabsTrigger value="graphics">Graphics</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="broadcast" className="space-y-4">
-                             <Card>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2"><Rss className="h-5 w-5 text-accent"/>Broadcast Controls</CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
-                                     <div className="flex items-center justify-between p-3 bg-secondary rounded-md">
-                                        <div className="flex items-center gap-2">
-                                            <div className={cn("w-3 h-3 rounded-full", isLive ? "bg-red-500 animate-pulse" : "bg-gray-500")}></div>
-                                            <span className="font-semibold">{isLive ? "ONLINE" : "OFFLINE"}</span>
-                                        </div>
-                                        <span className="font-mono text-sm">00:00:00</span>
-                                     </div>
-                                     <div className="flex items-center justify-between p-3 bg-secondary rounded-md">
-                                        <div className="flex items-center gap-2">
-                                             <div className={cn("w-3 h-3 rounded-full border-2", isRecording ? "bg-red-500 border-red-500 animate-pulse" : "border-gray-500")}></div>
-                                            <span className="font-semibold">{isRecording ? "RECORDING" : "NOT RECORDING"}</span>
-                                        </div>
-                                        <span className="font-mono text-sm">00:00:00</span>
-                                     </div>
-                                     <div className="grid grid-cols-2 gap-2">
-                                         <Button variant={isLive ? "destructive" : "outline"} onClick={handleGoLive}>
-                                            <Play className="mr-2 h-4 w-4" /> {isLive ? "Stop Stream" : "Start Stream"}
-                                        </Button>
-                                         <Button variant={isRecording ? "destructive" : "outline"} onClick={handleRecord}>
-                                            <Circle className="mr-2 h-4 w-4" /> {isRecording ? "Stop Record" : "Start Record"}
-                                        </Button>
-                                     </div>
-                                </CardContent>
-                            </Card>
-                             <Card>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2"><GitMerge className="h-5 w-5 text-accent"/>Multistream</CardTitle>
-                                    <CardDescription>Stream to multiple platforms at once.</CardDescription>
-                                </CardHeader>
-                                <CardContent className="space-y-3">
-                                    <div className="flex items-center justify-between p-2 bg-secondary rounded-md">
-                                        <div className="flex items-center gap-2"><YoutubeIcon /> <span>YouTube</span></div>
-                                        <div className="flex items-center gap-2 text-xs"><div className="w-2 h-2 rounded-full bg-gray-500"></div>Offline<Switch/></div>
-                                    </div>
-                                     <div className="flex items-center justify-between p-2 bg-secondary rounded-md">
-                                        <div className="flex items-center gap-2"><FacebookIcon /> <span>Facebook</span></div>
-                                        <div className="flex items-center gap-2 text-xs"><div className="w-2 h-2 rounded-full bg-gray-500"></div>Offline<Switch/></div>
-                                    </div>
-                                     <div className="flex items-center justify-between p-2 bg-secondary rounded-md">
-                                        <div className="flex items-center gap-2"><Twitch className="h-5 w-5 text-purple-500" /> <span>Twitch</span></div>
-                                        <div className="flex items-center gap-2 text-xs"><div className="w-2 h-2 rounded-full bg-gray-500"></div>Offline<Switch/></div>
-                                    </div>
-                                    <Button variant="ghost" className="w-full"><PlusCircle className="mr-2 h-4 w-4" /> Add Custom RTMP</Button>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                    </Tabs>
+                {/* Transition Controls */}
+                <div className="flex flex-col gap-2 bg-card p-2 rounded-md border w-32">
+                     <Button variant="outline" onClick={() => handleTransition('cut')} className="h-10">Cut</Button>
+                     <Button variant="outline" onClick={() => handleTransition('fade')} className="h-10">Fade</Button>
+                     <Button variant="outline" className="h-10">Wipe</Button>
+                     <Button variant="outline" className="h-10">Zoom</Button>
+
+                     <div className="flex-grow flex flex-col justify-end gap-2">
+                        <div className="relative h-32 w-4 mx-auto bg-muted rounded-full overflow-hidden">
+                           <div className="absolute bottom-0 w-full bg-green-500" style={{height: '75%'}}></div>
+                           <div className="absolute bottom-0 w-full bg-yellow-500" style={{height: '50%'}}></div>
+                           <div className="absolute bottom-0 w-full bg-red-500" style={{height: '25%'}}></div>
+                        </div>
+                        <Slider defaultValue={[50]} max={100} step={1} className="[&>span]:bg-transparent [&>span]:h-1 [&_[role=slider]]:h-6 [&_[role=slider]]:w-10 [&_[role=slider]]:rounded-sm [&_[role=slider]]:border-2"/>
+                         <div className="bg-muted text-center p-2 rounded-md">
+                            <p className="font-mono text-lg font-bold text-foreground">21:17.6</p>
+                            <p className="text-xs text-muted-foreground">{currentTime}</p>
+                         </div>
+                     </div>
+                </div>
+
+                {/* Program Monitor */}
+                <div className="flex flex-col bg-card rounded-md border">
+                    <div className={cn("text-white text-sm font-bold py-1 px-3 rounded-t-md", isLive ? "bg-red-600" : "bg-green-600")}>
+                        PROGRAM: {programScene?.name} {isLive && '(LIVE)'}
+                    </div>
+                     <div className="flex-grow relative">
+                         <AspectRatio ratio={16/9} className="bg-black">
+                            {programScene && <Image src={programScene.sourceUrl} alt={programScene.name} fill className="object-cover" data-ai-hint={programScene.dataAiHint} />}
+                            {programScene?.id === 'game' && previewScene?.id === 'cam1' && (
+                               <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-accent">
+                                    <Image src={previewScene.sourceUrl} alt={previewScene.name} fill className="object-cover"/>
+                               </div>
+                            )}
+                        </AspectRatio>
+                    </div>
+                </div>
+            </div>
+
+            {/* Inputs Bar */}
+            <div className="flex-shrink-0 bg-card border-t p-2">
+                <div className="flex items-center gap-2">
+                    {scenes.map(scene => (
+                        <div key={scene.id} className="w-40 flex-shrink-0 cursor-pointer" onClick={() => setPreviewScene(scene)}>
+                            <AspectRatio ratio={16/9} className={cn("bg-black rounded-md overflow-hidden border-2", previewScene?.id === scene.id ? 'border-orange-500' : 'border-transparent', programScene?.id === scene.id ? 'border-green-600' : 'border-transparent')}>
+                                 <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover" />
+                            </AspectRatio>
+                            <p className="text-xs text-center text-foreground truncate mt-1">{scene.name}</p>
+                        </div>
+                    ))}
+                     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" className="h-full w-20 flex-shrink-0"><PlusCircle /></Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader><DialogTitle>Add New Media Input</DialogTitle></DialogHeader>
+                            <form onSubmit={handleAddScene} className="space-y-4">
+                                <div className="space-y-2"><Label>Input Name</Label><Input value={newScene.name} onChange={(e) => setNewScene({...newScene, name: e.target.value})} placeholder="e.g., Guest Camera" /></div>
+                                <div className="space-y-2"><Label>Source URL (or upload)</Label><Input value={newScene.sourceUrl} onChange={(e) => setNewScene({...newScene, sourceUrl: e.target.value})} placeholder="https://... or upload a file" /></div>
+                                <div className="space-y-2">
+                                  <Label>Upload File</Label>
+                                  <Input 
+                                    type="file" 
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (file) {
+                                          const url = URL.createObjectURL(file);
+                                          const type = file.type.startsWith('video') ? 'video' : 'image';
+                                          setNewScene({ name: file.name, type, sourceUrl: url });
+                                      }
+                                    }} 
+                                    accept="image/*,video/*" 
+                                  />
+                                </div>
+                                <Button type="submit" className="w-full">Add Input</Button>
+                            </form>
+                        </DialogContent>
+                    </Dialog>
                 </div>
             </div>
         </div>
