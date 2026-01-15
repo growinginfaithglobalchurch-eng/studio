@@ -265,7 +265,7 @@ export default function TvStudioPage() {
     toast({ title: "New scripture generated!" });
   };
   
-  const handleCameraToggle = async (checked: boolean) => {
+ const handleCameraToggle = async (checked: boolean) => {
     setUseLiveCameras(checked);
     if (checked) {
       try {
@@ -290,7 +290,7 @@ export default function TvStudioPage() {
       } catch (error) {
         console.error('Error accessing camera:', error);
         setUseLiveCameras(false);
-        setPreviewScene(initialScenes[0]);
+        setPreviewScene(initialScenes[0]); // fallback
         toast({
           variant: 'destructive',
           title: 'Camera Access Denied',
@@ -308,7 +308,8 @@ export default function TvStudioPage() {
   };
 
 
- useEffect(() => {
+  useEffect(() => {
+    // Cleanup stream on component unmount
     return () => {
         liveStream?.getTracks().forEach(track => track.stop());
     }
@@ -714,7 +715,7 @@ export default function TvStudioPage() {
                                             )}
                                             onClick={() => setPreviewScene(scene)}
                                             >
-                                            <video src={scene.sourceUrl} ref={el => { if (el) el.srcObject = scene.sourceStream!}} className="w-full h-full object-cover" autoPlay muted playsInline />
+                                            <video ref={el => { if (el) el.srcObject = scene.sourceStream!}} className="w-full h-full object-cover" autoPlay muted playsInline />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                                             <p className="absolute bottom-1 left-2 text-xs text-white font-semibold truncate">
                                                 {scene.name}
