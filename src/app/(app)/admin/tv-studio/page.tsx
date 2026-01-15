@@ -17,7 +17,7 @@ type Scene = {
     dataAiHint?: string;
 }
 
-const initialScenes: Scene[] = [
+const scenes: Scene[] = [
     { id: 'cam1', name: 'Main Camera', type: 'video', sourceUrl: 'https://picsum.photos/seed/cam1/1280/720', dataAiHint: 'video camera feed' },
     { id: 'intro', name: 'Intro Video', type: 'video', sourceUrl: 'https://picsum.photos/seed/intro/1280/720', dataAiHint: 'countdown intro' },
     { id: 'logo', name: 'Logo Screen', type: 'image', sourceUrl: PlaceHolderImages.find(p => p.id === 'ministry-logo-1')?.imageUrl || '', dataAiHint: 'ministry logo' },
@@ -114,3 +114,4 @@ export default function TvStudioPage() {
         </div>
     );
 }
+
