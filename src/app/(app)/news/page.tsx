@@ -84,18 +84,25 @@ export default function GlobalNewsPage() {
 
     return (
         <div className="max-w-3xl mx-auto h-[calc(100vh-8rem)] flex flex-col">
-            <Card className="flex flex-col flex-grow">
-                <CardHeader className="bg-[#3B0000] text-white p-3 flex-row items-center gap-3">
-                     {channelAvatar && (
-                        <Avatar className="h-10 w-10">
-                            <AvatarImage src={channelAvatar.imageUrl} alt="News Channel" />
-                            <AvatarFallback>N</AvatarFallback>
-                        </Avatar>
-                     )}
-                     <div>
-                        <CardTitle className="text-lg font-bold">News Channel</CardTitle>
-                        <CardDescription className="text-white/80 text-xs">Official announcements and updates.</CardDescription>
-                     </div>
+            <Card className="flex flex-col flex-grow overflow-hidden">
+                <CardHeader className="p-0">
+                    <div className="relative bg-[#0d1117] p-4 text-white font-sans overflow-hidden">
+                        <div className="relative z-10">
+                            {/* Top Bar */}
+                            <div className="flex h-10">
+                                <div className="bg-gradient-to-r from-gray-400 to-gray-200 h-full flex items-center justify-center px-4 w-28">
+                                    <span className="text-black font-bold text-lg tracking-widest">LIVE</span>
+                                </div>
+                                <div className="bg-white flex-grow h-full flex items-center" style={{ clipPath: 'polygon(0 0, 100% 0, 95% 100%, 0% 100%)' }}>
+                                    <h2 className="text-red-600 font-extrabold text-xl ml-4">NEWS CHANNEL</h2>
+                                </div>
+                            </div>
+                            {/* Bottom Bar */}
+                            <div className="bg-red-700 p-2 mt-1 relative" style={{ clipPath: 'polygon(0 0, 100% 0, 98% 100%, 0% 100%)' }}>
+                                <p className="text-sm text-white">Official announcements and updates.</p>
+                            </div>
+                        </div>
+                    </div>
                 </CardHeader>
 
                 <ScrollArea className="flex-grow p-4 bg-background">
