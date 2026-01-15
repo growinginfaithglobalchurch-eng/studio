@@ -32,6 +32,7 @@ import {
   Bot,
   BookText,
   Newspaper,
+  Cross,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -73,7 +74,7 @@ const initialScenes: Scene[] = [
     dataAiHint: 'ministry logo',
   },
   {
-    id: 'scripture',
+    id: 'scripture-bg',
     name: 'Scripture Graphic',
     type: 'image',
     sourceUrl: 'https://picsum.photos/seed/scripture/1280/720',
@@ -132,6 +133,28 @@ const initialScenes: Scene[] = [
 
 const videoPlaylist = initialScenes.filter(s => s.type === 'video').slice(0,4);
 
+type Scripture = {
+    reference: string;
+    text: string;
+};
+
+const ScriptureOverlay = ({ scripture }: { scripture: Scripture }) => (
+    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-3/4 max-w-4xl text-white font-sans z-20">
+        <div className="relative bg-gradient-to-r from-zinc-200 to-zinc-50 p-2 text-black shadow-lg" style={{ clipPath: 'polygon(0 0, 100% 0, 98% 100%, 0% 100%)' }}>
+            <div className="flex items-center">
+                <div className="bg-primary text-primary-foreground font-bold px-4 py-1 text-lg">
+                    SCRIPTURE
+                </div>
+                <h3 className="ml-4 font-bold text-xl text-black">{scripture.reference}</h3>
+            </div>
+        </div>
+        <div className="relative -mt-1 bg-primary text-primary-foreground p-4 shadow-lg" style={{ clipPath: 'polygon(2% 0, 100% 0, 100% 100%, 0% 100%)' }}>
+            <p className="italic text-lg">{scripture.text}</p>
+        </div>
+    </div>
+);
+
+
 export default function TvStudioPage() {
   const { toast } = useToast();
   const [isLive, setIsLive] = useState(false);
@@ -156,6 +179,24 @@ export default function TvStudioPage() {
   const initialBackground =
     PlaceHolderImages.find((p) => p.id === 'studio-background')?.imageUrl || '';
   const [backgroundUrl, setBackgroundUrl] = useState(initialBackground);
+
+  const [scripture, setScripture] = useState<Scripture>({
+    reference: "John 3:16",
+    text: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."
+  });
+  const [showScriptureOverlay, setShowScriptureOverlay] = useState(false);
+  
+  const handleGenerateScripture = () => {
+    // In a real app, this would fetch a random scripture.
+    const scriptures = [
+      { reference: "Philippians 4:13", text: "I can do all things through him who strengthens me." },
+      { reference: "Proverbs 3:5-6", text: "Trust in the Lord with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths." },
+      { reference: "Jeremiah 29:11", text: "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope." },
+    ];
+    setScripture(scriptures[Math.floor(Math.random() * scriptures.length)]);
+    toast({ title: "New scripture generated!" });
+  };
+
 
  useEffect(() => {
     const getCameraPermission = async () => {
@@ -283,7 +324,7 @@ export default function TvStudioPage() {
   }
 
   return (
-    <div className="relative flex flex-col h-full gap-4 text-zinc-100 overflow-hidden">
+    <div className="h-full flex flex-col gap-4 text-zinc-100 overflow-hidden">
       {backgroundUrl && (
         <Image
           src={backgroundUrl}
@@ -380,6 +421,7 @@ export default function TvStudioPage() {
               isLive ? 'border-red-600' : 'border-green-600'
             )}
           >
+            {showScriptureOverlay && <ScriptureOverlay scripture={scripture} />}
             <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
               Source: {programScene?.name || 'None'}
             </div>
@@ -650,15 +692,14 @@ export default function TvStudioPage() {
                   <BookText className="h-5 w-5 text-accent" /> Scripture Automation
                 </h3>
                 <div className="p-3 bg-black/50 rounded-md text-center mb-2">
-                    <p className="italic text-zinc-200">"For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."</p>
-                    <p className="font-bold text-zinc-400 mt-1">John 3:16</p>
+                    <p className="italic text-zinc-200">"{scripture.text}"</p>
+                    <p className="font-bold text-zinc-400 mt-1">{scripture.reference}</p>
                 </div>
-                <div className="flex items-center justify-between">
-                    <Button variant="outline" size="sm">Generate New Scripture</Button>
-                    <div className="flex items-center space-x-2">
-                        <Label htmlFor="scripture-auto" className="text-sm">Auto-Advance</Label>
-                        <Switch id="scripture-auto"/>
-                    </div>
+                <div className="flex items-center justify-between mt-2">
+                    <Button variant="outline" size="sm" onClick={handleGenerateScripture}>Generate New</Button>
+                    <Button variant="outline" size="sm" onClick={() => setShowScriptureOverlay(prev => !prev)}>
+                      {showScriptureOverlay ? 'Hide on Program' : 'Show on Program'}
+                    </Button>
                 </div>
               </div>
                <div className="bg-zinc-800 rounded-lg p-3">
