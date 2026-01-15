@@ -24,7 +24,7 @@ export default function LivePage() {
       <ScrollAnimator>
         <section>
           <h2 className="text-2xl font-headline font-bold mb-4">Live Now</h2>
-          <Link href="https://royallifetelevision.online.church/" target="_blank" rel="noopener noreferrer">
+          <Link href="/live/viewer">
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="grid md:grid-cols-2">
                   <div className="relative">
