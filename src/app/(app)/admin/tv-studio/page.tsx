@@ -159,88 +159,82 @@ export default function TvStudioPage() {
                 </Button>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 h-[65vh]">
-                {/* Program & Preview Monitors */}
-                <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <SceneMonitor scene={previewScene} title="Preview" />
-                    <SceneMonitor scene={programScene} title="Program" isLive={isLive} />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[45vh]">
+                <div className="lg:col-span-5"><SceneMonitor scene={previewScene} title="Preview" /></div>
+                <div className="lg:col-span-2">
+                    <Card className="flex flex-col items-center justify-center h-full">
+                        <CardHeader><CardTitle>Transitions</CardTitle></CardHeader>
+                        <CardContent className="flex flex-col gap-2 w-full">
+                            <Button variant="outline" className="w-full" onClick={() => handleTransition('cut')}>
+                                <MoveRight className="mr-2 h-4 w-4"/> Cut
+                            </Button>
+                            <Button variant="outline" className="w-full" onClick={() => handleTransition('fade')}>
+                                <GitMerge className="mr-2 h-4 w-4"/> Fade
+                            </Button>
+                        </CardContent>
+                    </Card>
                 </div>
+                <div className="lg:col-span-5"><SceneMonitor scene={programScene} title="Program" isLive={isLive} /></div>
+            </div>
 
-                {/* Controls */}
-                <Card className="flex flex-col">
-                     <CardHeader><CardTitle>Controls</CardTitle></CardHeader>
-                     <CardContent className="flex-grow flex flex-col justify-between">
-                         <div>
-                            <Label className="text-xs font-semibold text-muted-foreground">Transitions</Label>
-                            <div className="flex gap-2 mt-1">
-                                <Button variant="outline" className="flex-1" onClick={() => handleTransition('cut')}>
-                                    <MoveRight className="mr-2 h-4 w-4"/> Cut
-                                </Button>
-                                <Button variant="outline" className="flex-1" onClick={() => handleTransition('fade')}>
-                                    <GitMerge className="mr-2 h-4 w-4"/> Fade
-                                </Button>
-                            </div>
-                         </div>
-                         <div className="mt-4">
-                             <Label className="text-xs font-semibold text-muted-foreground">Audio Mixer</Label>
-                             <div className="space-y-3 mt-1">
-                                {audioSources.map(source => (
-                                    <div key={source.id} className="flex items-center gap-3">
-                                        <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handleMuteToggle(source.id)}>
-                                            {source.isMuted ? <VolumeX className="h-4 w-4 text-destructive" /> : <Volume2 className="h-4 w-4" />}
-                                        </Button>
-                                        <div className="flex-grow">
-                                            <Label className="text-xs text-muted-foreground">{source.name}</Label>
-                                            <Slider value={[source.volume]} max={100} step={1} onValueChange={(val) => handleVolumeChange(source.id, val)} disabled={source.isMuted}/>
-                                        </div>
-                                        <span className="text-xs font-mono w-8">{source.isMuted ? 'MUTED' : `${source.volume}%`}</span>
-                                    </div>
-                                ))}
-                            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                <Card className="lg:col-span-8">
+                    <CardHeader>
+                        <div className="flex justify-between items-center">
+                            <CardTitle>Inputs</CardTitle>
+                            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                                <DialogTrigger asChild>
+                                    <Button>
+                                        <PlusCircle className="mr-2 h-4 w-4" /> Add Input
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader><DialogTitle>Add New Input Source</DialogTitle></DialogHeader>
+                                    <form onSubmit={handleAddScene} className="space-y-4">
+                                        <div className="space-y-2"><Label>Input Name</Label><Input value={newScene.name} onChange={(e) => setNewScene({...newScene, name: e.target.value})} placeholder="e.g., Guest Camera" /></div>
+                                        <div className="space-y-2"><Label>Source URL</Label><Input value={newScene.sourceUrl} onChange={(e) => setNewScene({...newScene, sourceUrl: e.target.value})} placeholder="https://..." /></div>
+                                        <Button type="submit" className="w-full">Add Input</Button>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
                         </div>
-                     </CardContent>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {scenes.map(scene => (
+                            <div key={scene.id} className="relative group">
+                                <AspectRatio ratio={16/9} className={cn("bg-black rounded-md overflow-hidden border-2 cursor-pointer", 
+                                    previewScene.id === scene.id && "border-green-500",
+                                    programScene.id === scene.id && "border-destructive"
+                                    )} onClick={() => handleSceneToPreview(scene)}>
+                                    {scene.type === 'image' ? <Image src={scene.sourceUrl} alt={scene.name} fill className="object-contain" /> : <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover" />}
+                                    <div className="absolute bottom-0 left-0 right-0 p-1 bg-black/50 text-white text-xs text-center truncate">{scene.name}</div>
+                                </AspectRatio>
+                                <Button size="icon" variant="destructive" className="absolute -top-2 -right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => { e.stopPropagation(); handleDeleteScene(scene.id); }}>
+                                    <Trash2 className="h-3 w-3"/>
+                                </Button>
+                            </div>
+                        ))}
+                    </CardContent>
+                </Card>
+                 <Card className="lg:col-span-4">
+                    <CardHeader><CardTitle>Audio Mixer</CardTitle></CardHeader>
+                    <CardContent className="space-y-4">
+                       {audioSources.map(source => (
+                           <div key={source.id} className="flex items-center gap-3">
+                               <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handleMuteToggle(source.id)}>
+                                   {source.isMuted ? <VolumeX className="h-4 w-4 text-destructive" /> : <Volume2 className="h-4 w-4" />}
+                               </Button>
+                               <div className="flex-grow">
+                                   <Label className="text-xs text-muted-foreground">{source.name}</Label>
+                                   <Slider value={[source.volume]} max={100} step={1} onValueChange={(val) => handleVolumeChange(source.id, val)} disabled={source.isMuted}/>
+                               </div>
+                               <span className="text-xs font-mono w-8">{source.isMuted ? 'MUTED' : `${source.volume}%`}</span>
+                           </div>
+                       ))}
+                   </CardContent>
                 </Card>
             </div>
 
-            {/* Input Grid */}
-            <Card>
-                <CardHeader>
-                     <div className="flex justify-between items-center">
-                        <CardTitle>Inputs</CardTitle>
-                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                            <DialogTrigger asChild>
-                                <Button>
-                                    <PlusCircle className="mr-2 h-4 w-4" /> Add Input
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader><DialogTitle>Add New Input Source</DialogTitle></DialogHeader>
-                                <form onSubmit={handleAddScene} className="space-y-4">
-                                    <div className="space-y-2"><Label>Input Name</Label><Input value={newScene.name} onChange={(e) => setNewScene({...newScene, name: e.target.value})} placeholder="e.g., Guest Camera" /></div>
-                                    <div className="space-y-2"><Label>Source URL</Label><Input value={newScene.sourceUrl} onChange={(e) => setNewScene({...newScene, sourceUrl: e.target.value})} placeholder="https://..." /></div>
-                                    <Button type="submit" className="w-full">Add Input</Button>
-                                </form>
-                            </DialogContent>
-                        </Dialog>
-                    </div>
-                </CardHeader>
-                <CardContent className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    {scenes.map(scene => (
-                        <div key={scene.id} className="relative group">
-                            <AspectRatio ratio={16/9} className={cn("bg-black rounded-md overflow-hidden border-2 cursor-pointer", 
-                                previewScene.id === scene.id && "border-green-500",
-                                programScene.id === scene.id && "border-destructive"
-                                )} onClick={() => handleSceneToPreview(scene)}>
-                                {scene.type === 'image' ? <Image src={scene.sourceUrl} alt={scene.name} fill className="object-contain" /> : <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover" />}
-                                <div className="absolute bottom-0 left-0 right-0 p-1 bg-black/50 text-white text-xs text-center truncate">{scene.name}</div>
-                            </AspectRatio>
-                            <Button size="icon" variant="destructive" className="absolute -top-2 -right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => { e.stopPropagation(); handleDeleteScene(scene.id); }}>
-                                <Trash2 className="h-3 w-3"/>
-                            </Button>
-                        </div>
-                    ))}
-                </CardContent>
-            </Card>
         </div>
     );
 }
