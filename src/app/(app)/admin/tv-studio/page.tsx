@@ -215,7 +215,7 @@ export default function TvStudioPage() {
   );
 
   return (
-    <div className="relative flex flex-col h-full gap-4 -m-4 md:-m-6 p-4 text-zinc-100">
+    <div className="relative flex flex-col h-full gap-4 text-zinc-100 -m-4 md:-m-6 p-4">
       {backgroundUrl && (
         <Image
           src={backgroundUrl}
@@ -292,7 +292,6 @@ export default function TvStudioPage() {
           </div>
         </div>
         
-        {/* Professional Transition Control Panel */}
         <div className="flex flex-col items-center justify-start gap-2 w-28">
             <div className="grid grid-cols-[1fr_16px] gap-2 w-full">
                 <div className="space-y-1.5 flex flex-col">
@@ -372,7 +371,7 @@ export default function TvStudioPage() {
         </div>
       </main>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-grow min-h-0">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-grow min-h-0 overflow-y-auto">
         <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex flex-col backdrop-blur-sm">
           <div className="flex justify-between items-center pb-2 border-b border-zinc-700 mb-2">
             <h2 className="text-lg font-bold flex items-center gap-2 text-zinc-100">
