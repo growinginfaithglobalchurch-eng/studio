@@ -205,6 +205,7 @@ export default function TvStudioPage() {
   const previewVideoRef = useRef<HTMLVideoElement>(null);
   const programVideoRef = useRef<HTMLVideoElement>(null);
   const cameraPreviewRef = useRef<HTMLVideoElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [audioLevel, setAudioLevel] = useState(75);
   const [streamTime, setStreamTime] = useState(0);
@@ -341,6 +342,28 @@ export default function TvStudioPage() {
     }
   };
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const fileType = file.type.startsWith('video/') ? 'video' : 'image';
+    const newScene: Scene = {
+      id: `local-${Date.now()}`,
+      name: file.name,
+      type: fileType,
+      sourceUrl: URL.createObjectURL(file),
+      dataAiHint: 'custom upload',
+    };
+
+    setScenes(prev => [newScene, ...prev]);
+    setPreviewScene(newScene);
+
+    toast({
+      title: 'Upload Successful',
+      description: `"${file.name}" has been added to your scenes.`,
+    });
+  };
+
   const TransitionButton = ({ label, shortcut }: { label: string, shortcut?: string }) => (
     <Button
       variant="outline"
@@ -356,6 +379,9 @@ export default function TvStudioPage() {
     if (!scene) return null;
     if (scene.type === 'live' && scene.sourceStream) {
       return <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />;
+    }
+    if (scene.type === 'video') {
+       return <video ref={videoRef} src={scene.sourceUrl} className="w-full h-full object-cover" autoPlay loop muted playsInline />;
     }
     return <Image src={scene.sourceUrl || ''} alt={scene.name} fill className="object-cover" data-ai-hint={scene.dataAiHint} />;
   }
@@ -489,7 +515,8 @@ export default function TvStudioPage() {
               <Clapperboard /> Media Manager
             </h2>
             <div className="flex items-center gap-4">
-              <Button variant="outline" size="sm">
+              <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*,video/*" className="hidden" />
+              <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
                 <Upload className="mr-2 h-4 w-4" /> Upload
               </Button>
               <div className="flex items-center space-x-2">
@@ -796,7 +823,9 @@ export default function TvStudioPage() {
                   <Input placeholder="Subtitle (e.g., Lead Pastor)" value={lowerThirdData.subtitle} onChange={(e) => setLowerThirdData(d => ({ ...d, subtitle: e.target.value }))} className="bg-zinc-900 text-white border-zinc-700"/>
                 </div>
                  <div className="flex items-center justify-between mt-2">
-                    <Button variant="outline" size="sm" onClick={() => setShowLowerThird(true)}>Show Lower Third</Button>
+                    <Button variant="outline" size="sm" onClick={() => setShowLowerThird(!showLowerThird)}>
+                      {showLowerThird ? 'Hide Lower Third' : 'Show Lower Third'}
+                    </Button>
                     <div className="flex items-center space-x-2">
                         <Switch id="lowerthird-onair" checked={showLowerThird} onCheckedChange={setShowLowerThird} />
                         <Label htmlFor="lowerthird-onair" className="text-sm">On Air</Label>
