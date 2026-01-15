@@ -27,6 +27,7 @@ import {
   AudioLines,
   Shuffle,
   PictureInPicture2,
+  AlertCircle,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -37,23 +38,18 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 type Scene = {
   id: string;
   name: string;
   type: 'image' | 'video' | 'live';
-  sourceUrl: string;
+  sourceUrl?: string;
+  sourceStream?: MediaStream;
   dataAiHint?: string;
 };
 
-const scenes: Scene[] = [
-  {
-    id: 'cam1',
-    name: 'Main Camera',
-    type: 'video',
-    sourceUrl: 'https://picsum.photos/seed/cam1/1280/720',
-    dataAiHint: 'video camera feed',
-  },
+const initialScenes: Scene[] = [
   {
     id: 'intro',
     name: 'Intro Video',
@@ -106,13 +102,6 @@ const scenes: Scene[] = [
     dataAiHint: 'abstract background',
   },
   {
-    id: 'cam2',
-    name: 'Side Camera',
-    type: 'video',
-    sourceUrl: 'https://picsum.photos/seed/cam2/1280/720',
-    dataAiHint: 'video camera feed',
-  },
-  {
     id: 'waiting',
     name: 'Waiting Screen',
     type: 'image',
@@ -138,13 +127,19 @@ const scenes: Scene[] = [
 export default function TvStudioPage() {
   const { toast } = useToast();
   const [isLive, setIsLive] = useState(false);
+  const [hasCameraPermission, setHasCameraPermission] = useState(false);
+  const [liveStream, setLiveStream] = useState<MediaStream | null>(null);
 
-  const [previewScene, setPreviewScene] = useState<Scene | null>(
-    scenes[0] || null
-  );
+  const [scenes, setScenes] = useState<Scene[]>(initialScenes);
+
+  const [previewScene, setPreviewScene] = useState<Scene | null>(null);
   const [programScene, setProgramScene] = useState<Scene | null>(
-    scenes[4] || null
+    scenes.find(s => s.id === 'game') || null
   );
+
+  const previewVideoRef = useRef<HTMLVideoElement>(null);
+  const programVideoRef = useRef<HTMLVideoElement>(null);
+  const cameraPreviewRef = useRef<HTMLVideoElement>(null);
 
   const [audioLevel, setAudioLevel] = useState(75);
   const [streamTime, setStreamTime] = useState(0);
@@ -153,6 +148,51 @@ export default function TvStudioPage() {
   const initialBackground =
     PlaceHolderImages.find((p) => p.id === 'studio-background')?.imageUrl || '';
   const [backgroundUrl, setBackgroundUrl] = useState(initialBackground);
+
+ useEffect(() => {
+    const getCameraPermission = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        setHasCameraPermission(true);
+        setLiveStream(stream);
+
+        const cameraScene: Scene = {
+            id: 'cam1',
+            name: 'Main Camera',
+            type: 'live',
+            sourceStream: stream
+        };
+        const sideCameraScene: Scene = {
+            id: 'cam2',
+            name: 'Side Camera',
+            type: 'live',
+            sourceStream: stream
+        };
+        setScenes(prev => [cameraScene, sideCameraScene, ...prev]);
+        setPreviewScene(cameraScene);
+
+        if (cameraPreviewRef.current) {
+          cameraPreviewRef.current.srcObject = stream;
+        }
+
+      } catch (error) {
+        console.error('Error accessing camera:', error);
+        setHasCameraPermission(false);
+        setPreviewScene(initialScenes[0]);
+        toast({
+          variant: 'destructive',
+          title: 'Camera Access Denied',
+          description: 'Please enable camera permissions to use live camera feeds.',
+        });
+      }
+    };
+    getCameraPermission();
+
+    return () => {
+        liveStream?.getTracks().forEach(track => track.stop());
+    }
+  }, [toast]);
+
 
   useEffect(() => {
     const audioInterval = setInterval(() => {
@@ -181,6 +221,18 @@ export default function TvStudioPage() {
     }
     return () => clearInterval(timer);
   }, [isLive]);
+  
+  useEffect(() => {
+    if (previewVideoRef.current && previewScene?.type === 'live' && previewScene.sourceStream) {
+      previewVideoRef.current.srcObject = previewScene.sourceStream;
+    }
+  }, [previewScene]);
+  
+  useEffect(() => {
+    if (programVideoRef.current && programScene?.type === 'live' && programScene.sourceStream) {
+      programVideoRef.current.srcObject = programScene.sourceStream;
+    }
+  }, [programScene]);
 
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600)
@@ -213,6 +265,14 @@ export default function TvStudioPage() {
       {shortcut && <span className="text-xs text-zinc-400">{shortcut}</span>}
     </Button>
   );
+
+  const renderScene = (scene: Scene | null, videoRef: React.RefObject<HTMLVideoElement>, isPreview = false) => {
+    if (!scene) return null;
+    if (scene.type === 'live' && scene.sourceStream) {
+      return <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />;
+    }
+    return <Image src={scene.sourceUrl || ''} alt={scene.name} fill className="object-cover" data-ai-hint={scene.dataAiHint} />;
+  }
 
   return (
     <div className="relative flex flex-col h-full gap-4 text-zinc-100 -m-4 md:-m-6 p-4 overflow-hidden">
@@ -258,15 +318,7 @@ export default function TvStudioPage() {
             <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
               Source: {previewScene?.name || 'None'}
             </div>
-            {previewScene && (
-              <Image
-                src={previewScene.sourceUrl}
-                alt={previewScene.name}
-                fill
-                className="object-cover"
-                data-ai-hint={previewScene.dataAiHint}
-              />
-            )}
+            {renderScene(previewScene, previewVideoRef, true)}
           </div>
         </div>
         
@@ -323,23 +375,11 @@ export default function TvStudioPage() {
             <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
               Source: {programScene?.name || 'None'}
             </div>
-            {programScene && (
-              <Image
-                src={programScene.sourceUrl}
-                alt={programScene.name}
-                fill
-                className="object-cover"
-                data-ai-hint={programScene.dataAiHint}
-              />
-            )}
-            {programScene?.id === 'game' && previewScene?.id === 'cam1' && (
+             {renderScene(programScene, programVideoRef)}
+            
+            {programScene?.id === 'game' && previewScene?.id === 'cam1' && previewScene.sourceStream && (
               <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary shadow-lg">
-                <Image
-                  src={previewScene.sourceUrl}
-                  alt={previewScene.name}
-                  fill
-                  className="object-cover"
-                />
+                <video src={previewScene.sourceUrl} autoPlay muted playsInline className="w-full h-full object-cover" />
                 <div className="absolute inset-0 border-2 border-primary/50 flex items-center justify-center">
                   <PictureInPicture2 className="h-6 w-6 text-white/50" />
                 </div>
@@ -360,7 +400,7 @@ export default function TvStudioPage() {
                 <Upload className="mr-2 h-4 w-4" /> Upload
               </Button>
               <div className="flex items-center space-x-2">
-                <Switch id="live-cameras" />
+                <Switch id="live-cameras" checked={hasCameraPermission} disabled={!hasCameraPermission}/>
                 <Label htmlFor="live-cameras" className="text-sm text-zinc-300">
                   Use Live Cameras
                 </Label>
@@ -404,7 +444,7 @@ export default function TvStudioPage() {
             >
               <ScrollArea className="h-full">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pr-4">
-                  {scenes.map((scene) => (
+                  {scenes.filter(s => s.type !== 'live').map((scene) => (
                     <button
                       key={scene.id}
                       className={cn(
@@ -416,7 +456,7 @@ export default function TvStudioPage() {
                       onClick={() => setPreviewScene(scene)}
                     >
                       <Image
-                        src={scene.sourceUrl}
+                        src={scene.sourceUrl || ''}
                         alt={scene.name}
                         fill
                         className="object-cover"
@@ -429,6 +469,43 @@ export default function TvStudioPage() {
                   ))}
                 </div>
               </ScrollArea>
+            </TabsContent>
+            <TabsContent
+                value="cameras"
+                className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0"
+            >
+                 <ScrollArea className="h-full">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pr-4">
+                        {hasCameraPermission ? scenes.filter(s => s.type === 'live').map(scene => (
+                             <button
+                                key={scene.id}
+                                className={cn(
+                                    'aspect-video bg-black rounded-md relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900',
+                                    previewScene?.id === scene.id
+                                    ? 'ring-2 ring-orange-500'
+                                    : 'ring-1 ring-zinc-700 hover:ring-orange-500'
+                                )}
+                                onClick={() => setPreviewScene(scene)}
+                                >
+                                <video ref={cameraPreviewRef} className="w-full h-full object-cover" autoPlay muted playsInline />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                <p className="absolute bottom-1 left-2 text-xs text-white font-semibold truncate">
+                                    {scene.name}
+                                </p>
+                            </button>
+                        )) : (
+                            <div className="col-span-full">
+                                <Alert variant="destructive">
+                                    <AlertCircle className="h-4 w-4" />
+                                    <AlertTitle>No Camera Access</AlertTitle>
+                                    <AlertDescription>
+                                        Please grant camera permissions in your browser to use this feature.
+                                    </AlertDescription>
+                                </Alert>
+                            </div>
+                        )}
+                    </div>
+                 </ScrollArea>
             </TabsContent>
           </Tabs>
         </div>
