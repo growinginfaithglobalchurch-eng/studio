@@ -270,7 +270,7 @@ export default function TvStudioPage() {
         </Button>
       </header>
 
-      <main className="grid grid-cols-[1fr_auto_1fr] gap-4">
+      <main className="grid grid-cols-[1fr_auto_1fr] gap-4 shrink-0">
         <div className="flex flex-col min-h-0">
           <div className="bg-orange-500 text-white font-bold text-sm p-1 px-2 flex justify-between items-center rounded-t-md">
             <span>PREVIEW</span>
