@@ -101,10 +101,10 @@ export default function TvStudioPage() {
     };
     
     return (
-        <div className="flex flex-col h-full gap-4 -m-4 md:-m-6 p-4 bg-background text-foreground">
+        <div className="flex flex-col h-full gap-4 -m-4 md:-m-6 p-4 bg-zinc-900 text-zinc-100">
             {/* Header */}
             <header className="flex items-center justify-between shrink-0">
-                <h1 className="text-xl font-headline font-bold flex items-center gap-2 text-foreground">
+                <h1 className="text-xl font-headline font-bold flex items-center gap-2">
                     <Tv className="h-6 w-6 text-accent" />
                     Royal Life TV Studio
                 </h1>
@@ -132,7 +132,7 @@ export default function TvStudioPage() {
                 <div className="flex flex-col items-center justify-center gap-2">
                      <Button variant="outline" size="sm" onClick={() => handleTransition('cut')}>CUT</Button>
                      <Button variant="outline" size="sm" onClick={() => handleTransition('fade')}>FADE</Button>
-                     <div className="w-2 h-full min-h-24 bg-card rounded-full overflow-hidden relative mt-4">
+                     <div className="w-2 h-full min-h-24 bg-zinc-800 rounded-full overflow-hidden relative mt-4">
                          <div className="bg-green-500 w-full absolute bottom-0 transition-all duration-300" style={{height: `${audioLevel}%`}}></div>
                      </div>
                 </div>
@@ -161,86 +161,86 @@ export default function TvStudioPage() {
             {/* Control Panels */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-grow min-h-0">
                 {/* Media Manager */}
-                <div className="bg-card rounded-lg p-4 flex flex-col">
-                    <div className="flex justify-between items-center pb-2 border-b mb-2">
-                        <h2 className="text-lg font-bold flex items-center gap-2 text-card-foreground"><Clapperboard /> Media Manager</h2>
+                <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex flex-col">
+                    <div className="flex justify-between items-center pb-2 border-b border-zinc-700 mb-2">
+                        <h2 className="text-lg font-bold flex items-center gap-2 text-zinc-100"><Clapperboard /> Media Manager</h2>
                         <div className="flex items-center gap-4">
-                            <Button variant="outline" size="sm" className="text-white"><Upload className="mr-2 h-4 w-4"/> Upload</Button>
+                            <Button variant="outline" size="sm"><Upload className="mr-2 h-4 w-4"/> Upload</Button>
                              <div className="flex items-center space-x-2">
                                 <Switch id="live-cameras" />
-                                <Label htmlFor="live-cameras" className="text-sm text-card-foreground">Use Live Cameras</Label>
+                                <Label htmlFor="live-cameras" className="text-sm text-zinc-300">Use Live Cameras</Label>
                             </div>
                         </div>
                     </div>
                      <Tabs defaultValue="scenes" className="flex flex-col flex-grow">
-                        <TabsList className="text-card-foreground">
-                            <TabsTrigger value="scenes"><FileImage className="mr-2 h-4 w-4"/>Scenes</TabsTrigger>
-                            <TabsTrigger value="cameras"><Camera className="mr-2 h-4 w-4"/>Cameras</TabsTrigger>
-                            <TabsTrigger value="banners"><Video className="mr-2 h-4 w-4"/>Banners</TabsTrigger>
-                            <TabsTrigger value="music"><Music className="mr-2 h-4 w-4"/>Music</TabsTrigger>
+                        <TabsList className="bg-zinc-900 text-zinc-400">
+                            <TabsTrigger value="scenes" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><FileImage className="mr-2 h-4 w-4"/>Scenes</TabsTrigger>
+                            <TabsTrigger value="cameras" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><Camera className="mr-2 h-4 w-4"/>Cameras</TabsTrigger>
+                            <TabsTrigger value="banners" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><Video className="mr-2 h-4 w-4"/>Banners</TabsTrigger>
+                            <TabsTrigger value="music" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><Music className="mr-2 h-4 w-4"/>Music</TabsTrigger>
                         </TabsList>
-                        <TabsContent value="scenes" className="bg-background/50 rounded-b-md p-2 flex-grow min-h-0">
+                        <TabsContent value="scenes" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0">
                            {/* Content for scenes would go here */}
-                           <p className="text-center text-muted-foreground p-8">Scene management UI coming soon.</p>
+                           <p className="text-center text-zinc-500 p-8">Scene management UI coming soon.</p>
                         </TabsContent>
                     </Tabs>
                 </div>
 
                 {/* Broadcast & Control Center */}
-                <div className="bg-card rounded-lg p-4 flex flex-col">
+                <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex flex-col">
                     <Tabs defaultValue="broadcast" className="flex flex-col flex-grow">
-                        <TabsList className="w-full text-card-foreground">
-                            <TabsTrigger value="broadcast">Broadcast</TabsTrigger>
-                            <TabsTrigger value="automation">Automation</TabsTrigger>
-                            <TabsTrigger value="audio">Audio</TabsTrigger>
-                            <TabsTrigger value="graphics">Graphics</TabsTrigger>
-                            <TabsTrigger value="newsroom">Newsroom</TabsTrigger>
-                            <TabsTrigger value="database">Database</TabsTrigger>
+                        <TabsList className="w-full grid grid-cols-6 bg-zinc-900 text-zinc-400">
+                            <TabsTrigger value="broadcast" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Broadcast</TabsTrigger>
+                            <TabsTrigger value="automation" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Automation</TabsTrigger>
+                            <TabsTrigger value="audio" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Audio</TabsTrigger>
+                            <TabsTrigger value="graphics" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Graphics</TabsTrigger>
+                            <TabsTrigger value="newsroom" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Newsroom</TabsTrigger>
+                            <TabsTrigger value="database" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Database</TabsTrigger>
                         </TabsList>
-                         <TabsContent value="broadcast" className="bg-background/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4">
+                         <TabsContent value="broadcast" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4">
                             {/* Broadcast Controls */}
-                            <div className="bg-card rounded-lg p-3">
-                                <h3 className="font-bold flex items-center gap-2 mb-2 text-card-foreground"><Radio className="h-5 w-5"/> Broadcast Controls</h3>
+                            <div className="bg-zinc-800 rounded-lg p-3">
+                                <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100"><Radio className="h-5 w-5"/> Broadcast Controls</h3>
                                 <div className="space-y-2 text-sm">
-                                    <div className="flex justify-between items-center bg-secondary p-2 rounded">
-                                        <div className="flex items-center gap-2 text-foreground">
-                                            <div className={cn("h-2 w-2 rounded-full", isLive ? "bg-green-500 animate-pulse" : "bg-muted-foreground")}></div>
+                                    <div className="flex justify-between items-center bg-zinc-900 p-2 rounded">
+                                        <div className="flex items-center gap-2 text-zinc-300">
+                                            <div className={cn("h-2 w-2 rounded-full", isLive ? "bg-green-500 animate-pulse" : "bg-zinc-500")}></div>
                                             <span>{isLive ? 'ONLINE' : 'OFFLINE'}</span>
                                         </div>
-                                        <span className="font-mono text-foreground">{formatTime(streamTime)}</span>
+                                        <span className="font-mono text-zinc-300">{formatTime(streamTime)}</span>
                                     </div>
-                                    <div className="flex justify-between items-center bg-secondary p-2 rounded">
-                                        <div className="flex items-center gap-2 text-foreground">
-                                            <div className="h-2 w-2 rounded-full bg-muted-foreground"></div>
+                                    <div className="flex justify-between items-center bg-zinc-900 p-2 rounded">
+                                        <div className="flex items-center gap-2 text-zinc-300">
+                                            <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
                                             <span>NOT RECORDING</span>
                                         </div>
-                                        <span className="font-mono text-foreground">00:00:00</span>
+                                        <span className="font-mono text-zinc-300">00:00:00</span>
                                     </div>
                                     <div className="grid grid-cols-2 gap-2 pt-2">
-                                        <Button variant="outline" className="text-white">Start Stream</Button>
-                                        <Button variant="outline" className="text-white">Start Record</Button>
+                                        <Button variant="outline">Start Stream</Button>
+                                        <Button variant="outline">Start Record</Button>
                                     </div>
                                 </div>
                             </div>
                             {/* Multistream */}
-                            <div className="bg-card rounded-lg p-3">
-                                <h3 className="font-bold flex items-center gap-2 mb-2 text-card-foreground"><Shuffle className="h-5 w-5"/> Multistream</h3>
-                                <p className="text-xs text-muted-foreground mb-4">Stream to multiple platforms at once.</p>
+                            <div className="bg-zinc-800 rounded-lg p-3">
+                                <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100"><Shuffle className="h-5 w-5"/> Multistream</h3>
+                                <p className="text-xs text-zinc-400 mb-4">Stream to multiple platforms at once.</p>
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2 text-foreground"><Youtube className="h-5 w-5 text-red-600"/><span>YouTube</span></div>
-                                        <div className="flex items-center gap-2 text-xs text-foreground"><div className="h-2 w-2 rounded-full bg-muted-foreground"></div>Offline <Switch/></div>
+                                        <div className="flex items-center gap-2 text-zinc-100"><Youtube className="h-5 w-5 text-red-600"/><span>YouTube</span></div>
+                                        <div className="flex items-center gap-2 text-xs text-zinc-300"><div className="h-2 w-2 rounded-full bg-zinc-500"></div>Offline <Switch/></div>
                                     </div>
                                      <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2 text-foreground"><Facebook className="h-5 w-5 text-blue-600"/><span>Facebook</span></div>
-                                        <div className="flex items-center gap-2 text-xs text-foreground"><div className="h-2 w-2 rounded-full bg-muted-foreground"></div>Offline <Switch/></div>
+                                        <div className="flex items-center gap-2 text-zinc-100"><Facebook className="h-5 w-5 text-blue-600"/><span>Facebook</span></div>
+                                        <div className="flex items-center gap-2 text-xs text-zinc-300"><div className="h-2 w-2 rounded-full bg-zinc-500"></div>Offline <Switch/></div>
                                     </div>
                                      <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2 text-foreground"><Twitch className="h-5 w-5 text-purple-600"/><span>Twitch</span></div>
-                                        <div className="flex items-center gap-2 text-xs text-foreground"><div className="h-2 w-2 rounded-full bg-muted-foreground"></div>Offline <Switch/></div>
+                                        <div className="flex items-center gap-2 text-zinc-100"><Twitch className="h-5 w-5 text-purple-600"/><span>Twitch</span></div>
+                                        <div className="flex items-center gap-2 text-xs text-zinc-300"><div className="h-2 w-2 rounded-full bg-zinc-500"></div>Offline <Switch/></div>
                                     </div>
                                 </div>
-                                 <Button variant="ghost" className="w-full mt-4 text-xs text-muted-foreground"><Plus className="mr-2 h-4 w-4"/> Add Custom RTMP</Button>
+                                 <Button variant="ghost" className="w-full mt-4 text-xs text-zinc-400 hover:bg-zinc-700 hover:text-zinc-100"><Plus className="mr-2 h-4 w-4"/> Add Custom RTMP</Button>
                             </div>
                         </TabsContent>
                     </Tabs>
