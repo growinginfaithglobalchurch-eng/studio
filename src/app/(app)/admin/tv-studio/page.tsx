@@ -141,10 +141,7 @@ type Scripture = {
 const ScriptureOverlay = ({ scripture }: { scripture: Scripture }) => (
     <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[80%] max-w-4xl text-white font-sans z-20">
       <div className="relative h-10">
-        {/* Red top bar */}
         <div className="absolute top-0 left-0 h-1.5 w-full bg-red-700"></div>
-
-        {/* Silver "SCRIPTURE" box */}
         <div 
           className="absolute left-0 top-1.5 h-[calc(100%-0.375rem)] w-32 bg-gradient-to-b from-gray-300 to-gray-400 flex items-center justify-center"
           style={{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)' }}
@@ -152,7 +149,6 @@ const ScriptureOverlay = ({ scripture }: { scripture: Scripture }) => (
           <span className="text-black text-sm font-bold tracking-wider">SCRIPTURE</span>
         </div>
 
-        {/* White reference box */}
         <div className="absolute left-[7.5rem] top-1.5 h-[calc(100%-0.375rem)] w-[calc(100%-7.5rem)] bg-white">
             <div className="absolute right-0 top-0 w-8 h-full bg-transparent" style={{
               clipPath: 'polygon(100% 0, 100% 100%, 0 100%)',
@@ -166,7 +162,6 @@ const ScriptureOverlay = ({ scripture }: { scripture: Scripture }) => (
         </div>
       </div>
 
-      {/* Red text box */}
       <div 
         className="relative -mt-1 bg-red-800 p-4 pl-8 text-white text-lg italic"
         style={{ clipPath: 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)' }}
