@@ -50,6 +50,7 @@ export default function LiveViewerPage() {
           alt="Studio Background"
           fill
           className="object-cover -z-10"
+          data-ai-hint={studioBackground.imageHint}
         />
       )}
       <div className="absolute inset-0 bg-black/60 -z-10" />
@@ -83,6 +84,7 @@ export default function LiveViewerPage() {
                     alt="Live Program Output"
                     fill
                     className="object-cover"
+                    data-ai-hint={programOutput.imageHint}
                     />
                 )}
                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -125,7 +127,7 @@ export default function LiveViewerPage() {
                 </div>
                 <div className="flex gap-2">
                     <Avatar className="w-9 h-9">
-                        {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt="You" />}
+                        {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt="You" data-ai-hint={userAvatar.imageHint} />}
                         <AvatarFallback>Y</AvatarFallback>
                     </Avatar>
                     <Input 
