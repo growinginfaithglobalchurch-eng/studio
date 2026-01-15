@@ -1,21 +1,16 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
-import { Tv, Video, Power, Image as ImageIcon, PlusCircle, Trash2, GitMerge, MoveRight, Radio, Camera, Film, Upload, SlidersHorizontal, Music, Clapperboard, Newspaper, Database, Rss, Play, Circle } from 'lucide-react';
+import { Tv, GitMerge, MoveRight, Camera, Film, Upload, SlidersHorizontal, Radio, Play, Circle, Power } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { cn } from '@/lib/utils';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Switch } from '@/components/ui/switch';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Slider } from '@/components/ui/slider';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 type Scene = {
     id: string;
@@ -31,6 +26,9 @@ const initialScenes: Scene[] = [
     { id: 'logo', name: 'Logo Screen', type: 'image', sourceUrl: PlaceHolderImages.find(p => p.id === 'ministry-logo-1')?.imageUrl || '', dataAiHint: 'ministry logo' },
     { id: 'scripture', name: 'Scripture Graphic', type: 'image', sourceUrl: 'https://picsum.photos/seed/scripture/1280/720', dataAiHint: 'bible scripture' },
     { id: 'game', name: 'Game Feed', type: 'video', sourceUrl: 'https://picsum.photos/seed/game/1280/720', dataAiHint: 'space shooter game' },
+    { id: 'guest', name: 'Guest Speaker Cam', type: 'video', sourceUrl: 'https://picsum.photos/seed/guest/1280/720', dataAiHint: 'remote speaker feed' },
+    { id: 'outro', name: 'Outro Bumper', type: 'video', sourceUrl: 'https://picsum.photos/seed/outro/1280/720', dataAiHint: 'outro video' },
+    { id: 'lowerthird', name: 'Lower Third BG', type: 'image', sourceUrl: 'https://picsum.photos/seed/lowerthird/1280/720', dataAiHint: 'abstract background' },
 ];
 
 export default function TvStudioPage() {
@@ -38,13 +36,18 @@ export default function TvStudioPage() {
     const [isLive, setIsLive] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const [scenes, setScenes] = useState(initialScenes);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [newScene, setNewScene] = useState({ name: '', type: 'image' as 'image' | 'video', sourceUrl: '' });
-
+    
     const [previewScene, setPreviewScene] = useState<Scene | null>(scenes[0] || null);
     const [programScene, setProgramScene] = useState<Scene | null>(scenes[4] || null);
-    
-    const [useLiveCameras, setUseLiveCameras] = useState(false);
+
+    const [audioLevel, setAudioLevel] = useState(75);
+
+     useEffect(() => {
+        const interval = setInterval(() => {
+            setAudioLevel(Math.floor(Math.random() * 100));
+        }, 300);
+        return () => clearInterval(interval);
+    }, []);
 
     const handleTransition = (type: 'cut' | 'fade') => {
         if (previewScene) {
@@ -55,163 +58,102 @@ export default function TvStudioPage() {
             });
         }
     };
-    
-    const handleAddScene = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!newScene.name || !newScene.sourceUrl) {
-            toast({ variant: 'destructive', title: 'Missing fields' });
-            return;
-        }
-        const sceneToAdd: Scene = { id: `scene-${Date.now()}`, ...newScene, type: newScene.type };
-        setScenes(prev => [...prev, sceneToAdd]);
-        setNewScene({ name: '', type: 'image', sourceUrl: '' });
-        setIsDialogOpen(false);
-        toast({ title: 'Scene Added', description: `"${sceneToAdd.name}" is now available.` });
-    };
 
     return (
-        <div className="space-y-4">
-             <h1 className="text-2xl font-headline font-bold text-foreground flex items-center gap-2">
-                <Tv className="h-6 w-6 text-accent" />
-                Royal Life TV Studio
-            </h1>
+        <div className="h-full flex flex-col bg-background text-white -m-4 md:-m-6">
+            <header className="flex items-center justify-between p-2 border-b border-border bg-card shrink-0">
+                <h1 className="text-lg font-headline font-bold flex items-center gap-2">
+                    <Tv className="h-5 w-5 text-accent" />
+                    Royal Life TV Studio
+                </h1>
+                <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-sm">
+                        <div className={cn("h-2 w-2 rounded-full", isLive ? "bg-red-500 animate-pulse" : "bg-gray-500")}></div>
+                        <span>{isLive ? "LIVE" : "OFFLINE"}</span>
+                    </div>
+                     <div className="flex items-center gap-2 text-sm">
+                        <div className={cn("h-2 w-2 rounded-full", isRecording ? "bg-red-500" : "bg-gray-500")}></div>
+                        <span>{isRecording ? "REC" : "STANDBY"}</span>
+                    </div>
+                    <Button variant="destructive" size="sm" onClick={() => setIsLive(!isLive)}>
+                        <Power className="mr-2 h-4 w-4" />
+                        {isLive ? "Stop Stream" : "Go Live"}
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => setIsRecording(!isRecording)}>
+                         <Circle className={cn("mr-2 h-4 w-4", isRecording && "fill-current text-destructive")}/>
+                         {isRecording ? "Stop" : "Record"}
+                    </Button>
+                </div>
+            </header>
 
-            {/* Monitors Section */}
-            <div className="space-y-2">
-                 {/* Preview Monitor */}
-                <Card className="flex flex-col bg-card">
-                    <CardHeader className="p-2 bg-secondary rounded-t-lg">
-                        <CardTitle className="text-sm font-bold text-center">PREVIEW: {previewScene?.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-0 flex-grow relative">
-                         <AspectRatio ratio={16/9} className="bg-black">
-                            {previewScene && <Image src={previewScene.sourceUrl} alt={previewScene.name} fill className="object-cover" data-ai-hint={previewScene.dataAiHint} />}
-                        </AspectRatio>
-                    </CardContent>
-                </Card>
-
-                 {/* Transition Controls */}
-                <div className="grid grid-cols-2 gap-2">
-                     <Button variant="outline" onClick={() => handleTransition('cut')}>Cut</Button>
-                     <Button variant="outline" onClick={() => handleTransition('fade')}>Fade</Button>
+            <main className="flex-grow grid grid-cols-[1fr_auto_1fr] gap-2 p-2">
+                {/* Preview Column */}
+                <div className="flex flex-col">
+                    <div className="bg-orange-500 text-white font-bold text-sm p-1 text-center rounded-t-md">PREVIEW: {previewScene?.name}</div>
+                    <div className="flex-grow bg-black border-2 border-orange-500 rounded-b-md relative overflow-hidden">
+                        {previewScene && <Image src={previewScene.sourceUrl} alt={previewScene.name} fill className="object-cover" data-ai-hint={previewScene.dataAiHint} />}
+                    </div>
                 </div>
 
-                {/* Program Monitor */}
-                <Card className="flex flex-col bg-card">
-                    <CardHeader className={cn("p-2 rounded-t-lg", isLive ? "bg-red-600" : "bg-green-600")}>
-                        <CardTitle className="text-sm font-bold text-white text-center">
-                            PROGRAM: {programScene?.name} {isLive && '(LIVE)'}
-                        </CardTitle>
-                    </CardHeader>
-                     <CardContent className="p-0 flex-grow relative">
-                         <AspectRatio ratio={16/9} className="bg-black">
-                            {programScene && <Image src={programScene.sourceUrl} alt={programScene.name} fill className="object-cover" data-ai-hint={programScene.dataAiHint} />}
-                            {programScene?.id === 'game' && previewScene?.id === 'cam1' && (
-                               <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary">
-                                    <Image src={previewScene.sourceUrl} alt={previewScene.name} fill className="object-cover"/>
-                               </div>
-                            )}
-                        </AspectRatio>
-                    </CardContent>
-                </Card>
-            </div>
+                {/* Center Controls */}
+                <div className="flex flex-col items-center justify-center gap-2 w-24">
+                     <div className="flex flex-col gap-2 w-full">
+                        <Button variant="outline" onClick={() => handleTransition('cut')}>CUT</Button>
+                        <Button variant="outline" onClick={() => handleTransition('fade')}>FADE</Button>
+                        <Button variant="outline">MERGE</Button>
+                     </div>
+                     <div className="w-full h-48 bg-card rounded-md p-2 flex flex-col-reverse gap-1 border">
+                         <div className="w-full bg-green-500 rounded-sm" style={{height: `${audioLevel}%`}}></div>
+                     </div>
+                     <div className="font-mono text-lg">1:23:45</div>
+                </div>
 
-            {/* Controls Section */}
-            <div className="grid grid-cols-1 gap-4">
-                {/* Media Manager */}
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle>Media Manager</CardTitle>
-                        <div className="flex items-center gap-2">
-                            <Dialog>
-                                <DialogTrigger asChild><Button variant="outline" size="sm"><Upload className="mr-2 h-4 w-4" /> Upload</Button></DialogTrigger>
-                                <DialogContent><DialogHeader><DialogTitle>Upload Media</DialogTitle></DialogHeader></DialogContent>
-                            </Dialog>
-                            <div className="flex items-center space-x-2">
-                                <Switch id="live-cameras" checked={useLiveCameras} onCheckedChange={setUseLiveCameras} />
-                                <Label htmlFor="live-cameras">Use Live Cameras</Label>
+                {/* Program Column */}
+                <div className="flex flex-col">
+                     <div className={cn("text-white font-bold text-sm p-1 text-center rounded-t-md", isLive ? "bg-red-600" : "bg-green-600")}>
+                        PROGRAM: {programScene?.name}
+                     </div>
+                    <div className={cn("flex-grow bg-black border-2 rounded-b-md relative overflow-hidden", isLive ? "border-red-600" : "border-green-600")}>
+                         {programScene && <Image src={programScene.sourceUrl} alt={programScene.name} fill className="object-cover" data-ai-hint={programScene.dataAiHint} />}
+                         {/* Picture-in-Picture Effect */}
+                         {programScene?.id === 'game' && previewScene?.id === 'cam1' && (
+                            <div className="absolute bottom-4 right-4 w-1/3 aspect-video rounded-md overflow-hidden border-2 border-primary shadow-lg">
+                                 <Image src={previewScene.sourceUrl} alt={previewScene.name} fill className="object-cover"/>
+                                 <div className="absolute inset-0 border-2 border-primary/50"></div>
                             </div>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <Tabs defaultValue="scenes">
-                            <TabsList className="w-full">
-                                <TabsTrigger value="scenes" className="flex-1"><Clapperboard className="mr-2 h-4 w-4"/> Scenes</TabsTrigger>
-                                <TabsTrigger value="cameras" className="flex-1"><Camera className="mr-2 h-4 w-4"/> Cameras</TabsTrigger>
-                                <TabsTrigger value="banners" className="flex-1"><Newspaper className="mr-2 h-4 w-4"/> Banners</TabsTrigger>
-                                <TabsTrigger value="music" className="flex-1"><Music className="mr-2 h-4 w-4"/> Music</TabsTrigger>
-                            </TabsList>
-                            <TabsContent value="scenes" className="mt-4 h-64 overflow-y-auto">
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                     {scenes.map(scene => (
-                                        <button key={scene.id} onClick={() => setPreviewScene(scene)} className={cn("border-2 rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary", previewScene?.id === scene.id ? 'border-primary' : 'border-transparent')}>
-                                            <AspectRatio ratio={16/9} className="bg-black">
-                                                <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover" />
-                                            </AspectRatio>
-                                            <p className="text-xs p-1 bg-black/50 text-white truncate">{scene.name}</p>
-                                        </button>
-                                     ))}
-                                </div>
-                            </TabsContent>
-                            <TabsContent value="cameras" className="mt-4"><p className="text-center text-muted-foreground p-8">Camera controls coming soon.</p></TabsContent>
-                            <TabsContent value="banners" className="mt-4"><p className="text-center text-muted-foreground p-8">Banner controls coming soon.</p></TabsContent>
-                            <TabsContent value="music" className="mt-4"><p className="text-center text-muted-foreground p-8">Music controls coming soon.</p></TabsContent>
-                        </Tabs>
-                    </CardContent>
-                </Card>
-
-                {/* Broadcast Controls */}
-                <div>
-                     <Tabs defaultValue="broadcast" className="w-full">
-                        <TabsList>
-                            <TabsTrigger value="broadcast">Broadcast</TabsTrigger>
-                            <TabsTrigger value="automation">Automation</TabsTrigger>
-                            <TabsTrigger value="audio">Audio</TabsTrigger>
-                            <TabsTrigger value="graphics">Graphics</TabsTrigger>
-                            <TabsTrigger value="newsroom">Newsroom</TabsTrigger>
-                            <TabsTrigger value="database">Database</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="broadcast" className="mt-2 space-y-4">
-                            <Card>
-                                <CardHeader><CardTitle className="flex items-center gap-2"><Radio className="h-5 w-5"/> Broadcast Controls</CardTitle></CardHeader>
-                                <CardContent className="space-y-4">
-                                     <div className="flex justify-between items-center bg-secondary p-2 rounded-md">
-                                        <div className="flex items-center gap-2">
-                                            <div className={cn("h-3 w-3 rounded-full", isLive ? 'bg-red-500 animate-pulse' : 'bg-gray-500')}></div>
-                                            <span className="font-semibold text-sm">STREAMING</span>
-                                        </div>
-                                        <span className="font-mono text-sm">00:00:00</span>
-                                    </div>
-                                     <div className="flex justify-between items-center bg-secondary p-2 rounded-md">
-                                        <div className="flex items-center gap-2">
-                                            <div className={cn("h-3 w-3 rounded-full", isRecording ? 'bg-red-500 animate-pulse' : 'bg-gray-500')}></div>
-                                            <span className="font-semibold text-sm">RECORDING</span>
-                                        </div>
-                                        <span className="font-mono text-sm">00:00:00</span>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <Button variant={isLive ? "destructive" : "default"} onClick={() => setIsLive(!isLive)}>
-                                            <Play className="mr-2 h-4 w-4"/> {isLive ? 'Stop Stream' : 'Start Stream'}
-                                        </Button>
-                                         <Button variant={isRecording ? "destructive" : "default"} onClick={() => setIsRecording(!isRecording)}>
-                                            <Circle className="mr-2 h-4 w-4"/> {isRecording ? 'Stop Record' : 'Start Record'}
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                             <Card>
-                                <CardHeader><CardTitle className="flex items-center gap-2"><Rss className="h-5 w-5"/> Multistream</CardTitle><CardDescription>Stream to multiple platforms at once.</CardDescription></CardHeader>
-                                <CardContent className="space-y-3">
-                                    <div className="flex justify-between items-center"><div className="flex items-center gap-2"><span className="text-red-500">■</span> YouTube</div><div className="flex items-center gap-2"><span className="text-xs text-muted-foreground">Offline</span><Switch/></div></div>
-                                    <div className="flex justify-between items-center"><div className="flex items-center gap-2"><span className="text-blue-500">■</span> Facebook</div><div className="flex items-center gap-2"><span className="text-xs text-muted-foreground">Offline</span><Switch/></div></div>
-                                    <div className="flex justify-between items-center"><div className="flex items-center gap-2"><span className="text-purple-500">■</span> Twitch</div><div className="flex items-center gap-2"><span className="text-xs text-muted-foreground">Offline</span><Switch/></div></div>
-                                     <Button variant="outline" className="w-full"><PlusCircle className="mr-2 h-4 w-4"/> Add Custom RTMP</Button>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                    </Tabs>
+                         )}
+                    </div>
                 </div>
-            </div>
+            </main>
+
+            <footer className="shrink-0 bg-card border-t p-2">
+                 <h3 className="text-sm font-semibold mb-2 px-2">Inputs</h3>
+                 <ScrollArea className="w-full whitespace-nowrap">
+                    <div className="flex gap-2 pb-2">
+                        {scenes.map(scene => (
+                             <button 
+                                key={scene.id} 
+                                onClick={() => setPreviewScene(scene)} 
+                                className={cn(
+                                    "border-2 rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary w-40 flex-shrink-0", 
+                                    previewScene?.id === scene.id ? 'border-orange-500' : 'border-gray-700',
+                                    programScene?.id === scene.id ? 'bg-green-600/50 border-green-500' : ''
+                                )}
+                            >
+                                <AspectRatio ratio={16/9} className="bg-black">
+                                    <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover" />
+                                </AspectRatio>
+                                <p className="text-xs p-1 bg-black/60 text-white truncate">{scene.name}</p>
+                            </button>
+                        ))}
+                         <Button variant="outline" className="h-full w-24 flex-shrink-0 flex-col">
+                            <Upload className="h-5 w-5"/>
+                            <span className="text-xs mt-1">Add Input</span>
+                        </Button>
+                    </div>
+                    <ScrollBar orientation="horizontal" />
+                </ScrollArea>
+            </footer>
         </div>
     );
 }
