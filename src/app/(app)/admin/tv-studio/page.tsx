@@ -71,6 +71,9 @@ export default function TvStudioPage() {
     const [audioLevel, setAudioLevel] = useState(75);
     const [streamTime, setStreamTime] = useState(0);
 
+    const initialBackground = PlaceHolderImages.find(p => p.id === 'studio-background')?.imageUrl || '';
+    const [backgroundUrl, setBackgroundUrl] = useState(initialBackground);
+
      useEffect(() => {
         const interval = setInterval(() => {
             setAudioLevel(Math.floor(Math.random() * 100));
@@ -108,11 +111,20 @@ export default function TvStudioPage() {
     };
     
     return (
-        <div className="flex flex-col h-full gap-4 -m-4 md:-m-6 p-4 bg-zinc-900 text-zinc-100">
-            {/* Header */}
+        <div className="relative flex flex-col h-full gap-4 -m-4 md:-m-6 p-4 text-zinc-100">
+            {backgroundUrl && (
+                <Image
+                    src={backgroundUrl}
+                    alt="Studio Background"
+                    fill
+                    className="object-cover -z-10"
+                    data-ai-hint="dark gold abstract"
+                />
+            )}
+             <div className="absolute inset-0 bg-black/50 -z-10" />
+
             <header className="flex items-center justify-between shrink-0">
                 <div className="relative h-16 w-full max-w-2xl">
-                    {/* Main Silver Body */}
                     <div className="absolute bottom-0 left-0 h-12 w-full bg-gradient-to-r from-zinc-400 to-zinc-200" style={{ clipPath: 'polygon(5% 0, 100% 0, 95% 100%, 0 100%)' }}>
                         <div className="absolute left-[15%] top-1/2 -translate-y-1/2 w-3/4">
                             <h2 className="text-black font-extrabold text-xl tracking-wide">ROYAL LIFE TV STUDIO</h2>
@@ -120,13 +132,11 @@ export default function TvStudioPage() {
                         </div>
                     </div>
 
-                    {/* Red Top Bar */}
                     <div className="absolute top-0 left-[10%] h-6 w-[60%] bg-red-600 flex items-center" style={{ clipPath: 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)' }}>
                         <span className="text-white font-bold text-sm ml-4">LIVE STREAM</span>
                          <div className="absolute right-4 top-1/2 -translate-y-1/2 h-1 w-8 bg-white/50"></div>
                     </div>
 
-                    {/* Metallic Left Shape */}
                     <div className="absolute bottom-0 left-0 h-12 w-[18%] bg-gradient-to-r from-zinc-600 via-zinc-800 to-zinc-600" style={{ clipPath: 'polygon(0 0, 70% 0, 100% 100%, 0% 100%)' }}>
                         <div className="absolute h-full w-2 bg-red-600 skew-x-[-20deg] left-10"></div>
                         <div className="absolute h-full w-1 bg-red-700 skew-x-[-20deg] left-14"></div>
@@ -138,9 +148,7 @@ export default function TvStudioPage() {
                 </Button>
             </header>
 
-            {/* Monitors & Transitions */}
             <main className="grid grid-cols-[1fr_auto_1fr] gap-4">
-                {/* Preview Screen */}
                 <div className="flex flex-col min-h-0">
                     <div className="bg-orange-500 text-white font-bold text-sm p-1 px-2 flex justify-between items-center rounded-t-md">
                         <span>PREVIEW</span>
@@ -152,7 +160,6 @@ export default function TvStudioPage() {
                     </div>
                 </div>
 
-                {/* Transition Controls */}
                 <div className="flex flex-col items-center justify-center gap-2">
                      <Button variant="outline" size="sm" onClick={() => handleTransition('cut')}>CUT</Button>
                      <Button variant="outline" size="sm" onClick={() => handleTransition('fade')}>FADE</Button>
@@ -161,7 +168,6 @@ export default function TvStudioPage() {
                      </div>
                 </div>
 
-                {/* Program Screen */}
                 <div className="flex flex-col min-h-0">
                      <div className={cn("text-white font-bold text-sm p-1 px-2 flex justify-between items-center rounded-t-md", isLive ? "bg-red-600" : "bg-green-600")}>
                         <span>PROGRAM</span>
@@ -182,10 +188,8 @@ export default function TvStudioPage() {
                 </div>
             </main>
 
-            {/* Control Panels */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-grow min-h-0">
-                {/* Media Manager */}
-                <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex flex-col">
+                <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex flex-col backdrop-blur-sm">
                     <div className="flex justify-between items-center pb-2 border-b border-zinc-700 mb-2">
                         <h2 className="text-lg font-bold flex items-center gap-2 text-zinc-100"><Clapperboard /> Media Manager</h2>
                         <div className="flex items-center gap-4">
@@ -197,7 +201,7 @@ export default function TvStudioPage() {
                         </div>
                     </div>
                      <Tabs defaultValue="scenes" className="flex flex-col flex-grow">
-                        <TabsList className="bg-zinc-900 text-zinc-400">
+                        <TabsList className="bg-zinc-900/80 text-zinc-400">
                             <TabsTrigger value="scenes" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><FileImage className="mr-2 h-4 w-4"/>Scenes</TabsTrigger>
                             <TabsTrigger value="cameras" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><Camera className="mr-2 h-4 w-4"/>Cameras</TabsTrigger>
                             <TabsTrigger value="banners" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><Video className="mr-2 h-4 w-4"/>Banners</TabsTrigger>
@@ -226,10 +230,9 @@ export default function TvStudioPage() {
                     </Tabs>
                 </div>
 
-                {/* Broadcast & Control Center */}
-                <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex flex-col">
+                <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex flex-col backdrop-blur-sm">
                     <Tabs defaultValue="broadcast" className="flex flex-col flex-grow">
-                        <TabsList className="w-full grid grid-cols-6 bg-zinc-900 text-zinc-400">
+                        <TabsList className="w-full grid grid-cols-6 bg-zinc-900/80 text-zinc-400">
                             <TabsTrigger value="broadcast" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Broadcast</TabsTrigger>
                             <TabsTrigger value="automation" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Automation</TabsTrigger>
                             <TabsTrigger value="audio" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Audio</TabsTrigger>
@@ -238,7 +241,6 @@ export default function TvStudioPage() {
                             <TabsTrigger value="database" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Database</TabsTrigger>
                         </TabsList>
                          <TabsContent value="broadcast" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4">
-                            {/* Broadcast Controls */}
                             <div className="bg-zinc-800 rounded-lg p-3">
                                 <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100"><Radio className="h-5 w-5"/> Broadcast Controls</h3>
                                 <div className="space-y-2 text-sm">
@@ -262,7 +264,6 @@ export default function TvStudioPage() {
                                     </div>
                                 </div>
                             </div>
-                            {/* Multistream */}
                             <div className="bg-zinc-800 rounded-lg p-3">
                                 <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100"><Shuffle className="h-5 w-5"/> Multistream</h3>
                                 <p className="text-xs text-zinc-400 mb-4">Stream to multiple platforms at once.</p>

@@ -101,6 +101,12 @@
       "description": "A diverse group of people with arms around each other, smiling.",
       "imageUrl": "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21tdW5pdHklMjBzbWlsaW5nfGVufDB8fHx8MTc3MDA2MTE1Nnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "community smiling"
+    },
+    {
+      "id": "studio-background",
+      "description": "An abstract background with dark blue and gold flowing lines.",
+      "imageUrl": "https://images.unsplash.com/photo-1634712282210-d4c3b99839d3?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "dark gold abstract"
     }
   ]
 }
