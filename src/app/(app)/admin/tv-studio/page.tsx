@@ -2,15 +2,12 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Tv, GitMerge, MoveRight, Camera, Film, Upload, SlidersHorizontal, Radio, Play, Circle, Power } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 type Scene = {
     id: string;
@@ -34,8 +31,6 @@ const initialScenes: Scene[] = [
 export default function TvStudioPage() {
     const { toast } = useToast();
     const [isLive, setIsLive] = useState(false);
-    const [isRecording, setIsRecording] = useState(false);
-    const [scenes, setScenes] = useState(initialScenes);
     
     const [previewScene, setPreviewScene] = useState<Scene | null>(scenes[0] || null);
     const [programScene, setProgramScene] = useState<Scene | null>(scenes[4] || null);
@@ -67,21 +62,13 @@ export default function TvStudioPage() {
                     Royal Life TV Studio
                 </h1>
                 <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-2 text-sm">
+                     <div className="flex items-center gap-2 text-sm">
                         <div className={cn("h-2 w-2 rounded-full", isLive ? "bg-red-500 animate-pulse" : "bg-gray-500")}></div>
                         <span>{isLive ? "LIVE" : "OFFLINE"}</span>
-                    </div>
-                     <div className="flex items-center gap-2 text-sm">
-                        <div className={cn("h-2 w-2 rounded-full", isRecording ? "bg-red-500" : "bg-gray-500")}></div>
-                        <span>{isRecording ? "REC" : "STANDBY"}</span>
                     </div>
                     <Button variant="destructive" size="sm" onClick={() => setIsLive(!isLive)}>
                         <Power className="mr-2 h-4 w-4" />
                         {isLive ? "Stop Stream" : "Go Live"}
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={() => setIsRecording(!isRecording)}>
-                         <Circle className={cn("mr-2 h-4 w-4", isRecording && "fill-current text-destructive")}/>
-                         {isRecording ? "Stop" : "Record"}
                     </Button>
                 </div>
             </header>
@@ -100,7 +87,6 @@ export default function TvStudioPage() {
                      <div className="flex flex-col gap-2 w-full">
                         <Button variant="outline" onClick={() => handleTransition('cut')}>CUT</Button>
                         <Button variant="outline" onClick={() => handleTransition('fade')}>FADE</Button>
-                        <Button variant="outline">MERGE</Button>
                      </div>
                      <div className="w-full h-48 bg-card rounded-md p-2 flex flex-col-reverse gap-1 border">
                          <div className="w-full bg-green-500 rounded-sm" style={{height: `${audioLevel}%`}}></div>
@@ -125,35 +111,6 @@ export default function TvStudioPage() {
                     </div>
                 </div>
             </main>
-
-            <footer className="shrink-0 bg-card border-t p-2">
-                 <h3 className="text-sm font-semibold mb-2 px-2">Inputs</h3>
-                 <ScrollArea className="w-full whitespace-nowrap">
-                    <div className="flex gap-2 pb-2">
-                        {scenes.map(scene => (
-                             <button 
-                                key={scene.id} 
-                                onClick={() => setPreviewScene(scene)} 
-                                className={cn(
-                                    "border-2 rounded-md overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary w-40 flex-shrink-0", 
-                                    previewScene?.id === scene.id ? 'border-orange-500' : 'border-gray-700',
-                                    programScene?.id === scene.id ? 'bg-green-600/50 border-green-500' : ''
-                                )}
-                            >
-                                <AspectRatio ratio={16/9} className="bg-black">
-                                    <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover" />
-                                </AspectRatio>
-                                <p className="text-xs p-1 bg-black/60 text-white truncate">{scene.name}</p>
-                            </button>
-                        ))}
-                         <Button variant="outline" className="h-full w-24 flex-shrink-0 flex-col">
-                            <Upload className="h-5 w-5"/>
-                            <span className="text-xs mt-1">Add Input</span>
-                        </Button>
-                    </div>
-                    <ScrollBar orientation="horizontal" />
-                </ScrollArea>
-            </footer>
         </div>
     );
 }
