@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -24,7 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { communityUsers } from '@/lib/data';
+import { communityUsers as initialUsers } from '@/lib/data';
 import {
   Activity,
   ArrowUpRight,
@@ -35,8 +37,26 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { ScrollAnimator } from '@/components/scroll-animator';
+import { useState } from 'react';
+import type { User } from '@/lib/types';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AdminPage() {
+  const { toast } = useToast();
+  const [users, setUsers] = useState<User[]>(initialUsers);
+
+  const handleDeleteUser = (userId: number) => {
+    const userToDelete = users.find(u => u.id === userId);
+    setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+    if (userToDelete) {
+      toast({
+        title: 'User Deleted',
+        description: `${userToDelete.name} has been removed from the platform.`,
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <ScrollAnimator>
@@ -53,7 +73,7 @@ export default function AdminPage() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">1,254</div>
+              <div className="text-2xl font-bold">{users.length}</div>
               <p className="text-xs text-muted-foreground">
                 +20.1% from last month
               </p>
@@ -136,7 +156,7 @@ export default function AdminPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {communityUsers.map(user => (
+                  {users.map(user => (
                       <TableRow key={user.id}>
                           <TableCell>
                               <div className="flex items-center gap-3">
@@ -148,7 +168,7 @@ export default function AdminPage() {
                               </div>
                           </TableCell>
                           <TableCell>
-                              user.email@example.com
+                              {user.profile?.email || `user${user.id}@example.com`}
                           </TableCell>
                           <TableCell>
                               2024-07-01
@@ -167,8 +187,15 @@ export default function AdminPage() {
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent align="end">
                                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                                  <DropdownMenuItem onSelect={() => toast({ title: 'Edit action coming soon.' })}>
+                                    Edit
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem
+                                    onSelect={() => handleDeleteUser(user.id)}
+                                    className="text-destructive focus:bg-destructive/10 focus:text-destructive"
+                                  >
+                                    Delete
+                                  </DropdownMenuItem>
                                   </DropdownMenuContent>
                               </DropdownMenu>
                           </TableCell>
@@ -188,12 +215,12 @@ export default function AdminPage() {
             <CardContent className="grid gap-8">
               <div className="flex items-center gap-4">
                 <Avatar className="hidden h-9 w-9 sm:flex">
-                  <AvatarImage src={communityUsers[1].avatar?.imageUrl} alt="Avatar" />
-                  <AvatarFallback>{communityUsers[1].name.charAt(0)}</AvatarFallback>
+                  <AvatarImage src={initialUsers[1].avatar?.imageUrl} alt="Avatar" />
+                  <AvatarFallback>{initialUsers[1].name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1">
                   <p className="text-sm font-medium leading-none">
-                    {communityUsers[1].name}
+                    {initialUsers[1].name}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     posted a new prayer request.
@@ -203,12 +230,12 @@ export default function AdminPage() {
               </div>
                <div className="flex items-center gap-4">
                 <Avatar className="hidden h-9 w-9 sm:flex">
-                  <AvatarImage src={communityUsers[2].avatar?.imageUrl} alt="Avatar" />
-                  <AvatarFallback>{communityUsers[2].name.charAt(0)}</AvatarFallback>
+                  <AvatarImage src={initialUsers[2].avatar?.imageUrl} alt="Avatar" />
+                  <AvatarFallback>{initialUsers[2].name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1">
                   <p className="text-sm font-medium leading-none">
-                    {communityUsers[2].name}
+                    {initialUsers[2].name}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     joined the "Kingdom Builders" group.
@@ -218,12 +245,12 @@ export default function AdminPage() {
               </div>
                <div className="flex items-center gap-4">
                 <Avatar className="hidden h-9 w-9 sm:flex">
-                  <AvatarImage src={communityUsers[0].avatar?.imageUrl} alt="Avatar" />
-                  <AvatarFallback>{communityUsers[0].name.charAt(0)}</AvatarFallback>
+                  <AvatarImage src={initialUsers[0].avatar?.imageUrl} alt="Avatar" />
+                  <AvatarFallback>{initialUsers[0].name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1">
                   <p className="text-sm font-medium leading-none">
-                    {communityUsers[0].name}
+                    {initialUsers[0].name}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     watched a new live session.
@@ -233,12 +260,12 @@ export default function AdminPage() {
               </div>
                <div className="flex items-center gap-4">
                 <Avatar className="hidden h-9 w-9 sm:flex">
-                  <AvatarImage src={communityUsers[3].avatar?.imageUrl} alt="Avatar" />
-                  <AvatarFallback>{communityUsers[3].name.charAt(0)}</AvatarFallback>
+                  <AvatarImage src={initialUsers[3].avatar?.imageUrl} alt="Avatar" />
+                  <AvatarFallback>{initialUsers[3].name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1">
                   <p className="text-sm font-medium leading-none">
-                    {communityUsers[3].name}
+                    {initialUsers[3].name}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     registered for the "Faith that Moves Mountains" course.

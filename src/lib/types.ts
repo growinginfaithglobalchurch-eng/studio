@@ -6,9 +6,9 @@ export type UserProfile = {
   fullName: string;
   email: string;
   phone?: string;
-  dateJoined: any; // Using `any` for timestamp flexibility (e.g., Firebase Timestamp)
+  dateJoined: any; 
   photoURL?: string;
-  location?: string; // Kept from old model, seems useful
+  location?: string; 
 };
 
 export type KingdomCitizenship = {
@@ -92,22 +92,15 @@ export type FamilyGroup = {
     unityScore: 'Active' | 'Inactive';
 };
 
-// This replaces the previous simple User type
+// Consolidated User Type
 export type User = {
   id: number;
-  profile?: UserProfile;
-  kingdomCitizenship?: KingdomCitizenship;
-  kingdomID?: KingdomID;
-  authority?: Authority;
-  dailyPractices?: DailyPractices;
-  declarations?: Declaration[];
-  calendarEvents?: CalendarEvent[];
-  growthMetrics?: GrowthMetrics;
-  familyGroup?: FamilyGroup;
-  kidsProfile?: KidsProfile;
-  avatar?: ImagePlaceholder; // Keeping this for UI consistency
-  location: string; // from old model
-  name: string; // from old model
+  name: string;
+  location: string;
+  avatar?: ImagePlaceholder;
   isFriend: boolean;
-  isFriendRequest?: boolean; // Optional property for friend requests
+  friendRequestSent?: boolean;
+  profile?: {
+      email: string;
+  };
 };

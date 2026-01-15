@@ -2,11 +2,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { newsFeed as initialNewsFeed } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { CheckCheck, Check, Send, Paperclip, ImageIcon, Video, FileText, Trash2, Smile } from 'lucide-react';
+import { CheckCheck, Check, Send, Paperclip, ImageIcon, Video, FileText, Trash2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -15,11 +14,24 @@ import { useToast } from '@/hooks/use-toast';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import Image from 'next/image';
 
+type Reaction = {
+    emoji: string;
+    count: number;
+}
+
+type NewsItem = {
+    id: number;
+    title: string | null;
+    content: string;
+    timestamp: string;
+    image: { imageUrl: string; } | null;
+    reactions: Reaction[];
+};
+
 export default function GlobalNewsPage() {
     const { toast } = useToast();
-    const channelAvatar = PlaceHolderImages.find(p => p.id === 'ministry-logo-1');
     
-    const [newsFeed, setNewsFeed] = useState(initialNewsFeed);
+    const [newsFeed, setNewsFeed] = useState<NewsItem[]>(initialNewsFeed);
     const [newMessage, setNewMessage] = useState('');
     const [title, setTitle] = useState('');
 
@@ -33,9 +45,9 @@ export default function GlobalNewsPage() {
             return;
         }
 
-        const newPost = {
-            id: newsFeed.length + 1,
-            title: title,
+        const newPost: NewsItem = {
+            id: newsFeed.length > 0 ? Math.max(...newsFeed.map(item => item.id)) + 1 : 1,
+            title: title || null,
             content: newMessage,
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             image: null,
@@ -88,7 +100,6 @@ export default function GlobalNewsPage() {
                 <CardHeader className="p-0">
                     <div className="relative bg-[#0d1117] p-4 text-white font-sans overflow-hidden">
                         <div className="relative z-10">
-                            {/* Top Bar */}
                             <div className="flex h-10">
                                 <div className="bg-gradient-to-r from-gray-400 to-gray-200 h-full flex items-center justify-center px-4 w-28">
                                     <span className="text-black font-bold text-lg tracking-widest">LIVE</span>
@@ -97,7 +108,6 @@ export default function GlobalNewsPage() {
                                     <h2 className="text-red-600 font-extrabold text-xl ml-4">NEWS CHANNEL</h2>
                                 </div>
                             </div>
-                            {/* Bottom Bar */}
                             <div className="bg-red-700 p-2 mt-1 relative" style={{ clipPath: 'polygon(0 0, 100% 0, 98% 100%, 0% 100%)' }}>
                                 <p className="text-sm text-white">Official announcements and updates.</p>
                             </div>
@@ -111,10 +121,9 @@ export default function GlobalNewsPage() {
                             <span className="bg-secondary text-muted-foreground text-xs font-semibold px-2 py-1 rounded-full">YESTERDAY</span>
                         </div>
 
-                        {newsFeed.map((item, index) => (
+                        {newsFeed.map((item) => (
                              <div key={item.id} className="flex flex-col items-start group">
                                 <div className="bg-card rounded-lg p-3 max-w-lg shadow-md relative">
-                                    {/* Admin Delete Button */}
                                     <Button 
                                         variant="destructive" 
                                         size="icon" 
@@ -175,7 +184,6 @@ export default function GlobalNewsPage() {
                     </div>
                 </ScrollArea>
                 
-                {/* Admin Input Area */}
                 <div className="p-4 border-t bg-card">
                     <Input 
                         placeholder="Title (Optional)"
