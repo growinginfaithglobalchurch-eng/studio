@@ -30,13 +30,6 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 type Scene = {
     id: string;
@@ -61,7 +54,6 @@ const scenes: Scene[] = [
 export default function TvStudioPage() {
     const { toast } = useToast();
     const [isLive, setIsLive] = useState(false);
-    const [isRecording, setIsRecording] = useState(false);
     
     const [previewScene, setPreviewScene] = useState<Scene | null>(scenes[0] || null);
     const [programScene, setProgramScene] = useState<Scene | null>(scenes[4] || null);
@@ -104,7 +96,7 @@ export default function TvStudioPage() {
     };
     
     return (
-        <div className="h-full flex flex-col -m-4 md:-m-6">
+        <div className="h-full flex flex-col -m-4 md:-m-6 bg-background">
             <header className="flex items-center justify-between p-2 border-b border-border bg-card shrink-0">
                 <h1 className="text-lg font-headline font-bold flex items-center gap-2">
                     <Tv className="h-5 w-5 text-accent" />
@@ -116,26 +108,25 @@ export default function TvStudioPage() {
                 </Button>
             </header>
 
-            <main className="flex-grow grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-2 p-2 min-h-0">
-                 <div className="flex flex-col">
+            <main className="flex-grow grid grid-rows-[1fr_auto_1fr] grid-cols-1 gap-2 p-2 min-h-0">
+                 {/* Preview Screen */}
+                 <div className="flex flex-col min-h-0">
                     <div className="bg-orange-500 text-white font-bold text-sm p-1 text-center rounded-t-md">PREVIEW: {previewScene?.name}</div>
                     <div className="flex-grow bg-black border-2 border-orange-500 rounded-b-md relative overflow-hidden">
                         {previewScene && <Image src={previewScene.sourceUrl} alt={previewScene.name} fill className="object-cover" data-ai-hint={previewScene.dataAiHint} />}
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center justify-center gap-2 w-24">
-                     <div className="flex flex-col gap-2 w-full">
+                {/* Transition Controls */}
+                <div className="flex flex-col items-center justify-center gap-2 py-2">
+                     <div className="flex gap-4">
                         <Button variant="outline" onClick={() => handleTransition('cut')}>CUT</Button>
                         <Button variant="outline" onClick={() => handleTransition('fade')}>FADE</Button>
                      </div>
-                     <div className="w-full h-48 bg-card rounded-md p-2 flex flex-col-reverse gap-1 border">
-                         <div className="w-full bg-green-500 rounded-sm" style={{height: `${audioLevel}%`}}></div>
-                     </div>
-                     <div className="font-mono text-lg">{formatTime(streamTime)}</div>
                 </div>
 
-                <div className="flex flex-col">
+                {/* Program Screen */}
+                <div className="flex flex-col min-h-0">
                      <div className={cn("text-white font-bold text-sm p-1 text-center rounded-t-md", isLive ? "bg-red-600" : "bg-green-600")}>
                         PROGRAM: {programScene?.name}
                      </div>
