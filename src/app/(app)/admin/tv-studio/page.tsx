@@ -35,6 +35,9 @@ import {
   Cross,
   PenLine,
   Text,
+  LayoutGrid,
+  UserPlus,
+  Link as LinkIcon,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -210,7 +213,7 @@ export default function TvStudioPage() {
   const [isLive, setIsLive] = useState(false);
   const [useLiveCameras, setUseLiveCameras] = useState(false);
   const [liveStream, setLiveStream] = useState<MediaStream | null>(null);
-
+  const [layout, setLayout] = useState<'fullscreen' | 'split-equal' | 'split-focus'>('fullscreen');
   const [scenes, setScenes] = useState<Scene[]>(initialScenes);
 
   const [previewScene, setPreviewScene] = useState<Scene | null>(null);
@@ -239,6 +242,7 @@ export default function TvStudioPage() {
   const [lowerThirdData, setLowerThirdData] = useState<LowerThird>({ title: 'Joseph Tryson', subtitle: 'The Bondservant of Christ' });
   const [showLogoBug, setShowLogoBug] = useState(false);
   const logoScene = scenes.find(s => s.id === 'logo');
+  const guest = scenes.find(s => s.id === 'guest');
 
   const [newsTickerText, setNewsTickerText] = useState('');
   const [showNewsTicker, setShowNewsTicker] = useState(false);
@@ -400,7 +404,7 @@ export default function TvStudioPage() {
     </Button>
   );
 
-  const renderScene = (scene: Scene | null, videoRef: React.RefObject<HTMLVideoElement>, isPreview = false) => {
+  const renderScene = (scene: Scene | null | undefined, videoRef: React.RefObject<HTMLVideoElement> | null, isPreview = false) => {
     if (!scene) return null;
     if (scene.type === 'live' && scene.sourceStream) {
       return <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />;
@@ -522,19 +526,56 @@ export default function TvStudioPage() {
                 )}
                 {showNewsTicker && <NewsTickerOverlay text={newsTickerText} />}
 
-                <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                Source: {programScene?.name || 'None'}
-                </div>
-                {renderScene(programScene, programVideoRef)}
-
-                {programScene?.id === 'game' && previewScene?.type === 'live' && (
-                  <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary shadow-lg">
-                    {renderScene(previewScene, null)}
-                    <div className="absolute inset-0 border-2 border-primary/50 flex items-center justify-center">
-                      <PictureInPicture2 className="h-6 w-6 text-white/50" />
+                {/* Main Program Renderer */}
+                {layout === 'fullscreen' && (
+                  <div className="absolute inset-0">
+                    {renderScene(programScene, programVideoRef)}
+                    <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                        Source: {programScene?.name || 'None'}
                     </div>
+                    {programScene?.id === 'game' && previewScene?.type === 'live' && (
+                      <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary shadow-lg">
+                        {renderScene(previewScene, null)}
+                        <div className="absolute inset-0 border-2 border-primary/50 flex items-center justify-center">
+                          <PictureInPicture2 className="h-6 w-6 text-white/50" />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
+                 {layout === 'split-equal' && (
+                    <div className="flex w-full h-full">
+                        <div className="w-1/2 h-full relative border-r-2 border-zinc-700">
+                            {renderScene(programScene, programVideoRef)}
+                             <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                {programScene?.name || 'Host'}
+                            </div>
+                        </div>
+                        <div className="w-1/2 h-full relative">
+                            {renderScene(guest, null)}
+                             <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                {guest?.name}
+                            </div>
+                        </div>
+                    </div>
+                )}
+                 {layout === 'split-focus' && (
+                     <div className="flex w-full h-full">
+                        <div className="w-2/3 h-full relative border-r-2 border-zinc-700">
+                            {renderScene(programScene, programVideoRef)}
+                            <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                {programScene?.name || 'Host'}
+                            </div>
+                        </div>
+                        <div className="w-1/3 h-full relative">
+                            {renderScene(guest, null)}
+                            <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                {guest?.name}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
             </div>
             </div>
         </main>
@@ -664,126 +705,142 @@ export default function TvStudioPage() {
 
             <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex flex-col backdrop-blur-sm">
             <Tabs defaultValue="broadcast" className="flex flex-col flex-grow">
-                <TabsList className="w-full grid grid-cols-6 bg-zinc-900/80 text-zinc-400">
-                <TabsTrigger
-                    value="broadcast"
-                    className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
-                >
-                    Broadcast
-                </TabsTrigger>
-                <TabsTrigger
-                    value="automation"
-                    className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
-                >
-                    Automation
-                </TabsTrigger>
-                <TabsTrigger
-                    value="audio"
-                    className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
-                >
-                    <Waves className="mr-2 h-4 w-4"/> Audio
-                </TabsTrigger>
-                <TabsTrigger
-                    value="graphics"
-                    className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
-                >
-                    Graphics
-                </TabsTrigger>
-                <TabsTrigger
-                    value="newsroom"
-                    className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
-                >
-                    Newsroom
-                </TabsTrigger>
-                <TabsTrigger
-                    value="database"
-                    className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
-                >
-                    Database
-                </TabsTrigger>
+                <TabsList className="w-full grid grid-cols-7 bg-zinc-900/80 text-zinc-400">
+                <TabsTrigger value="broadcast" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Broadcast</TabsTrigger>
+                <TabsTrigger value="layouts" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><LayoutGrid className="mr-2 h-4 w-4" />Layouts</TabsTrigger>
+                <TabsTrigger value="guests" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><UserPlus className="mr-2 h-4 w-4" />Guests</TabsTrigger>
+                <TabsTrigger value="automation" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Automation</TabsTrigger>
+                <TabsTrigger value="audio" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"><Waves className="mr-2 h-4 w-4"/> Audio</TabsTrigger>
+                <TabsTrigger value="graphics" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Graphics</TabsTrigger>
+                <TabsTrigger value="newsroom" className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100">Newsroom</TabsTrigger>
                 </TabsList>
-                <TabsContent
-                value="broadcast"
-                className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4"
-                >
-                <div className="bg-zinc-800 rounded-lg p-3">
-                    <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
-                    <Radio className="h-5 w-5" /> Broadcast Controls
-                    </h3>
-                    <div className="space-y-2 text-sm">
-                    <div className="flex justify-between items-center bg-zinc-900 p-2 rounded">
-                        <div className="flex items-center gap-2 text-zinc-300">
-                        <div
-                            className={cn(
-                            'h-2 w-2 rounded-full',
-                            isLive ? 'bg-green-500 animate-pulse' : 'bg-zinc-500'
-                            )}
-                        ></div>
-                        <span>{isLive ? 'ONLINE' : 'OFFLINE'}</span>
+                <TabsContent value="broadcast" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4">
+                  <div className="bg-zinc-800 rounded-lg p-3">
+                      <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                      <Radio className="h-5 w-5" /> Broadcast Controls
+                      </h3>
+                      <div className="space-y-2 text-sm">
+                      <div className="flex justify-between items-center bg-zinc-900 p-2 rounded">
+                          <div className="flex items-center gap-2 text-zinc-300">
+                          <div
+                              className={cn(
+                              'h-2 w-2 rounded-full',
+                              isLive ? 'bg-green-500 animate-pulse' : 'bg-zinc-500'
+                              )}
+                          ></div>
+                          <span>{isLive ? 'ONLINE' : 'OFFLINE'}</span>
+                          </div>
+                          <span className="font-mono text-zinc-300">
+                          {formatTime(streamTime)}
+                          </span>
+                      </div>
+                      <div className="flex justify-between items-center bg-zinc-900 p-2 rounded">
+                          <div className="flex items-center gap-2 text-zinc-300">
+                          <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
+                          <span>NOT RECORDING</span>
+                          </div>
+                          <span className="font-mono text-zinc-300">00:00:00</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 pt-2">
+                          <Button variant="outline">Start Stream</Button>
+                          <Button variant="outline">Start Record</Button>
+                      </div>
+                      </div>
+                  </div>
+                  <div className="bg-zinc-800 rounded-lg p-3">
+                      <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                      <Shuffle className="h-5 w-5" /> Multistream
+                      </h3>
+                      <p className="text-xs text-zinc-400 mb-4">
+                      Stream to multiple platforms at once.
+                      </p>
+                      <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                          <div className="flex items-center gap-2 text-zinc-100">
+                          <Youtube className="h-5 w-5 text-red-600" />
+                          <span>YouTube</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-zinc-300">
+                          <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
+                          Offline <Switch />
+                          </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                          <div className="flex items-center gap-2 text-zinc-100">
+                          <Facebook className="h-5 w-5 text-blue-600" />
+                          <span>Facebook</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-zinc-300">
+                          <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
+                          Offline <Switch />
+                          </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                          <div className="flex items-center gap-2 text-zinc-100">
+                          <Twitch className="h-5 w-5 text-purple-600" />
+                          <span>Twitch</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-zinc-300">
+                          <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
+                          Offline <Switch />
+                          </div>
+                      </div>
+                      </div>
+                      <Button
+                      variant="ghost"
+                      className="w-full mt-4 text-xs text-zinc-400 hover:bg-zinc-700 hover:text-zinc-100"
+                      >
+                      <Plus className="mr-2 h-4 w-4" /> Add Custom RTMP
+                      </Button>
+                  </div>
+                </TabsContent>
+                <TabsContent value="layouts" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4">
+                    <div className="bg-zinc-800 rounded-lg p-3">
+                        <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                            Scene Layouts
+                        </h3>
+                        <div className="grid grid-cols-3 gap-2">
+                           <Button variant={layout === 'fullscreen' ? 'secondary' : 'outline'} onClick={() => setLayout('fullscreen')}>Fullscreen</Button>
+                           <Button variant={layout === 'split-equal' ? 'secondary' : 'outline'} onClick={() => setLayout('split-equal')}>Split 50/50</Button>
+                           <Button variant={layout === 'split-focus' ? 'secondary' : 'outline'} onClick={() => setLayout('split-focus')}>Focus Left</Button>
                         </div>
-                        <span className="font-mono text-zinc-300">
-                        {formatTime(streamTime)}
-                        </span>
                     </div>
-                    <div className="flex justify-between items-center bg-zinc-900 p-2 rounded">
-                        <div className="flex items-center gap-2 text-zinc-300">
-                        <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
-                        <span>NOT RECORDING</span>
+                </TabsContent>
+                <TabsContent value="guests" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4">
+                    <div className="bg-zinc-800 rounded-lg p-3">
+                        <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                            Guest Management
+                        </h3>
+                        <p className="text-xs text-zinc-400 mb-4">
+                            Invite guests to join your broadcast. Their video will appear as a source in the "Cameras" tab.
+                        </p>
+                        <Button
+                            variant="outline"
+                            className="w-full"
+                            onClick={() => {
+                                toast({
+                                    title: 'Guest Link Generated!',
+                                    description: 'Link copied to clipboard: /guest-join/xyz-123',
+                                });
+                            }}
+                        >
+                            <LinkIcon className="mr-2 h-4 w-4" /> Generate Invite Link
+                        </Button>
+                    </div>
+                     {guest && (
+                        <div className="bg-zinc-800 rounded-lg p-3">
+                            <h3 className="font-bold text-zinc-100">Current Guest</h3>
+                            <div className="flex items-center gap-3 mt-2">
+                                <div className="relative w-16 h-9 rounded-md bg-black overflow-hidden">
+                                    <Image src={guest.sourceUrl!} alt="guest" fill className="object-cover"/>
+                                </div>
+                                <div>
+                                    <p className="font-semibold">{guest.name}</p>
+                                    <p className="text-xs text-zinc-400">{guest.title}</p>
+                                </div>
+                            </div>
                         </div>
-                        <span className="font-mono text-zinc-300">00:00:00</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 pt-2">
-                        <Button variant="outline">Start Stream</Button>
-                        <Button variant="outline">Start Record</Button>
-                    </div>
-                    </div>
-                </div>
-                <div className="bg-zinc-800 rounded-lg p-3">
-                    <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
-                    <Shuffle className="h-5 w-5" /> Multistream
-                    </h3>
-                    <p className="text-xs text-zinc-400 mb-4">
-                    Stream to multiple platforms at once.
-                    </p>
-                    <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2 text-zinc-100">
-                        <Youtube className="h-5 w-5 text-red-600" />
-                        <span>YouTube</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs text-zinc-300">
-                        <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
-                        Offline <Switch />
-                        </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2 text-zinc-100">
-                        <Facebook className="h-5 w-5 text-blue-600" />
-                        <span>Facebook</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs text-zinc-300">
-                        <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
-                        Offline <Switch />
-                        </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2 text-zinc-100">
-                        <Twitch className="h-5 w-5 text-purple-600" />
-                        <span>Twitch</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs text-zinc-300">
-                        <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
-                        Offline <Switch />
-                        </div>
-                    </div>
-                    </div>
-                    <Button
-                    variant="ghost"
-                    className="w-full mt-4 text-xs text-zinc-400 hover:bg-zinc-700 hover:text-zinc-100"
-                    >
-                    <Plus className="mr-2 h-4 w-4" /> Add Custom RTMP
-                    </Button>
-                </div>
+                    )}
                 </TabsContent>
                 <TabsContent
                 value="automation"
@@ -895,4 +952,5 @@ export default function TvStudioPage() {
     </div>
   );
 }
+
 
