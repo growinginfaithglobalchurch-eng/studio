@@ -28,6 +28,7 @@ import {
   Shuffle,
   PictureInPicture2,
   AlertCircle,
+  Waves,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -39,6 +40,7 @@ import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AudioMixer } from '@/components/tv-studio/AudioMixer';
 
 type Scene = {
   id: string;
@@ -529,7 +531,7 @@ export default function TvStudioPage() {
                 value="audio"
                 className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
               >
-                Audio
+                <Waves className="mr-2 h-4 w-4"/> Audio
               </TabsTrigger>
               <TabsTrigger
                 value="graphics"
@@ -632,6 +634,9 @@ export default function TvStudioPage() {
                   <Plus className="mr-2 h-4 w-4" /> Add Custom RTMP
                 </Button>
               </div>
+            </TabsContent>
+             <TabsContent value="audio" className="flex-grow min-h-0">
+               <AudioMixer />
             </TabsContent>
           </Tabs>
         </div>
