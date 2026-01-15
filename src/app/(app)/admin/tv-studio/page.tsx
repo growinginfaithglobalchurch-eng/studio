@@ -41,6 +41,9 @@ export default function TvStudioPage() {
     const [newScene, setNewScene] = useState({ name: '', type: 'image' as 'image' | 'video', sourceUrl: '' });
     const [useLiveCameras, setUseLiveCameras] = useState(false);
 
+    const [previewScene, setPreviewScene] = useState<Scene | null>(scenes[0] || null);
+    const [programScene, setProgramScene] = useState<Scene | null>(scenes[1] || null);
+
     const handleGoLive = () => {
         setIsLive(!isLive);
         toast({
@@ -80,6 +83,16 @@ export default function TvStudioPage() {
         toast({ title: 'Scene Added', description: `"${sceneToAdd.name}" is now available.` });
     };
 
+    const handleTransition = (type: 'cut' | 'fade') => {
+        if (previewScene) {
+            setProgramScene(previewScene);
+            toast({
+                title: type === 'cut' ? 'Cut!' : 'Fade Transition Complete',
+                description: `"${previewScene.name}" is now live.`
+            });
+        }
+    };
+
     const YoutubeIcon = () => (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-red-600">
         <path d="M12.04,18.3c-5.1,0-9.2-1.4-9.2-3.2s4.1-3.2,9.2-3.2s9.2,1.4,9.2,3.2S17.14,18.3,12.04,18.3z M12.04,5.7 c-5.1,0-9.2,1.4-9.2,3.2s4.1,3.2,9.2,3.2s9.2,1.4,9.2,3.2S17.14,5.7,12.04,5.7z M12.04,12.5c-2.3,0-4.2-0.5-4.2-1.1s1.9-1.1,4.2-1.1 s4.2,0.5,4.2,1.1S14.34,12.5,12.04,12.5z" />
@@ -93,19 +106,45 @@ export default function TvStudioPage() {
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-blue-600">
         <path d="M22,12c0-5.5-4.5-10-10-10S2,6.5,2,12c0,5,3.7,9.1,8.4,9.9v-7H7.9V12h2.5V9.8c0-2.5,1.5-3.9,3.8-3.9 c1.1,0,2,0.1,2.3,0.1v2.1h-1.3c-1.2,0-1.4,0.6-1.4,1.4V12h2.8l-0.4,2.9h-2.4V21.9C18.3,21.1,22,17,22,12z" />
       </svg>
-    )
-
+    );
 
     return (
-        <div className="flex flex-col h-full bg-background">
-            <header className="p-4 border-b">
+        <div className="flex flex-col h-full bg-background space-y-4 p-4">
+            <header className="flex-shrink-0">
                  <h1 className="text-xl font-headline font-bold text-foreground flex items-center gap-2">
                     <Tv className="h-6 w-6 text-accent" />
                     Royal Life TV Studio
                 </h1>
             </header>
 
-            <div className="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-4 p-4">
+            {/* Monitors & Transitions */}
+            <Card>
+                <CardContent className="grid lg:grid-cols-[1fr_auto_1fr] items-center gap-4 p-4">
+                    {/* Preview Monitor */}
+                    <div className="flex-1 space-y-2">
+                        <div className="bg-blue-500 text-white text-center font-bold py-1 rounded-t-md">PREVIEW</div>
+                        <AspectRatio ratio={16/9} className="bg-black rounded-b-md overflow-hidden">
+                            {previewScene && <Image src={previewScene.sourceUrl} alt={previewScene.name} fill className="object-cover" data-ai-hint={previewScene.dataAiHint} />}
+                        </AspectRatio>
+                    </div>
+
+                    {/* Transition Controls */}
+                    <div className="flex flex-col gap-2">
+                         <Button variant="outline" onClick={() => handleTransition('cut')}>CUT</Button>
+                         <Button variant="outline" onClick={() => handleTransition('fade')}>FADE</Button>
+                    </div>
+
+                    {/* Program Monitor */}
+                    <div className="flex-1 space-y-2">
+                        <div className="bg-red-600 text-white text-center font-bold py-1 rounded-t-md">PROGRAM {isLive && '(LIVE)'}</div>
+                         <AspectRatio ratio={16/9} className="bg-black rounded-b-md overflow-hidden">
+                            {programScene && <Image src={programScene.sourceUrl} alt={programScene.name} fill className="object-cover" data-ai-hint={programScene.dataAiHint} />}
+                        </AspectRatio>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <div className="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {/* Left Column: Media Manager */}
                 <div className="lg:col-span-2 flex flex-col gap-4">
                     <Card className="flex-grow flex flex-col">
@@ -140,8 +179,17 @@ export default function TvStudioPage() {
                                     <TabsTrigger value="banners"><ImageIcon className="mr-2 h-4 w-4"/>Banners</TabsTrigger>
                                     <TabsTrigger value="music"><Music className="mr-2 h-4 w-4"/>Music</TabsTrigger>
                                 </TabsList>
-                                <TabsContent value="scenes" className="flex-grow bg-black mt-2 rounded-md">
-                                    {/* This would be where the scene/media preview is displayed */}
+                                <TabsContent value="scenes" className="flex-grow mt-2 rounded-md">
+                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                                        {scenes.map(scene => (
+                                            <Card key={scene.id} className="overflow-hidden cursor-pointer" onClick={() => setPreviewScene(scene)}>
+                                                <AspectRatio ratio={16/9} className="bg-black">
+                                                     <Image src={scene.sourceUrl} alt={scene.name} fill className="object-cover" data-ai-hint={scene.dataAiHint} />
+                                                </AspectRatio>
+                                                <p className="text-xs p-1 bg-background/50 truncate">{scene.name}</p>
+                                            </Card>
+                                        ))}
+                                    </div>
                                 </TabsContent>
                             </Tabs>
                         </CardContent>
@@ -177,10 +225,10 @@ export default function TvStudioPage() {
                                         <span className="font-mono text-sm">00:00:00</span>
                                      </div>
                                      <div className="grid grid-cols-2 gap-2">
-                                         <Button variant="outline" onClick={handleGoLive}>
+                                         <Button variant={isLive ? "destructive" : "outline"} onClick={handleGoLive}>
                                             <Play className="mr-2 h-4 w-4" /> {isLive ? "Stop Stream" : "Start Stream"}
                                         </Button>
-                                         <Button variant="outline" onClick={handleRecord}>
+                                         <Button variant={isRecording ? "destructive" : "outline"} onClick={handleRecord}>
                                             <Circle className="mr-2 h-4 w-4" /> {isRecording ? "Stop Record" : "Start Record"}
                                         </Button>
                                      </div>
@@ -214,4 +262,3 @@ export default function TvStudioPage() {
         </div>
     );
 }
-
