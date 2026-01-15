@@ -120,7 +120,7 @@ export default function TvStudioPage() {
         <div className="flex flex-col h-full bg-black border border-border/50 rounded-lg">
              <div className={cn(
                 "p-2 text-center font-bold text-lg",
-                isLive ? "bg-destructive text-destructive-foreground" : "bg-green-600 text-white"
+                isLive ? "bg-red-600 text-white" : "bg-green-600 text-white"
              )}>
                 <CardTitle className="text-sm uppercase tracking-widest flex items-center justify-center gap-2">
                     {isLive && <Radio className="h-4 w-4 animate-pulse" />}
@@ -159,22 +159,29 @@ export default function TvStudioPage() {
                 </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <SceneMonitor scene={previewScene} title="Preview" />
-                <SceneMonitor scene={programScene} title="Program" isLive={isLive} />
+            <div className="grid grid-cols-12 gap-4">
+                <div className="col-span-5">
+                    <SceneMonitor scene={previewScene} title="Preview" />
+                </div>
+                <div className="col-span-2">
+                    <Card className="h-full">
+                        <CardHeader className="p-2 text-center">
+                            <CardTitle className="text-sm">Transitions</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-2 flex flex-col gap-2">
+                            <Button variant="outline" className="w-full" onClick={() => handleTransition('cut')}>
+                                <MoveRight className="mr-2 h-4 w-4"/> Cut
+                            </Button>
+                            <Button variant="outline" className="w-full" onClick={() => handleTransition('fade')}>
+                                <GitMerge className="mr-2 h-4 w-4"/> Fade
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </div>
+                <div className="col-span-5">
+                    <SceneMonitor scene={programScene} title="Program" isLive={isLive} />
+                </div>
             </div>
-
-            <Card>
-                <CardHeader><CardTitle>Transitions</CardTitle></CardHeader>
-                <CardContent className="flex flex-col sm:flex-row gap-2 w-full">
-                    <Button variant="outline" className="w-full" onClick={() => handleTransition('cut')}>
-                        <MoveRight className="mr-2 h-4 w-4"/> Cut
-                    </Button>
-                    <Button variant="outline" className="w-full" onClick={() => handleTransition('fade')}>
-                        <GitMerge className="mr-2 h-4 w-4"/> Fade
-                    </Button>
-                </CardContent>
-            </Card>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                 <Card className="lg:col-span-8">
