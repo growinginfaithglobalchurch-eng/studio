@@ -29,6 +29,9 @@ import {
   PictureInPicture2,
   AlertCircle,
   Waves,
+  Bot,
+  BookText,
+  Newspaper,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -41,6 +44,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AudioMixer } from '@/components/tv-studio/AudioMixer';
+import { Input } from '@/components/ui/input';
 
 type Scene = {
   id: string;
@@ -125,6 +129,8 @@ const initialScenes: Scene[] = [
     dataAiHint: 'interview setup',
   },
 ];
+
+const videoPlaylist = initialScenes.filter(s => s.type === 'video').slice(0,4);
 
 export default function TvStudioPage() {
   const { toast } = useToast();
@@ -277,7 +283,7 @@ export default function TvStudioPage() {
   }
 
   return (
-    <div className="relative flex flex-col h-full gap-4 text-zinc-100 -m-4 md:-m-6 p-4 overflow-hidden">
+    <div className="relative flex flex-col h-full gap-4 text-zinc-100 overflow-hidden">
       {backgroundUrl && (
         <Image
           src={backgroundUrl}
@@ -633,6 +639,60 @@ export default function TvStudioPage() {
                 >
                   <Plus className="mr-2 h-4 w-4" /> Add Custom RTMP
                 </Button>
+              </div>
+            </TabsContent>
+            <TabsContent
+              value="automation"
+              className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4"
+            >
+              <div className="bg-zinc-800 rounded-lg p-3">
+                <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                  <BookText className="h-5 w-5 text-accent" /> Scripture Automation
+                </h3>
+                <div className="p-3 bg-black/50 rounded-md text-center mb-2">
+                    <p className="italic text-zinc-200">"For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."</p>
+                    <p className="font-bold text-zinc-400 mt-1">John 3:16</p>
+                </div>
+                <div className="flex items-center justify-between">
+                    <Button variant="outline" size="sm">Generate New Scripture</Button>
+                    <div className="flex items-center space-x-2">
+                        <Label htmlFor="scripture-auto" className="text-sm">Auto-Advance</Label>
+                        <Switch id="scripture-auto"/>
+                    </div>
+                </div>
+              </div>
+               <div className="bg-zinc-800 rounded-lg p-3">
+                <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                  <Newspaper className="h-5 w-5 text-accent" /> News Ticker
+                </h3>
+                <Input placeholder="Enter news ticker text..." className="bg-zinc-900 text-white border-zinc-700"/>
+                <div className="flex items-center justify-between mt-2">
+                    <Button variant="outline" size="sm">Display Ticker</Button>
+                     <div className="flex items-center space-x-2">
+                        <Label htmlFor="ticker-onair" className="text-sm">On Air</Label>
+                        <Switch id="ticker-onair" />
+                    </div>
+                </div>
+              </div>
+               <div className="bg-zinc-800 rounded-lg p-3">
+                <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                  <Clapperboard className="h-5 w-5 text-accent" /> Video Playlist
+                </h3>
+                <div className="space-y-2 max-h-32 overflow-y-auto">
+                    {videoPlaylist.map((scene, index) => (
+                        <div key={scene.id} className="bg-black/50 p-2 rounded-md flex justify-between items-center text-sm">
+                            <p>{index + 1}. {scene.name}</p>
+                            <p className="text-zinc-400">02:30</p>
+                        </div>
+                    ))}
+                </div>
+                 <div className="flex items-center justify-between mt-2">
+                    <Button variant="outline" size="sm">Play Next</Button>
+                     <div className="flex items-center space-x-2">
+                        <Label htmlFor="playlist-auto" className="text-sm">Autoplay</Label>
+                        <Switch id="playlist-auto" />
+                    </div>
+                </div>
               </div>
             </TabsContent>
              <TabsContent value="audio" className="flex-grow min-h-0">
