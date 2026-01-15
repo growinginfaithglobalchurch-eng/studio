@@ -38,6 +38,7 @@ import {
   LayoutGrid,
   UserPlus,
   Link as LinkIcon,
+  Trash2,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -55,10 +56,11 @@ import { Input } from '@/components/ui/input';
 type Scene = {
   id: string;
   name: string;
-  type: 'image' | 'video' | 'live';
+  type: 'image' | 'video' | 'live' | 'guest';
   sourceUrl?: string;
   sourceStream?: MediaStream;
   dataAiHint?: string;
+  title?: string;
 };
 
 const initialScenes: Scene[] = [
@@ -93,9 +95,10 @@ const initialScenes: Scene[] = [
     dataAiHint: 'space shooter game',
   },
   {
-    id: 'guest',
-    name: 'Guest Speaker Cam',
-    type: 'video',
+    id: 'guest-1',
+    name: 'Guest Speaker',
+    title: 'Expert Analyst',
+    type: 'guest',
     sourceUrl: 'https://picsum.photos/seed/guest/1280/720',
     dataAiHint: 'remote speaker feed',
   },
@@ -242,7 +245,9 @@ export default function TvStudioPage() {
   const [lowerThirdData, setLowerThirdData] = useState<LowerThird>({ title: 'Joseph Tryson', subtitle: 'The Bondservant of Christ' });
   const [showLogoBug, setShowLogoBug] = useState(false);
   const logoScene = scenes.find(s => s.id === 'logo');
-  const guest = scenes.find(s => s.id === 'guest');
+  
+  const guests = scenes.filter(s => s.type === 'guest');
+  const activeGuest = guests.length > 0 ? guests[0] : null;
 
   const [newsTickerText, setNewsTickerText] = useState('');
   const [showNewsTicker, setShowNewsTicker] = useState(false);
@@ -279,7 +284,7 @@ export default function TvStudioPage() {
             type: 'live',
             sourceStream: stream
         };
-        setScenes(prev => [cameraScene, sideCameraScene, ...prev.filter(s => s.type !== 'live')]);
+        setScenes(prev => [...prev.filter(s => s.type !== 'live'), cameraScene, sideCameraScene]);
         setPreviewScene(cameraScene);
 
       } catch (error) {
@@ -393,6 +398,32 @@ export default function TvStudioPage() {
     });
   };
 
+  const handleAddGuest = () => {
+    const newGuestId = `guest-${Date.now()}`;
+    const guestNum = guests.length + 1;
+    const newGuest: Scene = {
+      id: newGuestId,
+      name: `Guest ${guestNum}`,
+      title: 'New Guest',
+      type: 'guest',
+      sourceUrl: `https://picsum.photos/seed/${newGuestId}/1280/720`,
+      dataAiHint: 'remote speaker feed',
+    };
+    setScenes(prev => [...prev, newGuest]);
+    toast({
+      title: 'Guest Invited!',
+      description: `${newGuest.name} has been added to your camera sources.`,
+    });
+  };
+  
+  const handleRemoveGuest = (guestId: string) => {
+    setScenes(prev => prev.filter(s => s.id !== guestId));
+    toast({
+      title: 'Guest Removed',
+      description: 'The guest has been removed from your sources.',
+    });
+  };
+
   const TransitionButton = ({ label, shortcut }: { label: string, shortcut?: string }) => (
     <Button
       variant="outline"
@@ -409,7 +440,7 @@ export default function TvStudioPage() {
     if (scene.type === 'live' && scene.sourceStream) {
       return <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />;
     }
-    if (scene.type === 'video') {
+    if (scene.type === 'video' || scene.type === 'guest') {
        return <video ref={videoRef} src={scene.sourceUrl} className="w-full h-full object-cover" autoPlay loop muted playsInline />;
     }
     return <Image src={scene.sourceUrl || ''} alt={scene.name} fill className="object-cover" data-ai-hint={scene.dataAiHint} />;
@@ -552,9 +583,9 @@ export default function TvStudioPage() {
                             </div>
                         </div>
                         <div className="w-1/2 h-full relative">
-                            {renderScene(guest, null)}
+                            {renderScene(activeGuest, null)}
                              <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                                {guest?.name}
+                                {activeGuest?.name}
                             </div>
                         </div>
                     </div>
@@ -568,9 +599,9 @@ export default function TvStudioPage() {
                             </div>
                         </div>
                         <div className="w-1/3 h-full relative">
-                            {renderScene(guest, null)}
+                            {renderScene(activeGuest, null)}
                             <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                                {guest?.name}
+                                {activeGuest?.name}
                             </div>
                         </div>
                     </div>
@@ -637,7 +668,7 @@ export default function TvStudioPage() {
                 >
                 <ScrollArea className="h-full">
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pr-4">
-                    {scenes.filter(s => s.type !== 'live').map((scene) => (
+                    {scenes.filter(s => s.type !== 'live' && s.type !== 'guest').map((scene) => (
                         <button
                         key={scene.id}
                         className={cn(
@@ -668,35 +699,67 @@ export default function TvStudioPage() {
                     className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0"
                 >
                     <ScrollArea className="h-full">
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pr-4">
-                            {useLiveCameras && liveStream ? scenes.filter(s => s.type === 'live').map(scene => (
-                                <button
-                                    key={scene.id}
-                                    className={cn(
-                                        'aspect-video bg-black rounded-md relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900',
-                                        previewScene?.id === scene.id
-                                        ? 'ring-2 ring-orange-500'
-                                        : 'ring-1 ring-zinc-700 hover:ring-orange-500'
+                        <div className="space-y-4">
+                            <div>
+                                <h4 className="text-xs font-bold text-zinc-400 mb-2 px-2">LIVE CAMERAS</h4>
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pr-4">
+                                    {useLiveCameras && liveStream ? scenes.filter(s => s.type === 'live').map(scene => (
+                                        <button
+                                            key={scene.id}
+                                            className={cn(
+                                                'aspect-video bg-black rounded-md relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900',
+                                                previewScene?.id === scene.id
+                                                ? 'ring-2 ring-orange-500'
+                                                : 'ring-1 ring-zinc-700 hover:ring-orange-500'
+                                            )}
+                                            onClick={() => setPreviewScene(scene)}
+                                            >
+                                            <video src={scene.sourceUrl} ref={el => { if (el) el.srcObject = scene.sourceStream!}} className="w-full h-full object-cover" autoPlay muted playsInline />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                            <p className="absolute bottom-1 left-2 text-xs text-white font-semibold truncate">
+                                                {scene.name}
+                                            </p>
+                                        </button>
+                                    )) : (
+                                        <div className="col-span-full">
+                                            <Alert variant="destructive">
+                                                <AlertCircle className="h-4 w-4" />
+                                                <AlertTitle>Cameras Inactive</AlertTitle>
+                                                <AlertDescription>
+                                                    Enable the "Use Live Cameras" switch to activate camera feeds.
+                                                </AlertDescription>
+                                            </Alert>
+                                        </div>
                                     )}
-                                    onClick={() => setPreviewScene(scene)}
-                                    >
-                                    <video src={scene.sourceUrl} ref={el => { if (el) el.srcObject = scene.sourceStream!}} className="w-full h-full object-cover" autoPlay muted playsInline />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                                    <p className="absolute bottom-1 left-2 text-xs text-white font-semibold truncate">
-                                        {scene.name}
-                                    </p>
-                                </button>
-                            )) : (
-                                <div className="col-span-full">
-                                    <Alert variant="destructive">
-                                        <AlertCircle className="h-4 w-4" />
-                                        <AlertTitle>Cameras Inactive</AlertTitle>
-                                        <AlertDescription>
-                                            Enable the "Use Live Cameras" switch to activate camera feeds.
-                                        </AlertDescription>
-                                    </Alert>
                                 </div>
-                            )}
+                            </div>
+                             <div>
+                                <h4 className="text-xs font-bold text-zinc-400 mb-2 px-2">GUESTS</h4>
+                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pr-4">
+                                    {guests.length > 0 ? guests.map(scene => (
+                                        <button
+                                            key={scene.id}
+                                            className={cn(
+                                                'aspect-video bg-black rounded-md relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900',
+                                                previewScene?.id === scene.id
+                                                ? 'ring-2 ring-orange-500'
+                                                : 'ring-1 ring-zinc-700 hover:ring-orange-500'
+                                            )}
+                                            onClick={() => setPreviewScene(scene)}
+                                            >
+                                            <Image src={scene.sourceUrl!} alt={scene.name} fill className="object-cover" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                            <p className="absolute bottom-1 left-2 text-xs text-white font-semibold truncate">
+                                                {scene.name}
+                                            </p>
+                                        </button>
+                                    )) : (
+                                         <div className="col-span-full p-4 text-center text-sm text-zinc-500">
+                                            No guests have been added.
+                                        </div>
+                                    )}
+                                 </div>
+                             </div>
                         </div>
                     </ScrollArea>
                 </TabsContent>
@@ -817,30 +880,32 @@ export default function TvStudioPage() {
                         <Button
                             variant="outline"
                             className="w-full"
-                            onClick={() => {
-                                toast({
-                                    title: 'Guest Link Generated!',
-                                    description: 'Link copied to clipboard: /guest-join/xyz-123',
-                                });
-                            }}
+                            onClick={handleAddGuest}
                         >
                             <LinkIcon className="mr-2 h-4 w-4" /> Generate Invite Link
                         </Button>
                     </div>
-                     {guest && (
-                        <div className="bg-zinc-800 rounded-lg p-3">
-                            <h3 className="font-bold text-zinc-100">Current Guest</h3>
-                            <div className="flex items-center gap-3 mt-2">
-                                <div className="relative w-16 h-9 rounded-md bg-black overflow-hidden">
-                                    <Image src={guest.sourceUrl!} alt="guest" fill className="object-cover"/>
-                                </div>
-                                <div>
-                                    <p className="font-semibold">{guest.name}</p>
-                                    <p className="text-xs text-zinc-400">{guest.title}</p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                    <div className="bg-zinc-800 rounded-lg p-3 space-y-3">
+                      <h3 className="font-bold text-zinc-100">Current Guests</h3>
+                       {guests.length > 0 ? guests.map(g => (
+                          <div key={g.id} className="flex items-center justify-between gap-3 bg-zinc-900 p-2 rounded-md">
+                              <div className="flex items-center gap-3">
+                                  <div className="relative w-16 h-9 rounded-md bg-black overflow-hidden">
+                                      <Image src={g.sourceUrl!} alt={g.name} fill className="object-cover"/>
+                                  </div>
+                                  <div>
+                                      <p className="font-semibold">{g.name}</p>
+                                      <p className="text-xs text-zinc-400">{g.title}</p>
+                                  </div>
+                              </div>
+                              <Button variant="destructive" size="icon" className="h-8 w-8" onClick={() => handleRemoveGuest(g.id)}>
+                                  <Trash2 className="h-4 w-4" />
+                              </Button>
+                          </div>
+                      )) : (
+                           <p className="text-center text-sm text-zinc-500 py-4">No guests invited.</p>
+                      )}
+                    </div>
                 </TabsContent>
                 <TabsContent
                 value="automation"
@@ -952,5 +1017,3 @@ export default function TvStudioPage() {
     </div>
   );
 }
-
-
