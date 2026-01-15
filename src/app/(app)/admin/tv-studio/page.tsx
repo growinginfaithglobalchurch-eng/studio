@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -78,9 +77,9 @@ export default function TvStudioPage() {
             </h1>
 
             {/* Monitors Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 items-center">
-                {/* Preview Monitor */}
-                <Card className="flex flex-col">
+            <div className="space-y-2">
+                 {/* Preview Monitor */}
+                <Card className="flex flex-col bg-card">
                     <CardHeader className="p-2 bg-secondary rounded-t-lg">
                         <CardTitle className="text-sm font-bold text-center">PREVIEW: {previewScene?.name}</CardTitle>
                     </CardHeader>
@@ -91,14 +90,14 @@ export default function TvStudioPage() {
                     </CardContent>
                 </Card>
 
-                {/* Transition Controls */}
-                <div className="flex flex-col gap-2 justify-center">
+                 {/* Transition Controls */}
+                <div className="grid grid-cols-2 gap-2">
                      <Button variant="outline" onClick={() => handleTransition('cut')}>Cut</Button>
                      <Button variant="outline" onClick={() => handleTransition('fade')}>Fade</Button>
                 </div>
 
                 {/* Program Monitor */}
-                <Card className="flex flex-col">
+                <Card className="flex flex-col bg-card">
                     <CardHeader className={cn("p-2 rounded-t-lg", isLive ? "bg-red-600" : "bg-green-600")}>
                         <CardTitle className="text-sm font-bold text-white text-center">
                             PROGRAM: {programScene?.name} {isLive && '(LIVE)'}
@@ -108,7 +107,7 @@ export default function TvStudioPage() {
                          <AspectRatio ratio={16/9} className="bg-black">
                             {programScene && <Image src={programScene.sourceUrl} alt={programScene.name} fill className="object-cover" data-ai-hint={programScene.dataAiHint} />}
                             {programScene?.id === 'game' && previewScene?.id === 'cam1' && (
-                               <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-accent">
+                               <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary">
                                     <Image src={previewScene.sourceUrl} alt={previewScene.name} fill className="object-cover"/>
                                </div>
                             )}
@@ -118,7 +117,7 @@ export default function TvStudioPage() {
             </div>
 
             {/* Controls Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
                 {/* Media Manager */}
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between">
