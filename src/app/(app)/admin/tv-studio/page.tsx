@@ -115,6 +115,16 @@ export default function TvStudioPage() {
         }
         setScenes(prev => prev.filter(s => s.id !== id));
     };
+    
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            const type = file.type.startsWith('video') ? 'video' : 'image';
+            setNewScene({ name: file.name, type, sourceUrl: url });
+        }
+    };
+
 
     const SceneMonitor = ({ scene, title, isLive }: { scene: Scene, title: string, isLive?: boolean }) => (
         <div className="flex flex-col h-full bg-black border border-border/50 rounded-lg">
@@ -198,7 +208,8 @@ export default function TvStudioPage() {
                                     <DialogHeader><DialogTitle>Add New Input Source</DialogTitle></DialogHeader>
                                     <form onSubmit={handleAddScene} className="space-y-4">
                                         <div className="space-y-2"><Label>Input Name</Label><Input value={newScene.name} onChange={(e) => setNewScene({...newScene, name: e.target.value})} placeholder="e.g., Guest Camera" /></div>
-                                        <div className="space-y-2"><Label>Source URL</Label><Input value={newScene.sourceUrl} onChange={(e) => setNewScene({...newScene, sourceUrl: e.target.value})} placeholder="https://..." /></div>
+                                        <div className="space-y-2"><Label>Source URL (or upload)</Label><Input value={newScene.sourceUrl} onChange={(e) => setNewScene({...newScene, sourceUrl: e.target.value})} placeholder="https://... or upload a file" /></div>
+                                        <div className="space-y-2"><Label>Upload File</Label><Input type="file" onChange={handleFileChange} accept="image/*,video/*" /></div>
                                         <Button type="submit" className="w-full">Add Input</Button>
                                     </form>
                                 </DialogContent>
