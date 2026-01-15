@@ -117,14 +117,17 @@ export default function TvStudioPage() {
     };
 
     const SceneMonitor = ({ scene, title, isLive }: { scene: Scene, title: string, isLive?: boolean }) => (
-        <div className="flex flex-col h-full">
-            <CardHeader className="p-2">
-                 <CardTitle className={cn("text-lg flex items-center gap-2", isLive ? "text-destructive" : "text-foreground")}>
-                    {isLive && <Radio className="h-5 w-5 animate-pulse" />}
+        <div className="flex flex-col h-full bg-black border border-border/50 rounded-lg">
+             <div className={cn(
+                "p-2 text-center font-bold text-lg",
+                isLive ? "bg-destructive text-destructive-foreground" : "bg-green-600 text-white"
+             )}>
+                <CardTitle className="text-sm uppercase tracking-widest flex items-center justify-center gap-2">
+                    {isLive && <Radio className="h-4 w-4 animate-pulse" />}
                     {title}
                 </CardTitle>
-            </CardHeader>
-            <CardContent className="flex-grow p-2">
+             </div>
+             <div className="flex-grow p-1">
                  <AspectRatio ratio={16 / 9} className="bg-black rounded-md overflow-hidden h-full">
                     {scene.type === 'image' ? (
                         <Image src={scene.sourceUrl} alt={scene.name} fill className="object-contain" data-ai-hint={scene.dataAiHint} />
@@ -135,7 +138,7 @@ export default function TvStudioPage() {
                         {scene.name}
                     </div>
                  </AspectRatio>
-            </CardContent>
+            </div>
         </div>
     );
 
@@ -159,8 +162,8 @@ export default function TvStudioPage() {
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 h-[65vh]">
                 {/* Program & Preview Monitors */}
                 <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card><SceneMonitor scene={previewScene} title="Preview" /></Card>
-                    <Card><SceneMonitor scene={programScene} title="Program" isLive={isLive} /></Card>
+                    <SceneMonitor scene={previewScene} title="Preview" />
+                    <SceneMonitor scene={programScene} title="Program" isLive={isLive} />
                 </div>
 
                 {/* Controls */}
