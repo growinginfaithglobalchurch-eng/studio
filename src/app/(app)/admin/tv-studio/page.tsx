@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
-import { Tv, Video, Power, Image as ImageIcon, PlusCircle, Trash2, GitMerge, MoveRight, Radio, Camera, Film, Upload, SlidersHorizontal, Music, Clapperboard, Newspaper, Database, Rss, Play, Circle, Twitch } from 'lucide-react';
+import { Tv, Video, Power, Image as ImageIcon, PlusCircle, Trash2, GitMerge, MoveRight, Radio, Camera, Film, Upload, SlidersHorizontal, Music, Clapperboard, Newspaper, Database, Rss, Play, Circle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
