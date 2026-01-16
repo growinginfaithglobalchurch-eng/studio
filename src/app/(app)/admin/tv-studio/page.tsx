@@ -71,6 +71,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Slider } from '@/components/ui/slider';
 
 type Scene = {
   id: string;
@@ -251,6 +252,7 @@ export default function TvStudioPage() {
   const [audioLevel, setAudioLevel] = useState(75);
   const [streamTime, setStreamTime] = useState(0);
   const [currentTime, setCurrentTime] = useState('');
+  const [tBarValue, setTBarValue] = useState(0);
 
   const initialBackground =
     PlaceHolderImages.find((p) => p.id === 'studio-background')?.imageUrl || '';
@@ -292,6 +294,27 @@ export default function TvStudioPage() {
     }
     return () => clearInterval(timer);
   }, [isRecording, recordingStartTime]);
+
+  const handleTBarChange = (value: number[]) => {
+    if (!previewScene) {
+      toast({
+        variant: 'destructive',
+        title: 'No Scene in Preview',
+        description: 'Select a scene to transition to.',
+      });
+      return;
+    }
+    const newValue = value[0];
+    setTBarValue(newValue);
+
+    if (newValue === 100) {
+      // After a short delay to let the UI catch up, commit the change.
+      setTimeout(() => {
+        setProgramScene(previewScene);
+        setTBarValue(0); // Reset slider
+      }, 150);
+    }
+  };
 
 
   const handleLayoutChange = (newLayout: 'fullscreen' | 'split-equal' | 'split-focus') => {
@@ -729,12 +752,14 @@ const handleLiveToggle = async () => {
                         <Button key={i} size="sm" variant="outline" className="h-6 bg-zinc-700 border-zinc-600 text-xs">{i+1}</Button>
                     ))}
                 </div>
-                <div className="w-full space-y-2 py-2">
-                    <div className="relative w-full h-8 flex items-center justify-center">
-                        <div className="w-full h-1 bg-zinc-700 rounded-full"></div>
-                        <div className="absolute w-2.5 h-8 bg-zinc-500 border border-zinc-400 rounded-sm cursor-pointer" style={{left: '30%'}}></div>
-                    </div>
-                    <div className="w-full h-2 bg-zinc-800 rounded-full"></div>
+                 <div className="w-full space-y-2 py-2">
+                    <Slider
+                        value={[tBarValue]}
+                        onValueChange={handleTBarChange}
+                        max={100}
+                        step={1}
+                        className="[&_[role=track]]:h-1 [&_[role=track]]:bg-zinc-700 [&_[role=range]]:bg-zinc-500 [&_[role=thumb]]:w-2.5 [&_[role=thumb]]:h-8 [&_[role=thumb]]:bg-zinc-500 [&_[role=thumb]]:border-zinc-400 [&_[role=thumb]]:rounded-sm"
+                    />
                 </div>
                 <div className="w-full bg-black border-2 border-green-500 rounded-md p-2 text-center">
                     <p className="font-mono text-green-400 text-lg leading-none">{formatTime(streamTime)}</p>
@@ -764,33 +789,36 @@ const handleLiveToggle = async () => {
                     </div>
                 ) : (
                 <>
-                    {showScriptureOverlay && <ScriptureOverlay scripture={scripture} />}
-                    {showLowerThird && <LowerThirdOverlay data={lowerThirdData} />}
-                    {showLogoBug && logoScene && (
-                    <div className="absolute top-4 right-4 w-24 h-24 z-20">
-                        <Image src={logoScene.sourceUrl!} alt="Station Logo" fill className="object-contain" />
-                    </div>
-                    )}
-                    {showNewsTicker && <NewsTickerOverlay text={newsTickerText} />}
-
                     {/* Main Program Renderer */}
-                    {layout === 'fullscreen' && (
-                    <div className="absolute inset-0">
-                        {renderScene(programScene, programVideoRef)}
-                        <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                            Source: {programScene?.name || 'None'}
-                        </div>
-                        {programScene?.id === 'game' && previewScene?.type === 'live' && (
-                        <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary shadow-lg">
-                            {renderScene(previewScene, null)}
-                            <div className="absolute inset-0 border-2 border-primary/50 flex items-center justify-center">
-                            <PictureInPicture2 className="h-6 w-6 text-white/50" />
+                    {layout === 'fullscreen' ? (
+                        <div className="absolute inset-0">
+                            {/* Base layer: what is currently on program, fading out */}
+                            <div className="absolute inset-0" style={{ opacity: 1 - tBarValue / 100 }}>
+                                {renderScene(programScene, programVideoRef)}
                             </div>
+
+                            {/* Top layer: what is in preview, fading in */}
+                            {previewScene && tBarValue > 0 && (
+                                <div className="absolute inset-0" style={{ opacity: tBarValue / 100 }}>
+                                    {renderScene(previewScene, null)}
+                                </div>
+                            )}
+                            
+                            <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                Source: {tBarValue < 50 ? (programScene?.name || 'None') : (previewScene?.name || 'None')}
+                            </div>
+
+                            {/* Picture-in-Picture logic, only show if not transitioning */}
+                            {programScene?.id === 'game' && previewScene?.type === 'live' && tBarValue === 0 && (
+                            <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary shadow-lg">
+                                {renderScene(previewScene, null)}
+                                <div className="absolute inset-0 border-2 border-primary/50 flex items-center justify-center">
+                                <PictureInPicture2 className="h-6 w-6 text-white/50" />
+                                </div>
+                            </div>
+                            )}
                         </div>
-                        )}
-                    </div>
-                    )}
-                    {layout === 'split-equal' && (
+                    ) : layout === 'split-equal' ? (
                         <div className="flex w-full h-full">
                             <div className="w-1/2 h-full relative border-r-2 border-zinc-700">
                                 {renderScene(programScene, programVideoRef)}
@@ -805,8 +833,7 @@ const handleLiveToggle = async () => {
                                 </div>
                             </div>
                         </div>
-                    )}
-                    {layout === 'split-focus' && (
+                    ) : layout === 'split-focus' && (
                         <div className="flex w-full h-full">
                             <div className="w-2/3 h-full relative border-r-2 border-zinc-700">
                                 {renderScene(programScene, programVideoRef)}
@@ -822,6 +849,16 @@ const handleLiveToggle = async () => {
                             </div>
                         </div>
                     )}
+                    
+                    {/* Overlays */}
+                    {showScriptureOverlay && <ScriptureOverlay scripture={scripture} />}
+                    {showLowerThird && <LowerThirdOverlay data={lowerThirdData} />}
+                    {showLogoBug && logoScene && (
+                    <div className="absolute top-4 right-4 w-24 h-24 z-20">
+                        <Image src={logoScene.sourceUrl!} alt="Station Logo" fill className="object-contain" />
+                    </div>
+                    )}
+                    {showNewsTicker && <NewsTickerOverlay text={newsTickerText} />}
                 </>
             )}
             </div>
