@@ -31,7 +31,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { BibleReader } from '@/components/bible-reader';
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
-import { LiveViewerSidebarNav } from '@/components/live-viewer-sidebar-nav';
+import { AppSidebarNav } from '@/components/app-sidebar-nav';
 
 const initialMessages = [
   { user: 'Pastor Joseph', text: 'Welcome everyone! So glad you could join us tonight.', tribe: 'All' },
@@ -346,18 +346,18 @@ export default function LiveViewerPage() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="flex flex-col p-0 bg-card text-card-foreground">
-                <SheetHeader className="sr-only">
-                    <SheetTitle>Menu</SheetTitle>
-                    <SheetDescription>Main application navigation</SheetDescription>
-                </SheetHeader>
-                 <div className="flex h-16 items-center border-b-[1.5px] border-border px-6">
+                <SheetHeader className="p-4 border-b border-border shrink-0">
+                  <SheetTitle className="sr-only">Menu</SheetTitle>
+                  <SheetDescription className="sr-only">Main application navigation</SheetDescription>
+                   <div className="flex h-16 items-center">
                     <Link href="/" className="flex items-center gap-2 font-semibold" onClick={closeSheet}>
                         <Church className="h-6 w-6 text-accent" />
                         <span className="">Faith Connect</span>
                     </Link>
                 </div>
+                </SheetHeader>
                 <ScrollArea className="flex-grow">
-                    <LiveViewerSidebarNav onLinkClick={closeSheet} />
+                    <AppSidebarNav onLinkClick={closeSheet} />
                 </ScrollArea>
               </SheetContent>
             </Sheet>
