@@ -40,6 +40,9 @@ import {
   Link as LinkIcon,
   Trash2,
   PlayCircle,
+  LayoutPanelLeft,
+  RectangleHorizontal,
+  Split,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -256,6 +259,18 @@ export default function TvStudioPage() {
   
   const [videoPlaylistIndex, setVideoPlaylistIndex] = useState(0);
   const [videoPlaylistAutoplay, setVideoPlaylistAutoplay] = useState(false);
+
+  const handleLayoutChange = (newLayout: 'fullscreen' | 'split-equal' | 'split-focus') => {
+    if ((newLayout === 'split-equal' || newLayout === 'split-focus') && guests.length === 0) {
+        toast({
+            variant: 'destructive',
+            title: 'No Guest Available',
+            description: 'Add a guest from the "Guests" tab to use split-screen layouts.',
+        });
+        return;
+    }
+    setLayout(newLayout);
+  };
 
   const handleGenerateScripture = () => {
     const scriptures = [
@@ -952,12 +967,22 @@ const handleLiveToggle = () => {
                 <TabsContent value="layouts" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4">
                     <div className="bg-zinc-800 rounded-lg p-3">
                         <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                            <LayoutGrid className="h-5 w-5 text-accent" />
                             Scene Layouts
                         </h3>
                         <div className="grid grid-cols-3 gap-2">
-                           <Button variant={layout === 'fullscreen' ? 'secondary' : 'outline'} onClick={() => setLayout('fullscreen')}>Fullscreen</Button>
-                           <Button variant={layout === 'split-equal' ? 'secondary' : 'outline'} onClick={() => setLayout('split-equal')}>Split 50/50</Button>
-                           <Button variant={layout === 'split-focus' ? 'secondary' : 'outline'} onClick={() => setLayout('split-focus')}>Focus Left</Button>
+                            <Button variant={layout === 'fullscreen' ? 'secondary' : 'outline'} className="h-20 flex-col" onClick={() => handleLayoutChange('fullscreen')}>
+                                <RectangleHorizontal className="h-6 w-6"/>
+                                <span className="text-xs mt-1">Fullscreen</span>
+                            </Button>
+                            <Button variant={layout === 'split-equal' ? 'secondary' : 'outline'} className="h-20 flex-col" onClick={() => handleLayoutChange('split-equal')}>
+                                <Split className="h-6 w-6"/>
+                                <span className="text-xs mt-1">Split 50/50</span>
+                            </Button>
+                            <Button variant={layout === 'split-focus' ? 'secondary' : 'outline'} className="h-20 flex-col" onClick={() => handleLayoutChange('split-focus')}>
+                                <LayoutPanelLeft className="h-6 w-6"/>
+                                <span className="text-xs mt-1">Focus Left</span>
+                            </Button>
                         </div>
                     </div>
                 </TabsContent>
