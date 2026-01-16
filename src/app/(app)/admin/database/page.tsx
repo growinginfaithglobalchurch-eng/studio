@@ -21,11 +21,11 @@ export default function AdminDatabasePage() {
     const handleTestConnection = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!supabaseUrl || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        if (supabaseUrl === 'https://placeholder.supabase.co' || !supabaseUrl || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
             toast({
                 variant: 'destructive',
                 title: 'Missing Credentials',
-                description: 'Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env file.',
+                description: 'Please add your real Supabase URL and Key to the .env file before testing.',
             });
             return;
         }
