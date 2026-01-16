@@ -9,34 +9,34 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Database, Link as LinkIcon } from 'lucide-react';
 import { ScrollAnimator } from '@/components/scroll-animator';
-import { createSupabaseClient } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase';
 
 export default function AdminDatabasePage() {
     const { toast } = useToast();
-    const [supabaseUrl, setSupabaseUrl] = useState('');
-    const [supabaseKey, setSupabaseKey] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleConnect = async (e: React.FormEvent) => {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKeyIsSet = !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    const handleTestConnection = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!supabaseUrl || !supabaseKey) {
+        if (!supabaseUrl || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
             toast({
                 variant: 'destructive',
                 title: 'Missing Credentials',
-                description: 'Please provide both the Supabase URL and the Anon Key.',
+                description: 'Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env file.',
             });
             return;
         }
 
         setIsLoading(true);
         toast({
-            title: 'Connecting to Database',
-            description: 'Attempting to establish a connection with Supabase...',
+            title: 'Testing Connection...',
+            description: 'Attempting to establish a connection with your configured Supabase instance.',
         });
 
         try {
-            const supabase = createSupabaseClient(supabaseUrl, supabaseKey);
             // Test connection by trying to list storage buckets.
             const { error } = await supabase.storage.listBuckets();
 
@@ -53,7 +53,7 @@ export default function AdminDatabasePage() {
             toast({
                 variant: 'destructive',
                 title: 'Connection Failed',
-                description: error.message || 'An unknown error occurred. Check your console and credentials.',
+                description: error.message || 'An unknown error occurred. Check your .env file and console.',
             });
         } finally {
             setIsLoading(false);
@@ -69,7 +69,7 @@ export default function AdminDatabasePage() {
                         <h1 className="text-3xl font-headline font-bold text-foreground">Database Configuration</h1>
                     </div>
                     <p className="text-muted-foreground">
-                        Connect the platform to your external Supabase database.
+                        Connect the platform to your external Supabase database using environment variables.
                     </p>
                 </div>
             </ScrollAnimator>
@@ -77,41 +77,39 @@ export default function AdminDatabasePage() {
             <ScrollAnimator>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Supabase Connector</CardTitle>
+                        <CardTitle>Supabase Connection</CardTitle>
                         <CardDescription>
-                            Enter your Supabase project URL and public anon key to connect your database. You can find these in your Supabase project's API settings.
+                            To permanently connect your database, add your Supabase project URL and public anon key to the <code className="font-mono bg-muted p-1 rounded-sm">.env</code> file in the root of this project.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form onSubmit={handleConnect} className="space-y-6">
+                        <form onSubmit={handleTestConnection} className="space-y-6">
                             <div className="space-y-2">
-                                <Label htmlFor="supabaseUrl">Supabase URL</Label>
+                                <Label htmlFor="supabaseUrl">NEXT_PUBLIC_SUPABASE_URL</Label>
                                 <Input
                                     id="supabaseUrl"
-                                    type="url"
-                                    placeholder="https://[your-project-ref].supabase.co"
-                                    value={supabaseUrl}
-                                    onChange={(e) => setSupabaseUrl(e.target.value)}
-                                    required
+                                    type="text"
+                                    value={supabaseUrl || 'Not set in .env file'}
+                                    readOnly
+                                    disabled
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="supabaseKey">Supabase Anon Key</Label>
+                                <Label htmlFor="supabaseKey">NEXT_PUBLIC_SUPABASE_ANON_KEY</Label>
                                 <Input
                                     id="supabaseKey"
-                                    type="password"
-                                    placeholder="ey..."
-                                    value={supabaseKey}
-                                    onChange={(e) => setSupabaseKey(e.target.value)}
-                                    required
+                                    type="text"
+                                    value={supabaseKeyIsSet ? '************ (Set securely)' : 'Not set in .env file'}
+                                    readOnly
+                                    disabled
                                 />
-                                <p className="text-xs text-muted-foreground">
-                                    Your key is not stored. This page only tests the connection.
+                                 <p className="text-xs text-muted-foreground">
+                                    After updating your <code className="font-mono">.env</code> file, you may need to restart the application.
                                 </p>
                             </div>
                             <Button type="submit" disabled={isLoading} className="w-full">
                                 <LinkIcon className="mr-2 h-4 w-4" />
-                                {isLoading ? 'Connecting...' : 'Connect to Supabase'}
+                                {isLoading ? 'Testing...' : 'Test Connection'}
                             </Button>
                         </form>
                     </CardContent>
