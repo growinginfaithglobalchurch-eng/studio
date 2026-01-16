@@ -107,6 +107,24 @@
       "description": "An abstract background with dark blue and gold flowing lines.",
       "imageUrl": "https://images.unsplash.com/photo-1634712282210-d4c3b99839d3?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "dark gold abstract"
+    },
+    {
+      "id": "partner-kit",
+      "description": "A welcome kit box for new partners.",
+      "imageUrl": "https://images.unsplash.com/photo-1651786216606-9ba5491e2d14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3ZWxjb21lJTIwa2l0fGVufDB8fHx8MTc2ODU0MDQ4MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "welcome kit"
+    },
+    {
+      "id": "ebook-cover",
+      "description": "A book cover for an exclusive e-book.",
+      "imageUrl": "https://images.unsplash.com/photo-1621827979802-6d778e161b28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Ym9vayUyMGNvdmVyfGVufDB8fHx8MTc2ODQ0NTM5NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "partner-pin",
+      "description": "A decorative lapel pin for partners.",
+      "imageUrl": "https://images.unsplash.com/photo-1540302819037-abacaf0f1e1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsYXBlbCUyMHBpbnxlbnwwfHx8fDE3Njg1NDA0ODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lapel pin"
     }
   ]
 }
