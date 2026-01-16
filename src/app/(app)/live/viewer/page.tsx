@@ -13,6 +13,7 @@ import {
   Hand,
   Flame,
   Menu,
+  Download,
 } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -22,6 +23,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Countdown } from '@/components/countdown';
 import { db } from '@/lib/firebase';
 import { collection, query, where, limit, onSnapshot, doc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 const initialMessages = [
   { user: 'Pastor Joseph', text: 'Welcome everyone! So glad you could join us tonight.', tribe: 'All' },
@@ -132,6 +136,59 @@ const ScheduleTabContent = () => (
         </div>
     </div>
 )
+
+const NotesTabContent = () => {
+  const [notes, setNotes] = useState('');
+  const { toast } = useToast();
+
+  const handleDownloadNotes = () => {
+    if (!notes.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'No Notes to Download',
+        description: 'Please write some notes before downloading.',
+      });
+      return;
+    }
+    const blob = new Blob([notes], { type: 'text/plain;charset=utf-8' });
+    const href = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = href;
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}-${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+    link.download = `live-notes-${dateStr}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
+
+    toast({
+        title: "Notes Downloaded",
+        description: "Your notes have been saved as a .txt file.",
+    });
+  };
+
+  return (
+    <div className="h-full flex flex-col p-4 bg-secondary/30 space-y-4">
+      <Label htmlFor="notes-textarea" className="font-semibold text-muted-foreground">
+        My Notes
+      </Label>
+      <Textarea
+        id="notes-textarea"
+        placeholder="Type your notes from the session here..."
+        className="flex-grow bg-card text-card-foreground border-zinc-700 resize-none"
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
+      <Button onClick={handleDownloadNotes} className="w-full">
+        <Download className="mr-2 h-4 w-4" />
+        Download Notes
+      </Button>
+    </div>
+  );
+};
 
 const LiveVideoPlayer = ({ showId }: { showId: string }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -300,8 +357,8 @@ export default function LiveViewerPage() {
           <TabsContent value="schedule" className="flex-1 min-h-0 overflow-y-auto">
              <ScheduleTabContent />
           </TabsContent>
-          <TabsContent value="notes" className="flex-1 p-4 bg-secondary/30">
-              <p className="text-muted-foreground text-center">Notes feature coming soon.</p>
+          <TabsContent value="notes" className="flex-1 min-h-0">
+              <NotesTabContent />
           </TabsContent>
           <TabsContent value="bible" className="flex-1 p-4 bg-secondary/30">
               <p className="text-muted-foreground text-center">Bible feature coming soon.</p>
