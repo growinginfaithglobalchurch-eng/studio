@@ -492,14 +492,13 @@ export default function TvStudioPage() {
     });
 };
 
-const handleLiveToggle = async () => {
+  const handleLiveToggle = async () => {
     if (isLive) {
       if (isRecording) {
         await handleToggleRecord(); // Stop recording if it's active
       }
       
-      // Stop the stream only if it was a screen share
-      if (mediaStream && !useLiveCameras) {
+      if (mediaStream) { // Stop any stream we started
         mediaStream.getTracks().forEach(track => track.stop());
       }
       
@@ -508,36 +507,43 @@ const handleLiveToggle = async () => {
       toast({ title: 'Stream Stopped', description: 'Your broadcast has ended.' });
     } else {
       // GOING LIVE
-      let streamToBroadcast: MediaStream | null = null;
-      
-      if (useLiveCameras) {
-        if (liveStream) {
-          streamToBroadcast = liveStream;
+      let streamToBroadcast: MediaStream | undefined | null = null;
+
+      if (programScene?.type === 'live' && programScene.sourceStream) {
+        streamToBroadcast = programScene.sourceStream;
+        toast({ title: 'Going live with camera source!' });
+      } else if ((programScene?.type === 'video' || programScene?.type === 'guest') && programVideoRef.current) {
+        // @ts-ignore - captureStream is not on all browsers but should be on modern ones
+        if (programVideoRef.current.captureStream) {
+          // @ts-ignore
+          streamToBroadcast = programVideoRef.current.captureStream();
+          toast({ title: 'Going live with video source!' });
         } else {
-          toast({
-            variant: 'destructive',
-            title: 'No Camera Feed',
-            description: 'Please enable "Use Live Cameras" and grant permission first.',
-          });
+          toast({ variant: 'destructive', title: 'Browser Not Supported', description: 'Video source capture is not supported in your browser. Try screen sharing instead.'});
           return;
         }
       } else {
-        // Default to screen sharing
-        if (typeof navigator.mediaDevices?.getDisplayMedia !== 'function') {
           toast({
             variant: 'destructive',
-            title: 'Screen Sharing Not Supported',
-            description: 'Your browser may not support screen sharing, or you might be on an insecure connection (HTTP). Please use a secure connection (HTTPS). Try using the "Live Cameras" option instead.',
+            title: 'No direct video source found in Program.',
+            description: 'Attempting to use Screen Share. Please select a window to broadcast.',
           });
-          return;
-        }
-        try {
-          streamToBroadcast = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-        } catch (err) {
-          console.error("Error getting display media", err);
-          toast({ variant: 'destructive', title: 'Could not start stream', description: 'Permission to share screen was denied.' });
-          return;
-        }
+          
+          if (typeof navigator.mediaDevices?.getDisplayMedia !== 'function') {
+              toast({
+                variant: 'destructive',
+                title: 'Screen Sharing Not Supported',
+                description: 'Your browser may not support screen sharing, or you might be on an insecure connection (HTTP).',
+              });
+              return;
+            }
+            try {
+              streamToBroadcast = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+            } catch (err) {
+              console.error("Error getting display media", err);
+              toast({ variant: 'destructive', title: 'Could not start stream', description: 'Permission to share screen was denied.' });
+              return;
+            }
       }
       
       if (streamToBroadcast) {
@@ -545,9 +551,11 @@ const handleLiveToggle = async () => {
         startBroadcast(streamToBroadcast, {
           title: programScene?.name || 'Live Broadcast',
           host: 'Royal Life TV',
-          tribe: 'all', // For now, can be updated later
+          tribe: 'all', 
         });
         toast({ title: 'Going Live!', description: 'Your broadcast is starting...' });
+      } else {
+          toast({ variant: 'destructive', title: 'Stream Failed', description: 'Could not get a media stream to broadcast.' });
       }
     }
   };
