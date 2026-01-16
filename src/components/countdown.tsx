@@ -7,34 +7,37 @@ interface CountdownProps {
     targetDate: Date;
 }
 
-export const Countdown = ({ targetDate }: CountdownProps) => {
-    const calculateTimeLeft = () => {
-        const difference = +targetDate - +new Date();
-        let timeLeft = {
-            hours: 0,
-            minutes: 0,
-            seconds: 0
-        };
-
-        if (difference > 0) {
-            timeLeft = {
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / 1000 / 60) % 60),
-                seconds: Math.floor((difference / 1000) % 60),
-            };
-        }
-        return timeLeft;
+const calculateTimeLeft = (targetDate: Date) => {
+    const difference = +new Date(targetDate) - +new Date();
+    let timeLeft = {
+        hours: 0,
+        minutes: 0,
+        seconds: 0
     };
 
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    if (difference > 0) {
+        timeLeft = {
+            hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+            minutes: Math.floor((difference / 1000 / 60) % 60),
+            seconds: Math.floor((difference / 1000) % 60),
+        };
+    }
+    return timeLeft;
+};
+
+export const Countdown = ({ targetDate }: CountdownProps) => {
+    const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
+        // Set the initial time on the client to avoid hydration mismatch
+        setTimeLeft(calculateTimeLeft(targetDate));
+
+        const timer = setInterval(() => {
+            setTimeLeft(calculateTimeLeft(targetDate));
         }, 1000);
 
-        return () => clearTimeout(timer);
-    });
+        return () => clearInterval(timer);
+    }, [targetDate]);
 
     return (
         <div className="flex justify-center gap-2 sm:gap-4">
