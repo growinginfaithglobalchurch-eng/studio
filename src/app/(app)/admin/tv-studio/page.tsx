@@ -53,6 +53,8 @@ import { Slider } from '@/components/ui/slider';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AudioMixer } from '@/components/tv-studio/AudioMixer';
 import { Input } from '@/components/ui/input';
+import { useBroadcast } from '@/hooks/use-broadcast';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type Scene = {
   id: string;
@@ -94,14 +96,6 @@ const initialScenes: Scene[] = [
     type: 'video',
     sourceUrl: 'https://picsum.photos/seed/game/1280/720',
     dataAiHint: 'space shooter game',
-  },
-  {
-    id: 'guest-1',
-    name: 'Guest Speaker',
-    title: 'Expert Analyst',
-    type: 'guest',
-    sourceUrl: 'https://picsum.photos/seed/guest/1280/720',
-    dataAiHint: 'remote speaker feed',
   },
   {
     id: 'outro',
@@ -221,7 +215,7 @@ const NewsTickerOverlay = ({ text }: { text: string }) => (
 
 export default function TvStudioPage() {
   const { toast } = useToast();
-  const [isLive, setIsLive] = useState(false);
+  const { isBroadcasting: isLive, startBroadcast, stopBroadcast } = useBroadcast('liveRooms');
   const [useLiveCameras, setUseLiveCameras] = useState(false);
   const [liveStream, setLiveStream] = useState<MediaStream | null>(null);
   const [layout, setLayout] = useState<'fullscreen' | 'split-equal' | 'split-focus'>('fullscreen');
@@ -276,9 +270,9 @@ export default function TvStudioPage() {
  const handleCameraToggle = async (checked: boolean) => {
     setUseLiveCameras(checked);
     if (checked) {
-      if (typeof navigator !== 'undefined' && navigator.mediaDevices) {
+      if (typeof window !== 'undefined' && navigator.mediaDevices?.getUserMedia) {
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
           setLiveStream(stream);
 
           const cameraScene: Scene = {
@@ -287,6 +281,7 @@ export default function TvStudioPage() {
               type: 'live',
               sourceStream: stream
           };
+          // To simulate a second camera, we use the same stream. In a real app, you'd use a different device.
           const sideCameraScene: Scene = {
               id: 'cam2',
               name: 'Side Camera',
@@ -410,13 +405,26 @@ export default function TvStudioPage() {
         return;
     }
     
-    // For all other transitions, perform the scene switch
     setProgramScene(previewScene);
     toast({
       title: `${transitionName} Transition!`,
       description: `"${previewScene.name}" is now live.`,
     });
 };
+
+const handleLiveToggle = () => {
+    if (isLive) {
+      stopBroadcast();
+      toast({ title: 'Stream Stopped', description: 'Your broadcast has ended.' });
+    } else {
+      startBroadcast({
+        title: programScene?.name || 'Live Broadcast',
+        host: 'Royal Life TV',
+        tribe: 'all',
+      });
+      toast({ title: 'Going Live!', description: 'Your broadcast is starting...' });
+    }
+  };
 
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -518,7 +526,7 @@ export default function TvStudioPage() {
                </div>
                <Button
                    variant={isLive ? 'destructive' : 'default'}
-                   onClick={() => setIsLive(!isLive)}
+                   onClick={handleLiveToggle}
                >
                    <Power className="mr-2 h-4 w-4" />
                    {isLive ? 'Stop Stream' : 'Go Live'}

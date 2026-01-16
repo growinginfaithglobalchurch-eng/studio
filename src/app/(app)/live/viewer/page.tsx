@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -24,6 +24,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { communityUsers } from '@/lib/data';
 import { Countdown } from '@/components/countdown';
+import { db } from '@/lib/firebase';
+import { collection, query, where, limit, onSnapshot, doc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
 
 const initialMessages = [
   { user: 'Pastor Joseph', text: 'Welcome everyone! So glad you could join us tonight.', tribe: 'All' },
@@ -116,10 +118,120 @@ const ScheduleTabContent = () => (
     </div>
 )
 
+const LiveVideoPlayer = ({ showId }: { showId: string }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const pcRef = useRef<RTCPeerConnection | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const joinStream = async () => {
+    if (!pcRef.current || !showId) return;
+
+    setIsConnecting(true);
+    const pc = pcRef.current;
+
+    const callDoc = doc(db, 'liveRooms', showId);
+    const answerCandidates = collection(callDoc, 'answerCandidates');
+    const offerCandidates = collection(callDoc, 'offerCandidates');
+
+    pc.onicecandidate = (event) => {
+      event.candidate && addDoc(answerCandidates, event.candidate.toJSON());
+    };
+
+    const callData = (await getDoc(callDoc)).data();
+    if (callData && callData.offer) {
+        const offerDescription = new RTCSessionDescription(callData.offer);
+        await pc.setRemoteDescription(offerDescription);
+
+        const answerDescription = await pc.createAnswer();
+        await pc.setLocalDescription(answerDescription);
+
+        const answer = {
+            type: answerDescription.type,
+            sdp: answerDescription.sdp,
+        };
+        await updateDoc(callDoc, { answer });
+
+        onSnapshot(offerCandidates, (snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                if (change.type === 'added') {
+                    pc.addIceCandidate(new RTCIceCandidate(change.doc.data()));
+                }
+            });
+        });
+    }
+  };
+
+  useEffect(() => {
+    const servers = {
+      iceServers: [
+        { urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'] },
+      ],
+      iceCandidatePoolSize: 10,
+    };
+    const pc = new RTCPeerConnection(servers);
+    pcRef.current = pc;
+
+    pc.ontrack = (event) => {
+      if (videoRef.current && event.streams[0]) {
+        videoRef.current.srcObject = event.streams[0];
+        videoRef.current.play().catch(e => console.error("Video play failed:", e));
+        setIsConnected(true);
+        setIsConnecting(false);
+      }
+    };
+    
+    return () => {
+      pc.close();
+    };
+  }, [showId]);
+
+  if (isConnected) {
+    return (
+      <video
+        ref={videoRef}
+        className="w-full h-full object-cover"
+        autoPlay
+        playsInline
+      />
+    );
+  }
+
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center bg-black text-white">
+      <p className="text-lg">The live broadcast is available.</p>
+      <Button onClick={joinStream} disabled={isConnecting} className="mt-4">
+        {isConnecting ? 'Connecting...' : 'Join Live Broadcast'}
+      </Button>
+    </div>
+  );
+};
+
 
 export default function LiveViewerPage() {
-  const programOutput = PlaceHolderImages.find(p => p.id === 'live-replay-1');
+  const [liveShow, setLiveShow] = useState<{ id: string, title: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    const q = query(
+      collection(db, 'liveRooms'),
+      where('isLive', '==', true),
+      limit(1)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      if (!snapshot.empty) {
+        const doc = snapshot.docs[0];
+        setLiveShow({ id: doc.id, title: doc.data().title || 'Live Broadcast' });
+      } else {
+        setLiveShow(null);
+      }
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+  
   return (
     <div className="h-screen w-screen bg-black flex flex-col fixed inset-0">
         <header className="flex-shrink-0 bg-black text-white flex items-center justify-between p-2 h-16">
@@ -140,18 +252,19 @@ export default function LiveViewerPage() {
       <main className="flex-1 flex flex-col min-h-0">
         <div className="relative bg-black">
           <AspectRatio ratio={16 / 9}>
-            {programOutput && (
-              <Image
-                src={programOutput.imageUrl}
-                alt="Live Program Output"
-                fill
-                className="object-cover"
-                data-ai-hint={programOutput.imageHint}
-              />
-            )}
-            <div className="absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded-md">
-                <p className="font-semibold">Being in a <span className="text-cyan-400">healthy</span> relationship</p>
-            </div>
+             {isLoading ? (
+                <div className="w-full h-full flex items-center justify-center bg-black text-white">
+                    <p className="animate-pulse">Searching for live broadcast...</p>
+                </div>
+              ) : liveShow ? (
+                 <LiveVideoPlayer showId={liveShow.id} />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-black text-white gap-4">
+                  <Image src={PlaceHolderImages.find(p => p.id === 'live-replay-1')?.imageUrl || ''} alt="Offline" width={480} height={270} className="rounded-lg opacity-30" />
+                  <p className="text-2xl font-bold">Broadcast is Offline</p>
+                  <p className="text-muted-foreground">Check the schedule for the next live event.</p>
+                </div>
+              )}
           </AspectRatio>
         </div>
 
