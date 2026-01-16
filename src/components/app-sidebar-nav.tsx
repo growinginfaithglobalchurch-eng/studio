@@ -47,6 +47,7 @@ import {
   Radio,
   Podcast,
   Tv,
+  Star,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -72,6 +73,16 @@ const communityNav = [
   { href: '/church-integration', label: 'Church Integration', icon: <Handshake className="h-4 w-4" /> },
   { href: '/visiting-programs', label: 'Visiting Programs', icon: <Globe className="h-4 w-4" /> },
   { href: '/visitor-training-program', label: 'Visitor Training', icon: <GraduationCap className="h-4 w-4" /> },
+];
+
+const partnershipNav = [
+  { href: '/partnership/join', label: 'Join Partnership', icon: <Handshake className="h-4 w-4" /> },
+  { href: '/partnership/volunteer', label: 'Volunteer', icon: <Users className="h-4 w-4" /> },
+  { href: '/partnership/kingdom-expanders', label: 'Kingdom Expanders', icon: <Globe className="h-4 w-4" /> },
+  { href: '/partnership/first-gifts', label: 'Partner Gifts', icon: <Gift className="h-4 w-4" /> },
+  { href: '/partnership/benefits', label: 'Partnership Benefits', icon: <Star className="h-4 w-4" /> },
+  { href: '/partnership/prayer-wall', label: 'Partner Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
+  { href: '/partnership/founder-meetings', label: 'Founder Meetings', icon: <Calendar className="h-4 w-4" /> },
 ];
 
 const equippingNav = [
@@ -211,6 +222,15 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
           </AccordionContent>
         </AccordionItem>
 
+        <AccordionItem value="partnership" className="border-b-0">
+          {createAccordionTrigger("Partnership", <Handshake className="h-4 w-4" />, "/partnership")}
+          <AccordionContent className="pl-4 pb-0">
+            <div className="flex flex-col space-y-1">
+              {partnershipNav.map(createNavLink)}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
          <AccordionItem value="equipping" className="border-b-0">
           {createAccordionTrigger("Equipping Centers", <GraduationCap className="h-4 w-4" />, "/school")}
           <AccordionContent className="pl-4 pb-0">
@@ -292,3 +312,5 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
     </nav>
   );
 }
+
+    
