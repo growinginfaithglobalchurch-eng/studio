@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Database, Link as LinkIcon } from 'lucide-react';
 import { ScrollAnimator } from '@/components/scroll-animator';
+import { createSupabaseClient } from '@/lib/supabase';
 
 export default function AdminDatabasePage() {
     const { toast } = useToast();
@@ -16,7 +17,7 @@ export default function AdminDatabasePage() {
     const [supabaseKey, setSupabaseKey] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleConnect = (e: React.FormEvent) => {
+    const handleConnect = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!supabaseUrl || !supabaseKey) {
@@ -34,16 +35,29 @@ export default function AdminDatabasePage() {
             description: 'Attempting to establish a connection with Supabase...',
         });
 
-        // Simulate connection attempt
-        setTimeout(() => {
-            // In a real app, you would verify the connection here.
-            // For this prototype, we'll just simulate success.
-            setIsLoading(false);
+        try {
+            const supabase = createSupabaseClient(supabaseUrl, supabaseKey);
+            // Test connection by trying to list storage buckets.
+            const { error } = await supabase.storage.listBuckets();
+
+            if (error) {
+                throw error;
+            }
+
             toast({
                 title: 'Connection Successful!',
                 description: 'Successfully connected to your Supabase instance.',
             });
-        }, 2000);
+        } catch (error: any) {
+            console.error("Supabase connection error:", error);
+            toast({
+                variant: 'destructive',
+                title: 'Connection Failed',
+                description: error.message || 'An unknown error occurred. Check your console and credentials.',
+            });
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -92,7 +106,7 @@ export default function AdminDatabasePage() {
                                     required
                                 />
                                 <p className="text-xs text-muted-foreground">
-                                    Your key is stored securely and is only used to connect to your database.
+                                    Your key is not stored. This page only tests the connection.
                                 </p>
                             </div>
                             <Button type="submit" disabled={isLoading} className="w-full">
