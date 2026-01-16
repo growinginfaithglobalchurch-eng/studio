@@ -19,7 +19,6 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { communityUsers } from '@/lib/data';
 import { Countdown } from '@/components/countdown';
 import { db } from '@/lib/firebase';
 import { collection, query, where, limit, onSnapshot, doc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
@@ -31,6 +30,20 @@ const initialMessages = [
   { user: 'Jane D.', text: 'Feeling the anointing all the way from Brazil!', tribe: '' },
 ];
 const userAvatar = PlaceHolderImages.find(p => p.id === 'avatar-1');
+
+type ScheduleItem = {
+  time: string;
+  title: string;
+  host: string;
+};
+
+const schedule: ScheduleItem[] = [
+  { time: '08:00 AM', title: 'Morning Glory', host: 'DJ Faith' },
+  { time: '12:00 PM', title: 'Midday Worship', host: 'The Worship Team' },
+  { time: '04:00 PM', title: 'Kingdom Drive Time', host: 'Pastor J' },
+  { time: '08:00 PM', title: 'Prophetic Encounter', host: 'Prophetess Norah' },
+];
+
 
 const PrayTabContent = () => {
     const [messages, setMessages] = useState(initialMessages);
@@ -94,22 +107,27 @@ const ScheduleTabContent = () => (
             <h3 className="font-semibold text-muted-foreground text-sm">NEXT SERVICE</h3>
             <Card className="mt-2">
                 <CardContent className="p-4 space-y-3 text-center">
-                    <p className="text-2xl font-bold">10:00AM</p>
+                    <p className="text-2xl font-bold">{schedule[0].time}</p>
                     <Countdown targetDate={new Date(new Date().getTime() + 4 * 3600 * 1000 + 9 * 60 * 1000 + 5 * 1000)} />
                 </CardContent>
             </Card>
         </div>
         <div>
-            <h4 className="font-bold text-muted-foreground mb-2 text-sm">FRIDAY, JANUARY 16</h4>
+            <h4 className="font-bold text-muted-foreground mb-2 text-sm">TODAY'S SCHEDULE</h4>
             <div className="space-y-2">
-                <Card><CardContent className="p-3 text-lg font-semibold">10:00AM</CardContent></Card>
-                <Card><CardContent className="p-3 text-lg font-semibold">12:00PM</CardContent></Card>
-            </div>
-        </div>
-         <div>
-            <h4 className="font-bold text-muted-foreground mb-2 text-sm">SATURDAY, JANUARY 17</h4>
-            <div className="space-y-2">
-                <Card><CardContent className="p-3 text-lg font-semibold">10:00AM</CardContent></Card>
+                 {schedule.map(item => (
+                    <Card key={item.time}>
+                        <CardContent className="p-3">
+                            <div className="flex justify-between items-center">
+                                <span className="text-lg font-semibold">{item.time}</span>
+                                <div>
+                                    <p className="font-semibold text-right">{item.title}</p>
+                                    <p className="text-xs text-muted-foreground text-right">with {item.host}</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                ))}
             </div>
         </div>
     </div>
@@ -264,7 +282,11 @@ export default function LiveViewerPage() {
                 <div className="w-full h-full flex flex-col items-center justify-center bg-black text-white gap-4">
                   <Image src={PlaceHolderImages.find(p => p.id === 'live-replay-1')?.imageUrl || ''} alt="Offline" width={480} height={270} className="rounded-lg opacity-30" />
                   <p className="text-2xl font-bold">Broadcast is Offline</p>
-                  <p className="text-muted-foreground">Check the schedule for the next live event.</p>
+                   <div className="text-center p-4 rounded-lg bg-white/10 mt-2">
+                        <p className="text-sm text-muted-foreground">Next Up</p>
+                        <p className="font-semibold text-foreground mt-1">{schedule[0].title}</p>
+                        <p className="text-sm text-muted-foreground">{schedule[0].time} with {schedule[0].host}</p>
+                  </div>
                 </div>
               )}
           </AspectRatio>
