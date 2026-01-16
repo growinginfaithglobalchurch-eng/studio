@@ -24,14 +24,14 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Countdown } from '@/components/countdown';
 import { db } from '@/lib/firebase';
-import { collection, query, where, limit, onSnapshot, doc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
+import { collection, query, where, limit, onSnapshot, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { BibleReader } from '@/components/bible-reader';
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { AppSidebarNav } from '@/components/app-sidebar-nav';
+import { LiveViewerSidebarNav } from '@/components/live-viewer-sidebar-nav';
 
 const initialMessages = [
   { user: 'Pastor Joseph', text: 'Welcome everyone! So glad you could join us tonight.', tribe: 'All' },
@@ -343,7 +343,7 @@ export default function LiveViewerPage() {
                     </Link>
                 </div>
                 <ScrollArea className="flex-grow">
-                    <AppSidebarNav onLinkClick={closeSheet} />
+                    <LiveViewerSidebarNav onLinkClick={closeSheet} />
                 </ScrollArea>
               </SheetContent>
             </Sheet>
