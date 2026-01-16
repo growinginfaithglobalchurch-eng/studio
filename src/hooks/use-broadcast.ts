@@ -26,14 +26,13 @@ export function useBroadcast(collectionName: 'liveRooms' | 'radioShows') {
   const pcRef = useRef<RTCPeerConnection | null>(null);
   const localStreamRef = useRef<MediaStream | null>(null);
 
-  const startBroadcast = useCallback(async (options: BroadcastOptions) => {
-    if (typeof window === 'undefined' || !navigator.mediaDevices?.getDisplayMedia) {
-      console.error("Screen sharing is not supported in this environment.");
+  const startBroadcast = useCallback(async (stream: MediaStream, options: BroadcastOptions) => {
+    if (typeof window === 'undefined') {
+      console.error("Broadcast is not supported on the server.");
       return;
     }
       
     try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
       localStreamRef.current = stream;
 
       const pc = new RTCPeerConnection(servers);
@@ -71,7 +70,7 @@ export function useBroadcast(collectionName: 'liveRooms' | 'radioShows') {
 
       onSnapshot(callDoc, (snapshot) => {
           const data = snapshot.data();
-          if (!pc.currentRemoteDescription && data?.answer) {
+          if (data && !pc.currentRemoteDescription && data?.answer) {
               const answerDescription = new RTCSessionDescription(data.answer);
               pc.setRemoteDescription(answerDescription);
           }

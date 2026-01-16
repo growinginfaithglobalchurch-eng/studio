@@ -20,7 +20,6 @@ import {
   Plus,
   Settings2,
   Clapperboard,
-  HardDrive,
   User,
   Shield,
   Eye,
@@ -29,10 +28,8 @@ import {
   PictureInPicture2,
   AlertCircle,
   Waves,
-  Bot,
   BookText,
   Newspaper,
-  Cross,
   PenLine,
   Text,
   LayoutGrid,
@@ -43,6 +40,8 @@ import {
   LayoutPanelLeft,
   RectangleHorizontal,
   Split,
+  StopCircle,
+  Circle,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -52,12 +51,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Slider } from '@/components/ui/slider';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AudioMixer } from '@/components/tv-studio/AudioMixer';
 import { Input } from '@/components/ui/input';
 import { useBroadcast } from '@/hooks/use-broadcast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db, storage } from '@/lib/firebase';
 
 type Scene = {
   id: string;
@@ -218,7 +219,9 @@ const NewsTickerOverlay = ({ text }: { text: string }) => (
 
 export default function TvStudioPage() {
   const { toast } = useToast();
-  const { isBroadcasting: isLive, startBroadcast, stopBroadcast } = useBroadcast('liveRooms');
+  const { isBroadcasting: isLive, startBroadcast, stopBroadcast, showId } = useBroadcast('liveRooms');
+  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
+
   const [useLiveCameras, setUseLiveCameras] = useState(false);
   const [liveStream, setLiveStream] = useState<MediaStream | null>(null);
   const [layout, setLayout] = useState<'fullscreen' | 'split-equal' | 'split-focus'>('fullscreen');
@@ -259,6 +262,25 @@ export default function TvStudioPage() {
   
   const [videoPlaylistIndex, setVideoPlaylistIndex] = useState(0);
   const [videoPlaylistAutoplay, setVideoPlaylistAutoplay] = useState(false);
+
+  // Recording state
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingStartTime, setRecordingStartTime] = useState<number | null>(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recordedChunksRef = useRef<Blob[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isRecording && recordingStartTime) {
+      timer = setInterval(() => {
+        setElapsedTime(Date.now() - recordingStartTime);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isRecording, recordingStartTime]);
+
 
   const handleLayoutChange = (newLayout: 'fullscreen' | 'split-equal' | 'split-focus') => {
     if ((newLayout === 'split-equal' || newLayout === 'split-focus') && guests.length === 0) {
@@ -387,6 +409,14 @@ export default function TvStudioPage() {
     return `${h}:${m}:${s}`;
   };
 
+  const formatTimeMs = (ms: number) => {
+    const totalSeconds = Math.floor(ms / 1000);
+    const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+    const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+    const s = (totalSeconds % 60).toString().padStart(2, '0');
+    return `${h}:${m}:${s}`;
+  };
+
   const handleTransition = (type: string) => {
     const transitionName = type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
 
@@ -427,19 +457,97 @@ export default function TvStudioPage() {
     });
 };
 
-const handleLiveToggle = () => {
+const handleLiveToggle = async () => {
     if (isLive) {
+      if (isRecording) {
+        await handleToggleRecord(); // Stop recording if it's active
+      }
       stopBroadcast();
+      mediaStream?.getTracks().forEach(track => track.stop());
+      setMediaStream(null);
       toast({ title: 'Stream Stopped', description: 'Your broadcast has ended.' });
     } else {
-      startBroadcast({
-        title: programScene?.name || 'Live Broadcast',
-        host: 'Royal Life TV',
-        tribe: 'all',
-      });
-      toast({ title: 'Going Live!', description: 'Your broadcast is starting...' });
+      try {
+        const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+        setMediaStream(stream);
+        // Ensure stream is active before starting broadcast
+        stream.onactive = () => {
+            startBroadcast(stream, {
+              title: programScene?.name || 'Live Broadcast',
+              host: 'Royal Life TV',
+              tribe: 'all', // For now, can be updated later
+            });
+            toast({ title: 'Going Live!', description: 'Your broadcast is starting...' });
+        };
+      } catch (err) {
+        console.error("Error getting display media", err);
+        toast({ variant: 'destructive', title: 'Could not start stream', description: 'Permission to share screen was denied.' });
+      }
     }
   };
+
+  const handleToggleRecord = async () => {
+    if (isRecording) {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
+            mediaRecorderRef.current.stop();
+        }
+        setIsRecording(false);
+        setRecordingStartTime(null);
+    } else {
+        if (!isLive || !mediaStream) {
+            toast({
+                variant: 'destructive',
+                title: 'Not Live',
+                description: 'You must be live to start recording.',
+            });
+            return;
+        }
+
+        try {
+            mediaRecorderRef.current = new MediaRecorder(mediaStream, { mimeType: 'video/webm' });
+            recordedChunksRef.current = [];
+
+            mediaRecorderRef.current.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    recordedChunksRef.current.push(event.data);
+                }
+            };
+
+            mediaRecorderRef.current.onstop = async () => {
+                if (!showId) return;
+                const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
+                
+                setIsUploading(true);
+                toast({ title: "Uploading recording..." });
+
+                try {
+                    const storageRef = ref(storage, `tv-studio-recordings/${showId}.webm`);
+                    await uploadBytes(storageRef, blob);
+                    const recordingUrl = await getDownloadURL(storageRef);
+
+                    const showDocRef = doc(db, 'liveRooms', showId);
+                    await updateDoc(showDocRef, { recordingUrl });
+                    
+                    toast({ title: "Recording saved and uploaded!" });
+                } catch (error) {
+                    console.error("Upload failed", error);
+                    toast({ variant: 'destructive', title: "Upload Failed", description: "Could not save the recording." });
+                } finally {
+                    setIsUploading(false);
+                }
+            };
+
+            mediaRecorderRef.current.start();
+            setIsRecording(true);
+            setRecordingStartTime(Date.now());
+            toast({ title: "Recording started!" });
+
+        } catch (error) {
+            console.error("Error starting recording:", error);
+            toast({ variant: 'destructive', title: "Could not start recording", description: "Please ensure microphone access is granted." });
+        }
+    }
+};
 
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -906,14 +1014,20 @@ const handleLiveToggle = () => {
                       </div>
                       <div className="flex justify-between items-center bg-zinc-900 p-2 rounded">
                           <div className="flex items-center gap-2 text-zinc-300">
-                          <div className="h-2 w-2 rounded-full bg-zinc-500"></div>
-                          <span>NOT RECORDING</span>
+                            <div className={cn('h-2 w-2 rounded-full', isRecording ? 'bg-red-500 animate-pulse' : 'bg-zinc-500')}></div>
+                            <span>{isRecording ? 'RECORDING' : 'NOT RECORDING'}</span>
                           </div>
-                          <span className="font-mono text-zinc-300">00:00:00</span>
+                          <span className="font-mono text-zinc-300">{formatTimeMs(elapsedTime)}</span>
                       </div>
                       <div className="grid grid-cols-2 gap-2 pt-2">
-                          <Button variant="outline">Start Stream</Button>
-                          <Button variant="outline">Start Record</Button>
+                        <Button variant="outline" onClick={handleLiveToggle} disabled={isUploading}>
+                            {isLive ? <StopCircle className="mr-2" /> : <PlayCircle className="mr-2" />}
+                            {isLive ? 'Stop Stream' : 'Start Stream'}
+                        </Button>
+                        <Button variant={isRecording ? 'destructive' : 'outline'} onClick={handleToggleRecord} disabled={!isLive || isUploading}>
+                            {isRecording ? <StopCircle className="mr-2" /> : <Circle className="mr-2 h-4 w-4 text-destructive fill-destructive" />}
+                            {isUploading ? 'Uploading...' : (isRecording ? 'Stop Record' : 'Start Record')}
+                        </Button>
                       </div>
                       </div>
                   </div>
