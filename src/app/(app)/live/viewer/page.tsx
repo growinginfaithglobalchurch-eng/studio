@@ -15,6 +15,7 @@ import {
   Menu,
   Download,
   Book,
+  Church,
 } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -28,6 +29,9 @@ import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { BibleReader } from '@/components/bible-reader';
+import Link from 'next/link';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { AppSidebarNav } from '@/components/app-sidebar-nav';
 
 const initialMessages = [
   { user: 'Pastor Joseph', text: 'Welcome everyone! So glad you could join us tonight.', tribe: 'All' },
@@ -286,6 +290,8 @@ export default function LiveViewerPage() {
   const [liveShow, setLiveShow] = useState<{ id: string, title: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const logo = PlaceHolderImages.find(p => p.id === 'ministry-logo-1');
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const closeSheet = () => setIsSheetOpen(false);
 
   useEffect(() => {
     const q = query(
@@ -323,9 +329,24 @@ export default function LiveViewerPage() {
                     </div>
                 )}
             </div>
-            <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6"/>
-            </Button>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6"/>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="flex flex-col p-0 bg-card text-card-foreground">
+                 <div className="flex h-16 items-center border-b-[1.5px] border-border px-6">
+                    <Link href="/" className="flex items-center gap-2 font-semibold" onClick={closeSheet}>
+                        <Church className="h-6 w-6 text-accent" />
+                        <span className="">Faith Connect</span>
+                    </Link>
+                </div>
+                <ScrollArea className="flex-grow">
+                    <AppSidebarNav onLinkClick={closeSheet} />
+                </ScrollArea>
+              </SheetContent>
+            </Sheet>
         </header>
 
       <main className="flex-1 flex flex-col min-h-0">
