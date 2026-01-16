@@ -13,9 +13,6 @@ import {
   Hand,
   Flame,
   Menu,
-  BookOpen,
-  Calendar,
-  FileText,
 } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -211,6 +208,7 @@ const LiveVideoPlayer = ({ showId }: { showId: string }) => {
 export default function LiveViewerPage() {
   const [liveShow, setLiveShow] = useState<{ id: string, title: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const logo = PlaceHolderImages.find(p => p.id === 'ministry-logo-1');
 
   useEffect(() => {
     const q = query(
@@ -236,13 +234,17 @@ export default function LiveViewerPage() {
     <div className="h-screen w-screen bg-black flex flex-col fixed inset-0">
         <header className="flex-shrink-0 bg-black text-white flex items-center justify-between p-2 h-16">
             <div className="flex items-center gap-2">
-                <div className="h-10 w-32 relative">
-                    <div className="bg-black h-full flex flex-col justify-center items-center p-1">
-                        <span className="font-bold text-lg text-yellow-400 leading-none">ROYAL LIFE TV</span>
-                        <span className="text-[0.5rem] text-white leading-tight">SEEING AND LIVING A LIFE</span>
-                        <span className="text-[0.5rem] text-white leading-tight">BEYOND LIMITS</span>
+                 {logo && (
+                    <div className="relative h-12 w-32">
+                        <Image
+                            src={logo.imageUrl}
+                            alt="Royal Life TV"
+                            fill
+                            className="object-contain"
+                            data-ai-hint={logo.imageHint}
+                        />
                     </div>
-                </div>
+                )}
             </div>
             <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6"/>
