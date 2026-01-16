@@ -1,38 +1,60 @@
+-- This SQL schema is designed for a PostgreSQL database, like Supabase.
 
 -- Enable UUID generation
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- User Management
+-- Users and Authentication
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    full_name VARCHAR(255),
     photo_url TEXT,
     location VARCHAR(255),
     created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
+    -- Kingdom ID fields
+    kingdom_id_number VARCHAR(50) UNIQUE,
+    authority_level INT DEFAULT 1,
+    tribe VARCHAR(50), -- 'Eagle', 'Lion', 'Marine', 'All'
+    badge VARCHAR(100)
 );
 
-CREATE TABLE kingdom_ids (
-    user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
-    kingdom_id_number VARCHAR(50) UNIQUE NOT NULL,
-    authority_level INT NOT NULL DEFAULT 1,
-    tribe VARCHAR(50) CHECK (tribe IN ('Eagle', 'Lion', 'Marine', 'All')),
-    badge VARCHAR(100),
-    issued_date DATE DEFAULT NOW()
+-- Social Feed Posts
+CREATE TABLE posts (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(255),
+    content TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Content Management
+-- Stories
+CREATE TABLE stories (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    media_url TEXT NOT NULL,
+    media_type VARCHAR(20) NOT NULL, -- 'image' or 'video'
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    expires_at TIMESTAMPTZ DEFAULT NOW() + INTERVAL '24 hours'
+);
+
+-- Prayer Requests
+CREATE TABLE prayer_requests (
+    id SERIAL PRIMARY KEY,
+    user_id UUID REFERENCES users(id) ON DELETE SET NULL, -- Allow anonymous
+    request TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Content: Devotionals, Courses, Announcements, News
 CREATE TABLE devotionals (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255),
-    category VARCHAR(100),
     content_text TEXT,
     content_audio_url TEXT,
     content_video_url TEXT,
-    image_url TEXT,
-    published_date DATE DEFAULT NOW()
+    published_date DATE DEFAULT NOW(),
+    category VARCHAR(100)
 );
 
 CREATE TABLE courses (
@@ -40,8 +62,7 @@ CREATE TABLE courses (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     category VARCHAR(100),
-    image_url TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    image_url TEXT
 );
 
 CREATE TABLE announcements (
@@ -49,131 +70,112 @@ CREATE TABLE announcements (
     title VARCHAR(255) NOT NULL,
     content TEXT,
     category VARCHAR(100),
-    date DATE DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE news_feed (
+CREATE TABLE news_items (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255),
     content TEXT NOT NULL,
     image_url TEXT,
-    timestamp TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Community & Interaction
-CREATE TABLE groups (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    category VARCHAR(100),
-    image_url TEXT,
-    created_by UUID REFERENCES users(id),
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE group_members (
-    group_id INT REFERENCES groups(id) ON DELETE CASCADE,
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    role VARCHAR(50) DEFAULT 'member', -- 'member', 'admin', 'leader'
-    joined_at TIMESTAMPTZ DEFAULT NOW(),
-    PRIMARY KEY (group_id, user_id)
-);
-
-CREATE TABLE prayer_requests (
-    id SERIAL PRIMARY KEY,
-    user_id UUID REFERENCES users(id), -- Can be NULL for anonymous requests
-    user_name VARCHAR(255), -- For anonymous requests
-    request TEXT NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE prayer_responses (
-    request_id INT REFERENCES prayer_requests(id) ON DELETE CASCADE,
-    user_id UUID REFERENCES users(id),
-    prayed_at TIMESTAMPTZ DEFAULT NOW(),
-    PRIMARY KEY (request_id, user_id)
-);
-
-CREATE TABLE friendships (
-    user_id_1 UUID REFERENCES users(id) ON DELETE CASCADE,
-    user_id_2 UUID REFERENCES users(id) ON DELETE CASCADE,
-    status VARCHAR(50) CHECK (status IN ('pending', 'accepted', 'blocked')),
-    requested_at TIMESTAMPTZ DEFAULT NOW(),
-    accepted_at TIMESTAMPTZ,
-    PRIMARY KEY (user_id_1, user_id_2)
-);
-
--- Live Content (Podcast/Radio)
-CREATE TABLE live_shows (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    type VARCHAR(50) NOT NULL, -- 'podcast', 'radio'
-    title VARCHAR(255) NOT NULL,
-    host VARCHAR(255),
-    is_live BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    ended_at TIMESTAMPTZ,
-    recording_url TEXT
-);
-
--- Events & Programs
+-- Events and Conferences
 CREATE TABLE events (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    start_date TIMESTAMPTZ NOT NULL,
+    start_date TIMESTAMPTZ,
     end_date TIMESTAMPTZ,
     location VARCHAR(255),
     image_url TEXT,
     is_conference BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE event_registrations (
-    event_id INT REFERENCES events(id) ON DELETE CASCADE,
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    registered_at TIMESTAMPTZ DEFAULT NOW(),
-    PRIMARY KEY (event_id, user_id)
+-- Community: Groups, Departments
+CREATE TABLE life_groups (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    category VARCHAR(100),
+    leader_id UUID REFERENCES users(id),
+    image_url TEXT
 );
 
--- Admin & Departments
+CREATE TABLE life_group_members (
+    group_id INT REFERENCES life_groups(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    role VARCHAR(50) DEFAULT 'member', -- 'member', 'leader'
+    PRIMARY KEY (group_id, user_id)
+);
+
 CREATE TABLE departments (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL,
     description TEXT,
-    icon VARCHAR(100)
+    icon_name VARCHAR(50)
 );
 
 CREATE TABLE department_members (
     department_id INT REFERENCES departments(id) ON DELETE CASCADE,
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    role VARCHAR(50) DEFAULT 'member', -- 'member', 'leader'
     PRIMARY KEY (department_id, user_id)
 );
 
+-- Mentorship and Discipleship
+CREATE TABLE mentorships (
+    id SERIAL PRIMARY KEY,
+    mentor_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    mentee_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    start_date DATE DEFAULT NOW(),
+    status VARCHAR(50) DEFAULT 'active' -- 'active', 'ended'
+);
+
+-- Live Content: Podcasts, Radio Shows
+CREATE TABLE live_sessions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    type VARCHAR(50) NOT NULL, -- 'podcast', 'radio'
+    title VARCHAR(255) NOT NULL,
+    host_name VARCHAR(255),
+    is_live BOOLEAN DEFAULT FALSE,
+    started_at TIMESTAMPTZ,
+    ended_at TIMESTAMPTZ,
+    recording_url TEXT
+);
+
 -- Family Hub
-CREATE TABLE family_groups (
+CREATE TABLE family_hubs (
     id SERIAL PRIMARY KEY,
     monthly_focus VARCHAR(255),
-    unity_score VARCHAR(50),
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    unity_score VARCHAR(50) -- 'Active', 'Inactive'
 );
 
-CREATE TABLE family_group_members (
-    family_group_id INT REFERENCES family_groups(id) ON DELETE CASCADE,
+CREATE TABLE family_hub_members (
+    hub_id INT REFERENCES family_hubs(id) ON DELETE CASCADE,
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     role VARCHAR(50) NOT NULL, -- 'father', 'mother', 'child'
-    PRIMARY KEY (family_group_id, user_id)
+    PRIMARY KEY (hub_id, user_id)
 );
 
--- Add a trigger to update 'updated_at' timestamps
-CREATE OR REPLACE FUNCTION trigger_set_timestamp()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+-- Visitor Program
+CREATE TABLE visitors (
+    id SERIAL PRIMARY KEY,
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    track VARCHAR(100), -- 'Leadership', 'Warrior'
+    progress INT DEFAULT 0,
+    mentor_id UUID REFERENCES users(id) ON DELETE SET NULL,
+    status VARCHAR(50) DEFAULT 'Pending', -- 'Pending', 'Active', 'Completed'
+    war_room_access BOOLEAN DEFAULT FALSE,
+    court_access BOOLEAN DEFAULT FALSE
+);
 
-CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON users
-FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
+-- Add some indexes for performance
+CREATE INDEX idx_posts_user_id ON posts(user_id);
+CREATE INDEX idx_prayer_requests_user_id ON prayer_requests(user_id);
+CREATE INDEX idx_live_sessions_is_live ON live_sessions(is_live);
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_life_group_members_user_id ON life_group_members(user_id);
+CREATE INDEX idx_department_members_user_id ON department_members(user_id);
+
+-- End of schema
