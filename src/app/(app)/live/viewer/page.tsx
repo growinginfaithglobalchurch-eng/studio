@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -24,13 +24,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Countdown } from '@/components/countdown';
 import { db } from '@/lib/firebase';
-import { collection, query, where, limit, onSnapshot, doc, updateDoc, getDoc } from 'firebase/firestore';
+import { collection, query, where, limit, onSnapshot, doc, updateDoc, getDoc, addDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { BibleReader } from '@/components/bible-reader';
 import Link from 'next/link';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { LiveViewerSidebarNav } from '@/components/live-viewer-sidebar-nav';
 
 const initialMessages = [
@@ -111,37 +111,47 @@ const PrayTabContent = () => {
     )
 }
 
-const ScheduleTabContent = () => (
-    <div className="p-4 space-y-6 bg-secondary/30">
-        <div className="text-left">
-            <h3 className="font-semibold text-muted-foreground text-sm">NEXT PROGRAM</h3>
-            <Card className="mt-2">
-                <CardContent className="p-4 space-y-3 text-center">
-                    <p className="text-2xl font-bold">{schedule[0].time}</p>
-                    <Countdown targetDate={new Date(new Date().getTime() + 4 * 3600 * 1000 + 9 * 60 * 1000 + 5 * 1000)} />
-                </CardContent>
-            </Card>
-        </div>
-        <div>
-            <h4 className="font-bold text-muted-foreground mb-2 text-sm">TODAY'S SCHEDULE</h4>
-            <div className="space-y-2">
-                 {schedule.map(item => (
-                    <Card key={item.time}>
-                        <CardContent className="p-3">
-                            <div className="flex justify-between items-center">
-                                <span className="text-lg font-semibold">{item.time}</span>
-                                <div>
-                                    <p className="font-semibold text-right">{item.title}</p>
-                                    <p className="text-xs text-muted-foreground text-right">with {item.host}</p>
+const ScheduleTabContent = () => {
+    const nextProgram = schedule[0];
+    const now = new Date();
+    // Simple logic to get next 8 AM
+    const nextProgramTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 0, 0);
+    if (now.getHours() >= 8) {
+        nextProgramTime.setDate(nextProgramTime.getDate() + 1);
+    }
+
+    return (
+        <div className="p-4 space-y-6 bg-secondary/30">
+            <div className="text-left">
+                <h3 className="font-semibold text-muted-foreground text-sm">NEXT PROGRAM</h3>
+                <Card className="mt-2">
+                    <CardContent className="p-4 space-y-3 text-center">
+                        <p className="text-2xl font-bold">{nextProgram.time}</p>
+                        <Countdown targetDate={nextProgramTime} />
+                    </CardContent>
+                </Card>
+            </div>
+            <div>
+                <h4 className="font-bold text-muted-foreground mb-2 text-sm">TODAY'S SCHEDULE</h4>
+                <div className="space-y-2">
+                    {schedule.map(item => (
+                        <Card key={item.time}>
+                            <CardContent className="p-3">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-lg font-semibold">{item.time}</span>
+                                    <div>
+                                        <p className="font-semibold text-right">{item.title}</p>
+                                        <p className="text-xs text-muted-foreground text-right">with {item.host}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
             </div>
         </div>
-    </div>
-)
+    )
+}
 
 const NotesTabContent = () => {
   const [notes, setNotes] = useState('');
@@ -202,7 +212,7 @@ const LiveVideoPlayer = ({ showId }: { showId: string }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
 
-  const joinStream = async () => {
+  const joinStream = useCallback(async () => {
     if (!pcRef.current || !showId) return;
 
     setIsConnecting(true);
@@ -216,6 +226,15 @@ const LiveVideoPlayer = ({ showId }: { showId: string }) => {
       event.candidate && addDoc(answerCandidates, event.candidate.toJSON());
     };
 
+    pc.ontrack = (event) => {
+      if (videoRef.current && event.streams[0]) {
+        videoRef.current.srcObject = event.streams[0];
+        videoRef.current.play().catch(e => console.error("Video play failed:", e));
+        setIsConnected(true);
+        setIsConnecting(false);
+      }
+    };
+    
     const callData = (await getDoc(callDoc)).data();
     if (callData && callData.offer) {
         const offerDescription = new RTCSessionDescription(callData.offer);
@@ -238,7 +257,7 @@ const LiveVideoPlayer = ({ showId }: { showId: string }) => {
             });
         });
     }
-  };
+  }, [showId]);
 
   useEffect(() => {
     const servers = {
@@ -249,20 +268,11 @@ const LiveVideoPlayer = ({ showId }: { showId: string }) => {
     };
     const pc = new RTCPeerConnection(servers);
     pcRef.current = pc;
-
-    pc.ontrack = (event) => {
-      if (videoRef.current && event.streams[0]) {
-        videoRef.current.srcObject = event.streams[0];
-        videoRef.current.play().catch(e => console.error("Video play failed:", e));
-        setIsConnected(true);
-        setIsConnecting(false);
-      }
-    };
     
     return () => {
       pc.close();
     };
-  }, [showId]);
+  }, []);
 
   if (isConnected) {
     return (
@@ -336,6 +346,10 @@ export default function LiveViewerPage() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="flex flex-col p-0 bg-card text-card-foreground">
+                <SheetHeader className="sr-only">
+                    <SheetTitle>Menu</SheetTitle>
+                    <SheetDescription>Main application navigation</SheetDescription>
+                </SheetHeader>
                  <div className="flex h-16 items-center border-b-[1.5px] border-border px-6">
                     <Link href="/" className="flex items-center gap-2 font-semibold" onClick={closeSheet}>
                         <Church className="h-6 w-6 text-accent" />
