@@ -48,6 +48,7 @@ import {
   Podcast,
   Tv,
   Star,
+  Database,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -150,6 +151,7 @@ const adminProgramsNav = [
 const adminStrategyNav = [
     { href: '/admin/global-expansion', label: 'Global Strategy', icon: <Globe className="h-4 w-4" /> },
     { href: '/admin/roadmap', label: 'Roadmap', icon: <GraduationCap className="h-4 w-4" /> },
+    { href: '/admin/database', label: 'Database', icon: <Database className="h-4 w-4" /> },
     { href: '/admin/settings', label: 'Settings', icon: <Settings className="h-4 w-4" /> },
 ];
 
