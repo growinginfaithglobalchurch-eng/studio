@@ -377,15 +377,47 @@ export default function TvStudioPage() {
     return `${h}:${m}:${s}`;
   };
 
-  const handleTransition = (type: 'cut' | 'fade') => {
-    if (previewScene) {
-      setProgramScene(previewScene);
-      toast({
-        title: type === 'cut' ? 'Cut!' : 'Fade Transition Complete',
-        description: `"${previewScene.name}" is now live.`,
-      });
+  const handleTransition = (type: string) => {
+    const transitionName = type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+    if (type === 'ftb') {
+        setProgramScene(null);
+        toast({ title: 'Fade to Black' });
+        return;
     }
-  };
+
+    if (type === 'quick-play') {
+        const introScene = scenes.find(s => s.id === 'intro');
+        if (introScene) {
+            setProgramScene(introScene);
+            toast({ title: 'Quick Play!', description: `Playing "${introScene.name}"` });
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'Quick Play Failed',
+                description: 'Intro scene not found.',
+            });
+        }
+        return;
+    }
+    
+    if (!previewScene) {
+        toast({
+            variant: 'destructive',
+            title: 'No Scene in Preview',
+            description: 'Select a scene to transition to.',
+        });
+        return;
+    }
+    
+    // For all other transitions, perform the scene switch
+    setProgramScene(previewScene);
+    toast({
+      title: `${transitionName} Transition!`,
+      description: `"${previewScene.name}" is now live.`,
+    });
+};
+
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -439,7 +471,7 @@ export default function TvStudioPage() {
     <Button
       variant="outline"
       className="bg-zinc-700 border-zinc-600 text-zinc-100 hover:bg-zinc-600 w-full justify-between"
-      onClick={() => handleTransition(label.toLowerCase() as any)}
+      onClick={() => handleTransition(label.toLowerCase().replace(' ', '-'))}
     >
       <span>{label}</span>
       {shortcut && <span className="text-xs text-zinc-400">{shortcut}</span>}
@@ -559,65 +591,72 @@ export default function TvStudioPage() {
                 isLive ? 'border-red-600' : 'border-green-600'
                 )}
             >
-                {showScriptureOverlay && <ScriptureOverlay scripture={scripture} />}
-                {showLowerThird && <LowerThirdOverlay data={lowerThirdData} />}
-                {showLogoBug && logoScene && (
-                <div className="absolute top-4 right-4 w-24 h-24 z-20">
-                    <Image src={logoScene.sourceUrl!} alt="Station Logo" fill className="object-contain" />
-                </div>
-                )}
-                {showNewsTicker && <NewsTickerOverlay text={newsTickerText} />}
-
-                {/* Main Program Renderer */}
-                {layout === 'fullscreen' && (
-                  <div className="absolute inset-0">
-                    {renderScene(programScene, programVideoRef)}
-                    <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                        Source: {programScene?.name || 'None'}
+                {programScene === null ? (
+                    <div className="w-full h-full bg-black flex items-center justify-center">
+                        <p className="text-zinc-600">Faded to Black</p>
                     </div>
-                    {programScene?.id === 'game' && previewScene?.type === 'live' && (
-                      <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary shadow-lg">
-                        {renderScene(previewScene, null)}
-                        <div className="absolute inset-0 border-2 border-primary/50 flex items-center justify-center">
-                          <PictureInPicture2 className="h-6 w-6 text-white/50" />
-                        </div>
-                      </div>
+                ) : (
+                <>
+                    {showScriptureOverlay && <ScriptureOverlay scripture={scripture} />}
+                    {showLowerThird && <LowerThirdOverlay data={lowerThirdData} />}
+                    {showLogoBug && logoScene && (
+                    <div className="absolute top-4 right-4 w-24 h-24 z-20">
+                        <Image src={logoScene.sourceUrl!} alt="Station Logo" fill className="object-contain" />
+                    </div>
                     )}
-                  </div>
-                )}
-                 {layout === 'split-equal' && (
-                    <div className="flex w-full h-full">
-                        <div className="w-1/2 h-full relative border-r-2 border-zinc-700">
-                            {renderScene(programScene, programVideoRef)}
-                             <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                                {programScene?.name || 'Host'}
-                            </div>
-                        </div>
-                        <div className="w-1/2 h-full relative">
-                            {renderScene(activeGuest, null)}
-                             <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                                {activeGuest?.name}
-                            </div>
-                        </div>
-                    </div>
-                )}
-                 {layout === 'split-focus' && (
-                     <div className="flex w-full h-full">
-                        <div className="w-2/3 h-full relative border-r-2 border-zinc-700">
-                            {renderScene(programScene, programVideoRef)}
-                            <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                                {programScene?.name || 'Host'}
-                            </div>
-                        </div>
-                        <div className="w-1/3 h-full relative">
-                            {renderScene(activeGuest, null)}
-                            <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                                {activeGuest?.name}
-                            </div>
-                        </div>
-                    </div>
-                )}
+                    {showNewsTicker && <NewsTickerOverlay text={newsTickerText} />}
 
+                    {/* Main Program Renderer */}
+                    {layout === 'fullscreen' && (
+                    <div className="absolute inset-0">
+                        {renderScene(programScene, programVideoRef)}
+                        <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                            Source: {programScene?.name || 'None'}
+                        </div>
+                        {programScene?.id === 'game' && previewScene?.type === 'live' && (
+                        <div className="absolute bottom-4 right-4 w-1/4 aspect-video rounded-md overflow-hidden border-2 border-primary shadow-lg">
+                            {renderScene(previewScene, null)}
+                            <div className="absolute inset-0 border-2 border-primary/50 flex items-center justify-center">
+                            <PictureInPicture2 className="h-6 w-6 text-white/50" />
+                            </div>
+                        </div>
+                        )}
+                    </div>
+                    )}
+                    {layout === 'split-equal' && (
+                        <div className="flex w-full h-full">
+                            <div className="w-1/2 h-full relative border-r-2 border-zinc-700">
+                                {renderScene(programScene, programVideoRef)}
+                                <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                    {programScene?.name || 'Host'}
+                                </div>
+                            </div>
+                            <div className="w-1/2 h-full relative">
+                                {renderScene(activeGuest, null)}
+                                <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                    {activeGuest?.name}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {layout === 'split-focus' && (
+                        <div className="flex w-full h-full">
+                            <div className="w-2/3 h-full relative border-r-2 border-zinc-700">
+                                {renderScene(programScene, programVideoRef)}
+                                <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                    {programScene?.name || 'Host'}
+                                </div>
+                            </div>
+                            <div className="w-1/3 h-full relative">
+                                {renderScene(activeGuest, null)}
+                                <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                    {activeGuest?.name}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
+            )}
             </div>
             </div>
         </main>
