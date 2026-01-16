@@ -1,78 +1,108 @@
--- This file contains the SQL schema for the Faith Connect Global application.
--- It is designed for a PostgreSQL database, compatible with Supabase.
-
--- Users Table: Stores user profile information.
+-- Users Table: Stores user profile and authentication information.
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    auth_id UUID UNIQUE, -- To link with Supabase Auth
+    full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(50),
+    photo_url TEXT,
     location VARCHAR(255),
-    avatar_url TEXT,
-    avatar_hint VARCHAR(255),
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    date_joined TIMESTAMPTZ DEFAULT NOW(),
+    
+    -- Kingdom ID
+    kingdom_id_number VARCHAR(255) UNIQUE,
+    authority_level INT DEFAULT 1,
+    tribe VARCHAR(50),
+    badge VARCHAR(100),
+    
+    -- Authority
+    authority_tier INT,
+    authority_title VARCHAR(100),
+    authority_status VARCHAR(50),
+    
+    -- Growth Metrics
+    consistency_score INT,
+    readiness_level VARCHAR(100),
+    authority_eligibility BOOLEAN,
+
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Friendships Table: Manages connections between users.
-CREATE TABLE friendships (
-    user_id_1 INT REFERENCES users(id),
-    user_id_2 INT REFERENCES users(id),
-    status VARCHAR(50) CHECK (status IN ('pending', 'accepted')),
+-- Daily Practices Table: Tracks user's daily spiritual disciplines.
+CREATE TABLE daily_practices (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    practice_date DATE NOT NULL,
+    alignment BOOLEAN DEFAULT FALSE,
+    word_intake BOOLEAN DEFAULT FALSE,
+    identity BOOLEAN DEFAULT FALSE,
+    speech BOOLEAN DEFAULT FALSE,
+    obedience BOOLEAN DEFAULT FALSE,
+    warfare_readiness BOOLEAN DEFAULT FALSE,
+    review BOOLEAN DEFAULT FALSE,
+    UNIQUE(user_id, practice_date)
+);
+
+-- Friends/Connections Table
+CREATE TABLE friends (
+    user_id_1 INT REFERENCES users(id) ON DELETE CASCADE,
+    user_id_2 INT REFERENCES users(id) ON DELETE CASCADE,
+    status VARCHAR(50) NOT NULL, -- e.g., 'pending', 'accepted'
     created_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (user_id_1, user_id_2)
 );
 
--- Departments Table: Stores church departments.
+-- Departments Table
 CREATE TABLE departments (
-    name VARCHAR(255) PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
     description TEXT,
-    icon VARCHAR(50)
+    icon_name VARCHAR(100) -- e.g., 'Music', 'Handshake'
 );
 
--- Department Members Table: Links users to departments.
-CREATE TABLE department_members (
-    user_id INT REFERENCES users(id),
-    department_name VARCHAR(255) REFERENCES departments(name),
-    PRIMARY KEY (user_id, department_name)
+-- User Departments Junction Table
+CREATE TABLE user_departments (
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    department_id INT REFERENCES departments(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, department_id)
 );
 
--- Devotionals Table: Stores daily devotional content.
+-- Announcements Table
+CREATE TABLE announcements (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    category VARCHAR(100),
+    author_id INT REFERENCES users(id),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Devotionals Table
 CREATE TABLE devotionals (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255),
-    publish_date DATE NOT NULL,
     category VARCHAR(100),
     image_url TEXT,
-    image_hint VARCHAR(255),
+    image_hint VARCHAR(100),
     content_text TEXT,
-    audio_url TEXT,
-    video_url TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    content_audio_url TEXT,
+    content_video_url TEXT,
+    published_date DATE DEFAULT CURRENT_DATE
 );
 
--- Prayer Requests Table: For the community prayer wall.
+-- Prayer Requests Table
 CREATE TABLE prayer_requests (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id), -- Nullable for anonymous posts
-    user_name VARCHAR(255), -- Storing name for anonymous cases
+    user_id INT REFERENCES users(id), -- Nullable for anonymous requests
+    user_name VARCHAR(255), -- For anonymous display name
     request TEXT NOT NULL,
     prayed_count INT DEFAULT 0,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Live Sessions & Replays Table
-CREATE TABLE live_sessions (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    speaker VARCHAR(255),
-    is_live BOOLEAN DEFAULT FALSE,
-    video_url TEXT,
-    image_url TEXT,
-    image_hint VARCHAR(255),
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Life Groups Table: For small community groups.
+-- Life Groups Table
 CREATE TABLE life_groups (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -80,37 +110,37 @@ CREATE TABLE life_groups (
     category VARCHAR(100),
     leader_id INT REFERENCES users(id),
     image_url TEXT,
-    image_hint VARCHAR(255),
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    image_hint VARCHAR(100)
 );
 
--- Life Group Members Table: Links users to life groups.
-CREATE TABLE life_group_members (
-    group_id INT REFERENCES life_groups(id),
-    user_id INT REFERENCES users(id),
-    PRIMARY KEY (group_id, user_id)
+-- User Life Groups Junction Table
+CREATE TABLE user_life_groups (
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    group_id INT REFERENCES life_groups(id) ON DELETE CASCADE,
+    role VARCHAR(50) DEFAULT 'member', -- e.g., 'member', 'leader'
+    PRIMARY KEY (user_id, group_id)
 );
 
--- Events & Conferences Table
+-- Events Table (for conferences, workshops, etc.)
 CREATE TABLE events (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
+    event_type VARCHAR(50), -- e.g., 'Conference', 'Workshop', 'Meeting'
     start_date TIMESTAMPTZ,
     end_date TIMESTAMPTZ,
-    dates_text VARCHAR(255), -- For flexible date strings like "October 10-12, 2024"
     location VARCHAR(255),
     image_url TEXT,
-    image_hint VARCHAR(255),
-    type VARCHAR(50) CHECK (type IN ('conference', 'event', 'meeting')),
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    image_hint VARCHAR(100),
+    is_live BOOLEAN DEFAULT FALSE
 );
 
--- Event Registrations Table
+-- User Events Registration Table
 CREATE TABLE event_registrations (
-    event_id INT REFERENCES events(id),
-    user_id INT REFERENCES users(id),
-    PRIMARY KEY (event_id, user_id)
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    event_id INT REFERENCES events(id) ON DELETE CASCADE,
+    registered_at TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (user_id, event_id)
 );
 
 -- Courses Table
@@ -120,100 +150,75 @@ CREATE TABLE courses (
     description TEXT,
     category VARCHAR(100),
     image_url TEXT,
-    image_hint VARCHAR(255),
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    image_hint VARCHAR(100)
 );
 
--- Discipleship Relationships (Personal) Table
-CREATE TABLE discipleship_relationships (
+-- Mentorship Table
+CREATE TABLE mentorships (
     id SERIAL PRIMARY KEY,
-    disciple_id INT REFERENCES users(id),
-    discipler_id INT REFERENCES users(id),
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    mentor_id INT REFERENCES users(id) ON DELETE CASCADE,
+    mentee_id INT REFERENCES users(id) ON DELETE CASCADE,
+    start_date DATE,
+    status VARCHAR(50) DEFAULT 'active' -- e.g., 'active', 'completed', 'ended'
 );
 
--- Announcements Table
-CREATE TABLE announcements (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    content TEXT,
-    category VARCHAR(100),
-    publish_date DATE NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Family Hubs Table
-CREATE TABLE family_hubs (
-    id SERIAL PRIMARY KEY,
-    father_id INT REFERENCES users(id),
-    mother_id INT REFERENCES users(id),
-    monthly_focus VARCHAR(255),
-    unity_score VARCHAR(50),
-    prayer_moments BOOLEAN DEFAULT FALSE,
-    scripture_discussion BOOLEAN DEFAULT FALSE,
-    blessing_declarations BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Family Hub Children Table
-CREATE TABLE family_hub_children (
-    family_hub_id INT REFERENCES family_hubs(id),
-    child_id INT REFERENCES users(id),
-    PRIMARY KEY (family_hub_id, child_id)
-);
-
--- News Feed Table
-CREATE TABLE news_feed (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255),
-    content TEXT NOT NULL,
-    image_url TEXT,
-    image_hint VARCHAR(255),
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Service Flow Elements Table
-CREATE TABLE service_flow_elements (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    details TEXT, -- To store the multi-line component details
-    display_order INT
-);
-
--- Podcast / Radio Show Recordings Table
-CREATE TABLE recordings (
-    id SERIAL PRIMARY KEY,
-    show_id_firestore VARCHAR(255) UNIQUE, -- The ID from Firestore
-    type VARCHAR(50) CHECK (type IN ('podcast', 'radio')),
+-- Live Shows Table (for Radio & Podcast/TV)
+CREATE TABLE live_shows (
+    id UUID PRIMARY KEY,
+    show_type VARCHAR(50) NOT NULL, -- 'radio', 'podcast', 'tv'
     title VARCHAR(255) NOT NULL,
     host VARCHAR(255),
-    description TEXT,
-    recording_url TEXT NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    is_live BOOLEAN DEFAULT FALSE,
+    offer JSONB,
+    answer JSONB,
+    recording_url TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    ended_at TIMESTAMPTZ
 );
 
--- Stories Table
-CREATE TABLE stories (
+-- Radio Playlist Tracks
+CREATE TABLE radio_playlist_tracks (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id),
-    media_url TEXT NOT NULL,
-    media_type VARCHAR(50) CHECK (media_type IN ('image', 'video')),
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    title VARCHAR(255) NOT NULL,
+    artist VARCHAR(255),
+    url TEXT NOT NULL,
+    duration_seconds INT,
+    play_order INT
 );
 
 -- Certificates Table
 CREATE TABLE certificates (
     id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
     title VARCHAR(255) NOT NULL,
     issuing_authority VARCHAR(255),
+    issue_date DATE NOT NULL,
     description TEXT
 );
 
--- User Certificates (Join Table)
-CREATE TABLE user_certificates (
-    user_id INT REFERENCES users(id),
-    certificate_id INT REFERENCES certificates(id),
-    issue_date DATE NOT NULL,
-    PRIMARY KEY (user_id, certificate_id)
+-- Family Groups Table
+CREATE TABLE family_groups (
+    id SERIAL PRIMARY KEY,
+    father_id INT REFERENCES users(id),
+    mother_id INT REFERENCES users(id),
+    monthly_focus VARCHAR(255),
+    unity_score VARCHAR(50)
+);
+
+-- Family Group Children Junction Table
+CREATE TABLE family_group_children (
+    family_group_id INT REFERENCES family_groups(id) ON DELETE CASCADE,
+    child_id INT REFERENCES users(id) ON DELETE CASCADE,
+    PRIMARY KEY (family_group_id, child_id)
+);
+
+-- News Feed Table
+CREATE TABLE news_feed (
+    id SERIAL PRIMARY KEY,
+    author_id INT REFERENCES users(id),
+    title VARCHAR(255),
+    content TEXT NOT NULL,
+    image_url TEXT,
+    image_hint VARCHAR(100),
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
