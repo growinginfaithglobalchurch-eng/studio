@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, 'useState', useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,6 +14,7 @@ import {
   Flame,
   Menu,
   Download,
+  Book,
 } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -26,6 +27,7 @@ import { collection, query, where, limit, onSnapshot, doc, updateDoc, addDoc, ge
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { BibleReader } from '@/components/bible-reader';
 
 const initialMessages = [
   { user: 'Pastor Joseph', text: 'Welcome everyone! So glad you could join us tonight.', tribe: 'All' },
@@ -360,8 +362,8 @@ export default function LiveViewerPage() {
           <TabsContent value="notes" className="flex-1 min-h-0">
               <NotesTabContent />
           </TabsContent>
-          <TabsContent value="bible" className="flex-1 p-4 bg-secondary/30">
-              <p className="text-muted-foreground text-center">Bible feature coming soon.</p>
+          <TabsContent value="bible" className="flex-1 min-h-0">
+             <BibleReader />
           </TabsContent>
         </Tabs>
       </main>
