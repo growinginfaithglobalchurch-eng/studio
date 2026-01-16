@@ -98,10 +98,9 @@ export function useBroadcast(collectionName: 'liveRooms' | 'radioShows') {
       pcRef.current.close();
       pcRef.current = null;
     }
-    if (localStreamRef.current) {
-      localStreamRef.current.getTracks().forEach((track) => track.stop());
-      localStreamRef.current = null;
-    }
+    
+    localStreamRef.current = null;
+    
     if (showId) {
       const callDoc = doc(db, collectionName, showId);
       await updateDoc(callDoc, { isLive: false, endedAt: new Date() });

@@ -497,34 +497,57 @@ const handleLiveToggle = async () => {
       if (isRecording) {
         await handleToggleRecord(); // Stop recording if it's active
       }
+      
+      // Stop the stream only if it was a screen share
+      if (mediaStream && !useLiveCameras) {
+        mediaStream.getTracks().forEach(track => track.stop());
+      }
+      
       stopBroadcast();
-      mediaStream?.getTracks().forEach(track => track.stop());
       setMediaStream(null);
       toast({ title: 'Stream Stopped', description: 'Your broadcast has ended.' });
     } else {
-       if (typeof navigator.mediaDevices?.getDisplayMedia !== 'function') {
-        toast({
-          variant: 'destructive',
-          title: 'Screen Sharing Not Supported',
-          description: 'Your browser may not support screen sharing, or you might be on an insecure connection (HTTP). Please use a secure connection (HTTPS).',
-        });
-        return;
+      // GOING LIVE
+      let streamToBroadcast: MediaStream | null = null;
+      
+      if (useLiveCameras) {
+        if (liveStream) {
+          streamToBroadcast = liveStream;
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'No Camera Feed',
+            description: 'Please enable "Use Live Cameras" and grant permission first.',
+          });
+          return;
+        }
+      } else {
+        // Default to screen sharing
+        if (typeof navigator.mediaDevices?.getDisplayMedia !== 'function') {
+          toast({
+            variant: 'destructive',
+            title: 'Screen Sharing Not Supported',
+            description: 'Your browser may not support screen sharing, or you might be on an insecure connection (HTTP). Please use a secure connection (HTTPS). Try using the "Live Cameras" option instead.',
+          });
+          return;
+        }
+        try {
+          streamToBroadcast = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+        } catch (err) {
+          console.error("Error getting display media", err);
+          toast({ variant: 'destructive', title: 'Could not start stream', description: 'Permission to share screen was denied.' });
+          return;
+        }
       }
-      try {
-        const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-        setMediaStream(stream);
-        // Ensure stream is active before starting broadcast
-        stream.onactive = () => {
-            startBroadcast(stream, {
-              title: programScene?.name || 'Live Broadcast',
-              host: 'Royal Life TV',
-              tribe: 'all', // For now, can be updated later
-            });
-            toast({ title: 'Going Live!', description: 'Your broadcast is starting...' });
-        };
-      } catch (err) {
-        console.error("Error getting display media", err);
-        toast({ variant: 'destructive', title: 'Could not start stream', description: 'Permission to share screen was denied.' });
+      
+      if (streamToBroadcast) {
+        setMediaStream(streamToBroadcast); // Keep track of the stream being broadcast
+        startBroadcast(streamToBroadcast, {
+          title: programScene?.name || 'Live Broadcast',
+          host: 'Royal Life TV',
+          tribe: 'all', // For now, can be updated later
+        });
+        toast({ title: 'Going Live!', description: 'Your broadcast is starting...' });
       }
     }
   };
