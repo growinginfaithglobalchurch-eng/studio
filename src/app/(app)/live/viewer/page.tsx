@@ -104,7 +104,7 @@ const PrayTabContent = () => {
 const ScheduleTabContent = () => (
     <div className="p-4 space-y-6 bg-secondary/30">
         <div className="text-left">
-            <h3 className="font-semibold text-muted-foreground text-sm">NEXT SERVICE</h3>
+            <h3 className="font-semibold text-muted-foreground text-sm">NEXT PROGRAM</h3>
             <Card className="mt-2">
                 <CardContent className="p-4 space-y-3 text-center">
                     <p className="text-2xl font-bold">{schedule[0].time}</p>
@@ -280,7 +280,6 @@ export default function LiveViewerPage() {
                  <LiveVideoPlayer showId={liveShow.id} />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-black text-white gap-4">
-                  <Image src={PlaceHolderImages.find(p => p.id === 'live-replay-1')?.imageUrl || ''} alt="Offline" width={480} height={270} className="rounded-lg opacity-30" />
                   <p className="text-2xl font-bold">Broadcast is Offline</p>
                 </div>
               )}
