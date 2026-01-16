@@ -39,6 +39,7 @@ import {
   UserPlus,
   Link as LinkIcon,
   Trash2,
+  PlayCircle,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -150,6 +151,13 @@ type LowerThird = {
   title: string;
   subtitle: string;
 };
+
+const musicTracks = [
+    { id: 'worship-1', title: 'Atmospheric Worship', duration: '4:32' },
+    { id: 'praise-break', title: 'Praise Break Loop', duration: '2:15' },
+    { id: 'prayer-bg', title: 'Instrumental Prayer Bed', duration: '8:55' },
+    { id: 'intro-sting', title: 'Broadcast Intro Sting', duration: '0:15' },
+];
 
 const ScriptureOverlay = ({ scripture }: { scripture: Scripture }) => (
   <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[80%] max-w-4xl font-sans z-20">
@@ -268,34 +276,36 @@ export default function TvStudioPage() {
  const handleCameraToggle = async (checked: boolean) => {
     setUseLiveCameras(checked);
     if (checked) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        setLiveStream(stream);
+      if (typeof navigator !== 'undefined' && navigator.mediaDevices) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          setLiveStream(stream);
 
-        const cameraScene: Scene = {
-            id: 'cam1',
-            name: 'Main Camera',
-            type: 'live',
-            sourceStream: stream
-        };
-        const sideCameraScene: Scene = {
-            id: 'cam2',
-            name: 'Side Camera',
-            type: 'live',
-            sourceStream: stream
-        };
-        setScenes(prev => [...prev.filter(s => s.type !== 'live'), cameraScene, sideCameraScene]);
-        setPreviewScene(cameraScene);
+          const cameraScene: Scene = {
+              id: 'cam1',
+              name: 'Main Camera',
+              type: 'live',
+              sourceStream: stream
+          };
+          const sideCameraScene: Scene = {
+              id: 'cam2',
+              name: 'Side Camera',
+              type: 'live',
+              sourceStream: stream
+          };
+          setScenes(prev => [...prev.filter(s => s.type !== 'live'), cameraScene, sideCameraScene]);
+          setPreviewScene(cameraScene);
 
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-        setUseLiveCameras(false);
-        setPreviewScene(initialScenes[0]); // fallback
-        toast({
-          variant: 'destructive',
-          title: 'Camera Access Denied',
-          description: 'Please enable camera permissions to use live camera feeds.',
-        });
+        } catch (error) {
+          console.error('Error accessing camera:', error);
+          setUseLiveCameras(false);
+          setPreviewScene(initialScenes[0]); // fallback
+          toast({
+            variant: 'destructive',
+            title: 'Camera Access Denied',
+            description: 'Please enable camera permissions to use live camera feeds.',
+          });
+        }
       }
     } else {
       liveStream?.getTracks().forEach(track => track.stop());
@@ -737,7 +747,7 @@ export default function TvStudioPage() {
                              <div>
                                 <h4 className="text-xs font-bold text-zinc-400 mb-2 px-2">GUESTS</h4>
                                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pr-4">
-                                    {guests.length > 0 ? guests.map(scene => (
+                                    {guests.length > 0 ? scenes.filter(s => s.type === 'guest').map(scene => (
                                         <button
                                             key={scene.id}
                                             className={cn(
@@ -761,6 +771,40 @@ export default function TvStudioPage() {
                                     )}
                                  </div>
                              </div>
+                        </div>
+                    </ScrollArea>
+                </TabsContent>
+                <TabsContent
+                    value="banners"
+                    className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0"
+                >
+                    <div className="flex items-center justify-center h-full">
+                        <p className="text-zinc-500 text-sm">Banner content coming soon.</p>
+                    </div>
+                </TabsContent>
+                <TabsContent
+                    value="music"
+                    className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0"
+                >
+                    <ScrollArea className="h-full">
+                        <div className="space-y-2 pr-4">
+                            {musicTracks.map((track) => (
+                                <div
+                                    key={track.id}
+                                    className="flex items-center justify-between bg-zinc-900 p-2 rounded-md"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <Music className="h-4 w-4 text-zinc-400" />
+                                        <div>
+                                            <p className="text-sm font-semibold text-zinc-100">{track.title}</p>
+                                            <p className="text-xs text-zinc-500">{track.duration}</p>
+                                        </div>
+                                    </div>
+                                    <Button variant="ghost" size="icon" onClick={() => toast({ title: `Playing: ${track.title}` })}>
+                                        <PlayCircle className="h-5 w-5 text-accent" />
+                                    </Button>
+                                </div>
+                            ))}
                         </div>
                     </ScrollArea>
                 </TabsContent>
@@ -888,7 +932,7 @@ export default function TvStudioPage() {
                     </div>
                     <div className="bg-zinc-800 rounded-lg p-3 space-y-3">
                       <h3 className="font-bold text-zinc-100">Current Guests</h3>
-                       {guests.length > 0 ? guests.map(g => (
+                       {guests.length > 0 ? scenes.filter(s => s.type === 'guest').map(g => (
                           <div key={g.id} className="flex items-center justify-between gap-3 bg-zinc-900 p-2 rounded-md">
                               <div className="flex items-center gap-3">
                                   <div className="relative w-16 h-9 rounded-md bg-black overflow-hidden">
