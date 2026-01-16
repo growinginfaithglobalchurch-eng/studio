@@ -502,6 +502,14 @@ const handleLiveToggle = async () => {
       setMediaStream(null);
       toast({ title: 'Stream Stopped', description: 'Your broadcast has ended.' });
     } else {
+       if (typeof navigator.mediaDevices?.getDisplayMedia !== 'function') {
+        toast({
+          variant: 'destructive',
+          title: 'Screen Sharing Not Supported',
+          description: 'Your browser may not support screen sharing, or you might be on an insecure connection (HTTP). Please use a secure connection (HTTPS).',
+        });
+        return;
+      }
       try {
         const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
         setMediaStream(stream);
