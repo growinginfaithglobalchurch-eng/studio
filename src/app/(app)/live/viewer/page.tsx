@@ -282,11 +282,6 @@ export default function LiveViewerPage() {
                 <div className="w-full h-full flex flex-col items-center justify-center bg-black text-white gap-4">
                   <Image src={PlaceHolderImages.find(p => p.id === 'live-replay-1')?.imageUrl || ''} alt="Offline" width={480} height={270} className="rounded-lg opacity-30" />
                   <p className="text-2xl font-bold">Broadcast is Offline</p>
-                   <div className="text-center p-4 rounded-lg bg-white/10 mt-2">
-                        <p className="text-sm text-muted-foreground">Next Up</p>
-                        <p className="font-semibold text-foreground mt-1">{schedule[0].title}</p>
-                        <p className="text-sm text-muted-foreground">{schedule[0].time} with {schedule[0].host}</p>
-                  </div>
                 </div>
               )}
           </AspectRatio>
