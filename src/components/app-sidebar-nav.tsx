@@ -57,15 +57,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-const dailyPracticesNav = [
-    { href: '/growth-hub', label: 'Overview', icon: <TrendingUp className="h-4 w-4" /> },
-    { href: '/bible-reading-plan', label: 'Bible Reading Plan', icon: <BookMarked className="h-4 w-4" /> },
-    { href: '/identity-journal', label: 'Identity Journal', icon: <User className="h-4 w-4" /> },
-    { href: '/kingdom-speech', label: 'Kingdom Speech', icon: <MessageSquare className="h-4 w-4" /> },
-    { href: '/devotionals', label: 'Daily Declarations', icon: <Sparkles className="h-4 w-4" /> },
-    { href: '/night-reflection', label: 'Night Reflection', icon: <Sunset className="h-4 w-4" /> },
-];
-
 const communityNav = [
   { href: '/connect', label: 'Connect', icon: <Handshake className="h-4 w-4" /> },
   { href: '/groups', label: 'Groups', icon: <Users className="h-4 w-4" /> },
@@ -211,16 +202,7 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
         </Link>
         
       <Accordion type="single" collapsible className="w-full" defaultValue={pathname.startsWith('/admin') ? 'admin' : ''}>
-         <AccordionItem value="practices" className="border-b-0">
-          {createAccordionTrigger("Daily Practices", <CheckSquare className="h-4 w-4" />, "/growth-hub")}
-          <AccordionContent className="pl-4 pb-0">
-            <div className="flex flex-col space-y-1">
-              {dailyPracticesNav.map(createNavLink)}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-        
-        <AccordionItem value="community" className="border-b-0">
+         <AccordionItem value="community" className="border-b-0">
           {createAccordionTrigger("Community & Growth", <Users className="h-4 w-4" />, "/")}
           <AccordionContent className="pl-4 pb-0">
             <div className="flex flex-col space-y-1">

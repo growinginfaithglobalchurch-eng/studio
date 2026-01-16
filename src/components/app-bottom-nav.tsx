@@ -3,12 +3,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, CheckSquare, Shield, Globe, Award } from 'lucide-react';
+import { Home, Shield, Globe, Award, Tv } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/dashboard', icon: <Home className="h-5 w-5" />, label: 'Dashboard' },
-  { href: '/growth-hub', icon: <CheckSquare className="h-5 w-5" />, label: 'Practices' },
+  { href: '/live/viewer', icon: <Tv className="h-5 w-5" />, label: 'Live' },
   { href: '/war-room', icon: <Shield className="h-5 w-5" />, label: 'War Room' },
   { href: '/visiting-programs', icon: <Globe className="h-5 w-5" />, label: 'Programs' },
   { href: '/certificates', icon: <Award className="h-5 w-5" />, label: 'Certs' },

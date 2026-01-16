@@ -23,6 +23,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { communityUsers } from '@/lib/data';
+import { Countdown } from '@/components/countdown';
 
 const initialMessages = [
   { user: 'Pastor Joseph', text: 'Welcome everyone! So glad you could join us tonight.', tribe: 'All' },
@@ -31,27 +32,6 @@ const initialMessages = [
   { user: 'Jane D.', text: 'Feeling the anointing all the way from Brazil!', tribe: '' },
 ];
 const userAvatar = PlaceHolderImages.find(p => p.id === 'avatar-1');
-
-
-const CountdownTimer = () => {
-    // Placeholder values, in a real app this would be dynamic
-    return (
-        <div className="flex justify-center gap-4">
-            <div className="p-4 bg-secondary rounded-lg text-center w-24">
-                <p className="text-3xl font-bold">21</p>
-                <p className="text-xs text-muted-foreground">HOURS</p>
-            </div>
-            <div className="p-4 bg-secondary rounded-lg text-center w-24">
-                <p className="text-3xl font-bold">57</p>
-                <p className="text-xs text-muted-foreground">MINUTES</p>
-            </div>
-            <div className="p-4 bg-secondary rounded-lg text-center w-24">
-                <p className="text-3xl font-bold">41</p>
-                <p className="text-xs text-muted-foreground">SECONDS</p>
-            </div>
-        </div>
-    )
-}
 
 const PrayTabContent = () => {
     const [messages, setMessages] = useState(initialMessages);
@@ -65,7 +45,7 @@ const PrayTabContent = () => {
     };
     
     return (
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col bg-card">
             <ScrollArea className="flex-grow p-4">
                 <div className="space-y-4">
                     {messages.map((msg, index) => (
@@ -110,25 +90,27 @@ const PrayTabContent = () => {
 }
 
 const ScheduleTabContent = () => (
-    <div className="p-4 space-y-6">
-        <div className="text-center">
-            <h3 className="font-semibold text-muted-foreground">NEXT SERVICE</h3>
-            <p className="text-2xl font-bold mt-1">10:00AM</p>
-            <div className="mt-2">
-                <CountdownTimer />
-            </div>
+    <div className="p-4 space-y-6 bg-secondary/30">
+        <div className="text-left">
+            <h3 className="font-semibold text-muted-foreground text-sm">NEXT SERVICE</h3>
+            <Card className="mt-2">
+                <CardContent className="p-4 space-y-3 text-center">
+                    <p className="text-2xl font-bold">10:00AM</p>
+                    <Countdown targetDate={new Date(new Date().getTime() + 4 * 3600 * 1000 + 9 * 60 * 1000 + 5 * 1000)} />
+                </CardContent>
+            </Card>
         </div>
         <div>
-            <h4 className="font-bold text-muted-foreground mb-2">FRIDAY, JANUARY 16</h4>
+            <h4 className="font-bold text-muted-foreground mb-2 text-sm">FRIDAY, JANUARY 16</h4>
             <div className="space-y-2">
-                <div className="bg-secondary p-3 rounded-lg text-lg font-semibold">10:00AM</div>
-                <div className="bg-secondary p-3 rounded-lg text-lg font-semibold">12:00PM</div>
+                <Card><CardContent className="p-3 text-lg font-semibold">10:00AM</CardContent></Card>
+                <Card><CardContent className="p-3 text-lg font-semibold">12:00PM</CardContent></Card>
             </div>
         </div>
          <div>
-            <h4 className="font-bold text-muted-foreground mb-2">SATURDAY, JANUARY 17</h4>
+            <h4 className="font-bold text-muted-foreground mb-2 text-sm">SATURDAY, JANUARY 17</h4>
             <div className="space-y-2">
-                <div className="bg-secondary p-3 rounded-lg text-lg font-semibold">10:00AM</div>
+                <Card><CardContent className="p-3 text-lg font-semibold">10:00AM</CardContent></Card>
             </div>
         </div>
     </div>
@@ -139,15 +121,14 @@ export default function LiveViewerPage() {
   const programOutput = PlaceHolderImages.find(p => p.id === 'live-replay-1');
 
   return (
-    <div className="h-screen w-screen bg-background flex flex-col fixed inset-0">
+    <div className="h-screen w-screen bg-black flex flex-col fixed inset-0">
         <header className="flex-shrink-0 bg-black text-white flex items-center justify-between p-2 h-16">
             <div className="flex items-center gap-2">
                 <div className="h-10 w-32 relative">
-                    {/* Placeholder for ROYAL LIFE TV Logo */}
-                    <div className="bg-black border border-yellow-400 h-full flex flex-col justify-center items-center p-1">
+                    <div className="bg-black h-full flex flex-col justify-center items-center p-1">
                         <span className="font-bold text-lg text-yellow-400 leading-none">ROYAL LIFE TV</span>
-                        <span className="text-xs text-white leading-none">SEEING AND LIVING A LIFE</span>
-                        <span className="text-xs text-white leading-none">BEYOND LIMITS</span>
+                        <span className="text-[0.5rem] text-white leading-tight">SEEING AND LIVING A LIFE</span>
+                        <span className="text-[0.5rem] text-white leading-tight">BEYOND LIMITS</span>
                     </div>
                 </div>
             </div>
@@ -168,16 +149,18 @@ export default function LiveViewerPage() {
                 data-ai-hint={programOutput.imageHint}
               />
             )}
-            {/* Overlays can be added here */}
+            <div className="absolute bottom-4 left-4 bg-black/50 text-white p-2 rounded-md">
+                <p className="font-semibold">Being in a <span className="text-cyan-400">healthy</span> relationship</p>
+            </div>
           </AspectRatio>
         </div>
 
-        <Tabs defaultValue="schedule" className="flex-1 flex flex-col min-h-0 bg-card text-card-foreground">
-          <TabsList className="grid w-full grid-cols-4 rounded-none h-14">
-            <TabsTrigger value="pray" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent"><Heart className="h-5 w-5 mr-2"/>Pray</TabsTrigger>
-            <TabsTrigger value="schedule" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent"><Calendar className="h-5 w-5 mr-2"/>Schedule</TabsTrigger>
-            <TabsTrigger value="notes" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent"><FileText className="h-5 w-5 mr-2"/>Notes</TabsTrigger>
-            <TabsTrigger value="bible" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent"><BookOpen className="h-5 w-5 mr-2"/>Bible</TabsTrigger>
+        <Tabs defaultValue="schedule" className="flex-1 flex flex-col min-h-0 bg-secondary text-card-foreground">
+          <TabsList className="grid w-full grid-cols-4 rounded-none h-14 bg-card">
+            <TabsTrigger value="pray" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent">Pray</TabsTrigger>
+            <TabsTrigger value="schedule" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent">Schedule</TabsTrigger>
+            <TabsTrigger value="notes" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent">Notes</TabsTrigger>
+            <TabsTrigger value="bible" className="h-full rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent">Bible</TabsTrigger>
           </TabsList>
           
           <TabsContent value="pray" className="flex-1 min-h-0">
@@ -186,10 +169,10 @@ export default function LiveViewerPage() {
           <TabsContent value="schedule" className="flex-1 min-h-0 overflow-y-auto">
              <ScheduleTabContent />
           </TabsContent>
-          <TabsContent value="notes" className="flex-1 p-4">
+          <TabsContent value="notes" className="flex-1 p-4 bg-secondary/30">
               <p className="text-muted-foreground text-center">Notes feature coming soon.</p>
           </TabsContent>
-          <TabsContent value="bible" className="flex-1 p-4">
+          <TabsContent value="bible" className="flex-1 p-4 bg-secondary/30">
               <p className="text-muted-foreground text-center">Bible feature coming soon.</p>
           </TabsContent>
         </Tabs>

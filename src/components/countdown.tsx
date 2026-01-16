@@ -3,14 +3,22 @@
 
 import { useState, useEffect } from 'react';
 
-export const Countdown = () => {
+interface CountdownProps {
+    targetDate: Date;
+}
+
+export const Countdown = ({ targetDate }: CountdownProps) => {
     const calculateTimeLeft = () => {
-        // This is a placeholder. In a real app, you'd calculate from an end time.
-        const difference = +new Date("2024-08-01T00:45:23") - +new Date();
-        let timeLeft = {};
+        const difference = +targetDate - +new Date();
+        let timeLeft = {
+            hours: 0,
+            minutes: 0,
+            seconds: 0
+        };
 
         if (difference > 0) {
             timeLeft = {
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
                 minutes: Math.floor((difference / 1000 / 60) % 60),
                 seconds: Math.floor((difference / 1000) % 60),
             };
@@ -28,23 +36,20 @@ export const Countdown = () => {
         return () => clearTimeout(timer);
     });
 
-    const timerComponents: JSX.Element[] = [];
-
-    Object.keys(timeLeft).forEach((interval) => {
-        if (!timeLeft[interval as keyof typeof timeLeft]) {
-            return;
-        }
-
-        timerComponents.push(
-            <span key={interval}>
-                {String(timeLeft[interval as keyof typeof timeLeft]).padStart(2, '0')}
-            </span>
-        );
-    });
-
     return (
-        <span className="text-sm font-mono text-destructive">
-            Ends in: {timerComponents.length ? timerComponents.reduce((prev, curr) => <>{prev}:{curr}</>) : <span>00:00</span>}
-        </span>
+        <div className="flex justify-center gap-2 sm:gap-4">
+            <div className="p-2 sm:p-4 bg-secondary rounded-lg text-center w-20 sm:w-24">
+                <p className="text-2xl sm:text-3xl font-bold">{String(timeLeft.hours).padStart(2, '0')}</p>
+                <p className="text-xs text-muted-foreground">HOURS</p>
+            </div>
+            <div className="p-2 sm:p-4 bg-secondary rounded-lg text-center w-20 sm:w-24">
+                <p className="text-2xl sm:text-3xl font-bold">{String(timeLeft.minutes).padStart(2, '0')}</p>
+                <p className="text-xs text-muted-foreground">MINUTES</p>
+            </div>
+            <div className="p-2 sm:p-4 bg-secondary rounded-lg text-center w-20 sm:w-24">
+                <p className="text-2xl sm:text-3xl font-bold">{String(timeLeft.seconds).padStart(2, '0')}</p>
+                <p className="text-xs text-muted-foreground">SECONDS</p>
+            </div>
+        </div>
     );
 };
