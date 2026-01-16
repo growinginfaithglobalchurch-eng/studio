@@ -492,7 +492,7 @@ export default function TvStudioPage() {
     });
 };
 
-  const handleLiveToggle = async () => {
+const handleLiveToggle = async () => {
     if (isLive) {
       if (isRecording) {
         await handleToggleRecord(); // Stop recording if it's active
@@ -513,20 +513,37 @@ export default function TvStudioPage() {
         streamToBroadcast = programScene.sourceStream;
         toast({ title: 'Going live with camera source!' });
       } else if ((programScene?.type === 'video' || programScene?.type === 'guest') && programVideoRef.current) {
-        // @ts-ignore - captureStream is not on all browsers but should be on modern ones
-        if (programVideoRef.current.captureStream) {
-          // @ts-ignore
-          streamToBroadcast = programVideoRef.current.captureStream();
-          toast({ title: 'Going live with video source!' });
-        } else {
-          toast({ variant: 'destructive', title: 'Browser Not Supported', description: 'Video source capture is not supported in your browser. Try screen sharing instead.'});
-          return;
+        try {
+            // @ts-ignore - captureStream is not on all browsers but should be on modern ones
+            if (programVideoRef.current.captureStream) {
+                // @ts-ignore
+                streamToBroadcast = programVideoRef.current.captureStream();
+                toast({ title: 'Going live with video source!' });
+            } else {
+                throw new Error("captureStream not supported");
+            }
+        } catch (err: any) {
+            if (err.name === 'SecurityError') {
+                 toast({
+                    variant: 'destructive',
+                    title: 'Cross-Origin Video Blocked',
+                    description: 'Cannot capture stream from this video source. Falling back to screen share. Please select the window to broadcast.',
+                  });
+            } else {
+                 toast({
+                    variant: 'destructive',
+                    title: 'Browser Not Supported',
+                    description: 'Video source capture is not supported in your browser. Try screen sharing instead.',
+                  });
+            }
+            // By not returning, we allow fallback to screen share
         }
-      } else {
+      } 
+      
+      if (!streamToBroadcast) {
           toast({
-            variant: 'destructive',
-            title: 'No direct video source found in Program.',
-            description: 'Attempting to use Screen Share. Please select a window to broadcast.',
+            title: 'Using Screen Share',
+            description: 'No direct video source found or allowed. Please select a window to broadcast.',
           });
           
           if (typeof navigator.mediaDevices?.getDisplayMedia !== 'function') {
