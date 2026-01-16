@@ -42,6 +42,7 @@ import {
   Split,
   StopCircle,
   Circle,
+  RefreshCw,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -59,6 +60,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db, storage } from '@/lib/firebase';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 type Scene = {
   id: string;
@@ -597,6 +609,30 @@ const handleLiveToggle = async () => {
       description: 'The guest has been removed from your sources.',
     });
   };
+  
+  const handleResetStudio = () => {
+    setLayout('fullscreen');
+    setScenes(initialScenes);
+    setPreviewScene(null);
+    setProgramScene(initialScenes.find(s => s.id === 'game') || null);
+    setShowScriptureOverlay(false);
+    setShowLowerThird(false);
+    setLowerThirdData({ title: 'Joseph Tryson', subtitle: 'The Bondservant of Christ' });
+    setShowLogoBug(false);
+    setNewsTickerText('');
+    setShowNewsTicker(false);
+    setVideoPlaylistIndex(0);
+    setUseLiveCameras(false);
+    if (liveStream) {
+        liveStream.getTracks().forEach(track => track.stop());
+        setLiveStream(null);
+    }
+    toast({
+        title: "Studio Reset",
+        description: "All studio settings have been restored to their defaults.",
+    });
+  };
+
 
   const TransitionButton = ({ label, shortcut }: { label: string, shortcut?: string }) => (
     <Button
@@ -1076,6 +1112,32 @@ const handleLiveToggle = async () => {
                       >
                       <Plus className="mr-2 h-4 w-4" /> Add Custom RTMP
                       </Button>
+                  </div>
+                  <div className="bg-zinc-800 rounded-lg p-3">
+                    <h3 className="font-bold flex items-center gap-2 mb-2 text-zinc-100">
+                        <Settings2 className="h-5 w-5" /> Studio Settings
+                    </h3>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="destructive" className="w-full">
+                                <RefreshCw className="mr-2 h-4 w-4" /> Reset Studio
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will reset all scenes, layouts, and graphic overlays to their default state.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleResetStudio}>
+                                    Yes, Reset Studio
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </TabsContent>
                 <TabsContent value="layouts" className="bg-zinc-900/50 rounded-b-md p-2 flex-grow min-h-0 space-y-4">
