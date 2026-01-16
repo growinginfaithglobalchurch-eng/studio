@@ -201,12 +201,12 @@ export function LiveControlPanel({ isRadio = false }: LiveControlPanelProps) {
             </div>
              <div>
               <Label>Target Tribe (Optional)</Label>
-               <Select onValueChange={setTribe} value={tribe || ''}>
+               <Select onValueChange={(v) => setTribe(v === 'all' ? null : v)} value={tribe || 'all'}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Tribes (Public)" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Tribes (Public)</SelectItem>
+                  <SelectItem value="all">All Tribes (Public)</SelectItem>
                   <SelectItem value="Eagle">Eagles</SelectItem>
                   <SelectItem value="Lion">Lions</SelectItem>
                   <SelectItem value="Marine">Marines</SelectItem>
