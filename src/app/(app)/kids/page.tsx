@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -61,6 +60,13 @@ export default function KidsConnectPage() {
         toast({
             title: "Activity Starting!",
             description: `The "${featuredActivity.title}" activity is now loading. Have fun!`,
+        });
+    };
+
+    const handleComingSoon = (title: string) => {
+        toast({
+            title: "Coming Soon!",
+            description: `The "${title}" section is under development and will be available soon.`,
         });
     };
 
@@ -146,9 +152,15 @@ export default function KidsConnectPage() {
                       </CardHeader>
                       <CardContent className="flex-grow" />
                       <CardFooter>
-                          <Button asChild className="w-full" variant="outline">
-                              <Link href={activity.href}>{activity.cta}</Link>
-                          </Button>
+                         {activity.href === "#" ? (
+                            <Button className="w-full" variant="outline" onClick={() => handleComingSoon(activity.title)}>
+                                {activity.cta}
+                            </Button>
+                        ) : (
+                            <Button asChild className="w-full" variant="outline">
+                                <Link href={activity.href}>{activity.cta}</Link>
+                            </Button>
+                        )}
                       </CardFooter>
                     </Card>
                   </ScrollAnimator>
