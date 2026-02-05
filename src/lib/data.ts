@@ -753,3 +753,30 @@ export const bibleStories = [
         declaration: "My heart is good soil. I receive the Word of God with meekness and understanding. I uproot every stone of offense and every thorn of worldly care. I declare that my life will produce a hundredfold harvest for the glory of God, in Jesus' name."
     }
 ];
+
+export const creativeActivities = [
+    {
+        id: 1,
+        title: "Noah's Ark Coloring Page",
+        description: "Download and color this fun scene from the story of Noah!",
+        type: "Coloring Page",
+        image: PlaceHolderImages.find(p => p.id === 'coloring-page-1'),
+        fileUrl: "/assets/noahs-ark-coloring.pdf" // This will be a dummy link
+    },
+    {
+        id: 2,
+        title: "David and Goliath Coloring Page",
+        description: "Bring the epic battle to life with your colors.",
+        type: "Coloring Page",
+        image: PlaceHolderImages.find(p => p.id === 'coloring-page-2'),
+        fileUrl: "/assets/david-goliath-coloring.pdf" // dummy
+    },
+    {
+        id: 3,
+        title: "Paper Plate Lion Craft",
+        description: "A fun and easy craft to make a roaring lion like the one Daniel faced.",
+        type: "Craft Idea",
+        image: PlaceHolderImages.find(p => p.id === 'craft-idea-1'),
+        fileUrl: "/assets/lion-craft-instructions.pdf" // dummy
+    }
+];

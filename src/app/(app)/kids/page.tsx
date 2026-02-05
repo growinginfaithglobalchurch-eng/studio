@@ -42,7 +42,7 @@ const activities = [
         icon: <Gamepad2 className="h-6 w-6 text-accent" />,
         title: "Creative Activities & Crafts",
         description: "Fun, downloadable activities that reinforce biblical lessons.",
-        href: "#",
+        href: "/creative-activities",
         cta: "Get Creative"
     }
 ]
