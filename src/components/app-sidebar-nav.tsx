@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Link from 'next/link';
@@ -176,7 +175,7 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
 
   const createNavLink = (item: { href: string; label: string; icon: React.ReactNode }) => (
      <Link
-        key={item.href}
+        key={item.label}
         href={item.href}
         onClick={onLinkClick}
         className={cn(
