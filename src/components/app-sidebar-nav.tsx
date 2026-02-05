@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Link from 'next/link';
@@ -49,6 +50,7 @@ import {
   Tv,
   Star,
   Database,
+  Book,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -85,6 +87,15 @@ const partnershipNav = [
   { href: '/partnership/prayer-wall', label: 'Partner Prayer Wall', icon: <HeartHandshake className="h-4 w-4" /> },
   { href: '/partnership/founder-meetings', label: 'Founder Meetings', icon: <Calendar className="h-4 w-4" /> },
 ];
+
+const bibleStoriesNav = [
+    { href: '/bible-stories', label: 'Old Testament', icon: <Book className="h-4 w-4" /> },
+    { href: '/bible-stories', label: 'New Testament', icon: <Book className="h-4 w-4" /> },
+    { href: '/bible-stories', label: 'Parables of Jesus', icon: <Book className="h-4 w-4" /> },
+    { href: '/bible-stories', label: 'Prophetic Stories', icon: <Book className="h-4 w-4" /> },
+    { href: '/bible-stories', label: 'Kingdom Authority', icon: <Book className="h-4 w-4" /> },
+    { href: '/bible-stories', label: 'Faith & Dominion', icon: <Book className="h-4 w-4" /> },
+]
 
 const equippingNav = [
     { href: '/courses', label: 'All Courses', icon: <GraduationCap className="h-4 w-4" /> },
@@ -214,7 +225,7 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
           Global News
         </Link>
         
-      <Accordion type="single" collapsible className="w-full" defaultValue={pathname.startsWith('/admin') ? 'admin' : ''}>
+      <Accordion type="single" collapsible className="w-full" defaultValue={pathname.startsWith('/admin') ? 'admin' : (pathname.startsWith('/bible-stories') ? 'bible-stories' : '')}>
          <AccordionItem value="community" className="border-b-0">
           {createAccordionTrigger("Community & Growth", <Users className="h-4 w-4" />, "/")}
           <AccordionContent className="pl-4 pb-0">
@@ -231,6 +242,15 @@ export function AppSidebarNav({ onLinkClick }: AppSidebarNavProps) {
               {partnershipNav.map(createNavLink)}
             </div>
           </AccordionContent>
+        </AccordionItem>
+        
+        <AccordionItem value="bible-stories" className="border-b-0">
+            {createAccordionTrigger("Bible Stories", <BookMarked className="h-4 w-4" />, "/bible-stories")}
+            <AccordionContent className="pl-4 pb-0">
+                <div className="flex flex-col space-y-1">
+                {bibleStoriesNav.map(createNavLink)}
+                </div>
+            </AccordionContent>
         </AccordionItem>
 
          <AccordionItem value="equipping" className="border-b-0">

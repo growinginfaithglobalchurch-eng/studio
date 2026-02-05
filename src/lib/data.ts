@@ -625,54 +625,222 @@ export const departmentContent = {
 export const bibleStories = [
     {
         id: 1,
-        slug: 'david-and-goliath',
-        title: "David and Goliath",
-        description: "The story of a brave shepherd boy who trusted God and defeated a giant.",
+        slug: 'david-and-goliath-dominion-of-the-spirit-filled-mind',
+        category: 'Adults & Leaders',
+        title: "David and Goliath: Dominion of a Spirit-Filled Mind Over Physical Giants",
         image: PlaceHolderImages.find(p => p.id === 'devotional-2'),
-        content: [
-            "Once, there was a young shepherd boy named David. He loved God with all his heart. One day, a giant named Goliath challenged David's people, the Israelites. Goliath was very big and scary, and all the soldiers were afraid.",
-            "But David wasn't afraid. He told the king, 'God will help me!' David didn't wear heavy armor. He just took his slingshot and five smooth stones.",
-            "Goliath laughed at David, but David said, 'You come with a sword, but I come in the name of the Lord!' David slung a stone, and it hit Goliath right on the forehead. The giant fell down!",
-            "David showed everyone that when you trust God, you can be brave and do amazing things, no matter how small you are."
-        ]
+        scripture: "1 Samuel 17:45 (SLT) - Then David said to the Philistine, 'You come to me with a sword, with a spear, and with a javelin. But I come to you in the name of the LORD of hosts, the God of the armies of Israel, whom you have defied.'",
+        narrative: [
+            "The valley was thick with fear. For forty days, a physical giant named Goliath, a system of intimidation, had paralyzed the armies of Israel. His words were spiritual weapons, designed to shrink the identity of God's people. He was not just a large man; he was a stronghold, a spiritual argument against the promise of God.",
+            "While the army saw a nine-foot obstacle, a young shepherd named David saw a covenant opportunity. He was not trained in the art of war, but he was skilled in the art of faith. His confidence was not in his ability but in his identity as a covenant man. He remembered the lion and the bear—past victories that were training for this present battle. He operated from a different realm of reality.",
+            "Rejecting the king's armor, which represented man's system and logic, David chose five smooth stones. Five is the number of grace. He approached the giant not with the strength of flesh, but with the authority of a name—the name of the LORD of hosts. His declaration was a prophetic verdict issued before the battle even began.",
+            "The stone, propelled by faith and guided by the Spirit, found its mark. The system of intimidation crashed. David's victory was not just physical; it was a spiritual legislation that broke the atmosphere of fear and activated the courage of an entire nation. He demonstrated that what you see with spiritual eyes determines the outcome of your physical battles."
+        ],
+        revelationInsight: {
+            title: "Revelation Insight: The Law of spiritual Authority",
+            text: "Goliath operated by the law of intimidation, a spiritual force that magnifies physical circumstances to paralyze faith. David operated by the law of covenant and the Spirit. He understood that spiritual authority, released through faith-filled declarations, supersedes physical reality. The battle was won in the spirit before the stone was ever thrown."
+        },
+        lifeApplication: [
+            "Fear vs. Faith: Your focus determines your reality. Like the Israelite army, you can focus on the size of your 'giant' (a financial problem, a health diagnosis) or, like David, you can focus on the size of your God.",
+            "Identity vs. Intimidation: The enemy's primary weapon is to make you forget who you are in Christ. Your identity as a child of God gives you legal access to His power and authority.",
+            "Obedience vs. Delay: David's immediate obedience positioned him for victory. Delay born of fear or doubt can forfeit your moment of breakthrough."
+        ],
+        declaration: "I carry the Spirit of the Lord. My mind is renewed by the Word. No giant of intimidation assigned to stop my destiny shall stand before me. I operate from victory, not toward it. In Jesus' name."
     },
     {
         id: 2,
-        slug: 'noahs-ark',
-        title: "Noah's Ark",
-        description: "Join Noah as he builds a giant ark to save his family and the animals from a great flood.",
+        slug: 'noahs-ark-obedience-in-a-corrupt-world',
+        category: 'Kids',
+        title: "Noah's Ark: Building a Future on Obedience",
         image: PlaceHolderImages.find(p => p.id === 'live-replay-2'),
-        content: [
-            "A long time ago, a good man named Noah loved God. God told Noah He was going to send a big flood. 'Build a huge boat, an ark!' God said. 'And bring your family and two of every kind of animal inside.'",
-            "Noah obeyed. He and his sons worked for a very long time, building the biggest boat anyone had ever seen. People laughed, but Noah kept working because he trusted God.",
-            "When the ark was finished, the animals came, two by two. Elephants, giraffes, monkeys, and even tiny ants! Noah and his family went inside, and God shut the door.",
-            "It rained for 40 days and 40 nights. The whole world was covered in water, but everyone inside the ark was safe. When the rain stopped, God sent a rainbow as a promise to never flood the whole earth again."
-        ]
+        scripture: "Genesis 6:22 (SLT) - Thus Noah did; according to all that God commanded him, so he did.",
+        narrative: [
+            "A long, long time ago, the world became a very noisy and sad place. People forgot about God and did whatever they wanted. But one man, Noah, still loved God and listened to His voice. God saw Noah's faithful heart.",
+            "God told Noah, 'I am going to wash the world clean with a great flood. But I will save you. Build a huge boat—an ark!' It was a strange instruction. There was no rain. But Noah didn't question; he obeyed. He and his family started building, day after day, year after year.",
+            "As they built, animals started coming, two by two. Big elephants, tall giraffes, and tiny ladybugs all lined up. They were responding to God's call. Finally, Noah, his family, and all the animals went inside. God Himself shut the door, sealing them in safety.",
+            "Then the rain came. It rained and rained until the whole world was covered in water. But inside the ark, Noah and his family were safe and dry, protected by their obedience. When the waters went down, God placed a beautiful rainbow in the sky as a promise of His faithfulness."
+        ],
+        revelationInsight: {
+            title: "Revelation Insight: The Principle of the Ark",
+            text: "The Ark is a picture of Christ. In a world facing judgment, obedience to God's specific instruction (building the ark) brought Noah and his family into a place of safety and preservation. Today, our 'ark' is our position in Christ. By obeying His word and dwelling in Him, we are kept safe from the spiritual storms of the world."
+        },
+        lifeApplication: [
+            "Listen and Obey: Even when God's instructions don't make sense to others, obeying Him always leads to safety and blessing.",
+            "Be Different: Noah was righteous in a wicked world. Don't be afraid to live differently for God.",
+            "God Always Provides a Way: In the face of judgment, God always provides a way of escape for those who trust Him."
+        ],
+        declaration: "I choose to listen to God's voice and obey, even when it's hard. I am safe in Jesus, my Ark of salvation. God's promises to me are true!"
     },
     {
         id: 3,
-        slug: 'daniel-in-the-lions-den',
-        title: "Daniel in the Lion's Den",
-        description: "A story of faith and courage as Daniel faces a den of hungry lions.",
+        slug: 'daniel-in-the-lions-den-authority-in-hostile-environments',
+        category: 'Teens & Youth',
+        title: "Daniel in the Lion's Den: Authority in Hostile Environments",
         image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
-        content: [
-            "Daniel was a man who prayed to God every day. Some bad people were jealous of Daniel and tricked the king into making a new rule: no one could pray to anyone except the king.",
-            "Daniel knew about the rule, but he loved God too much to stop praying. He went to his room, opened his window, and prayed just like he always did. The bad people saw him and told the king.",
-            "The king was sad, but he had to follow his own rule. He ordered Daniel to be thrown into a den of hungry lions. The king hoped Daniel's God would save him.",
-            "The next morning, the king rushed to the den and called, 'Daniel, did your God save you?' Daniel replied, 'Yes! God sent an angel to shut the lions' mouths!' The king was overjoyed and made a new rule that everyone should respect Daniel's God."
-        ]
-    },
-     {
-        id: 4,
-        slug: 'the-story-of-creation',
-        title: "The Story of Creation",
-        description: "Learn how God created the heavens and the earth in seven days.",
-        image: PlaceHolderImages.find(p => p.id === 'devotionals-feature'),
-        content: [
-            "In the very beginning, there was nothing but God. On the first day, God said, 'Let there be light!' And there was light. He separated the light from the darkness, calling the light 'day' and the darkness 'night'.",
-            "On the second day, God made the sky. On the third day, He made the land and the seas, and He told the land to grow all kinds of plants, trees, and flowers.",
-            "On the fourth day, God created the sun for the day, and the moon and stars for the night. On the fifth day, He filled the seas with fish and the sky with birds.",
-            "On the sixth day, God made all the animals on the land. Then, He did something very special. He made the first man and woman, Adam and Eve, in His own image. On the seventh day, God rested and enjoyed everything He had made. It was all very good."
-        ]
+        scripture: "Daniel 6:22 (SLT) - My God sent His angel and shut the lions’ mouths, so that they have not hurt me, because I was found innocent before Him...",
+        narrative: [
+            "Daniel was a young man of excellence and integrity, serving in a foreign, godless government. His commitment to God made him stand out, and his promotion made others jealous. His enemies couldn't find any fault in his work, so they targeted his faith.",
+            "They created a law they knew he would break: a 30-day ban on praying to anyone but the king. For Daniel, prayer was not a religious ritual; it was his lifeline to the source of his wisdom and strength. He refused to compromise his connection to God, even under the threat of death. He prayed openly, as he always had.",
+            "Thrown into a den of lions, Daniel entered a physical manifestation of the hostile, demonic environment he had been living in all along. But the authority he carried in the spirit realm was greater than the authority of the lions in the physical realm. His innocence and unwavering faith gave heaven the legal right to intervene.",
+            "An angel was dispatched—not to fight the lions, but simply to shut their mouths. The threat was neutralized by a higher government. Daniel's survival wasn't just a miracle; it was a demonstration of Kingdom authority that caused an entire empire to recognize the power of the God of Israel."
+        ],
+        revelationInsight: {
+            title: "Revelation Insight: The Law of Innocence and Dominion",
+            text: "Daniel was protected because he was found 'innocent'. His integrity gave him legal standing in the courts of heaven. The lions' mouths were shut because the spiritual realm of authority, where Daniel operated through prayer, governs the natural realm. The angels enforced a verdict that was already won through a lifestyle of faithfulness."
+        },
+        lifeApplication: [
+            "Compromise is Not an Option: Your connection with God is your greatest asset. Never compromise it for acceptance or to avoid trouble.",
+            "Excellence as a Weapon: Daniel's enemies couldn't attack his work, so they attacked his faith. Excellence in your school, job, or craft is a powerful form of witness.",
+            "Your Private Devotion Determines Your Public Victory: The victory in the lions' den was won in Daniel's prayer room long before he was thrown in."
+        ],
+        declaration: "I will not bow to the pressures of this world. My integrity is my shield, and my faith is my authority. The environment around me must submit to the Kingdom of God that is within me. Angels are dispatched on my behalf."
     }
 ];
+```
+  </change>
+  <change>
+    <file>/src/app/(app)/bible-stories/[slug]/page.tsx</file>
+    <content><![CDATA['use client';
+
+import { useParams } from 'next/navigation';
+import Image from 'next/image';
+import { bibleStories } from '@/lib/data';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { BookOpenText, ArrowLeft, Lightbulb, Target, Sparkles, ScrollText, CheckCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { CodeBlock } from '@/components/code-block';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useToast } from '@/hooks/use-toast';
+
+export default function StoryViewerPage() {
+    const params = useParams();
+    const slug = params.slug as string;
+    const { toast } = useToast();
+
+    const story = bibleStories.find(s => s.slug === slug);
+
+    const handleDeclaration = () => {
+        toast({
+            title: 'Declaration Made!',
+            description: 'You have activated this truth in your spirit.',
+        });
+    }
+
+    if (!story) {
+        return (
+            <div className="text-center py-10">
+                <h1 className="text-2xl font-bold">Story not found</h1>
+                <p className="text-muted-foreground">The story you are looking for does not exist.</p>
+                 <Button asChild className="mt-4">
+                    <Link href="/bible-stories">
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Back to Stories
+                    </Link>
+                </Button>
+            </div>
+        );
+    }
+
+    return (
+        <div className="max-w-4xl mx-auto space-y-8">
+            <div className="relative">
+                 <Button asChild variant="outline" className="absolute top-4 left-4 z-10 bg-card/80">
+                    <Link href="/bible-stories">
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Back
+                    </Link>
+                </Button>
+                {story.image && (
+                    <div className="relative w-full overflow-hidden rounded-lg">
+                         <AspectRatio ratio={16 / 9}>
+                            <Image src={story.image.imageUrl} alt={story.title} fill className="object-cover" data-ai-hint={story.image.imageHint} />
+                        </AspectRatio>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h1 className="text-3xl lg:text-4xl font-headline font-bold text-white max-w-2xl">{story.title}</h1>
+                        </div>
+                    </div>
+                )}
+            </div>
+           
+            <Card>
+                <CardHeader>
+                    <div className="flex items-start gap-4">
+                         <ScrollText className="h-8 w-8 text-accent flex-shrink-0" />
+                        <div>
+                            <CardTitle>Scripture Foundation</CardTitle>
+                            <CardDescription>The biblical basis for this story.</CardDescription>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <CodeBlock code={story.scripture} />
+                </CardContent>
+            </Card>
+
+             <Card>
+                <CardHeader>
+                    <div className="flex items-start gap-4">
+                         <BookOpenText className="h-8 w-8 text-accent flex-shrink-0" />
+                        <div>
+                            <CardTitle>The Story</CardTitle>
+                            <CardDescription>A retelling of the biblical account.</CardDescription>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="space-y-4 text-lg text-muted-foreground leading-relaxed prose prose-invert max-w-none">
+                    {story.narrative.map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
+                    ))}
+                </CardContent>
+            </Card>
+            
+            <Alert className="bg-primary/10 border-primary/20">
+                <Lightbulb className="h-5 w-5 text-accent"/>
+                <AlertTitle className="text-accent font-bold text-xl">{story.revelationInsight.title}</AlertTitle>
+                <AlertDescription className="text-foreground mt-2">
+                    {story.revelationInsight.text}
+                </AlertDescription>
+            </Alert>
+
+             <Card>
+                <CardHeader>
+                     <div className="flex items-start gap-4">
+                         <Target className="h-8 w-8 text-accent flex-shrink-0" />
+                        <div>
+                            <CardTitle>Life Application</CardTitle>
+                            <CardDescription>How this truth affects your life today.</CardDescription>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                     {story.lifeApplication.map((point, index) => (
+                        <div key={index} className="flex items-start gap-3">
+                            <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                           <p className="text-muted-foreground">{point}</p>
+                        </div>
+                    ))}
+                </CardContent>
+            </Card>
+
+             <Card className="bg-accent/10 border-accent/20">
+                <CardHeader>
+                     <div className="flex items-start gap-4">
+                         <Sparkles className="h-8 w-8 text-accent flex-shrink-0" />
+                        <div>
+                            <CardTitle>Activation & Declaration</CardTitle>
+                            <CardDescription>Speak this truth over your life to activate it.</CardDescription>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <blockquote className="border-l-4 border-accent pl-4 italic text-foreground text-lg">
+                        "{story.declaration}"
+                    </blockquote>
+                    <Button className="mt-4" onClick={handleDeclaration}>Activate this Word</Button>
+                </CardContent>
+            </Card>
+        </div>
+    );
+}
