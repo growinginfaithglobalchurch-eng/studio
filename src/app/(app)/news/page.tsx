@@ -1,11 +1,9 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { newsFeed as initialNewsFeed } from '@/lib/data';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { CheckCheck, Check, Send, Paperclip, ImageIcon, Video, FileText, Trash2 } from 'lucide-react';
+import { CheckCheck, Check, Send, Paperclip, ImageIcon, Video, FileText, Trash2, Loader2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -13,6 +11,8 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
+import { useLanguage } from '@/context/language-context';
 
 type Reaction = {
     emoji: string;
@@ -23,19 +23,46 @@ type NewsItem = {
     id: number;
     title: string | null;
     content: string;
-    timestamp: string;
-    image: { imageUrl: string; } | null;
+    created_at: string;
+    image_url: string | null;
+    image_hint: string | null;
     reactions: Reaction[];
 };
 
 export default function GlobalNewsPage() {
     const { toast } = useToast();
+    const { t } = useLanguage();
     
-    const [newsFeed, setNewsFeed] = useState<NewsItem[]>(initialNewsFeed);
+    const [newsFeed, setNewsFeed] = useState<NewsItem[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [title, setTitle] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
-    const handleSendMessage = () => {
+    useEffect(() => {
+      const fetchNews = async () => {
+        setIsLoading(true);
+        const { data, error } = await supabase
+          .from('news_feed')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (error) {
+          toast({
+            variant: 'destructive',
+            title: 'Error fetching news',
+            description: error.message
+          });
+        } else {
+          // Reactions are not in the DB, so we'll add them here for the demo.
+          const feedWithReactions = data.map(item => ({...item, reactions: []}));
+          setNewsFeed(feedWithReactions);
+        }
+        setIsLoading(false);
+      }
+      fetchNews();
+    }, [toast]);
+
+    const handleSendMessage = async () => {
         if (!newMessage.trim() && !title.trim()) {
             toast({
                 variant: 'destructive',
@@ -45,29 +72,45 @@ export default function GlobalNewsPage() {
             return;
         }
 
-        const newPost: NewsItem = {
-            id: newsFeed.length > 0 ? Math.max(...newsFeed.map(item => item.id)) + 1 : 1,
-            title: title || null,
-            content: newMessage,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            image: null,
-            reactions: []
-        };
-        setNewsFeed(prev => [...prev, newPost]);
-        setNewMessage('');
-        setTitle('');
-        toast({
-            title: 'Message Posted',
-            description: 'Your message has been posted to the news channel.',
-        });
+        const { data, error } = await supabase
+            .from('news_feed')
+            .insert([{ title: title || null, content: newMessage }])
+            .select();
+
+        if (error) {
+             toast({
+                variant: 'destructive',
+                title: 'Error Posting',
+                description: error.message,
+            });
+        } else if (data) {
+             // Add reactions locally for display
+            const newPost: NewsItem = { ...(data[0] as Omit<NewsItem, 'reactions'>), reactions: [] };
+            setNewsFeed(prev => [...prev, newPost]);
+            setNewMessage('');
+            setTitle('');
+            toast({
+                title: 'Message Posted',
+                description: 'Your message has been posted to the news channel.',
+            });
+        }
     };
 
-    const handleDelete = (id: number) => {
-        setNewsFeed(prev => prev.filter(item => item.id !== id));
-        toast({
-            title: 'Post Deleted',
-            description: 'The news post has been removed.',
-        })
+    const handleDelete = async (id: number) => {
+        const { error } = await supabase.from('news_feed').delete().match({ id });
+        if(error) {
+             toast({
+                variant: 'destructive',
+                title: 'Error Deleting',
+                description: error.message,
+            });
+        } else {
+            setNewsFeed(prev => prev.filter(item => item.id !== id));
+            toast({
+                title: 'Post Deleted',
+                description: 'The news post has been removed.',
+            })
+        }
     };
 
     const addReaction = (id: number, emoji: string) => {
@@ -117,11 +160,12 @@ export default function GlobalNewsPage() {
 
                 <ScrollArea className="flex-grow p-4 bg-background">
                     <div className="space-y-4">
-                        <div className="text-center my-4">
-                            <span className="bg-secondary text-muted-foreground text-xs font-semibold px-2 py-1 rounded-full">YESTERDAY</span>
-                        </div>
-
-                        {newsFeed.map((item) => (
+                        {isLoading ? (
+                          <div className="flex justify-center items-center py-10">
+                            <Loader2 className="h-8 w-8 animate-spin text-accent" />
+                          </div>
+                        ) : newsFeed.length > 0 ? (
+                           newsFeed.map((item) => (
                              <div key={item.id} className="flex flex-col items-start group">
                                 <div className="bg-card rounded-lg p-3 max-w-lg shadow-md relative">
                                     <Button 
@@ -133,9 +177,9 @@ export default function GlobalNewsPage() {
                                         <Trash2 className="h-3 w-3" />
                                     </Button>
 
-                                     {item.image && (
+                                     {item.image_url && (
                                         <div className="relative w-full aspect-video rounded-md overflow-hidden mb-2">
-                                            <Image src={item.image.imageUrl} alt={item.title || 'News Image'} fill className="object-cover" />
+                                            <Image src={item.image_url} alt={item.title || 'News Image'} fill className="object-cover" />
                                         </div>
                                      )}
                                     {item.title && <h4 className="font-bold text-card-foreground">{item.title}</h4>}
@@ -153,7 +197,7 @@ export default function GlobalNewsPage() {
                                     )}
 
                                     <div className="flex justify-end items-center mt-1">
-                                        <span className="text-xs text-muted-foreground">{item.timestamp}</span>
+                                        <span className="text-xs text-muted-foreground">{new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                         <CheckCheck className="h-4 w-4 ml-1 text-blue-400" />
                                     </div>
                                 </div>
@@ -165,22 +209,10 @@ export default function GlobalNewsPage() {
                                     ))}
                                 </div>
                             </div>
-                        ))}
-                        
-                         <div className="text-center my-4">
-                            <span className="bg-secondary text-muted-foreground text-xs font-semibold px-2 py-1 rounded-full">TODAY</span>
-                        </div>
-
-                         <div className="flex flex-col items-start group">
-                            <div className="bg-card rounded-lg p-3 max-w-lg shadow-md">
-                                <h4 className="font-bold text-card-foreground">Welcome to the Channel!</h4>
-                                <p className="text-sm text-card-foreground/90 whitespace-pre-wrap">Stay tuned for all official news and announcements from Growing in Faith Global. This channel is your primary source for updates.</p>
-                                <div className="flex justify-end items-center mt-1">
-                                    <span className="text-xs text-muted-foreground">8:00 AM</span>
-                                    <Check className="h-4 w-4 ml-1 text-muted-foreground" />
-                                </div>
-                            </div>
-                        </div>
+                        ))
+                        ) : (
+                          <div className="text-center py-10 text-muted-foreground">No news yet.</div>
+                        )}
                     </div>
                 </ScrollArea>
                 

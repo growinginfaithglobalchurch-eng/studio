@@ -3,75 +3,6 @@ import { PlaceHolderImages } from './placeholder-images';
 import { User } from './types';
 import { Music, Handshake, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users, Briefcase } from 'lucide-react';
 
-export const devotionals = [
-  {
-    id: 1,
-    title: 'Morning Manna: A New Day\'s Mercies',
-    author: 'Pastor John Doe',
-    date: '2024-07-28',
-    category: 'Faith',
-    image: PlaceHolderImages.find(p => p.id === 'devotional-1'),
-    content: {
-      text: "The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness. (Lamentations 3:22-23). Today, let's reflect on the promise of a fresh start. No matter what yesterday held, God's mercy is a new gift for you this morning. Embrace it, walk in it, and let it redefine your day. Your past does not dictate your future when you are covered by His grace.",
-      audioUrl: '#',
-      videoUrl: '#',
-    },
-  },
-  {
-    id: 2,
-    title: 'The Path of Peace',
-    author: 'Prophetess Jane Smith',
-    date: '2024-07-27',
-    category: 'Peace',
-    image: PlaceHolderImages.find(p => p.id === 'devotional-2'),
-    content: {
-      text: "You will keep in perfect peace those whose minds are steadfast, because they trust in you. (Isaiah 26:3). In a world filled with chaos, where do you find your peace? True, lasting peace is not found in circumstances but in a steadfast mind fixed on God. Today, intentionally shift your focus from your worries to the Worshiped One. Trust in His sovereignty, and let His perfect peace guard your heart and mind.",
-      audioUrl: '#',
-      videoUrl: '#',
-    },
-  },
-  {
-    id: 3,
-    title: 'Shining Your Light',
-    author: 'Evangelist Michael Lee',
-    date: '2024-07-26',
-    category: 'Witnessing',
-    image: PlaceHolderImages.find(p => p.id === 'devotional-3'),
-    content: {
-      text: "You are the light of the world. A city set on a hill cannot be hidden. (Matthew 5:14). Your life is a testimony. You carry the light of Christ within you. Don't hide it under a bushel. Let it shine in your workplace, in your home, and in your community. A simple act of kindness, a word of encouragement, or an unwavering integrity can be the beacon that points someone to Jesus.",
-      audioUrl: '#',
-      videoUrl: '#',
-    },
-  },
-];
-
-export const prayerRequests = [
-  {
-    id: 1,
-    user: 'Sarah K.',
-    avatar: PlaceHolderImages.find(p => p.id === 'avatar-2'),
-    request: 'Please pray for my mother\'s healing. She is scheduled for surgery next week. Praying for the doctors\' wisdom and a successful procedure.',
-    timestamp: '2 hours ago',
-    prayedCount: 15,
-  },
-  {
-    id: 2,
-    user: 'David R.',
-    avatar: PlaceHolderImages.find(p => p.id === 'avatar-1'),
-    request: 'Pray for a job opportunity. I have an important interview tomorrow morning. I need favor and clarity.',
-    timestamp: '5 hours ago',
-    prayedCount: 28,
-  },
-  {
-    id: 3,
-    user: 'Anonymous',
-    avatar: undefined,
-    request: 'For my family\'s salvation. That their hearts would be softened to the Gospel.',
-    timestamp: '1 day ago',
-    prayedCount: 52,
-  },
-];
-
 export const liveSessions = {
   current: {
     title: 'Kingdom-Driven Leadership: Activating Your Calling',
@@ -103,56 +34,7 @@ export const communityUsers: User[] = [
 ];
 
 export const feedItems = [
-  {
-    id: 1,
-    type: 'PRAYER_REQUEST',
-    user: prayerRequests[0].user,
-    avatar: prayerRequests[0].avatar,
-    content: 'posted a new prayer request.',
-    details: prayerRequests[0].request,
-    timestamp: prayerRequests[0].timestamp,
-    href: '/prayer'
-  },
-  {
-    id: 2,
-    type: 'NEW_DEVOTIONAL',
-    user: devotionals[0].author,
-    avatar: PlaceHolderImages.find(p => p.id === 'avatar-1'),
-    content: `published a new devotional: "${devotionals[0].title}"`,
-    details: devotionals[0].content.text,
-    timestamp: '10 hours ago',
-    href: '/devotionals'
-  },
-  {
-    id: 3,
-    type: 'PRAYER_REQUEST',
-    user: prayerRequests[1].user,
-    avatar: prayerRequests[1].avatar,
-    content: 'posted a new prayer request.',
-    details: prayerRequests[1].request,
-    timestamp: prayerRequests[1].timestamp,
-    href: '/prayer'
-  },
-  {
-    id: 4,
-    type: 'NEW_CONNECTION',
-    user: communityUsers[1].name,
-    avatar: communityUsers[1].avatar,
-    content: `connected with ${communityUsers[2].name}.`,
-    details: 'Welcome them to the community!',
-    timestamp: '18 hours ago',
-    href: '/connect'
-  },
-    {
-    id: 5,
-    type: 'NEW_DEVOTIONAL',
-    user: devotionals[1].author,
-    avatar: PlaceHolderImages.find(p => p.id === 'avatar-2'),
-    content: `published a new devotional: "${devotionals[1].title}"`,
-    details: devotionals[1].content.text,
-    timestamp: '1 day ago',
-    href: '/devotionals'
-  },
+  // This data will now be generated dynamically or fetched.
 ];
 
 export const events = [
@@ -398,30 +280,6 @@ export const empowermentMeetings = [
   }
 ];
 
-export const announcements = [
-  {
-    id: 1,
-    title: 'Platform Maintenance Scheduled',
-    content: 'Please be advised that the Faith Connect Global platform will be undergoing scheduled maintenance on Saturday, August 3rd, from 2:00 AM to 4:00 AM EST. During this time, the platform may be temporarily unavailable. We appreciate your understanding as we work to improve your experience.',
-    date: '2024-07-29',
-    category: 'Platform Update',
-  },
-  {
-    id: 2,
-    title: 'New Course Available: "The Seer\'s Realm"',
-    content: 'We are excited to launch a new advanced course in the School of the Prophet, "The Seer\'s Realm: Interpreting Visions & Dreams." Enroll today to deepen your understanding of symbolic revelation.',
-    date: '2024-07-28',
-    category: 'New Content',
-  },
-  {
-    id: 3,
-    title: 'Global Day of Prayer & Fasting',
-    content: 'Join us this Friday as we come together as a global community for a day of prayer and fasting. We will be interceding for revival in the nations. A live prayer session will be held at 12:00 PM EST.',
-    date: '2024-07-27',
-    category: 'Community Event',
-  }
-];
-
 export const groups = [
     {
         id: 1,
@@ -546,41 +404,6 @@ export const regionalTowers = [
     { region: "Africa", focus: "Breaking cycles of poverty and corruption; raising righteous leaders.", leader: "Watchman Esther" },
     { region: "South America", focus: "Unity in the body of Christ and deliverance from political instability.", leader: "Watchman Carlos" },
     { region: "Oceania", focus: "Revival among indigenous peoples and a new wave of missionaries.", leader: "Watchman Sarah" },
-];
-
-export const newsFeed = [
-    {
-        id: 1,
-        title: "Global Day of Prayer & Fasting",
-        content: "Join us this Friday as we come together as a global community for a day of prayer and fasting. We will be interceding for revival in the nations.\n\nA live prayer session will be held at 12:00 PM EST.",
-        timestamp: "9:30 PM",
-        image: PlaceHolderImages.find(p => p.id === 'prayer-feature'),
-        reactions: [
-            { emoji: '🙏', count: 128 },
-            { emoji: '❤️', count: 72 },
-        ]
-    },
-    {
-        id: 2,
-        title: "New Course Available: The Seer's Realm",
-        content: "We are excited to launch a new advanced course in the School of the Prophet, 'The Seer's Realm: Interpreting Visions & Dreams.' Enroll today to deepen your understanding of symbolic revelation.",
-        timestamp: "4:15 PM",
-        image: PlaceHolderImages.find(p => p.id === 'devotional-3'),
-        reactions: [
-             { emoji: '🔥', count: 95 },
-             { emoji: '👍', count: 63 },
-        ]
-    },
-    {
-        id: 3,
-        title: "Platform Maintenance Scheduled",
-        content: "Please be advised that the Faith Connect Global platform will be undergoing scheduled maintenance on Saturday, August 3rd, from 2:00 AM to 4:00 AM EST. During this time, the platform may be temporarily unavailable.",
-        timestamp: "1:00 PM",
-        image: null,
-        reactions: [
-            { emoji: '👍', count: 45 },
-        ]
-    }
 ];
 
 export const memoryVerseSongs = [
