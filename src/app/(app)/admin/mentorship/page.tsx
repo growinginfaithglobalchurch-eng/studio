@@ -1,16 +1,15 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { mentorshipClasses as initialMentorshipClasses, communityUsers } from '@/lib/data';
-import { UserCheck, PlusCircle, Trash2, UserCircle } from 'lucide-react';
+import { communityUsers } from '@/lib/data';
+import { UserCheck, PlusCircle, Trash2, UserCircle, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Select,
@@ -19,15 +18,42 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { supabase } from '@/lib/supabase';
+
+type MentorshipClass = {
+    id: number;
+    title: string;
+    description: string;
+    mentor_id: number;
+};
 
 export default function AdminMentorshipPage() {
     const { toast } = useToast();
-    const [mentorshipClasses, setMentorshipClasses] = useState(initialMentorshipClasses);
+    const [mentorshipClasses, setMentorshipClasses] = useState<MentorshipClass[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [newClass, setNewClass] = useState({
         title: '',
         description: '',
         mentorId: ''
     });
+
+    useEffect(() => {
+        const fetchClasses = async () => {
+            setIsLoading(true);
+            const { data, error } = await supabase
+                .from('mentorship_classes')
+                .select('*')
+                .order('id', { ascending: false });
+
+            if (error) {
+                toast({ variant: 'destructive', title: 'Error fetching classes', description: error.message });
+            } else {
+                setMentorshipClasses(data || []);
+            }
+            setIsLoading(false);
+        };
+        fetchClasses();
+    }, [toast]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -38,7 +64,7 @@ export default function AdminMentorshipPage() {
         setNewClass(prev => ({ ...prev, mentorId: value }));
     };
 
-    const handleAddClass = (e: React.FormEvent) => {
+    const handleAddClass = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newClass.title || !newClass.mentorId) {
             toast({
@@ -48,31 +74,42 @@ export default function AdminMentorshipPage() {
             });
             return;
         }
-        const newId = mentorshipClasses.length > 0 ? Math.max(...mentorshipClasses.map(c => c.id)) + 1 : 1;
         const newMentorshipClass = {
-            id: newId,
             title: newClass.title,
             description: newClass.description,
-            mentorId: parseInt(newClass.mentorId, 10),
+            mentor_id: parseInt(newClass.mentorId, 10),
         };
-        setMentorshipClasses(prev => [newMentorshipClass, ...prev]);
-        setNewClass({
-            title: '',
-            description: '',
-            mentorId: ''
-        });
-        toast({
-            title: 'Mentorship Class Added',
-            description: `"${newClass.title}" has been successfully added.`,
-        });
+
+        const { data, error } = await supabase.from('mentorship_classes').insert([newMentorshipClass]).select();
+
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error adding class', description: error.message });
+        } else if (data) {
+            setMentorshipClasses(prev => [data[0], ...prev]);
+            setNewClass({
+                title: '',
+                description: '',
+                mentorId: ''
+            });
+            toast({
+                title: 'Mentorship Class Added',
+                description: `"${newClass.title}" has been successfully added.`,
+            });
+        }
     };
 
-    const handleDeleteClass = (id: number) => {
-        setMentorshipClasses(prev => prev.filter(c => c.id !== id));
-        toast({
-            title: 'Mentorship Class Deleted',
-            description: 'The class has been removed.',
-        });
+    const handleDeleteClass = async (id: number) => {
+        const { error } = await supabase.from('mentorship_classes').delete().match({ id });
+
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error deleting class', description: error.message });
+        } else {
+            setMentorshipClasses(prev => prev.filter(c => c.id !== id));
+            toast({
+                title: 'Mentorship Class Deleted',
+                description: 'The class has been removed.',
+            });
+        }
     };
 
     const getMentorById = (id: number) => {
@@ -144,8 +181,10 @@ export default function AdminMentorshipPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {mentorshipClasses.map(mc => {
-                        const mentor = getMentorById(mc.mentorId);
+                     {isLoading ? (
+                        <div className="flex justify-center items-center p-4"><Loader2 className="animate-spin h-6 w-6"/></div>
+                    ) : mentorshipClasses.map(mc => {
+                        const mentor = getMentorById(mc.mentor_id);
                         return (
                             <div key={mc.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4">
                                <div className="flex-grow">

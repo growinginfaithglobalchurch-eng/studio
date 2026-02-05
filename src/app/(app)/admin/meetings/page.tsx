@@ -1,14 +1,13 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { departments } from '@/lib/data';
-import { Calendar, PlusCircle, Trash2 } from 'lucide-react';
+import { Calendar, PlusCircle, Trash2, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Select,
@@ -17,6 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { supabase } from '@/lib/supabase';
+import { departments } from '@/lib/data'; // Still needed for the dropdown
 
 type Meeting = {
     id: number;
@@ -29,12 +30,31 @@ type Meeting = {
 export default function AdminMeetingsPage() {
     const { toast } = useToast();
     const [meetings, setMeetings] = useState<Meeting[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [newMeeting, setNewMeeting] = useState({
         title: '',
         description: '',
         date: '',
         department: '',
     });
+
+    useEffect(() => {
+        const fetchMeetings = async () => {
+            setIsLoading(true);
+            const { data, error } = await supabase
+                .from('meetings')
+                .select('*')
+                .order('date', { ascending: false });
+
+            if (error) {
+                toast({ variant: 'destructive', title: 'Error fetching meetings', description: error.message });
+            } else {
+                setMeetings(data || []);
+            }
+            setIsLoading(false);
+        };
+        fetchMeetings();
+    }, [toast]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -45,7 +65,7 @@ export default function AdminMeetingsPage() {
         setNewMeeting(prev => ({...prev, department: value}));
     }
 
-    const handleAddMeeting = (e: React.FormEvent) => {
+    const handleAddMeeting = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newMeeting.title || !newMeeting.date || !newMeeting.department) {
             toast({
@@ -55,27 +75,37 @@ export default function AdminMeetingsPage() {
             });
             return;
         }
-        const newId = meetings.length > 0 ? Math.max(...meetings.map(m => m.id)) + 1 : 1;
-        const meetingToAdd = { id: newId, ...newMeeting };
-        setMeetings(prev => [meetingToAdd, ...prev]);
-        setNewMeeting({
-            title: '',
-            description: '',
-            date: '',
-            department: '',
-        });
-        toast({
-            title: 'Meeting Scheduled',
-            description: `"${newMeeting.title}" has been added.`,
-        });
+        
+        const { data, error } = await supabase.from('meetings').insert([newMeeting]).select();
+
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error scheduling meeting', description: error.message });
+        } else if (data) {
+            setMeetings(prev => [data[0], ...prev]);
+            setNewMeeting({
+                title: '',
+                description: '',
+                date: '',
+                department: '',
+            });
+            toast({
+                title: 'Meeting Scheduled',
+                description: `"${newMeeting.title}" has been added.`,
+            });
+        }
     };
 
-    const handleDeleteMeeting = (id: number) => {
-        setMeetings(prev => prev.filter(m => m.id !== id));
-        toast({
-            title: 'Meeting Deleted',
-            description: 'The meeting has been removed.',
-        });
+    const handleDeleteMeeting = async (id: number) => {
+        const { error } = await supabase.from('meetings').delete().match({ id });
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error deleting meeting', description: error.message });
+        } else {
+            setMeetings(prev => prev.filter(m => m.id !== id));
+            toast({
+                title: 'Meeting Deleted',
+                description: 'The meeting has been removed.',
+            });
+        }
     };
 
     return (
@@ -141,7 +171,9 @@ export default function AdminMeetingsPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {meetings.length > 0 ? meetings.map(m => (
+                    {isLoading ? (
+                        <div className="flex justify-center items-center p-4"><Loader2 className="animate-spin h-6 w-6"/></div>
+                    ) : meetings.length > 0 ? meetings.map(m => (
                         <div key={m.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4">
                            <div className="flex-grow">
                                 <p className="text-sm text-muted-foreground">{new Date(m.date).toLocaleString()} &bull; {m.department}</p>

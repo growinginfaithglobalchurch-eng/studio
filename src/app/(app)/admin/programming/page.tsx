@@ -1,15 +1,15 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { serviceElements as initialServiceElements } from '@/lib/data';
-import { ClipboardList, PlusCircle, Trash2, Edit, Save, Waves, Sparkles, Wind, Users } from 'lucide-react';
+import { ClipboardList, PlusCircle, Trash2, Edit, Save, Waves, Sparkles, Wind, Users, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabase';
 
 type ServiceElement = {
     id: number;
@@ -37,17 +37,32 @@ const getIcon = (title: string) => {
 
 export default function AdminProgrammingPage() {
     const { toast } = useToast();
-    const [serviceElements, setServiceElements] = useState<ServiceElement[]>(initialServiceElements);
+    const [serviceElements, setServiceElements] = useState<ServiceElement[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [newElement, setNewElement] = useState({ title: '', description: '', details: '' });
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editedData, setEditedData] = useState({ title: '', description: '', details: '' });
+
+    useEffect(() => {
+        const fetchElements = async () => {
+            setIsLoading(true);
+            const { data, error } = await supabase.from('service_elements').select('*').order('id', { ascending: true });
+            if (error) {
+                toast({ variant: 'destructive', title: 'Error fetching service elements', description: error.message });
+            } else {
+                setServiceElements(data || []);
+            }
+            setIsLoading(false);
+        };
+        fetchElements();
+    }, [toast]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setNewElement(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleAddElement = (e: React.FormEvent) => {
+    const handleAddElement = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newElement.title || !newElement.description) {
             toast({
@@ -57,18 +72,28 @@ export default function AdminProgrammingPage() {
             });
             return;
         }
-        const newId = serviceElements.length > 0 ? Math.max(...serviceElements.map(e => e.id)) + 1 : 1;
-        setServiceElements(prev => [...prev, { id: newId, ...newElement }]);
-        setNewElement({ title: '', description: '', details: '' });
-        toast({
-            title: 'Service Element Added',
-            description: `"${newElement.title}" has been added to the service flow.`,
-        });
+
+        const { data, error } = await supabase.from('service_elements').insert([newElement]).select();
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error adding element', description: error.message });
+        } else if (data) {
+            setServiceElements(prev => [...prev, data[0]]);
+            setNewElement({ title: '', description: '', details: '' });
+            toast({
+                title: 'Service Element Added',
+                description: `"${newElement.title}" has been added to the service flow.`,
+            });
+        }
     };
 
-    const handleDeleteElement = (id: number) => {
-        setServiceElements(prev => prev.filter(e => e.id !== id));
-        toast({ title: 'Element Deleted', description: 'The service element has been removed.' });
+    const handleDeleteElement = async (id: number) => {
+        const { error } = await supabase.from('service_elements').delete().match({ id });
+        if(error) {
+            toast({ variant: 'destructive', title: 'Error deleting element', description: error.message });
+        } else {
+            setServiceElements(prev => prev.filter(e => e.id !== id));
+            toast({ title: 'Element Deleted', description: 'The service element has been removed.' });
+        }
     };
 
     const handleStartEdit = (element: ServiceElement) => {
@@ -85,16 +110,20 @@ export default function AdminProgrammingPage() {
         setEditedData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSaveEdit = (id: number) => {
+    const handleSaveEdit = async (id: number) => {
         if (!editedData.title) {
             toast({ variant: 'destructive', title: 'Missing Title', description: 'Title cannot be empty.' });
             return;
         }
-        setServiceElements(prev => prev.map(el =>
-            el.id === id ? { ...el, ...editedData } : el
-        ));
-        setEditingId(null);
-        toast({ title: 'Update Successful', description: 'The service element has been updated.' });
+        
+        const { data, error } = await supabase.from('service_elements').update(editedData).match({ id }).select();
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error updating element', description: error.message });
+        } else if (data) {
+            setServiceElements(prev => prev.map(el => el.id === id ? data[0] : el));
+            setEditingId(null);
+            toast({ title: 'Update Successful', description: 'The service element has been updated.' });
+        }
     };
     
     const parseDetails = (details: string) => {
@@ -156,7 +185,9 @@ export default function AdminProgrammingPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {serviceElements.map((item) => (
+                     {isLoading ? (
+                        <div className="flex justify-center items-center p-4"><Loader2 className="animate-spin h-6 w-6"/></div>
+                    ) : serviceElements.map((item) => (
                         <Card key={item.id} className="p-4">
                              {editingId === item.id ? (
                                 <div className="space-y-4">

@@ -1,14 +1,14 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { departments } from '@/lib/data';
-import { BookOpen, PlusCircle, Trash2, Upload } from 'lucide-react';
+import { BookOpen, PlusCircle, Trash2, Upload, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Select,
@@ -17,24 +17,44 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { supabase } from '@/lib/supabase';
+import { storage } from '@/lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 type Teaching = {
     id: number;
     title: string;
     description: string;
     department: string;
-    file?: File;
+    file_url?: string;
 }
 
 export default function AdminTeachingsPage() {
     const { toast } = useToast();
     const [teachings, setTeachings] = useState<Teaching[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [newTeaching, setNewTeaching] = useState({
         title: '',
         description: '',
         department: '',
     });
     const [file, setFile] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [isUploading, setIsUploading] = useState(false);
+
+    useEffect(() => {
+        const fetchTeachings = async () => {
+            setIsLoading(true);
+            const { data, error } = await supabase.from('teachings').select('*').order('id', { ascending: false });
+            if (error) {
+                toast({ variant: 'destructive', title: 'Error fetching teachings', description: error.message });
+            } else {
+                setTeachings(data || []);
+            }
+            setIsLoading(false);
+        };
+        fetchTeachings();
+    }, [toast]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -51,7 +71,7 @@ export default function AdminTeachingsPage() {
         }
     };
 
-    const handleAddTeaching = (e: React.FormEvent) => {
+    const handleAddTeaching = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newTeaching.title || !newTeaching.department) {
             toast({
@@ -61,27 +81,53 @@ export default function AdminTeachingsPage() {
             });
             return;
         }
-        const newId = teachings.length > 0 ? Math.max(...teachings.map(t => t.id)) + 1 : 1;
-        const teachingToAdd: Teaching = { id: newId, ...newTeaching, file: file || undefined };
-        setTeachings(prev => [teachingToAdd, ...prev]);
-        setNewTeaching({
-            title: '',
-            description: '',
-            department: '',
-        });
-        setFile(null);
-        toast({
-            title: 'Teaching Material Added',
-            description: `"${newTeaching.title}" has been uploaded.`,
-        });
+
+        setIsUploading(true);
+        let fileUrl = '';
+        if (file) {
+            toast({ title: 'Uploading file...' });
+            try {
+                const storageRef = ref(storage, `teachings/${Date.now()}-${file.name}`);
+                const snapshot = await uploadBytes(storageRef, file);
+                fileUrl = await getDownloadURL(snapshot.ref);
+                toast({ title: 'File uploaded successfully!' });
+            } catch (error) {
+                toast({ variant: 'destructive', title: 'File upload failed', description: (error as Error).message });
+                setIsUploading(false);
+                return;
+            }
+        }
+
+        const teachingToAdd = { ...newTeaching, file_url: fileUrl || undefined };
+        const { data, error } = await supabase.from('teachings').insert([teachingToAdd]).select();
+
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error saving teaching', description: error.message });
+        } else if (data) {
+            setTeachings(prev => [data[0], ...prev]);
+            setNewTeaching({ title: '', description: '', department: '' });
+            setFile(null);
+            if (fileInputRef.current) fileInputRef.current.value = '';
+            toast({
+                title: 'Teaching Material Added',
+                description: `"${newTeaching.title}" has been uploaded.`,
+            });
+        }
+        setIsUploading(false);
     };
 
-    const handleDeleteTeaching = (id: number) => {
-        setTeachings(prev => prev.filter(t => t.id !== id));
-        toast({
-            title: 'Teaching Material Deleted',
-            description: 'The material has been removed.',
-        });
+    const handleDeleteTeaching = async (id: number) => {
+        // Note: This does not delete the file from storage. A cloud function would be needed for that.
+        const { error } = await supabase.from('teachings').delete().match({ id });
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error deleting teaching', description: error.message });
+        } else {
+            setTeachings(prev => prev.filter(t => t.id !== id));
+            toast({
+                title: 'Teaching Material Deleted',
+                description: 'The material has been removed.',
+            });
+        }
     };
 
     return (
@@ -126,12 +172,12 @@ export default function AdminTeachingsPage() {
                         </div>
                          <div className="space-y-2">
                             <Label htmlFor="file">Upload File (PDF, DOCX, etc.)</Label>
-                             <Input id="file" type="file" onChange={handleFileChange} />
+                             <Input id="file" type="file" onChange={handleFileChange} ref={fileInputRef} />
                         </div>
                         <div className="flex justify-end">
-                            <Button type="submit">
-                                <Upload className="mr-2 h-4 w-4" />
-                                Add Material
+                            <Button type="submit" disabled={isUploading}>
+                                {isUploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Upload className="mr-2 h-4 w-4" />}
+                                {isUploading ? 'Uploading...' : 'Add Material'}
                             </Button>
                         </div>
                     </form>
@@ -146,13 +192,15 @@ export default function AdminTeachingsPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                     {teachings.length > 0 ? teachings.map(t => (
+                     {isLoading ? (
+                         <div className="flex justify-center items-center p-4"><Loader2 className="animate-spin h-6 w-6"/></div>
+                     ) : teachings.length > 0 ? teachings.map(t => (
                         <div key={t.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4">
                            <div className="flex-grow">
                                 <p className="text-sm font-semibold text-accent">{t.department}</p>
                                 <h3 className="font-bold text-lg text-foreground mt-1">{t.title}</h3>
                                <p className="text-sm text-muted-foreground mt-2">{t.description}</p>
-                               {t.file && <p className="text-xs text-muted-foreground mt-2">File: {t.file.name}</p>}
+                               {t.file_url && <Button asChild variant="link" className="p-0 h-auto mt-2"><a href={t.file_url} target="_blank" rel="noopener noreferrer">Download File</a></Button>}
                            </div>
                            <div className="flex-shrink-0">
                                 <Button variant="destructive" size="sm" onClick={() => handleDeleteTeaching(t.id)}>
