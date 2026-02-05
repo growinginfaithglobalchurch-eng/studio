@@ -52,8 +52,8 @@ type Visitor = {
     mentor_id: string | null;
     mentor_name: string | null;
     status: string;
-    warRoomAccess: boolean;
-    courtAccess: boolean;
+    war_room_access: boolean;
+    court_access: boolean;
     participation: {
         completed: string[];
         violations: string[];
@@ -104,7 +104,7 @@ export default function AdminVisitorsPage() {
         if (error) {
             toast({ variant: 'destructive', title: 'Error updating access', description: error.message });
         } else {
-            setVisitors(prev => prev.map(v => v.id === visitorId ? { ...v, [type === 'war_room_access' ? 'warRoomAccess' : 'courtAccess']: approve } : v));
+            setVisitors(prev => prev.map(v => v.id === visitorId ? { ...v, [type]: approve } : v));
             toast({ title: 'Access Updated!', description: `Access has been ${approve ? 'granted' : 'revoked'}.` });
         }
     };
@@ -147,11 +147,8 @@ export default function AdminVisitorsPage() {
         if (error) {
             toast({ variant: 'destructive', title: 'Error assigning mentor', description: error.message });
         } else if (data) {
-            const updatedVisitor = visitors.find(v => v.id.toString() === assignMentorState.visitorId);
             const mentor = allProfiles.find(p => p.id === assignMentorState.mentorId);
-            if (updatedVisitor && mentor) {
-                 setVisitors(prev => prev.map(v => v.id.toString() === assignMentorState.visitorId ? { ...v, mentor_id: mentor.id, mentor_name: mentor.full_name } : v));
-            }
+            setVisitors(prev => prev.map(v => v.id.toString() === assignMentorState.visitorId ? { ...v, mentor_id: mentor?.id || null, mentor_name: mentor?.full_name || 'Unassigned' } : v));
             setAssignMentorState({ visitorId: '', mentorId: '' });
             toast({ title: 'Mentor Assigned', description: `${mentor?.full_name} has been assigned.` });
         }
@@ -289,15 +286,15 @@ export default function AdminVisitorsPage() {
                                         <TableCell>{visitor.mentor_name}</TableCell>
                                         <TableCell><Badge variant={getStatusVariant(visitor.status) as any}>{visitor.status}</Badge></TableCell>
                                         <TableCell>
-                                            <Button size="sm" variant={visitor.warRoomAccess ? "secondary" : "default"} onClick={() => handleAccessChange(visitor.id, 'war_room_access', !visitor.warRoomAccess)} className="w-40">
+                                            <Button size="sm" variant={visitor.war_room_access ? "secondary" : "default"} onClick={() => handleAccessChange(visitor.id, 'war_room_access', !visitor.war_room_access)} className="w-40">
                                                 <Shield className="mr-2 h-4 w-4" />
-                                                {visitor.warRoomAccess ? 'Access Approved' : 'Approve War Room'}
+                                                {visitor.war_room_access ? 'Access Approved' : 'Approve War Room'}
                                             </Button>
                                         </TableCell>
                                         <TableCell>
-                                            <Button size="sm" variant={visitor.courtAccess ? "secondary" : "default"} onClick={() => handleAccessChange(visitor.id, 'court_access', !visitor.courtAccess)} className="w-40">
+                                            <Button size="sm" variant={visitor.court_access ? "secondary" : "default"} onClick={() => handleAccessChange(visitor.id, 'court_access', !visitor.court_access)} className="w-40">
                                                 <Gavel className="mr-2 h-4 w-4" />
-                                                {visitor.courtAccess ? 'Access Approved' : 'Approve Court'}
+                                                {visitor.court_access ? 'Access Approved' : 'Approve Court'}
                                             </Button>
                                         </TableCell>
                                         <TableCell className="text-right">
