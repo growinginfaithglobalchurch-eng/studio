@@ -1,12 +1,11 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { ClipboardList, Users, Shield, Check, Award, Eye, Gavel, UserPlus, Link as LinkIcon, FileText } from 'lucide-react';
-import { communityUsers } from '@/lib/data';
+import { ClipboardList, Users, Shield, Check, Award, Eye, Gavel, UserPlus, Link as LinkIcon, FileText, Loader2 } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -36,13 +35,22 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { supabase } from '@/lib/supabase';
+import { Input } from '@/components/ui/input';
+
+type Profile = {
+    id: string;
+    full_name: string;
+}
 
 type Visitor = {
     id: number;
+    profile_id: string;
     name: string;
     track: string;
     progress: number;
-    mentor: string;
+    mentor_id: string | null;
+    mentor_name: string | null;
     status: string;
     warRoomAccess: boolean;
     courtAccess: boolean;
@@ -52,72 +60,53 @@ type Visitor = {
     }
 }
 
-const initialVisitors: Visitor[] = [
-    {
-        id: 1,
-        name: communityUsers[2].name,
-        track: "Leadership",
-        progress: 75,
-        mentor: communityUsers[0].name,
-        status: "Active",
-        warRoomAccess: false,
-        courtAccess: false,
-        participation: {
-            completed: ["Kingdom Protocols Training", "Identity & Purpose Session"],
-            violations: ["Missed one mandatory session"]
-        }
-    },
-    {
-        id: 2,
-        name: communityUsers[3].name,
-        track: "Warrior",
-        progress: 40,
-        mentor: communityUsers[1].name,
-        status: "Pending",
-        warRoomAccess: false,
-        courtAccess: false,
-        participation: {
-            completed: ["Kingdom Protocols Training"],
-            violations: []
-        }
-    },
-    {
-        id: 3,
-        name: communityUsers[4].name,
-        track: "Family & Youth",
-        progress: 90,
-        mentor: communityUsers[1].name,
-        status: "Completed",
-        warRoomAccess: true,
-        courtAccess: false,
-         participation: {
-            completed: ["All required sessions", "Final assessment"],
-            violations: []
-        }
-    }
-];
-
 export default function AdminVisitorsPage() {
     const { toast } = useToast();
-    const [visitors, setVisitors] = useState(initialVisitors);
+    const [visitors, setVisitors] = useState<Visitor[]>([]);
+    const [allProfiles, setAllProfiles] = useState<Profile[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
     const [selectedVisitor, setSelectedVisitor] = useState<Visitor | null>(null);
     const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
-    const [newAssignment, setNewAssignment] = useState({ visitorId: '', mentorId: '' });
+    const [assignMentorState, setAssignMentorState] = useState({ visitorId: '', mentorId: '' });
+    const [enrollVisitorState, setEnrollVisitorState] = useState({ profileId: '', track: 'Leadership' });
 
-    const handleApproveWarRoom = (visitorId: number) => {
-        setVisitors(prev => prev.map(v => v.id === visitorId ? { ...v, warRoomAccess: true } : v));
-        toast({
-            title: 'Access Granted!',
-            description: `War Room access has been approved for the selected visitor.`,
-        });
-    };
-    
-    const handleApproveCourtAccess = (visitorId: number) => {
-        setVisitors(prev => prev.map(v => v.id === visitorId ? { ...v, courtAccess: true } : v));
-        toast({
-            title: 'Access Granted!',
-            description: `Courts of Heaven access has been approved for the selected visitor.`,
-        });
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            const { data: visitorsData, error: visitorsError } = await supabase.from('visitors').select('*');
+            const { data: profilesData, error: profilesError } = await supabase.from('profiles').select('id, full_name');
+
+            if (visitorsError || profilesError) {
+                toast({ variant: 'destructive', title: "Error fetching data", description: visitorsError?.message || profilesError?.message });
+            } else {
+                const profilesMap = new Map(profilesData.map(p => [p.id, p.full_name]));
+                const enrichedVisitors = visitorsData.map(v => ({
+                    ...v,
+                    name: profilesMap.get(v.profile_id) || 'Unknown User',
+                    mentor_name: v.mentor_id ? (profilesMap.get(v.mentor_id) || 'Unassigned') : 'Unassigned',
+                    // Keep static participation for the modal
+                    participation: {
+                        completed: ["Kingdom Protocols Training", "Identity & Purpose Session"],
+                        violations: v.id === 1 ? ["Missed one mandatory session"] : []
+                    }
+                }));
+                setVisitors(enrichedVisitors);
+                setAllProfiles(profilesData);
+            }
+            setIsLoading(false);
+        };
+        fetchData();
+    }, [toast]);
+
+    const handleAccessChange = async (visitorId: number, type: 'war_room_access' | 'court_access', approve: boolean) => {
+        const { data, error } = await supabase.from('visitors').update({ [type]: approve }).eq('id', visitorId).select().single();
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error updating access', description: error.message });
+        } else {
+            setVisitors(prev => prev.map(v => v.id === visitorId ? { ...v, [type === 'war_room_access' ? 'warRoomAccess' : 'courtAccess']: approve } : v));
+            toast({ title: 'Access Updated!', description: `Access has been ${approve ? 'granted' : 'revoked'}.` });
+        }
     };
 
     const handleViewParticipation = (visitor: Visitor) => {
@@ -126,17 +115,11 @@ export default function AdminVisitorsPage() {
     };
 
     const handleIssueBadge = (visitorName: string) => {
-        toast({
-            title: 'Badge Issued',
-            description: `An authority badge has been generated for ${visitorName}.`,
-        });
+        toast({ title: 'Badge Issued', description: `An authority badge has been generated for ${visitorName}.` });
     };
-    
+
     const handleGenerateReport = (visitorName: string) => {
-        toast({
-            title: 'Report Generated',
-            description: `A participation and progress report for ${visitorName} is being downloaded.`,
-        });
+        toast({ title: 'Report Generated', description: `A participation and progress report for ${visitorName} is being downloaded.` });
     };
 
     const getStatusVariant = (status: string) => {
@@ -146,32 +129,66 @@ export default function AdminVisitorsPage() {
             case 'Pending': return 'outline';
             default: return 'secondary';
         }
-    }
+    };
     
     const handleAssignmentChange = (type: 'visitorId' | 'mentorId', value: string) => {
-        setNewAssignment(prev => ({ ...prev, [type]: value }));
+        setAssignMentorState(prev => ({ ...prev, [type]: value }));
     };
 
-    const handleAssignMentor = (e: React.FormEvent) => {
+    const handleAssignMentor = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!newAssignment.visitorId || !newAssignment.mentorId) {
+        if (!assignMentorState.visitorId || !assignMentorState.mentorId) {
             toast({ variant: 'destructive', title: 'Missing Fields', description: 'Please select a visitor and a mentor.' });
             return;
         }
 
-        const visitor = visitors.find(v => v.id.toString() === newAssignment.visitorId);
-        const mentor = communityUsers.find(u => u.id.toString() === newAssignment.mentorId);
+        const { data, error } = await supabase.from('visitors').update({ mentor_id: assignMentorState.mentorId }).eq('id', assignMentorState.visitorId).select().single();
 
-        if (visitor && mentor) {
-            if (visitor.name === mentor.name) {
-                toast({ variant: 'destructive', title: 'Invalid Assignment', description: 'A user cannot mentor themselves.' });
-                return;
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error assigning mentor', description: error.message });
+        } else if (data) {
+            const updatedVisitor = visitors.find(v => v.id.toString() === assignMentorState.visitorId);
+            const mentor = allProfiles.find(p => p.id === assignMentorState.mentorId);
+            if (updatedVisitor && mentor) {
+                 setVisitors(prev => prev.map(v => v.id.toString() === assignMentorState.visitorId ? { ...v, mentor_id: mentor.id, mentor_name: mentor.full_name } : v));
             }
-            setVisitors(prev => prev.map(v => v.id.toString() === newAssignment.visitorId ? { ...v, mentor: mentor.name } : v));
-            setNewAssignment({ visitorId: '', mentorId: '' });
-            toast({ title: 'Mentor Assigned', description: `${mentor.name} has been assigned to ${visitor.name}.` });
+            setAssignMentorState({ visitorId: '', mentorId: '' });
+            toast({ title: 'Mentor Assigned', description: `${mentor?.full_name} has been assigned.` });
         }
     };
+    
+    const handleEnrollVisitor = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!enrollVisitorState.profileId || !enrollVisitorState.track) {
+            toast({ variant: 'destructive', title: 'Missing Fields', description: 'Please select a user and specify a track.' });
+            return;
+        }
+        
+        const newVisitorData = {
+            profile_id: enrollVisitorState.profileId,
+            track: enrollVisitorState.track,
+            progress: 0,
+            status: "Pending",
+        };
+
+        const { data, error } = await supabase.from('visitors').insert(newVisitorData).select().single();
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error enrolling visitor', description: error.message });
+        } else {
+            const profile = allProfiles.find(p => p.id === data.profile_id);
+            const newVisitor: Visitor = {
+                ...data,
+                name: profile?.full_name || 'Unknown',
+                mentor_name: null,
+                participation: { completed: [], violations: [] }
+            }
+            setVisitors(prev => [newVisitor, ...prev]);
+            setEnrollVisitorState({ profileId: '', track: 'Leadership' });
+            toast({ title: 'Visitor Enrolled', description: `${profile?.full_name} has been added to the visitors program.` });
+        }
+    }
+    
+    const unassignedProfiles = allProfiles.filter(p => !visitors.some(v => v.profile_id === p.id));
 
 
     return (
@@ -182,35 +199,28 @@ export default function AdminVisitorsPage() {
                     Manage visitor programs, review participation, and assign roles.
                 </p>
             </div>
-
+            
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <UserPlus className="h-5 w-5 text-accent" />
-                        Assign Mentor
-                    </CardTitle>
+                    <CardTitle className="flex items-center gap-2"><UserPlus className="h-5 w-5 text-accent" />Enroll New Visitor</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={handleAssignMentor} className="grid gap-6 md:grid-cols-3">
-                        <div className="space-y-2">
-                            <Label>Select Visitor</Label>
-                            <Select onValueChange={(val) => handleAssignmentChange('visitorId', val)} value={newAssignment.visitorId}>
-                                <SelectTrigger><SelectValue placeholder="Select a visitor" /></SelectTrigger>
-                                <SelectContent>{visitors.map(v => <SelectItem key={v.id} value={v.id.toString()}>{v.name}</SelectItem>)}</SelectContent>
+                    <form onSubmit={handleEnrollVisitor} className="grid gap-6 md:grid-cols-3">
+                         <div className="space-y-2">
+                            <Label>Select User to Enroll</Label>
+                            <Select onValueChange={(val) => setEnrollVisitorState(p => ({...p, profileId: val}))} value={enrollVisitorState.profileId}>
+                                <SelectTrigger><SelectValue placeholder="Select a user" /></SelectTrigger>
+                                <SelectContent>
+                                    {unassignedProfiles.length > 0 ? unassignedProfiles.map(p => <SelectItem key={p.id} value={p.id}>{p.full_name}</SelectItem>) : <SelectItem value="none" disabled>No unenrolled users</SelectItem>}
+                                </SelectContent>
                             </Select>
                         </div>
                         <div className="space-y-2">
-                            <Label>Select Mentor</Label>
-                                <Select onValueChange={(val) => handleAssignmentChange('mentorId', val)} value={newAssignment.mentorId}>
-                                <SelectTrigger><SelectValue placeholder="Select a mentor" /></SelectTrigger>
-                                <SelectContent>{communityUsers.map(user => <SelectItem key={user.id} value={user.id.toString()}>{user.name}</SelectItem>)}</SelectContent>
-                            </Select>
+                             <Label>Assign Track</Label>
+                             <Input value={enrollVisitorState.track} onChange={(e) => setEnrollVisitorState(p => ({...p, track: e.target.value}))} placeholder="e.g., Leadership" />
                         </div>
                         <div className="flex items-end">
-                            <Button type="submit" className="w-full">
-                                <LinkIcon className="mr-2 h-4 w-4" />
-                                Assign Mentor
-                            </Button>
+                            <Button type="submit" className="w-full">Enroll Visitor</Button>
                         </div>
                     </form>
                 </CardContent>
@@ -218,94 +228,95 @@ export default function AdminVisitorsPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <Users className="h-5 w-5 text-accent" />
-                        Visitors Overview
-                    </CardTitle>
-                    <CardDescription>
-                        Dashboard for all registered visitors in the program.
-                    </CardDescription>
+                    <CardTitle className="flex items-center gap-2"><LinkIcon className="h-5 w-5 text-accent" />Assign Mentor</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Visitor Name</TableHead>
-                                <TableHead>Track</TableHead>
-                                <TableHead>Progress</TableHead>
-                                <TableHead>Mentor</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>War Room Access</TableHead>
-                                <TableHead>Court Access</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {visitors.map((visitor) => (
-                                <TableRow key={visitor.id}>
-                                    <TableCell className="font-medium">{visitor.name}</TableCell>
-                                    <TableCell>{visitor.track}</TableCell>
-                                    <TableCell>
-                                        <div className="flex items-center gap-2">
-                                            <Progress value={visitor.progress} className="w-24 h-2" />
-                                            <span>{visitor.progress}%</span>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>{visitor.mentor}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={getStatusVariant(visitor.status) as any}>{visitor.status}</Badge>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button
-                                            size="sm"
-                                            variant={visitor.warRoomAccess ? "secondary" : "default"}
-                                            onClick={() => handleApproveWarRoom(visitor.id)}
-                                            disabled={visitor.warRoomAccess}
-                                            className="w-40"
-                                        >
-                                            <Shield className="mr-2 h-4 w-4" />
-                                            {visitor.warRoomAccess ? 'Access Approved' : 'Approve War Room'}
-                                        </Button>
-                                    </TableCell>
-                                     <TableCell>
-                                        <Button
-                                            size="sm"
-                                            variant={visitor.courtAccess ? "secondary" : "default"}
-                                            onClick={() => handleApproveCourtAccess(visitor.id)}
-                                            disabled={visitor.courtAccess}
-                                            className="w-40"
-                                        >
-                                            <Gavel className="mr-2 h-4 w-4" />
-                                            {visitor.courtAccess ? 'Access Approved' : 'Approve Court'}
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" size="sm">Other Actions</Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
-                                                <DropdownMenuLabel>Manage Visitor</DropdownMenuLabel>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem onClick={() => handleViewParticipation(visitor)}>
-                                                    <Eye className="mr-2 h-4 w-4" />
-                                                    View Participation
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => handleGenerateReport(visitor.name)}>
-                                                    <FileText className="mr-2 h-4 w-4" />
-                                                    Generate Report
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => handleIssueBadge(visitor.name)}>
-                                                    <Award className="mr-2 h-4 w-4" />
-                                                    Issue Badge
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
+                    <form onSubmit={handleAssignMentor} className="grid gap-6 md:grid-cols-3">
+                        <div className="space-y-2">
+                            <Label>Select Visitor</Label>
+                            <Select onValueChange={(val) => handleAssignmentChange('visitorId', val)} value={assignMentorState.visitorId}>
+                                <SelectTrigger><SelectValue placeholder="Select a visitor" /></SelectTrigger>
+                                <SelectContent>{visitors.map(v => <SelectItem key={v.id} value={v.id.toString()}>{v.name}</SelectItem>)}</SelectContent>
+                            </Select>
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Select Mentor</Label>
+                            <Select onValueChange={(val) => handleAssignmentChange('mentorId', val)} value={assignMentorState.mentorId}>
+                                <SelectTrigger><SelectValue placeholder="Select a mentor" /></SelectTrigger>
+                                <SelectContent>{allProfiles.map(p => <SelectItem key={p.id} value={p.id}>{p.full_name}</SelectItem>)}</SelectContent>
+                            </Select>
+                        </div>
+                        <div className="flex items-end">
+                            <Button type="submit" className="w-full">Assign Mentor</Button>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><Users className="h-5 w-5 text-accent" />Visitors Overview</CardTitle>
+                    <CardDescription>Dashboard for all registered visitors in the program.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    {isLoading ? (
+                        <div className="flex justify-center items-center p-8"><Loader2 className="animate-spin h-8 w-8 text-accent" /></div>
+                    ) : (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Visitor Name</TableHead>
+                                    <TableHead>Track</TableHead>
+                                    <TableHead>Progress</TableHead>
+                                    <TableHead>Mentor</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>War Room Access</TableHead>
+                                    <TableHead>Court Access</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {visitors.map((visitor) => (
+                                    <TableRow key={visitor.id}>
+                                        <TableCell className="font-medium">{visitor.name}</TableCell>
+                                        <TableCell>{visitor.track}</TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center gap-2">
+                                                <Progress value={visitor.progress} className="w-24 h-2" />
+                                                <span>{visitor.progress}%</span>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>{visitor.mentor_name}</TableCell>
+                                        <TableCell><Badge variant={getStatusVariant(visitor.status) as any}>{visitor.status}</Badge></TableCell>
+                                        <TableCell>
+                                            <Button size="sm" variant={visitor.warRoomAccess ? "secondary" : "default"} onClick={() => handleAccessChange(visitor.id, 'war_room_access', !visitor.warRoomAccess)} className="w-40">
+                                                <Shield className="mr-2 h-4 w-4" />
+                                                {visitor.warRoomAccess ? 'Access Approved' : 'Approve War Room'}
+                                            </Button>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button size="sm" variant={visitor.courtAccess ? "secondary" : "default"} onClick={() => handleAccessChange(visitor.id, 'court_access', !visitor.courtAccess)} className="w-40">
+                                                <Gavel className="mr-2 h-4 w-4" />
+                                                {visitor.courtAccess ? 'Access Approved' : 'Approve Court'}
+                                            </Button>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild><Button variant="ghost" size="sm">Other Actions</Button></DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuLabel>Manage Visitor</DropdownMenuLabel>
+                                                    <DropdownMenuSeparator />
+                                                    <DropdownMenuItem onClick={() => handleViewParticipation(visitor)}><Eye className="mr-2 h-4 w-4" />View Participation</DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => handleGenerateReport(visitor.name)}><FileText className="mr-2 h-4 w-4" />Generate Report</DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => handleIssueBadge(visitor.name)}><Award className="mr-2 h-4 w-4" />Issue Badge</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
                 </CardContent>
             </Card>
 
@@ -313,9 +324,7 @@ export default function AdminVisitorsPage() {
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Participation Report for {selectedVisitor?.name}</AlertDialogTitle>
-                        <AlertDialogDescription>
-                           A summary of the visitor's engagement and any recorded violations.
-                        </AlertDialogDescription>
+                        <AlertDialogDescription>A summary of the visitor's engagement and any recorded violations.</AlertDialogDescription>
                     </AlertDialogHeader>
                     {selectedVisitor && (
                         <div className="space-y-4 text-sm">
@@ -342,7 +351,6 @@ export default function AdminVisitorsPage() {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-
         </div>
     );
 }
