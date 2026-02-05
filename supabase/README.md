@@ -11,4 +11,8 @@ This directory contains SQL files that define your database schema. You can use 
 5.  Paste the content into the Supabase SQL Editor.
 6.  Click **"Run"**.
 
-This will apply the changes to your database. It's a good practice to run migration files in order to ensure your schema is set up correctly.
+It's a good practice to run migration files in order to ensure your schema is set up correctly.
+
+**Migration Order:**
+1. `0001_initial_schema.sql`
+2. `0002_add_remaining_tables.sql`
