@@ -627,7 +627,7 @@ export const bibleStories = [
         slug: 'david-and-goliath-dominion-of-the-spirit-filled-mind',
         category: 'Adults & Leaders',
         title: "David and Goliath: Dominion of a Spirit-Filled Mind Over Physical Giants",
-        image: PlaceHolderImages.find(p => p.id === 'devotional-2'),
+        image: PlaceHolderImages.find(p => p.id === 'david-goliath-story'),
         scripture: "1 Samuel 17:45 (SLT) - Then David said to the Philistine, 'You come to me with a sword, with a spear, and with a javelin. But I come to you in the name of the LORD of hosts, the God of the armies of Israel, whom you have defied.'",
         narrative: [
             "The valley was thick with fear. For forty days, a physical giant named Goliath, a system of intimidation, had paralyzed the armies of Israel. His words were spiritual weapons, designed to shrink the identity of God's people. He was not just a large man; he was a stronghold, a spiritual argument against the promise of God.",
@@ -651,7 +651,7 @@ export const bibleStories = [
         slug: 'noahs-ark-obedience-in-a-corrupt-world',
         category: 'Kids',
         title: "Noah's Ark: Building a Future on Obedience",
-        image: PlaceHolderImages.find(p => p.id === 'live-replay-2'),
+        image: PlaceHolderImages.find(p => p.id === 'noahs-ark-story'),
         scripture: "Genesis 6:22 (SLT) - Thus Noah did; according to all that God commanded him, so he did.",
         narrative: [
             "A long, long time ago, the world became a very noisy and sad place. People forgot about God and did whatever they wanted. But one man, Noah, still loved God and listened to His voice. God saw Noah's faithful heart.",
@@ -675,7 +675,7 @@ export const bibleStories = [
         slug: 'daniel-in-the-lions-den-authority-in-hostile-environments',
         category: 'Teens & Youth',
         title: "Daniel in the Lion's Den: Authority in Hostile Environments",
-        image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
+        image: PlaceHolderImages.find(p => p.id === 'daniel-lions-den-story'),
         scripture: "Daniel 6:22 (SLT) - My God sent His angel and shut the lions’ mouths, so that they have not hurt me, because I was found innocent before Him...",
         narrative: [
             "Daniel was a young man of excellence and integrity, serving in a foreign, godless government. His commitment to God made him stand out, and his promotion made others jealous. His enemies couldn't find any fault in his work, so they targeted his faith.",
