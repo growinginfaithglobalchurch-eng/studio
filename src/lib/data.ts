@@ -621,3 +621,58 @@ const worshipTeamAssignments = {
 export const departmentContent = {
     ...worshipTeamAssignments
 }
+
+export const bibleStories = [
+    {
+        id: 1,
+        slug: 'david-and-goliath',
+        title: "David and Goliath",
+        description: "The story of a brave shepherd boy who trusted God and defeated a giant.",
+        image: PlaceHolderImages.find(p => p.id === 'devotional-2'),
+        content: [
+            "Once, there was a young shepherd boy named David. He loved God with all his heart. One day, a giant named Goliath challenged David's people, the Israelites. Goliath was very big and scary, and all the soldiers were afraid.",
+            "But David wasn't afraid. He told the king, 'God will help me!' David didn't wear heavy armor. He just took his slingshot and five smooth stones.",
+            "Goliath laughed at David, but David said, 'You come with a sword, but I come in the name of the Lord!' David slung a stone, and it hit Goliath right on the forehead. The giant fell down!",
+            "David showed everyone that when you trust God, you can be brave and do amazing things, no matter how small you are."
+        ]
+    },
+    {
+        id: 2,
+        slug: 'noahs-ark',
+        title: "Noah's Ark",
+        description: "Join Noah as he builds a giant ark to save his family and the animals from a great flood.",
+        image: PlaceHolderImages.find(p => p.id === 'live-replay-2'),
+        content: [
+            "A long time ago, a good man named Noah loved God. God told Noah He was going to send a big flood. 'Build a huge boat, an ark!' God said. 'And bring your family and two of every kind of animal inside.'",
+            "Noah obeyed. He and his sons worked for a very long time, building the biggest boat anyone had ever seen. People laughed, but Noah kept working because he trusted God.",
+            "When the ark was finished, the animals came, two by two. Elephants, giraffes, monkeys, and even tiny ants! Noah and his family went inside, and God shut the door.",
+            "It rained for 40 days and 40 nights. The whole world was covered in water, but everyone inside the ark was safe. When the rain stopped, God sent a rainbow as a promise to never flood the whole earth again."
+        ]
+    },
+    {
+        id: 3,
+        slug: 'daniel-in-the-lions-den',
+        title: "Daniel in the Lion's Den",
+        description: "A story of faith and courage as Daniel faces a den of hungry lions.",
+        image: PlaceHolderImages.find(p => p.id === 'live-replay-1'),
+        content: [
+            "Daniel was a man who prayed to God every day. Some bad people were jealous of Daniel and tricked the king into making a new rule: no one could pray to anyone except the king.",
+            "Daniel knew about the rule, but he loved God too much to stop praying. He went to his room, opened his window, and prayed just like he always did. The bad people saw him and told the king.",
+            "The king was sad, but he had to follow his own rule. He ordered Daniel to be thrown into a den of hungry lions. The king hoped Daniel's God would save him.",
+            "The next morning, the king rushed to the den and called, 'Daniel, did your God save you?' Daniel replied, 'Yes! God sent an angel to shut the lions' mouths!' The king was overjoyed and made a new rule that everyone should respect Daniel's God."
+        ]
+    },
+     {
+        id: 4,
+        slug: 'the-story-of-creation',
+        title: "The Story of Creation",
+        description: "Learn how God created the heavens and the earth in seven days.",
+        image: PlaceHolderImages.find(p => p.id === 'devotionals-feature'),
+        content: [
+            "In the very beginning, there was nothing but God. On the first day, God said, 'Let there be light!' And there was light. He separated the light from the darkness, calling the light 'day' and the darkness 'night'.",
+            "On the second day, God made the sky. On the third day, He made the land and the seas, and He told the land to grow all kinds of plants, trees, and flowers.",
+            "On the fourth day, God created the sun for the day, and the moon and stars for the night. On the fifth day, He filled the seas with fish and the sky with birds.",
+            "On the sixth day, God made all the animals on the land. Then, He did something very special. He made the first man and woman, Adam and Eve, in His own image. On the seventh day, God rested and enjoyed everything He had made. It was all very good."
+        ]
+    }
+];
