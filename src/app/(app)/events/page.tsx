@@ -6,9 +6,9 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays, Zap, BookOpen, Edit, Save, Trash2, Cross, CheckCircle, PartyPopper } from 'lucide-react';
+import { Calendar as CalendarIcon, Ticket, Clock, Video, MapPin, CalendarDays, Zap, BookOpen, Edit, Save, Trash2, Cross, CheckCircle, PartyPopper, Loader2 } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
-import { events as initialEvents, conferences as initialConferences, empowermentMeetings as initialMeetings, annualCalendar, consecrationWeek } from '@/lib/data';
+import { events as initialEvents, empowermentMeetings as initialMeetings, consecrationWeek } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -19,20 +19,70 @@ import { communityUsers } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollAnimator } from '@/components/scroll-animator';
+import { supabase } from '@/lib/supabase';
 
+type Conference = {
+    id: number;
+    title: string;
+    description: string;
+    dates: string;
+    location: string;
+    image_url: string;
+    image_hint: string;
+    isRegistered: boolean;
+};
+
+type MonthlyEvent = {
+    id: number;
+    month: string;
+    theme: string;
+    purpose: string;
+    activities: string[];
+};
 
 export default function EventsPage() {
   const [date, setDate] = useState<Date | undefined>();
   const [isClient, setIsClient] = useState(false);
   const [events, setEvents] = useState(initialEvents);
-  const [conferences, setConferences] = useState(initialConferences);
+  
+  const [conferences, setConferences] = useState<Conference[]>([]);
+  const [annualCalendar, setAnnualCalendar] = useState<MonthlyEvent[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [empowermentMeetings, setEmpowermentMeetings] = useState(initialMeetings);
   const { toast } = useToast();
 
   useEffect(() => {
     setIsClient(true);
     setDate(new Date());
-  }, []);
+    
+    const fetchData = async () => {
+        setIsLoading(true);
+        
+        const [confRes, calendarRes] = await Promise.all([
+            supabase.from('conferences').select('*').order('id', { ascending: false }),
+            supabase.from('annual_calendar').select('*').order('id', { ascending: true })
+        ]);
+
+        if (confRes.error) {
+            toast({ variant: 'destructive', title: 'Error fetching conferences', description: confRes.error.message });
+        } else {
+            setConferences(confRes.data.map(c => ({
+                ...c,
+                isRegistered: false // initial state
+            })));
+        }
+
+        if (calendarRes.error) {
+            toast({ variant: 'destructive', title: 'Error fetching calendar', description: calendarRes.error.message });
+        } else {
+            setAnnualCalendar(calendarRes.data);
+        }
+
+        setIsLoading(false);
+    };
+    fetchData();
+  }, [toast]);
 
   const handleRegister = (id: number, type: 'event' | 'conference' | 'meeting') => {
     let title = '';
@@ -179,20 +229,24 @@ export default function EventsPage() {
                       <CardDescription>A complete overview of our yearly Kingdom system and flow.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <Accordion type="single" collapsible className="w-full">
-                        {annualCalendar.map((item) => (
-                          <AccordionItem value={item.month} key={item.month}>
-                            <AccordionTrigger className="text-lg font-headline">{item.month}: <span className="ml-2 font-normal text-muted-foreground">{item.theme}</span></AccordionTrigger>
-                            <AccordionContent className="p-4 bg-secondary rounded-md">
-                              <p className="font-semibold text-card-foreground">Purpose: <span className="font-normal text-muted-foreground">{item.purpose}</span></p>
-                              <h4 className="font-semibold text-card-foreground mt-4 mb-2">Key Activities:</h4>
-                              <ul className="list-disc pl-5 text-muted-foreground space-y-1">
-                                {item.activities.map(activity => <li key={activity}>{activity}</li>)}
-                              </ul>
-                            </AccordionContent>
-                          </AccordionItem>
-                        ))}
-                      </Accordion>
+                       {isLoading ? (
+                           <div className="flex items-center justify-center p-8"><Loader2 className="h-8 w-8 animate-spin" /><p className="ml-2">Loading calendar...</p></div>
+                       ) : (
+                          <Accordion type="single" collapsible className="w-full">
+                            {annualCalendar.map((item) => (
+                              <AccordionItem value={item.month} key={item.month}>
+                                <AccordionTrigger className="text-lg font-headline">{item.month}: <span className="ml-2 font-normal text-muted-foreground">{item.theme}</span></AccordionTrigger>
+                                <AccordionContent className="p-4 bg-secondary rounded-md">
+                                  <p className="font-semibold text-card-foreground">Purpose: <span className="font-normal text-muted-foreground">{item.purpose}</span></p>
+                                  <h4 className="font-semibold text-card-foreground mt-4 mb-2">Key Activities:</h4>
+                                  <ul className="list-disc pl-5 text-muted-foreground space-y-1">
+                                    {item.activities.map(activity => <li key={activity}>{activity}</li>)}
+                                  </ul>
+                                </AccordionContent>
+                              </AccordionItem>
+                            ))}
+                          </Accordion>
+                       )}
                     </CardContent>
                   </Card>
                 </ScrollAnimator>
@@ -200,39 +254,43 @@ export default function EventsPage() {
               
               <section>
                   <h2 className="text-2xl font-headline font-bold mb-4">Major Conferences</h2>
-                  <div className="grid gap-8 md:grid-cols-2">
-                    {conferences.map((conf, index) => (
-                        <ScrollAnimator key={conf.id} delay={index * 0.1}>
-                          <Card className="overflow-hidden">
-                              {conf.image && (
-                                  <div className="relative aspect-video w-full">
-                                      <Image src={conf.image.imageUrl} alt={conf.title} fill className="object-cover" data-ai-hint={conf.image.imageHint}/>
-                                  </div>
-                              )}
-                              <CardHeader>
-                                  <CardTitle className="font-headline text-xl">{conf.title}</CardTitle>
-                                  <CardDescription>{conf.description}</CardDescription>
-                              </CardHeader>
-                              <CardContent className="space-y-2">
-                                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                      <CalendarDays className="h-4 w-4"/>
-                                      <span>{conf.dates}</span>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                      <MapPin className="h-4 w-4"/>
-                                      <span>{conf.location}</span>
-                                  </div>
-                              </CardContent>
-                              <CardFooter>
-                                  <Button onClick={() => handleRegister(conf.id, 'conference')} className="w-full" variant={conf.isRegistered ? "secondary" : "default"}>
-                                    <Ticket className="mr-2 h-4 w-4" />
-                                    {conf.isRegistered ? 'Registered' : 'Register Now'}
-                                </Button>
-                              </CardFooter>
-                          </Card>
-                        </ScrollAnimator>
-                    ))}
-                  </div>
+                  {isLoading ? (
+                    <div className="flex items-center justify-center p-8"><Loader2 className="h-8 w-8 animate-spin" /><p className="ml-2">Loading conferences...</p></div>
+                  ) : (
+                    <div className="grid gap-8 md:grid-cols-2">
+                      {conferences.map((conf, index) => (
+                          <ScrollAnimator key={conf.id} delay={index * 0.1}>
+                            <Card className="overflow-hidden">
+                                {conf.image_url && (
+                                    <div className="relative aspect-video w-full">
+                                        <Image src={conf.image_url} alt={conf.title} fill className="object-cover" data-ai-hint={conf.image_hint}/>
+                                    </div>
+                                )}
+                                <CardHeader>
+                                    <CardTitle className="font-headline text-xl">{conf.title}</CardTitle>
+                                    <CardDescription>{conf.description}</CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-2">
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <CalendarDays className="h-4 w-4"/>
+                                        <span>{conf.dates}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <MapPin className="h-4 w-4"/>
+                                        <span>{conf.location}</span>
+                                    </div>
+                                </CardContent>
+                                <CardFooter>
+                                    <Button onClick={() => handleRegister(conf.id, 'conference')} className="w-full" variant={conf.isRegistered ? "secondary" : "default"}>
+                                      <Ticket className="mr-2 h-4 w-4" />
+                                      {conf.isRegistered ? 'Registered' : 'Register Now'}
+                                  </Button>
+                                </CardFooter>
+                            </Card>
+                          </ScrollAnimator>
+                      ))}
+                    </div>
+                  )}
               </section>
 
               <section>
@@ -371,7 +429,7 @@ export default function EventsPage() {
                             <div key={`${event.id}-${event.title}`} className="flex flex-col sm:flex-row items-start gap-4 rounded-lg border p-4">
                                 <div className="flex-grow">
                                     <h3 className="text-lg font-bold">{event.title}</h3>
-                                    <p className="text-sm text-muted-foreground">{event.time || event.dates}</p>
+                                    <p className="text-sm text-muted-foreground">{'time' in event ? event.time : event.dates}</p>
                                 </div>
                                 <Button variant="destructive" size="sm" onClick={() => handleRegister(event.id, 'title' in event && 'isLive' in event ? 'event' : ('location' in event ? 'conference' : 'meeting'))}>
                                     Cancel Registration

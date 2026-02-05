@@ -1,38 +1,48 @@
 
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { departments as initialDepartments, Department } from "@/lib/data";
-import { Handshake, UserPlus, Music, Music2, Video, Heart, Wrench, DollarSign, HeartHandshake, Baby, PenSquare, Shield, Users, Briefcase, Eye, CheckCircle } from "lucide-react";
+import { Handshake, UserPlus, Eye, CheckCircle, Loader2 } from "lucide-react";
 import Link from 'next/link';
 import { slugify } from '@/lib/utils';
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { supabase } from '@/lib/supabase';
+import { iconMap } from './page';
 
-
-export const iconMap: { [key: string]: React.ReactNode } = {
-  'Music': <Music className="h-6 w-6 text-accent" />,
-  'Handshake': <Handshake className="h-6 w-6 text-accent" />,
-  'Music2': <Music2 className="h-6 w-6 text-accent" />,
-  'Video': <Video className="h-6 w-6 text-accent" />,
-  'Heart': <Heart className="h-6 w-6 text-accent" />,
-  'Wrench': <Wrench className="h-6 w-6 text-accent" />,
-  'Briefcase': <Briefcase className="h-6 w-6 text-accent" />,
-  'DollarSign': <DollarSign className="h-6 w-6 text-accent" />,
-  'HeartHandshake': <HeartHandshake className="h-6 w-6 text-accent" />,
-  'Baby': <Baby className="h-6 w-6 text-accent" />,
-  'PenSquare': <PenSquare className="h-6 w-6 text-accent" />,
-  'Shield': <Shield className="h-6 w-6 text-accent" />,
-  'Users': <Users className="h-6 w-6 text-accent" />,
-};
-
+type Department = {
+  id: number;
+  name: string;
+  description: string;
+  icon: string;
+  isMember?: boolean;
+}
 
 export default function DepartmentsPage() {
   const { toast } = useToast();
-  const [departments, setDepartments] = useState<Department[]>(initialDepartments);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+        setIsLoading(true);
+        const { data, error } = await supabase.from('departments').select('*');
+        if (error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error fetching departments',
+                description: error.message,
+            });
+        } else {
+            const departmentsWithState = data.map(d => ({ ...d, isMember: false }));
+            setDepartments(departmentsWithState);
+        }
+        setIsLoading(false);
+    };
+    fetchDepartments();
+  }, [toast]);
 
   const handleJoin = (departmentName: string) => {
      setDepartments(prev => prev.map(d => 
@@ -72,34 +82,38 @@ export default function DepartmentsPage() {
           <TabsTrigger value="my-departments"><Users className="mr-2 h-4 w-4" /> My Departments ({myDepartments.length})</TabsTrigger>
         </TabsList>
         <TabsContent value="discover">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-4">
-              {allDepartments.map((dept: Department) => (
-                <Card key={dept.name} className="flex flex-col">
-                  <CardHeader>
-                      <div className="flex items-start gap-4">
-                          {iconMap[dept.icon]}
-                          <div>
-                              <CardTitle className="font-headline text-xl">{dept.name}</CardTitle>
-                              <CardDescription className="mt-1">{dept.description}</CardDescription>
+            {isLoading ? (
+                <div className="flex justify-center items-center py-10"><Loader2 className="h-8 w-8 animate-spin text-accent" /></div>
+            ) : (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-4">
+                  {allDepartments.map((dept: Department) => (
+                    <Card key={dept.name} className="flex flex-col">
+                      <CardHeader>
+                          <div className="flex items-start gap-4">
+                              {iconMap[dept.icon] || <Briefcase className="h-6 w-6 text-accent" />}
+                              <div>
+                                  <CardTitle className="font-headline text-xl">{dept.name}</CardTitle>
+                                  <CardDescription className="mt-1">{dept.description}</CardDescription>
+                              </div>
                           </div>
+                      </CardHeader>
+                      <CardContent className="flex-grow" />
+                      <div className="p-6 pt-0 flex gap-2">
+                          <Button className="w-full" asChild>
+                              <Link href={`/departments/${slugify(dept.name)}`}>
+                                  <Eye className="mr-2 h-4 w-4" />
+                                  View
+                              </Link>
+                          </Button>
+                          <Button className="w-full text-white" variant={dept.isMember ? "secondary" : "outline"} onClick={() => handleJoin(dept.name)}>
+                              {dept.isMember ? <CheckCircle className="mr-2 h-4 w-4" /> : <UserPlus className="mr-2 h-4 w-4" />}
+                              {dept.isMember ? 'Joined' : 'Join'}
+                          </Button>
                       </div>
-                  </CardHeader>
-                  <CardContent className="flex-grow" />
-                  <div className="p-6 pt-0 flex gap-2">
-                      <Button className="w-full" asChild>
-                          <Link href={`/departments/${slugify(dept.name)}`}>
-                              <Eye className="mr-2 h-4 w-4" />
-                              View
-                          </Link>
-                      </Button>
-                      <Button className="w-full text-white" variant={dept.isMember ? "secondary" : "outline"} onClick={() => handleJoin(dept.name)}>
-                          {dept.isMember ? <CheckCircle className="mr-2 h-4 w-4" /> : <UserPlus className="mr-2 h-4 w-4" />}
-                          {dept.isMember ? 'Joined' : 'Join'}
-                      </Button>
-                  </div>
-                </Card>
-              ))}
-            </div>
+                    </Card>
+                  ))}
+                </div>
+            )}
         </TabsContent>
          <TabsContent value="my-departments">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-4">
@@ -107,7 +121,7 @@ export default function DepartmentsPage() {
                  <Card key={dept.name} className="flex flex-col">
                     <CardHeader>
                         <div className="flex items-start gap-4">
-                            {iconMap[dept.icon]}
+                            {iconMap[dept.icon] || <Briefcase className="h-6 w-6 text-accent" />}
                             <div>
                                 <CardTitle className="font-headline text-xl">{dept.name}</CardTitle>
                             </div>

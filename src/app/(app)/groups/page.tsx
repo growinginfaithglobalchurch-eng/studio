@@ -2,23 +2,59 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { groups as initialGroups, communityUsers } from '@/lib/data';
-import { UserPlus, Users, Search, PlusCircle, CheckCircle } from 'lucide-react';
+import { communityUsers } from '@/lib/data';
+import { UserPlus, Users, Search, PlusCircle, CheckCircle, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollAnimator } from '@/components/scroll-animator';
+import { supabase } from '@/lib/supabase';
+
+type Group = {
+    id: number;
+    name: string;
+    description: string;
+    image_url: string;
+    image_hint: string;
+    members: number;
+    category: string;
+    isMember: boolean;
+};
 
 export default function GroupsPage() {
-  const [groups, setGroups] = useState(initialGroups);
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      setIsLoading(true);
+      const { data, error } = await supabase.from('life_groups').select('*');
+      if (error) {
+        toast({
+          variant: 'destructive',
+          title: 'Error fetching groups',
+          description: error.message,
+        });
+      } else {
+        const fetchedGroups = data.map(g => ({
+          ...g,
+          members: Math.floor(Math.random() * 100) + 5, // Mock members
+          isMember: false // Initial state
+        }));
+        setGroups(fetchedGroups);
+      }
+      setIsLoading(false);
+    };
+    fetchGroups();
+  }, [toast]);
 
   const handleJoinGroup = (groupId: number) => {
     setGroups(prev => prev.map(g => 
@@ -84,41 +120,47 @@ export default function GroupsPage() {
                 <CardTitle>Discover Groups</CardTitle>
                 <CardDescription>Browse groups and find your place to connect.</CardDescription>
               </CardHeader>
-              <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {groups.map((group, index) => (
-                  <ScrollAnimator key={group.id} delay={index * 0.1}>
-                    <Card className="flex flex-col">
-                        {group.image && (
-                            <div className="relative aspect-video w-full overflow-hidden rounded-t-lg">
-                                <Image src={group.image.imageUrl} alt={group.name} fill className="object-cover" data-ai-hint={group.image.imageHint} />
+              <CardContent>
+                {isLoading ? (
+                    <div className="flex justify-center items-center py-10"><Loader2 className="h-8 w-8 animate-spin text-accent" /></div>
+                ) : (
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        {groups.map((group, index) => (
+                        <ScrollAnimator key={group.id} delay={index * 0.1}>
+                            <Card className="flex flex-col">
+                                {group.image_url && (
+                                    <div className="relative aspect-video w-full overflow-hidden rounded-t-lg">
+                                        <Image src={group.image_url} alt={group.name} fill className="object-cover" data-ai-hint={group.image_hint} />
+                                    </div>
+                                )}
+                            <CardHeader>
+                                <CardTitle className="font-headline">{group.name}</CardTitle>
+                                <CardDescription>{group.description}</CardDescription>
+                            </CardHeader>
+                            <CardContent className="flex-grow space-y-4">
+                                <div className="flex items-center space-x-2">
+                                    <div className="flex -space-x-2 overflow-hidden">
+                                        {communityUsers.slice(0, 3).map(user => (
+                                            user.avatar && <Avatar key={user.id} className="inline-block h-6 w-6 rounded-full border-2 border-card">
+                                                <AvatarImage src={user.avatar.imageUrl} />
+                                                <AvatarFallback>{user.name[0]}</AvatarFallback>
+                                            </Avatar>
+                                        ))}
+                                    </div>
+                                    <span className="text-xs text-muted-foreground">{group.members} members</span>
+                                </div>
+                            </CardContent>
+                            <div className="p-6 pt-0">
+                                <Button className="w-full" onClick={() => handleJoinGroup(group.id)} variant={group.isMember ? 'secondary' : 'default'}>
+                                    {group.isMember ? <CheckCircle className="mr-2 h-4 w-4" /> : <UserPlus className="mr-2 h-4 w-4" />}
+                                    {group.isMember ? 'Joined' : 'Join Group'}
+                                </Button>
                             </div>
-                        )}
-                      <CardHeader>
-                        <CardTitle className="font-headline">{group.name}</CardTitle>
-                        <CardDescription>{group.description}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex-grow space-y-4">
-                        <div className="flex items-center space-x-2">
-                            <div className="flex -space-x-2 overflow-hidden">
-                                {communityUsers.slice(0, 3).map(user => (
-                                    user.avatar && <Avatar key={user.id} className="inline-block h-6 w-6 rounded-full border-2 border-card">
-                                        <AvatarImage src={user.avatar.imageUrl} />
-                                        <AvatarFallback>{user.name[0]}</AvatarFallback>
-                                    </Avatar>
-                                ))}
-                            </div>
-                            <span className="text-xs text-muted-foreground">{group.members} members</span>
-                        </div>
-                      </CardContent>
-                      <div className="p-6 pt-0">
-                        <Button className="w-full" onClick={() => handleJoinGroup(group.id)} variant={group.isMember ? 'secondary' : 'default'}>
-                            {group.isMember ? <CheckCircle className="mr-2 h-4 w-4" /> : <UserPlus className="mr-2 h-4 w-4" />}
-                            {group.isMember ? 'Joined' : 'Join Group'}
-                          </Button>
-                      </div>
-                    </Card>
-                  </ScrollAnimator>
-                ))}
+                            </Card>
+                        </ScrollAnimator>
+                        ))}
+                    </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -134,9 +176,9 @@ export default function GroupsPage() {
                   myGroups.map((group, index) => (
                     <ScrollAnimator key={group.id} delay={index * 0.1}>
                       <Card className="flex flex-col">
-                        {group.image && (
+                        {group.image_url && (
                             <div className="relative aspect-video w-full overflow-hidden rounded-t-lg">
-                                <Image src={group.image.imageUrl} alt={group.name} fill className="object-cover" data-ai-hint={group.image.imageHint} />
+                                <Image src={group.image_url} alt={group.name} fill className="object-cover" data-ai-hint={group.image_hint} />
                             </div>
                         )}
                         <CardHeader>

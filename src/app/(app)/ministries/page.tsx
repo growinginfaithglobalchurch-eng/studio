@@ -2,15 +2,24 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ministries as initialMinistries } from '@/lib/data';
-import { HandHelping, Briefcase, UserPlus, CheckCircle } from 'lucide-react';
+import { HandHelping, Briefcase, UserPlus, CheckCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollAnimator } from '@/components/scroll-animator';
+import { supabase } from '@/lib/supabase';
+
+type Ministry = {
+    id: number;
+    name: string;
+    description: string;
+    logo_url: string;
+    logo_hint: string;
+    isMember: boolean;
+};
 
 const opportunities = [
   {
@@ -30,8 +39,23 @@ const opportunities = [
 ];
 
 export default function MinistriesPage() {
-  const [ministries, setMinistries] = useState(initialMinistries.map(m => ({ ...m, isMember: false })));
+  const [ministries, setMinistries] = useState<Ministry[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchMinistries = async () => {
+      setIsLoading(true);
+      const { data, error } = await supabase.from('ministries').select('*');
+      if (error) {
+        toast({ variant: 'destructive', title: 'Error fetching ministries', description: error.message });
+      } else {
+        setMinistries(data.map(m => ({ ...m, isMember: false })));
+      }
+      setIsLoading(false);
+    };
+    fetchMinistries();
+  }, [toast]);
 
   const handleJoin = (ministryId: number) => {
     const ministry = ministries.find(m => m.id === ministryId);
@@ -107,41 +131,45 @@ export default function MinistriesPage() {
       <ScrollAnimator>
         <div>
           <h2 className="text-2xl font-headline font-bold mb-4">Ministry Opportunities</h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {ministries.map((ministry, index) => (
-              <ScrollAnimator key={ministry.id} delay={index * 0.1}>
-                <Card className="text-center flex flex-col">
-                    <CardHeader className="items-center">
-                    {ministry.logo && (
-                        <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-card">
-                        <Image
-                            src={ministry.logo.imageUrl}
-                            alt={`${ministry.name} logo`}
-                            fill
-                            className="object-contain"
-                            data-ai-hint={ministry.logo.imageHint}
-                        />
-                        </div>
-                    )}
-                    <CardTitle className="font-headline text-xl font-bold pt-4">{ministry.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex-grow">
-                    <p className="text-sm text-muted-foreground">{ministry.description}</p>
-                    </CardContent>
-                    <div className="p-6 pt-0">
-                      <Button 
-                        onClick={() => handleJoin(ministry.id)}
-                        className="w-full text-white"
-                        variant={ministry.isMember ? 'secondary' : 'default'}
-                        >
-                        {ministry.isMember ? <CheckCircle className="mr-2" /> : <UserPlus className="mr-2" />}
-                        {ministry.isMember ? 'Joined' : 'Get Involved'}
-                      </Button>
-                    </div>
-                </Card>
-              </ScrollAnimator>
-              ))}
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-10"><Loader2 className="h-8 w-8 animate-spin text-accent" /></div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {ministries.map((ministry, index) => (
+                <ScrollAnimator key={ministry.id} delay={index * 0.1}>
+                  <Card className="text-center flex flex-col">
+                      <CardHeader className="items-center">
+                      {ministry.logo_url && (
+                          <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-card">
+                          <Image
+                              src={ministry.logo_url}
+                              alt={`${ministry.name} logo`}
+                              fill
+                              className="object-contain"
+                              data-ai-hint={ministry.logo_hint}
+                          />
+                          </div>
+                      )}
+                      <CardTitle className="font-headline text-xl font-bold pt-4">{ministry.name}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="flex-grow">
+                      <p className="text-sm text-muted-foreground">{ministry.description}</p>
+                      </CardContent>
+                      <div className="p-6 pt-0">
+                        <Button 
+                          onClick={() => handleJoin(ministry.id)}
+                          className="w-full text-white"
+                          variant={ministry.isMember ? 'secondary' : 'default'}
+                          >
+                          {ministry.isMember ? <CheckCircle className="mr-2" /> : <UserPlus className="mr-2" />}
+                          {ministry.isMember ? 'Joined' : 'Get Involved'}
+                        </Button>
+                      </div>
+                  </Card>
+                </ScrollAnimator>
+                ))}
+            </div>
+          )}
         </div>
       </ScrollAnimator>
     </div>
