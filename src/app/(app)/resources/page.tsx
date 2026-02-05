@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { BookCopy, FileText, Goal, MessageCircleHeart } from 'lucide-react';
 import { ScrollAnimator } from '@/components/scroll-animator';
+import Link from 'next/link';
 
 const resourceCategories = [
   {
@@ -10,24 +11,28 @@ const resourceCategories = [
     title: 'E-Books & Manuals',
     description: 'In-depth teachings and practical guides on spiritual growth and ministry.',
     cta: 'Browse E-Books',
+    href: '/store',
   },
   {
     icon: <FileText className="h-6 w-6 text-accent" />,
     title: 'Prophetic Prayer Points',
     description: 'Targeted prayer points and declarations to align with God\'s will.',
     cta: 'View Prayer Points',
+    href: '/global-prayer-hub',
   },
   {
     icon: <Goal className="h-6 w-6 text-accent" />,
     title: 'Vision & Destiny Tools',
     description: 'Resources to help you discover and walk in your divine purpose.',
     cta: 'Explore Tools',
+    href: '/spiritual-gifts-assessment',
   },
   {
     icon: <MessageCircleHeart className="h-6 w-6 text-accent" />,
     title: 'Special Messages',
     description: 'Exclusive messages from The Bondservant of Christ Joseph Tryson & Prophetess Norah Tryson.',
     cta: 'Listen Now',
+    href: '/podcast',
   },
 ];
 
@@ -58,7 +63,9 @@ export default function ResourcesPage() {
               </CardHeader>
               <CardContent className="flex-grow" />
               <div className="p-6 pt-0">
-                <Button variant="outline">{category.cta}</Button>
+                <Button variant="outline" asChild>
+                  <Link href={category.href}>{category.cta}</Link>
+                </Button>
               </div>
             </Card>
           </ScrollAnimator>
