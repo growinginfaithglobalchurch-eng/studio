@@ -143,6 +143,12 @@
       "description": "A powerful and majestic lion's face, representing the lions in Daniel's story.",
       "imageUrl": "https://images.unsplash.com/photo-1614027164847-1b28acc1b11f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "lion face"
+    },
+    {
+      "id": "parable-sower-story",
+      "description": "A farmer sowing seeds in a field at sunrise.",
+      "imageUrl": "https://images.unsplash.com/photo-1475704172322-6a56e3449333?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "farmer sowing"
     }
   ]
 }
