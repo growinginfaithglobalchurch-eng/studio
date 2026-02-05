@@ -1,18 +1,19 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { annualCalendar as initialAnnualCalendar } from '@/lib/data';
-import { Calendar, PlusCircle, Trash2, Edit, Save } from 'lucide-react';
+import { Calendar, PlusCircle, Trash2, Edit, Save, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { supabase } from '@/lib/supabase';
 
 type MonthlyEvent = {
+    id: number;
     month: string;
     theme: string;
     purpose: string;
@@ -21,7 +22,8 @@ type MonthlyEvent = {
 
 export default function AdminEventsPage() {
     const { toast } = useToast();
-    const [annualCalendar, setAnnualCalendar] = useState<MonthlyEvent[]>(initialAnnualCalendar);
+    const [annualCalendar, setAnnualCalendar] = useState<MonthlyEvent[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [newMonthEvent, setNewMonthEvent] = useState({
         month: '',
         theme: '',
@@ -32,12 +34,30 @@ export default function AdminEventsPage() {
     const [editingMonth, setEditingMonth] = useState<string | null>(null);
     const [editedData, setEditedData] = useState({ theme: '', purpose: '', activities: '' });
 
+    useEffect(() => {
+        const fetchCalendar = async () => {
+            setIsLoading(true);
+            const { data, error } = await supabase
+                .from('annual_calendar')
+                .select('*')
+                .order('id', { ascending: true }); // Assuming you want them in month order, might need a different column
+            
+            if (error) {
+                toast({ variant: 'destructive', title: 'Error fetching calendar', description: error.message });
+            } else {
+                setAnnualCalendar(data || []);
+            }
+            setIsLoading(false);
+        };
+        fetchCalendar();
+    }, [toast]);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setNewMonthEvent(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleAddMonth = (e: React.FormEvent) => {
+    const handleAddMonth = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newMonthEvent.month || !newMonthEvent.theme) {
             toast({
@@ -57,27 +77,28 @@ export default function AdminEventsPage() {
         }
         const newEvent = {
             ...newMonthEvent,
-            activities: newMonthEvent.activities.split(',').map(s => s.trim()),
+            activities: newMonthEvent.activities.split(',').map(s => s.trim()).filter(Boolean),
         };
-        setAnnualCalendar(prev => [...prev, newEvent]);
-        setNewMonthEvent({
-            month: '',
-            theme: '',
-            purpose: '',
-            activities: ''
-        });
-        toast({
-            title: 'Monthly Theme Added',
-            description: `The theme for ${newMonthEvent.month} has been added.`,
-        });
+
+        const { data, error } = await supabase.from('annual_calendar').insert([newEvent]).select();
+        
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error adding month', description: error.message });
+        } else if (data) {
+            setAnnualCalendar(prev => [...prev, data[0]]);
+            setNewMonthEvent({ month: '', theme: '', purpose: '', activities: '' });
+            toast({ title: 'Monthly Theme Added', description: `The theme for ${newMonthEvent.month} has been added.` });
+        }
     };
 
-    const handleDeleteMonth = (month: string) => {
-        setAnnualCalendar(prev => prev.filter(m => m.month !== month));
-        toast({
-            title: 'Monthly Theme Deleted',
-            description: `The theme for ${month} has been removed.`,
-        });
+    const handleDeleteMonth = async (id: number, month: string) => {
+        const { error } = await supabase.from('annual_calendar').delete().match({ id });
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error deleting month', description: error.message });
+        } else {
+            setAnnualCalendar(prev => prev.filter(m => m.id !== id));
+            toast({ title: 'Monthly Theme Deleted', description: `The theme for ${month} has been removed.` });
+        }
     };
     
     const handleStartEdit = (event: MonthlyEvent) => {
@@ -98,30 +119,27 @@ export default function AdminEventsPage() {
         setEditedData(prev => ({ ...prev, [name]: value }));
     };
     
-    const handleSaveEdit = (month: string) => {
+    const handleSaveEdit = async (id: number, month: string) => {
         if (!editedData.theme) {
-             toast({
-                variant: 'destructive',
-                title: 'Missing Theme',
-                description: 'Theme cannot be empty.',
-            });
+             toast({ variant: 'destructive', title: 'Missing Theme', description: 'Theme cannot be empty.' });
             return;
         }
-        setAnnualCalendar(prev => prev.map(event => 
-            event.month === month 
-            ? { 
-                ...event, 
-                theme: editedData.theme,
-                purpose: editedData.purpose,
-                activities: editedData.activities.split(',').map(s => s.trim())
-              } 
-            : event
-        ));
-        setEditingMonth(null);
-        toast({
-            title: 'Update Successful',
-            description: `The theme for ${month} has been updated.`,
-        });
+        
+        const updatedData = {
+            theme: editedData.theme,
+            purpose: editedData.purpose,
+            activities: editedData.activities.split(',').map(s => s.trim()).filter(Boolean)
+        };
+
+        const { data, error } = await supabase.from('annual_calendar').update(updatedData).match({ id }).select();
+        
+        if (error) {
+            toast({ variant: 'destructive', title: 'Error updating month', description: error.message });
+        } else if (data) {
+            setAnnualCalendar(prev => prev.map(event => event.id === id ? data[0] : event));
+            setEditingMonth(null);
+            toast({ title: 'Update Successful', description: `The theme for ${month} has been updated.` });
+        }
     };
 
 
@@ -179,61 +197,69 @@ export default function AdminEventsPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Accordion type="single" collapsible className="w-full">
-                    {annualCalendar.map((item) => (
-                        <AccordionItem value={item.month} key={item.month}>
-                        <AccordionTrigger className="text-lg font-headline hover:no-underline">
-                           <span>{item.month}: <span className="ml-2 font-normal text-muted-foreground">{item.theme}</span></span>
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 bg-secondary/30 rounded-md space-y-4">
-                            {editingMonth === item.month ? (
-                                <div className="space-y-4">
-                                     <div className="space-y-2">
-                                        <Label htmlFor="edit-theme">Theme</Label>
-                                        <Input id="edit-theme" name="theme" value={editedData.theme} onChange={handleEditChange} />
+                    {isLoading ? (
+                        <div className="flex justify-center items-center p-4"><Loader2 className="animate-spin h-6 w-6"/></div>
+                    ) : annualCalendar.length > 0 ? (
+                        <Accordion type="single" collapsible className="w-full">
+                        {annualCalendar.map((item) => (
+                            <AccordionItem value={item.month} key={item.month}>
+                            <AccordionTrigger className="text-lg font-headline hover:no-underline">
+                            <span>{item.month}: <span className="ml-2 font-normal text-muted-foreground">{item.theme}</span></span>
+                            </AccordionTrigger>
+                            <AccordionContent className="p-4 bg-secondary/30 rounded-md space-y-4">
+                                {editingMonth === item.month ? (
+                                    <div className="space-y-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="edit-theme">Theme</Label>
+                                            <Input id="edit-theme" name="theme" value={editedData.theme} onChange={handleEditChange} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="edit-purpose">Purpose</Label>
+                                            <Input id="edit-purpose" name="purpose" value={editedData.purpose} onChange={handleEditChange} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="edit-activities">Activities (comma-separated)</Label>
+                                            <Textarea id="edit-activities" name="activities" value={editedData.activities} onChange={handleEditChange} />
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <Button size="sm" onClick={() => handleSaveEdit(item.id, item.month)}>
+                                                <Save className="h-4 w-4 mr-2" /> Save
+                                            </Button>
+                                            <Button size="sm" variant="ghost" onClick={handleCancelEdit}>Cancel</Button>
+                                        </div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="edit-purpose">Purpose</Label>
-                                        <Input id="edit-purpose" name="purpose" value={editedData.purpose} onChange={handleEditChange} />
+                                ) : (
+                                    <div>
+                                        <p className="font-semibold text-foreground">Purpose: <span className="font-normal text-muted-foreground">{item.purpose}</span></p>
+                                        <h4 className="font-semibold text-foreground mt-4 mb-2">Key Activities:</h4>
+                                        <ul className="list-disc pl-5 text-muted-foreground space-y-1">
+                                        {item.activities.map(activity => <li key={activity}>{activity}</li>)}
+                                        </ul>
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="edit-activities">Activities (comma-separated)</Label>
-                                        <Textarea id="edit-activities" name="activities" value={editedData.activities} onChange={handleEditChange} />
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <Button size="sm" onClick={() => handleSaveEdit(item.month)}>
-                                            <Save className="h-4 w-4 mr-2" /> Save
-                                        </Button>
-                                        <Button size="sm" variant="ghost" onClick={handleCancelEdit}>Cancel</Button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div>
-                                    <p className="font-semibold text-foreground">Purpose: <span className="font-normal text-muted-foreground">{item.purpose}</span></p>
-                                    <h4 className="font-semibold text-foreground mt-4 mb-2">Key Activities:</h4>
-                                    <ul className="list-disc pl-5 text-muted-foreground space-y-1">
-                                    {item.activities.map(activity => <li key={activity}>{activity}</li>)}
-                                    </ul>
-                                </div>
-                            )}
+                                )}
 
-                             <div className="flex gap-2 border-t pt-4 mt-4">
-                                 <Button variant="outline" size="sm" onClick={() => handleStartEdit(item)}>
-                                    <Edit className="h-4 w-4 mr-2" />
-                                    Edit
-                                </Button>
-                                 <Button variant="destructive" size="sm" onClick={() => handleDeleteMonth(item.month)}>
-                                    <Trash2 className="h-4 w-4 mr-2" />
-                                    Delete
-                                </Button>
-                             </div>
-                        </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                    </Accordion>
+                                <div className="flex gap-2 border-t pt-4 mt-4">
+                                    <Button variant="outline" size="sm" onClick={() => handleStartEdit(item)}>
+                                        <Edit className="h-4 w-4 mr-2" />
+                                        Edit
+                                    </Button>
+                                    <Button variant="destructive" size="sm" onClick={() => handleDeleteMonth(item.id, item.month)}>
+                                        <Trash2 className="h-4 w-4 mr-2" />
+                                        Delete
+                                    </Button>
+                                </div>
+                            </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                        </Accordion>
+                    ) : (
+                        <p className="text-muted-foreground text-center">No calendar events found.</p>
+                    )}
                 </CardContent>
             </Card>
 
         </div>
     );
 }
+
+    

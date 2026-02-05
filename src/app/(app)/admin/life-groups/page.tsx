@@ -1,14 +1,14 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { groups as initialGroups, communityUsers } from '@/lib/data';
-import { Users, PlusCircle, Trash2, Edit, Save, Search } from 'lucide-react';
+import { communityUsers } from '@/lib/data';
+import { Users, PlusCircle, Trash2, Edit, Save, Search, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Select,
@@ -18,10 +18,22 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
+
+type LifeGroup = {
+    id: number;
+    name: string;
+    description: string;
+    category: string;
+    leader_id: number;
+    image_url: string;
+    image_hint: string;
+};
 
 export default function AdminLifeGroupsPage() {
     const { toast } = useToast();
-    const [groups, setGroups] = useState(initialGroups);
+    const [groups, setGroups] = useState<LifeGroup[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [newGroup, setNewGroup] = useState({
         name: '',
         description: '',
@@ -30,6 +42,28 @@ export default function AdminLifeGroupsPage() {
         imageUrl: '',
         imageHint: ''
     });
+
+    useEffect(() => {
+        const fetchGroups = async () => {
+            setIsLoading(true);
+            const { data, error } = await supabase
+                .from('life_groups')
+                .select('*')
+                .order('id', { ascending: false });
+
+            if (error) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error fetching life groups',
+                    description: error.message,
+                });
+            } else {
+                setGroups(data || []);
+            }
+            setIsLoading(false);
+        };
+        fetchGroups();
+    }, [toast]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -40,7 +74,7 @@ export default function AdminLifeGroupsPage() {
         setNewGroup(prev => ({ ...prev, leaderId: value }));
     };
 
-    const handleAddGroup = (e: React.FormEvent) => {
+    const handleAddGroup = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newGroup.name || !newGroup.leaderId) {
             toast({
@@ -50,41 +84,63 @@ export default function AdminLifeGroupsPage() {
             });
             return;
         }
-        const newId = groups.length > 0 ? Math.max(...groups.map(g => g.id)) + 1 : 1;
-        const newLifeGroup = {
-            id: newId,
+
+        const groupData = {
             name: newGroup.name,
             description: newGroup.description,
             category: newGroup.category,
-            members: 1, // Leader is the first member
-            image: {
-                id: `lg-${newId}`,
-                imageUrl: newGroup.imageUrl || 'https://picsum.photos/seed/1/600/400',
-                description: newGroup.name,
-                imageHint: newGroup.imageHint || 'community group'
-            }
+            leader_id: parseInt(newGroup.leaderId, 10),
+            image_url: newGroup.imageUrl || `https://picsum.photos/seed/${Date.now()}/600/400`,
+            image_hint: newGroup.imageHint || 'community group'
         };
-        setGroups(prev => [newLifeGroup, ...prev]);
-        setNewGroup({
-            name: '',
-            description: '',
-            category: '',
-            leaderId: '',
-            imageUrl: '',
-            imageHint: ''
-        });
-        toast({
-            title: 'Life Group Added',
-            description: `"${newGroup.name}" has been successfully created.`,
-        });
+
+        const { data, error } = await supabase
+            .from('life_groups')
+            .insert([groupData])
+            .select();
+
+        if (error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error adding group',
+                description: error.message,
+            });
+        } else if (data) {
+            setGroups(prev => [data[0], ...prev]);
+            setNewGroup({
+                name: '',
+                description: '',
+                category: '',
+                leaderId: '',
+                imageUrl: '',
+                imageHint: ''
+            });
+            toast({
+                title: 'Life Group Added',
+                description: `"${newGroup.name}" has been successfully created.`,
+            });
+        }
     };
 
-    const handleDeleteGroup = (id: number) => {
-        setGroups(prev => prev.filter(g => g.id !== id));
-        toast({
-            title: 'Life Group Deleted',
-            description: 'The group has been removed.',
-        });
+    const handleDeleteGroup = async (id: number) => {
+        const { error } = await supabase
+            .from('life_groups')
+            .delete()
+            .match({ id });
+            
+        if (error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error Deleting',
+                description: error.message,
+            });
+        } else {
+            setGroups(prev => prev.filter(g => g.id !== id));
+            toast({
+                title: 'Life Group Deleted',
+                description: 'The group has been removed.',
+            });
+        }
     };
 
     return (
@@ -156,32 +212,43 @@ export default function AdminLifeGroupsPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {groups.map(group => (
-                        <div key={group.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4 items-start">
-                           {group.image && (
-                               <div className="relative w-full md:w-40 h-24 md:h-auto flex-shrink-0 overflow-hidden rounded-md">
-                                    <Image src={group.image.imageUrl} alt={group.name} fill className="object-cover" data-ai-hint={group.image.imageHint} />
-                               </div>
-                           )}
-                           <div className="flex-grow">
-                                <h3 className="font-bold text-lg text-foreground">{group.name}</h3>
-                                <p className="text-sm font-semibold text-accent">{group.category}</p>
-                                <p className="text-sm text-muted-foreground mt-1">{group.description}</p>
-                                <p className="text-xs text-muted-foreground mt-2">{group.members} Members</p>
-                           </div>
-                           <div className="flex-shrink-0 flex flex-col gap-2">
-                                <Button variant="outline" size="sm">
-                                    <Edit className="h-4 w-4 mr-2"/> Edit
-                                </Button>
-                                <Button variant="destructive" size="sm" onClick={() => handleDeleteGroup(group.id)}>
-                                    <Trash2 className="h-4 w-4 mr-2" /> Delete
-                                </Button>
-                           </div>
+                    {isLoading ? (
+                        <div className="flex items-center justify-center p-8">
+                            <Loader2 className="h-8 w-8 animate-spin" />
+                            <p className="ml-2">Loading groups...</p>
                         </div>
-                    ))}
+                    ) : groups.length > 0 ? (
+                        groups.map(group => (
+                            <div key={group.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4 items-start">
+                            {group.image_url && (
+                                <div className="relative w-full md:w-40 h-24 md:h-auto flex-shrink-0 overflow-hidden rounded-md">
+                                        <Image src={group.image_url} alt={group.name} fill className="object-cover" data-ai-hint={group.image_hint} />
+                                </div>
+                            )}
+                            <div className="flex-grow">
+                                    <h3 className="font-bold text-lg text-foreground">{group.name}</h3>
+                                    <p className="text-sm font-semibold text-accent">{group.category}</p>
+                                    <p className="text-sm text-muted-foreground mt-1">{group.description}</p>
+                                <p className="text-xs text-muted-foreground mt-2">Leader: {communityUsers.find(u => u.id === group.leader_id)?.name || 'N/A'}</p>
+                            </div>
+                            <div className="flex-shrink-0 flex flex-col gap-2">
+                                    <Button variant="outline" size="sm">
+                                        <Edit className="h-4 w-4 mr-2"/> Edit
+                                    </Button>
+                                    <Button variant="destructive" size="sm" onClick={() => handleDeleteGroup(group.id)}>
+                                        <Trash2 className="h-4 w-4 mr-2" /> Delete
+                                    </Button>
+                            </div>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-center text-muted-foreground">No life groups found. Create one to get started.</p>
+                    )}
                 </CardContent>
             </Card>
 
         </div>
     );
 }
+
+    
