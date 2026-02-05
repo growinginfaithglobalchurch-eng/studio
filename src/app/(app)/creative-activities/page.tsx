@@ -11,10 +11,43 @@ import Image from 'next/image';
 export default function CreativeActivitiesPage() {
     const { toast } = useToast();
 
-    const handleDownload = (title: string) => {
+    const handleDownload = (activity: typeof creativeActivities[0]) => {
+        const activityHTML = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${activity.title}</title>
+                <style>
+                    @page { size: A4 portrait; margin: 1in; }
+                    body { font-family: sans-serif; }
+                    h1 { text-align: center; font-size: 24px; margin-bottom: 20px; }
+                    p { text-align: center; font-size: 16px; color: #555; }
+                    img { max-width: 100%; height: auto; display: block; margin: 40px auto; border: 1px solid #ccc; padding: 10px; }
+                </style>
+            </head>
+            <body>
+                <h1>${activity.title}</h1>
+                <p>${activity.description}</p>
+                ${activity.image ? `<img src="${activity.image.imageUrl}" alt="${activity.title}" />` : ''}
+                <script>
+                    window.onload = () => {
+                        window.print();
+                    };
+                </script>
+            </body>
+            </html>
+        `;
+
+        const blob = new Blob([activityHTML.trim()], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        URL.revokeObjectURL(url);
+        
         toast({
-            title: 'Downloading...',
-            description: `Your file for "${title}" is downloading. (This is a demo).`,
+            title: "Generating Activity Sheet",
+            description: `Your sheet for "${activity.title}" is opening in a new tab. You can save it as a PDF from there.`,
         });
     };
 
@@ -47,7 +80,7 @@ export default function CreativeActivitiesPage() {
                             </CardHeader>
                             <CardContent className="flex-grow" />
                             <CardFooter>
-                                <Button className="w-full" onClick={() => handleDownload(activity.title)}>
+                                <Button className="w-full" onClick={() => handleDownload(activity)}>
                                     <Download className="mr-2 h-5 w-5" />
                                     Download Activity
                                 </Button>
