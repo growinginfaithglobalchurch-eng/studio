@@ -1,19 +1,30 @@
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { courses as initialCourses } from '@/lib/data';
-import { GraduationCap, PlusCircle, Trash2 } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { GraduationCap, PlusCircle, Trash2, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 
+type Course = {
+    id: number;
+    title: string;
+    description: string;
+    category: string;
+    image_url: string;
+    image_hint: string;
+}
+
 export default function AdminCoursesPage() {
     const { toast } = useToast();
-    const [courses, setCourses] = useState(initialCourses);
+    const [courses, setCourses] = useState<Course[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [newCourse, setNewCourse] = useState({
         title: '',
         description: '',
@@ -21,13 +32,36 @@ export default function AdminCoursesPage() {
         imageUrl: '',
         imageHint: ''
     });
+    
+    useEffect(() => {
+        const fetchCourses = async () => {
+            setIsLoading(true);
+            const { data, error } = await supabase
+                .from('courses')
+                .select('*')
+                .order('id', { ascending: false });
+
+            if (error) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error fetching courses',
+                    description: error.message,
+                });
+            } else {
+                setCourses(data || []);
+            }
+            setIsLoading(false);
+        };
+
+        fetchCourses();
+    }, [toast]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setNewCourse(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleAddCourse = (e: React.FormEvent) => {
+    const handleAddCourse = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newCourse.title || !newCourse.category) {
             toast({
@@ -37,39 +71,61 @@ export default function AdminCoursesPage() {
             });
             return;
         }
-        const newId = courses.length > 0 ? Math.max(...courses.map(c => c.id)) + 1 : 1;
-        const newCourseData = {
-            id: newId,
+
+        const courseData = {
             title: newCourse.title,
             description: newCourse.description,
             category: newCourse.category,
-            image: {
-                id: `course-${newId}`,
-                imageUrl: newCourse.imageUrl || 'https://picsum.photos/seed/1/600/400',
-                description: newCourse.title,
-                imageHint: newCourse.imageHint || 'course material'
-            }
+            image_url: newCourse.imageUrl || `https://picsum.photos/seed/${Math.random()}/600/400`,
+            image_hint: newCourse.imageHint || 'course material'
         };
-        setCourses(prev => [newCourseData, ...prev]);
-        setNewCourse({
-            title: '',
-            description: '',
-            category: '',
-            imageUrl: '',
-            imageHint: ''
-        });
-        toast({
-            title: 'Course Added',
-            description: `"${newCourse.title}" has been successfully added.`,
-        });
+
+        const { data, error } = await supabase
+            .from('courses')
+            .insert([courseData])
+            .select();
+
+        if (error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error adding course',
+                description: error.message,
+            });
+        } else if (data) {
+            setCourses(prev => [data[0], ...prev]);
+            setNewCourse({
+                title: '',
+                description: '',
+                category: '',
+                imageUrl: '',
+                imageHint: ''
+            });
+            toast({
+                title: 'Course Added',
+                description: `"${newCourse.title}" has been successfully added.`,
+            });
+        }
     };
 
-    const handleDeleteCourse = (id: number) => {
-        setCourses(prev => prev.filter(course => course.id !== id));
-        toast({
-            title: 'Course Deleted',
-            description: 'The course has been removed.',
-        });
+    const handleDeleteCourse = async (id: number) => {
+        const { error } = await supabase
+            .from('courses')
+            .delete()
+            .match({ id });
+
+        if (error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error Deleting',
+                description: error.message,
+            });
+        } else {
+            setCourses(prev => prev.filter(course => course.id !== id));
+            toast({
+                title: 'Course Deleted',
+                description: 'The course has been removed.',
+            });
+        }
     };
 
     return (
@@ -128,26 +184,35 @@ export default function AdminCoursesPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {courses.map(course => (
-                        <div key={course.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4">
-                           {course.image && (
-                               <div className="relative w-full md:w-48 h-32 md:h-auto flex-shrink-0 overflow-hidden rounded-md">
-                                    <Image src={course.image.imageUrl} alt={course.title} fill className="object-cover" data-ai-hint={course.image.imageHint} />
-                               </div>
-                           )}
-                           <div className="flex-grow">
-                                <h3 className="font-bold text-lg text-foreground">{course.title}</h3>
-                               <p className="text-sm font-semibold text-accent">{course.category}</p>
-                               <p className="text-sm text-muted-foreground mt-2">{course.description}</p>
-                           </div>
-                           <div className="flex-shrink-0 flex flex-col gap-2">
-                                <Button variant="destructive" size="sm" onClick={() => handleDeleteCourse(course.id)}>
-                                    <Trash2 className="h-4 w-4" />
-                                    <span className="ml-2">Delete</span>
-                                </Button>
-                           </div>
+                     {isLoading ? (
+                        <div className="flex items-center justify-center p-8">
+                            <Loader2 className="h-8 w-8 animate-spin" />
+                            <p className="ml-2">Loading courses...</p>
                         </div>
-                    ))}
+                    ) : courses.length > 0 ? (
+                        courses.map(course => (
+                            <div key={course.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4">
+                               {course.image_url && (
+                                   <div className="relative w-full md:w-48 h-32 md:h-auto flex-shrink-0 overflow-hidden rounded-md">
+                                        <Image src={course.image_url} alt={course.title} fill className="object-cover" data-ai-hint={course.image_hint} />
+                                   </div>
+                               )}
+                               <div className="flex-grow">
+                                    <h3 className="font-bold text-lg text-foreground">{course.title}</h3>
+                                   <p className="text-sm font-semibold text-accent">{course.category}</p>
+                                   <p className="text-sm text-muted-foreground mt-2">{course.description}</p>
+                               </div>
+                               <div className="flex-shrink-0 flex flex-col gap-2">
+                                    <Button variant="destructive" size="sm" onClick={() => handleDeleteCourse(course.id)}>
+                                        <Trash2 className="h-4 w-4" />
+                                        <span className="ml-2">Delete</span>
+                                    </Button>
+                               </div>
+                            </div>
+                        ))
+                    ) : (
+                         <p className="text-center text-muted-foreground">No courses found. Add one to get started!</p>
+                    )}
                 </CardContent>
             </Card>
 
