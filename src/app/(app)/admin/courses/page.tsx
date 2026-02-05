@@ -76,7 +76,7 @@ export default function AdminCoursesPage() {
             title: newCourse.title,
             description: newCourse.description,
             category: newCourse.category,
-            image_url: newCourse.imageUrl || `https://picsum.photos/seed/${Math.random()}/600/400`,
+            image_url: newCourse.imageUrl || `https://picsum.photos/seed/${Date.now()}/600/400`,
             image_hint: newCourse.imageHint || 'course material'
         };
 
