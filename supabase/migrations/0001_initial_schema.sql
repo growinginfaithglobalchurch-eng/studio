@@ -34,3 +34,23 @@ $$ language plpgsql security definer;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+-- Create a table for announcements
+create table announcements (
+  id serial primary key,
+  created_at timestamp with time zone default now(),
+  title text not null,
+  content text,
+  category text,
+  date date not null
+);
+
+-- Set up Row Level Security for announcements
+alter table announcements
+  enable row level security;
+
+create policy "Announcements are viewable by everyone." on announcements
+  for select using (true);
+  
+create policy "Authenticated users can manage announcements." on announcements
+  for all using (auth.role() = 'authenticated');
