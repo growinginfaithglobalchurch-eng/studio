@@ -1,4 +1,7 @@
--- 1. Profiles Table to store user data linked to Supabase Auth
+-- This is a consolidated script containing all tables for the application.
+-- You can run this entire script in your Supabase SQL Editor to set up the full database schema.
+
+-- 1. Profiles Table
 create table if not exists profiles (
   id uuid references auth.users on delete cascade not null primary key,
   updated_at timestamp with time zone,
@@ -15,20 +18,16 @@ create table if not exists profiles (
   consistency_score integer default 0,
   readiness_level text
 );
--- Set up Row Level Security (RLS)
+-- RLS for profiles
 alter table profiles enable row level security;
-
--- Drop existing policies before creating them to avoid errors on re-run
 drop policy if exists "Public profiles are viewable by everyone." on profiles;
 create policy "Public profiles are viewable by everyone." on profiles for select using (true);
-
 drop policy if exists "Users can insert their own profile." on profiles;
 create policy "Users can insert their own profile." on profiles for insert with check (auth.uid() = id);
-
 drop policy if exists "Users can update own profile." on profiles;
 create policy "Users can update own profile." on profiles for update using (auth.uid() = id);
 
--- This trigger automatically creates a profile entry when a new user signs up.
+-- Trigger to create a profile when a new user signs up
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
@@ -37,8 +36,6 @@ begin
   return new;
 end;
 $$ language plpgsql security definer;
-
--- Drop the trigger if it exists, then create it.
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
@@ -53,15 +50,12 @@ create table if not exists announcements (
     category text,
     date date not null
 );
--- RLS for announcements
 alter table announcements enable row level security;
-
 drop policy if exists "Announcements are viewable by everyone." on announcements;
 create policy "Announcements are viewable by everyone." on announcements for select using (true);
-
 drop policy if exists "Admins can manage announcements." on announcements;
 create policy "Admins can manage announcements." on announcements for all using (
-  (select auth.uid() in (select id from profiles where authority_level >= 4)) -- Example: Admin level 4+
+  (select auth.uid() in (select id from profiles where authority_level >= 4))
 );
 
 -- 3. Conferences Table
@@ -74,12 +68,9 @@ create table if not exists conferences (
     image_url text,
     image_hint text
 );
--- RLS for conferences (public read, admin write)
 alter table conferences enable row level security;
-
 drop policy if exists "Conferences are viewable by everyone." on conferences;
 create policy "Conferences are viewable by everyone." on conferences for select using (true);
-
 drop policy if exists "Admins can manage conferences." on conferences;
 create policy "Admins can manage conferences." on conferences for all using (
   (select auth.uid() in (select id from profiles where authority_level >= 4))
@@ -94,12 +85,9 @@ create table if not exists courses (
     image_url text,
     image_hint text
 );
--- RLS for courses (public read, admin write)
 alter table courses enable row level security;
-
 drop policy if exists "Courses are viewable by everyone." on courses;
 create policy "Courses are viewable by everyone." on courses for select using (true);
-
 drop policy if exists "Admins can manage courses." on courses;
 create policy "Admins can manage courses." on courses for all using (
   (select auth.uid() in (select id from profiles where authority_level >= 4))
@@ -112,12 +100,9 @@ create table if not exists departments (
     description text,
     icon text
 );
--- RLS for departments (public read, admin write)
 alter table departments enable row level security;
-
 drop policy if exists "Departments are viewable by everyone." on departments;
 create policy "Departments are viewable by everyone." on departments for select using (true);
-
 drop policy if exists "Admins can manage departments." on departments;
 create policy "Admins can manage departments." on departments for all using (
   (select auth.uid() in (select id from profiles where authority_level >= 4))
@@ -133,15 +118,11 @@ create table if not exists news_feed (
     image_url text,
     image_hint text
 );
--- RLS for news (public read, admin/owner write)
 alter table news_feed enable row level security;
-
 drop policy if exists "News is viewable by everyone." on news_feed;
 create policy "News is viewable by everyone." on news_feed for select using (true);
-
 drop policy if exists "Users can post news." on news_feed;
 create policy "Users can post news." on news_feed for insert with check (auth.uid() = user_id);
-
 drop policy if exists "Admins or owners can delete news." on news_feed;
 create policy "Admins or owners can delete news." on news_feed for delete using (
   auth.uid() = user_id or 
@@ -152,15 +133,199 @@ create policy "Admins or owners can delete news." on news_feed for delete using 
 create table if not exists prayer_requests (
     id bigint generated by default as identity primary key,
     created_at timestamp with time zone default now(),
-    user_id uuid references public.profiles, -- can be null for anonymous
-    user_name text, -- for anonymous posts
+    user_id uuid references public.profiles,
+    user_name text,
     request text not null
 );
--- RLS for prayer requests (public read, auth write)
 alter table prayer_requests enable row level security;
-
 drop policy if exists "Prayer requests are viewable by everyone." on prayer_requests;
 create policy "Prayer requests are viewable by everyone." on prayer_requests for select using (true);
-
 drop policy if exists "Authenticated users can submit prayer requests." on prayer_requests;
 create policy "Authenticated users can submit prayer requests." on prayer_requests for insert with check (auth.role() = 'authenticated');
+
+-- 8. Life Groups Table
+CREATE TABLE IF NOT EXISTS life_groups (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    category TEXT,
+    leader_id UUID REFERENCES public.profiles,
+    image_url TEXT,
+    image_hint TEXT
+);
+ALTER TABLE life_groups ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Life groups are viewable by everyone." ON life_groups;
+CREATE POLICY "Life groups are viewable by everyone." ON life_groups FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Admins can manage life groups." ON life_groups;
+CREATE POLICY "Admins can manage life groups." ON life_groups FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 9. Family Hub Groups Table
+CREATE TABLE IF NOT EXISTS family_groups (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    father_id UUID REFERENCES public.profiles,
+    mother_id UUID REFERENCES public.profiles,
+    monthly_focus TEXT,
+    unity_score TEXT
+);
+ALTER TABLE family_groups ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Family group members can view their group." ON family_groups;
+CREATE POLICY "Family group members can view their group." ON family_groups FOR SELECT USING (auth.uid() = father_id OR auth.uid() = mother_id);
+DROP POLICY IF EXISTS "Admins can manage family groups." ON family_groups;
+CREATE POLICY "Admins can manage family groups." ON family_groups FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- Table for children in family groups
+CREATE TABLE IF NOT EXISTS family_group_children (
+    group_id BIGINT REFERENCES public.family_groups ON DELETE CASCADE,
+    child_id UUID REFERENCES public.profiles,
+    PRIMARY KEY (group_id, child_id)
+);
+ALTER TABLE family_group_children ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Family members can view children in their group." ON family_group_children;
+CREATE POLICY "Family members can view children in their group." ON family_group_children FOR SELECT USING (
+    (SELECT fg.father_id FROM family_groups fg WHERE fg.id = group_id) = auth.uid() OR
+    (SELECT fg.mother_id FROM family_groups fg WHERE fg.id = group_id) = auth.uid()
+);
+DROP POLICY IF EXISTS "Admins can manage family group children." ON family_group_children;
+CREATE POLICY "Admins can manage family group children." ON family_group_children FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 10. Annual Calendar/Events Table
+CREATE TABLE IF NOT EXISTS annual_calendar (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    month TEXT NOT NULL UNIQUE,
+    theme TEXT,
+    purpose TEXT,
+    activities TEXT[]
+);
+ALTER TABLE annual_calendar ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Annual calendar is viewable by everyone." ON annual_calendar;
+CREATE POLICY "Annual calendar is viewable by everyone." ON annual_calendar FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Admins can manage the annual calendar." ON annual_calendar;
+CREATE POLICY "Admins can manage the annual calendar." ON annual_calendar FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 11. Meetings Table
+CREATE TABLE IF NOT EXISTS meetings (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    date TIMESTAMP WITH TIME ZONE,
+    department TEXT
+);
+ALTER TABLE meetings ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Meetings are viewable by everyone." ON meetings;
+CREATE POLICY "Meetings are viewable by everyone." ON meetings FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Admins can manage meetings." ON meetings;
+CREATE POLICY "Admins can manage meetings." ON meetings FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 12. Teachings Table
+CREATE TABLE IF NOT EXISTS teachings (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    department TEXT,
+    file_url TEXT
+);
+ALTER TABLE teachings ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Teachings are viewable by everyone." ON teachings;
+CREATE POLICY "Teachings are viewable by everyone." ON teachings FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Admins can manage teachings." ON teachings;
+CREATE POLICY "Admins can manage teachings." ON teachings FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 13. Discipleship Relationships Table
+CREATE TABLE IF NOT EXISTS discipleship_personal (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    disciple_id UUID REFERENCES public.profiles NOT NULL,
+    discipler_id UUID REFERENCES public.profiles NOT NULL
+);
+ALTER TABLE discipleship_personal ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Involved users can see discipleship relationships." ON discipleship_personal;
+CREATE POLICY "Involved users can see discipleship relationships." ON discipleship_personal FOR SELECT USING (auth.uid() = disciple_id OR auth.uid() = discipler_id);
+DROP POLICY IF EXISTS "Admins can manage discipleship relationships." ON discipleship_personal;
+CREATE POLICY "Admins can manage discipleship relationships." ON discipleship_personal FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 14. Discipleship General Classes Table
+CREATE TABLE IF NOT EXISTS discipleship_general (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT
+);
+ALTER TABLE discipleship_general ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "General discipleship classes are public." ON discipleship_general;
+CREATE POLICY "General discipleship classes are public." ON discipleship_general FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Admins can manage general discipleship." ON discipleship_general;
+CREATE POLICY "Admins can manage general discipleship." ON discipleship_general FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 15. Mentorship Classes Table
+CREATE TABLE IF NOT EXISTS mentorship_classes (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    mentor_id UUID REFERENCES public.profiles NOT NULL
+);
+ALTER TABLE mentorship_classes ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Mentorship classes are public." ON mentorship_classes;
+CREATE POLICY "Mentorship classes are public." ON mentorship_classes FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Admins can manage mentorship classes." ON mentorship_classes;
+CREATE POLICY "Admins can manage mentorship classes." ON mentorship_classes FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 16. Global Prayer Directives Table
+CREATE TABLE IF NOT EXISTS global_prayer_directives (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    scripture TEXT
+);
+ALTER TABLE global_prayer_directives ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Global prayer directives are public." ON global_prayer_directives;
+CREATE POLICY "Global prayer directives are public." ON global_prayer_directives FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Admins can manage global prayer directives." ON global_prayer_directives;
+CREATE POLICY "Admins can manage global prayer directives." ON global_prayer_directives FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 17. Regional Watch Towers Table
+CREATE TABLE IF NOT EXISTS regional_watch_towers (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    region TEXT NOT NULL,
+    focus TEXT,
+    leader TEXT
+);
+ALTER TABLE regional_watch_towers ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Watch towers are public." ON regional_watch_towers;
+CREATE POLICY "Watch towers are public." ON regional_watch_towers FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Admins can manage watch towers." ON regional_watch_towers;
+CREATE POLICY "Admins can manage watch towers." ON regional_watch_towers FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 18. Service Flow Elements Table
+CREATE TABLE IF NOT EXISTS service_elements (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    details TEXT
+);
+ALTER TABLE service_elements ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Service elements are public." ON service_elements;
+CREATE POLICY "Service elements are public." ON service_elements FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Admins can manage service elements." ON service_elements;
+CREATE POLICY "Admins can manage service elements." ON service_elements FOR ALL USING ((SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4)));
+
+-- 19. Visitors Table for tracking program progress
+CREATE TABLE IF NOT EXISTS visitors (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    profile_id UUID REFERENCES public.profiles UNIQUE NOT NULL,
+    track TEXT,
+    progress INT,
+    mentor_id UUID REFERENCES public.profiles,
+    status TEXT,
+    war_room_access BOOLEAN DEFAULT FALSE,
+    court_access BOOLEAN DEFAULT FALSE
+);
+ALTER TABLE visitors ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Admins and assigned mentors can see visitor data." ON visitors;
+CREATE POLICY "Admins and assigned mentors can see visitor data." ON visitors FOR SELECT USING (
+    auth.uid() = mentor_id OR
+    (SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4))
+);
+DROP POLICY IF EXISTS "Admins can manage visitor data." ON visitors;
+CREATE POLICY "Admins can manage visitor data." ON visitors FOR ALL USING (
+    (SELECT auth.uid() IN (SELECT id FROM profiles WHERE authority_level >= 4))
+);
+
+    
