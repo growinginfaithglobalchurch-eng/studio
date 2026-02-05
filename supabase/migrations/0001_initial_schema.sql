@@ -1,15 +1,14 @@
--- Create a table for public user profiles
+-- Create a table for public profiles
 create table profiles (
-  id uuid references auth.users not null primary key,
+  id uuid references auth.users on delete cascade not null primary key,
   updated_at timestamp with time zone,
   full_name text,
   avatar_url text,
-  location text,
-  kingdom_id_number text,
-  tribe text,
-  badge text
+  -- Add any other columns you need for user profiles
+  -- e.g., kingdom_id, tribe, etc.
+  constraint username_length check (char_length(full_name) >= 3)
 );
-
+-- Set up Row Level Security (RLS)
 alter table profiles
   enable row level security;
 
@@ -22,8 +21,7 @@ create policy "Users can insert their own profile." on profiles
 create policy "Users can update own profile." on profiles
   for update using (auth.uid() = id);
 
--- This trigger automatically creates a profile entry when a new user signs up via Supabase Auth.
--- See https://supabase.com/docs/guides/auth/managing-user-data#using-triggers for more details.
+-- This trigger automatically creates a profile entry when a new user signs up.
 create function public.handle_new_user()
 returns trigger as $$
 begin
@@ -32,6 +30,7 @@ begin
   return new;
 end;
 $$ language plpgsql security definer;
+
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
