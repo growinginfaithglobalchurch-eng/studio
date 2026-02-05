@@ -1,0 +1,1 @@
+-- This file is intentionally left blank as its contents have been merged into 0001_initial_schema.sql.
