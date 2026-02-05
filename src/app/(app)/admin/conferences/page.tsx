@@ -1,19 +1,31 @@
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { conferences as initialConferences } from '@/lib/data';
-import { Calendar, PlusCircle, Trash2 } from 'lucide-react';
+import { Calendar, PlusCircle, Trash2, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
+
+type Conference = {
+    id: number;
+    title: string;
+    description: string;
+    dates: string;
+    location: string;
+    image_url: string;
+    image_hint: string;
+};
 
 export default function AdminConferencesPage() {
     const { toast } = useToast();
-    const [conferences, setConferences] = useState(initialConferences);
+    const [conferences, setConferences] = useState<Conference[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [newConference, setNewConference] = useState({
         title: '',
         description: '',
@@ -23,12 +35,35 @@ export default function AdminConferencesPage() {
         imageHint: ''
     });
 
+    useEffect(() => {
+        const fetchConferences = async () => {
+            setIsLoading(true);
+            const { data, error } = await supabase
+                .from('conferences')
+                .select('*')
+                .order('id', { ascending: false });
+
+            if (error) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error fetching conferences',
+                    description: error.message,
+                });
+            } else {
+                setConferences(data || []);
+            }
+            setIsLoading(false);
+        };
+
+        fetchConferences();
+    }, [toast]);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setNewConference(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleAddConference = (e: React.FormEvent) => {
+    const handleAddConference = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newConference.title || !newConference.dates || !newConference.location) {
             toast({
@@ -38,38 +73,63 @@ export default function AdminConferencesPage() {
             });
             return;
         }
-        const newId = conferences.length > 0 ? Math.max(...conferences.map(c => c.id)) + 1 : 1;
-        const newConf = {
-            id: newId,
-            ...newConference,
-            image: {
-                id: `conf-${newId}`,
-                imageUrl: newConference.imageUrl || 'https://picsum.photos/seed/1/1280/720',
-                description: newConference.title,
-                imageHint: newConference.imageHint || 'conference event'
-            }
+
+        const confData = {
+            title: newConference.title,
+            description: newConference.description,
+            dates: newConference.dates,
+            location: newConference.location,
+            image_url: newConference.imageUrl || `https://picsum.photos/seed/${Date.now()}/1280/720`,
+            image_hint: newConference.imageHint || 'conference event'
         };
-        setConferences(prev => [newConf, ...prev]);
-        setNewConference({
-            title: '',
-            description: '',
-            dates: '',
-            location: '',
-            imageUrl: '',
-            imageHint: ''
-        });
-        toast({
-            title: 'Conference Added',
-            description: `"${newConference.title}" has been successfully added.`,
-        });
+
+        const { data, error } = await supabase
+            .from('conferences')
+            .insert([confData])
+            .select();
+
+        if (error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error adding conference',
+                description: error.message,
+            });
+        } else if (data) {
+            setConferences(prev => [data[0], ...prev]);
+            setNewConference({
+                title: '',
+                description: '',
+                dates: '',
+                location: '',
+                imageUrl: '',
+                imageHint: ''
+            });
+            toast({
+                title: 'Conference Added',
+                description: `"${newConference.title}" has been successfully added.`,
+            });
+        }
     };
 
-    const handleDeleteConference = (id: number) => {
-        setConferences(prev => prev.filter(conf => conf.id !== id));
-        toast({
-            title: 'Conference Deleted',
-            description: 'The conference has been removed.',
-        });
+    const handleDeleteConference = async (id: number) => {
+        const { error } = await supabase
+            .from('conferences')
+            .delete()
+            .match({ id });
+
+        if (error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error Deleting',
+                description: error.message,
+            });
+        } else {
+            setConferences(prev => prev.filter(conf => conf.id !== id));
+            toast({
+                title: 'Conference Deleted',
+                description: 'The conference has been removed.',
+            });
+        }
     };
 
     return (
@@ -132,26 +192,35 @@ export default function AdminConferencesPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {conferences.map(conf => (
-                        <div key={conf.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4">
-                           {conf.image && (
-                               <div className="relative w-full md:w-48 h-32 md:h-auto flex-shrink-0 overflow-hidden rounded-md">
-                                    <Image src={conf.image.imageUrl} alt={conf.title} fill className="object-cover" data-ai-hint={conf.image.imageHint} />
-                               </div>
-                           )}
-                           <div className="flex-grow">
-                                <h3 className="font-bold text-lg text-foreground">{conf.title}</h3>
-                               <p className="text-sm text-muted-foreground">{conf.dates} &bull; {conf.location}</p>
-                               <p className="text-sm text-muted-foreground mt-2">{conf.description}</p>
-                           </div>
-                           <div className="flex-shrink-0 flex flex-col gap-2">
-                                <Button variant="destructive" size="sm" onClick={() => handleDeleteConference(conf.id)}>
-                                    <Trash2 className="h-4 w-4" />
-                                    <span className="ml-2">Delete</span>
-                                </Button>
-                           </div>
+                    {isLoading ? (
+                         <div className="flex items-center justify-center p-8">
+                            <Loader2 className="h-8 w-8 animate-spin" />
+                            <p className="ml-2">Loading conferences...</p>
                         </div>
-                    ))}
+                    ) : conferences.length > 0 ? (
+                        conferences.map(conf => (
+                            <div key={conf.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4">
+                            {conf.image_url && (
+                                <div className="relative w-full md:w-48 h-32 md:h-auto flex-shrink-0 overflow-hidden rounded-md">
+                                        <Image src={conf.image_url} alt={conf.title} fill className="object-cover" data-ai-hint={conf.image_hint} />
+                                </div>
+                            )}
+                            <div className="flex-grow">
+                                    <h3 className="font-bold text-lg text-foreground">{conf.title}</h3>
+                                <p className="text-sm text-muted-foreground">{conf.dates} &bull; {conf.location}</p>
+                                <p className="text-sm text-muted-foreground mt-2">{conf.description}</p>
+                            </div>
+                            <div className="flex-shrink-0 flex flex-col gap-2">
+                                    <Button variant="destructive" size="sm" onClick={() => handleDeleteConference(conf.id)}>
+                                        <Trash2 className="h-4 w-4" />
+                                        <span className="ml-2">Delete</span>
+                                    </Button>
+                            </div>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-center text-muted-foreground">No conferences found. Add one to get started!</p>
+                    )}
                 </CardContent>
             </Card>
 

@@ -1,14 +1,14 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { departments as initialDepartments } from '@/lib/data';
-import { Handshake, PlusCircle, Trash2 } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { Handshake, PlusCircle, Trash2, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Select,
@@ -19,15 +19,46 @@ import {
 } from '@/components/ui/select';
 import { iconMap } from '../../departments/page';
 
+type Department = {
+    id: number;
+    name: string;
+    description: string;
+    icon: string;
+}
 
 export default function AdminDepartmentsPage() {
     const { toast } = useToast();
-    const [departments, setDepartments] = useState(initialDepartments);
+    const [departments, setDepartments] = useState<Department[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [newDepartment, setNewDepartment] = useState({
         name: '',
         description: '',
         icon: 'Users',
     });
+
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            setIsLoading(true);
+            const { data, error } = await supabase
+                .from('departments')
+                .select('*')
+                .order('name', { ascending: true });
+
+            if (error) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error fetching departments',
+                    description: error.message,
+                });
+            } else {
+                setDepartments(data || []);
+            }
+            setIsLoading(false);
+        };
+
+        fetchDepartments();
+    }, [toast]);
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -38,7 +69,7 @@ export default function AdminDepartmentsPage() {
         setNewDepartment(prev => ({ ...prev, icon: value }));
     };
 
-    const handleAddDepartment = (e: React.FormEvent) => {
+    const handleAddDepartment = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newDepartment.name || !newDepartment.description) {
             toast({
@@ -49,25 +80,50 @@ export default function AdminDepartmentsPage() {
             return;
         }
         
-        const newDept = { ...newDepartment };
-        setDepartments(prev => [newDept, ...prev]);
-        setNewDepartment({
-            name: '',
-            description: '',
-            icon: 'Users'
-        });
-        toast({
-            title: 'Department Added',
-            description: `"${newDepartment.name}" has been successfully added.`,
-        });
+        const { data, error } = await supabase
+            .from('departments')
+            .insert([newDepartment])
+            .select();
+
+        if (error) {
+             toast({
+                variant: 'destructive',
+                title: 'Error adding department',
+                description: error.message,
+            });
+        } else if (data) {
+            setDepartments(prev => [...prev, data[0]].sort((a, b) => a.name.localeCompare(b.name)));
+            setNewDepartment({
+                name: '',
+                description: '',
+                icon: 'Users'
+            });
+            toast({
+                title: 'Department Added',
+                description: `"${newDepartment.name}" has been successfully added.`,
+            });
+        }
     };
 
-    const handleDeleteDepartment = (name: string) => {
-        setDepartments(prev => prev.filter(dept => dept.name !== name));
-        toast({
-            title: 'Department Deleted',
-            description: `The "${name}" department has been removed.`,
-        });
+    const handleDeleteDepartment = async (id: number) => {
+        const { error } = await supabase
+            .from('departments')
+            .delete()
+            .match({ id });
+            
+        if (error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error Deleting',
+                description: error.message,
+            });
+        } else {
+            setDepartments(prev => prev.filter(dept => dept.id !== id));
+            toast({
+                title: 'Department Deleted',
+                description: `The department has been removed.`,
+            });
+        }
     };
 
     return (
@@ -134,23 +190,32 @@ export default function AdminDepartmentsPage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {departments.map(dept => (
-                        <div key={dept.name} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4 items-start">
-                           <div className="bg-muted p-3 rounded-md mt-1">
-                                {iconMap[dept.icon]}
-                           </div>
-                           <div className="flex-grow">
-                                <h3 className="font-bold text-lg text-foreground">{dept.name}</h3>
-                               <p className="text-sm text-muted-foreground mt-1">{dept.description}</p>
-                           </div>
-                           <div className="flex-shrink-0 flex flex-col gap-2">
-                                <Button variant="destructive" size="sm" onClick={() => handleDeleteDepartment(dept.name)}>
-                                    <Trash2 className="h-4 w-4" />
-                                    <span className="ml-2">Delete</span>
-                                </Button>
-                           </div>
+                     {isLoading ? (
+                        <div className="flex items-center justify-center p-8">
+                            <Loader2 className="h-8 w-8 animate-spin" />
+                            <p className="ml-2">Loading departments...</p>
                         </div>
-                    ))}
+                    ) : departments.length > 0 ? (
+                        departments.map(dept => (
+                            <div key={dept.id} className="flex flex-col md:flex-row gap-4 rounded-lg border p-4 items-start">
+                            <div className="bg-muted p-3 rounded-md mt-1">
+                                    {iconMap[dept.icon]}
+                            </div>
+                            <div className="flex-grow">
+                                    <h3 className="font-bold text-lg text-foreground">{dept.name}</h3>
+                                <p className="text-sm text-muted-foreground mt-1">{dept.description}</p>
+                            </div>
+                            <div className="flex-shrink-0 flex flex-col gap-2">
+                                    <Button variant="destructive" size="sm" onClick={() => handleDeleteDepartment(dept.id)}>
+                                        <Trash2 className="h-4 w-4" />
+                                        <span className="ml-2">Delete</span>
+                                    </Button>
+                            </div>
+                            </div>
+                        ))
+                     ) : (
+                        <p className="text-center text-muted-foreground">No departments found. Add one to get started!</p>
+                    )}
                 </CardContent>
             </Card>
 
