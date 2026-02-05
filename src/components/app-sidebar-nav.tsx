@@ -50,6 +50,7 @@ import {
   Star,
   Database,
   Book,
+  Music,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -66,6 +67,7 @@ const communityNav = [
   { href: '/family-hub', label: 'Family Hub', icon: <Home className="h-4 w-4" /> },
   { href: '/mentorship', label: 'Mentorship', icon: <UserCheck className="h-4 w-4" /> },
   { href: '/kids-and-youth', label: 'Kids & Youth', icon: <Baby className="h-4 w-4" /> },
+  { href: '/memory-verse-songs', label: 'Memory Verse Songs', icon: <Music className="h-4 w-4" /> },
   { href: '/parental-dashboard', label: 'Parental Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
   { href: '/kingdom-parenting-room', label: 'Kingdom Parenting', icon: <Home className="h-4 w-4" /> },
   { href: '/our-mandate', label: 'Our Mandate', icon: <BookMarked className="h-4 w-4" /> },

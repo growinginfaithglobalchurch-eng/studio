@@ -28,7 +28,7 @@ const activities = [
         icon: <Music className="h-6 w-6 text-accent" />,
         title: "Memory Verse Songs",
         description: "Fun songs and videos to help kids hide God's Word in their hearts.",
-        href: "#",
+        href: "/memory-verse-songs",
         cta: "Sing Along"
     },
     {

@@ -583,6 +583,37 @@ export const newsFeed = [
     }
 ];
 
+export const memoryVerseSongs = [
+    {
+        id: 1,
+        title: 'Your Word is a Lamp',
+        scripture: 'Psalm 119:105',
+        audioUrl: '#',
+        image: PlaceHolderImages.find(p => p.id === 'devotional-1'),
+    },
+    {
+        id: 2,
+        title: 'I Can Do All Things',
+        scripture: 'Philippians 4:13',
+        audioUrl: '#',
+        image: PlaceHolderImages.find(p => p.id === 'devotional-2'),
+    },
+    {
+        id: 3,
+        title: 'The Fruit of the Spirit',
+        scripture: 'Galatians 5:22-23',
+        audioUrl: '#',
+        image: PlaceHolderImages.find(p => p.id === 'devotional-3'),
+    },
+     {
+        id: 4,
+        title: 'Trust in the Lord',
+        scripture: 'Proverbs 3:5-6',
+        audioUrl: '#',
+        image: PlaceHolderImages.find(p => p.id === 'community-feature'),
+    },
+];
+
 const worshipTeamAssignments = {
     'praise-worship-department': {
         announcements: [
