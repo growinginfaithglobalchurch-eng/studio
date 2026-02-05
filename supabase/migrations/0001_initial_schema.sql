@@ -15,15 +15,17 @@ create table profiles (
   consistency_score integer default 0,
   readiness_level text
 );
-
 -- RLS for profiles
 alter table profiles enable row level security;
 create policy "Public profiles are viewable by everyone." on profiles for select using (true);
 create policy "Users can insert their own profile." on profiles for insert with check (auth.uid() = id);
 create policy "Users can update own profile." on profiles for update using (auth.uid() = id);
 
--- Trigger to create a profile when a new user signs up
-create function public.handle_new_user()
+-- This trigger automatically creates a profile entry when a new user signs up.
+-- We use 'CREATE OR REPLACE' and 'DROP TRIGGER IF EXISTS' to make this script re-runnable.
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+
+create or replace function public.handle_new_user()
 returns trigger as $$
 begin
   insert into public.profiles (id, full_name, avatar_url)
