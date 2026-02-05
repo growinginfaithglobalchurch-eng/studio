@@ -1,10 +1,9 @@
 
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookText, PlayCircle, Baby, Users, UserTie } from 'lucide-react';
+import { BookText, PlayCircle, Baby, Users, Briefcase } from 'lucide-react';
 import Image from 'next/image';
 import { bibleStories } from '@/lib/data';
 import { ScrollAnimator } from '@/components/scroll-animator';
@@ -19,7 +18,7 @@ export default function BibleStoriesPage() {
     const categorySections = [
         { title: "Kids Bible Stories", icon: <Baby className="h-6 w-6" />, stories: kidsStories },
         { title: "Teens & Youth Stories", icon: <Users className="h-6 w-6" />, stories: teenStories },
-        { title: "Adults & Leaders", icon: <UserTie className="h-6 w-6" />, stories: adultStories },
+        { title: "Adults & Leaders", icon: <Briefcase className="h-6 w-6" />, stories: adultStories },
     ];
 
     return (
