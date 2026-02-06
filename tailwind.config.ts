@@ -18,9 +18,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['"Noto Serif"', 'serif'],
-        headline: ['"Noto Serif"', 'serif'],
-        mono: ['"Inconsolata"', 'monospace'],
+        body: ['var(--font-body)', 'serif'],
+        headline: ['var(--font-body)', 'serif'],
+        mono: ['var(--font-mono)', 'monospace'],
       },
       colors: {
         background: 'hsl(var(--background))',

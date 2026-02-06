@@ -1,8 +1,21 @@
 
 import type { Metadata } from 'next';
+import { Noto_Serif, Inconsolata } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 import { LanguageProvider } from '@/context/language-context';
+import { cn } from '@/lib/utils';
+
+const fontBody = Noto_Serif({
+  subsets: ['latin'],
+  variable: '--font-body',
+  weight: ['400', '700'],
+});
+
+const fontMono = Inconsolata({
+  subsets: ['latin'],
+  variable: '--font-mono',
+});
 
 export const metadata: Metadata = {
   title: 'Faith Connect Global',
@@ -17,12 +30,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className="font-body antialiased">
+      <body
+        className={cn(
+          'font-body antialiased',
+          fontBody.variable,
+          fontMono.variable
+        )}
+      >
         <LanguageProvider>
           {children}
           <Toaster />
